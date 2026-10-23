@@ -1,0 +1,254 @@
+{
+  "binary_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "classification": "timeout",
+  "command": [
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "--progress",
+    "1",
+    "--fuel",
+    "512",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/exports/init.ndjson"
+  ],
+  "declaration_events": 1704,
+  "driver_error": null,
+  "elapsed_seconds": 500.18729404199985,
+  "exit_code": -9,
+  "finished_utc": "2026-09-29T19:38:01.687897+00:00",
+  "fuel": 512,
+  "input_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/exports/init.ndjson",
+    "sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+    "size": 347555345
+  },
+  "integrity_verified": true,
+  "last_progress": {
+    "checked": 1703,
+    "cpu_seconds": 128.03,
+    "line": 120590,
+    "observed_wall_seconds": 129.1192179589998,
+    "stage": "declaration"
+  },
+  "last_progress_note": "Declaration progress is emitted before admission of that batch, not after it.",
+  "log_bytes": {
+    "stderr": 102977,
+    "stdout": 0
+  },
+  "log_truncated": {
+    "stderr": false,
+    "stdout": false
+  },
+  "manifest_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/manifest.json",
+    "sha256": "998cf84342463ad1d218b9857dcf3560d3823831773133d2f334d642abb879fd",
+    "size": 2121
+  },
+  "observed_source_changes": [],
+  "phase_events": [
+    {
+      "checked": 0,
+      "cpu_seconds": 0.003,
+      "line": 0,
+      "observed_wall_seconds": 0.32476933400175767,
+      "stage": "parse"
+    },
+    {
+      "checked": 0,
+      "cpu_seconds": 8.577,
+      "line": 0,
+      "observed_wall_seconds": 8.930535958999826,
+      "stage": "schedule"
+    },
+    {
+      "checked": 0,
+      "cpu_seconds": 32.626,
+      "line": 0,
+      "observed_wall_seconds": 33.04219941700285,
+      "stage": "check"
+    }
+  ],
+  "processes_reaped": true,
+  "sample": {
+    "command": [
+      "/usr/bin/sample",
+      "55564",
+      "5",
+      "1",
+      "-mayDie",
+      "-file",
+      "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/sample.txt"
+    ],
+    "ended_wall_seconds": 116.95772641700023,
+    "exit_code": 0,
+    "pid": 55564,
+    "progress_after": {
+      "checked": 1520,
+      "cpu_seconds": 95.93,
+      "line": 94434,
+      "observed_wall_seconds": 96.56770954199965,
+      "stage": "declaration"
+    },
+    "progress_before": {
+      "checked": 1520,
+      "cpu_seconds": 95.93,
+      "line": 94434,
+      "observed_wall_seconds": 96.56770954199965,
+      "stage": "declaration"
+    },
+    "started_wall_seconds": 111.71265083400067,
+    "trigger": "declaration_stall"
+  },
+  "shared_binary_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "slowest_completed_batches": [
+    {
+      "checked_after": 1521,
+      "checked_before": 1520,
+      "cpu_seconds": 20.790999999999997,
+      "line": 94434,
+      "observed_wall_seconds": 21.2014814580034
+    },
+    {
+      "checked_after": 1498,
+      "checked_before": 1497,
+      "cpu_seconds": 4.709999999999994,
+      "line": 90658,
+      "observed_wall_seconds": 4.727637833999324
+    },
+    {
+      "checked_after": 1518,
+      "checked_before": 1517,
+      "cpu_seconds": 3.4200000000000017,
+      "line": 92563,
+      "observed_wall_seconds": 3.4362189170024067
+    },
+    {
+      "checked_after": 1434,
+      "checked_before": 1433,
+      "cpu_seconds": 3.3939999999999912,
+      "line": 83772,
+      "observed_wall_seconds": 3.4081343750003725
+    },
+    {
+      "checked_after": 1600,
+      "checked_before": 1599,
+      "cpu_seconds": 2.975999999999999,
+      "line": 105169,
+      "observed_wall_seconds": 2.9919453330003307
+    },
+    {
+      "checked_after": 1268,
+      "checked_before": 1267,
+      "cpu_seconds": 2.6559999999999917,
+      "line": 72577,
+      "observed_wall_seconds": 2.6591688339976827
+    },
+    {
+      "checked_after": 1283,
+      "checked_before": 1282,
+      "cpu_seconds": 2.3090000000000117,
+      "line": 74899,
+      "observed_wall_seconds": 2.3279597499968077
+    },
+    {
+      "checked_after": 949,
+      "checked_before": 948,
+      "cpu_seconds": 1.786999999999999,
+      "line": 44756,
+      "observed_wall_seconds": 1.7967511669994565
+    },
+    {
+      "checked_after": 1510,
+      "checked_before": 1509,
+      "cpu_seconds": 1.777000000000001,
+      "line": 91495,
+      "observed_wall_seconds": 1.7859922919997189
+    },
+    {
+      "checked_after": 1661,
+      "checked_before": 1660,
+      "cpu_seconds": 1.5130000000000052,
+      "line": 111093,
+      "observed_wall_seconds": 1.5187893340007577
+    },
+    {
+      "checked_after": 1409,
+      "checked_before": 1408,
+      "cpu_seconds": 1.4529999999999887,
+      "line": 81730,
+      "observed_wall_seconds": 1.453277791999426
+    },
+    {
+      "checked_after": 589,
+      "checked_before": 588,
+      "cpu_seconds": 1.2560000000000002,
+      "line": 23905,
+      "observed_wall_seconds": 1.2596105830016313
+    },
+    {
+      "checked_after": 1090,
+      "checked_before": 1089,
+      "cpu_seconds": 1.230000000000004,
+      "line": 55536,
+      "observed_wall_seconds": 1.2384285830012232
+    },
+    {
+      "checked_after": 1571,
+      "checked_before": 1570,
+      "cpu_seconds": 1.1969999999999885,
+      "line": 100195,
+      "observed_wall_seconds": 1.2069897080000374
+    },
+    {
+      "checked_after": 1155,
+      "checked_before": 1154,
+      "cpu_seconds": 1.1779999999999973,
+      "line": 60426,
+      "observed_wall_seconds": 1.1827538329998788
+    },
+    {
+      "checked_after": 1263,
+      "checked_before": 1262,
+      "cpu_seconds": 1.0049999999999955,
+      "line": 69587,
+      "observed_wall_seconds": 1.0096990419988288
+    },
+    {
+      "checked_after": 1220,
+      "checked_before": 1219,
+      "cpu_seconds": 0.9619999999999962,
+      "line": 65171,
+      "observed_wall_seconds": 0.9617553329990187
+    },
+    {
+      "checked_after": 1140,
+      "checked_before": 1139,
+      "cpu_seconds": 0.8439999999999941,
+      "line": 59609,
+      "observed_wall_seconds": 0.8443366669998795
+    },
+    {
+      "checked_after": 910,
+      "checked_before": 909,
+      "cpu_seconds": 0.8410000000000011,
+      "line": 40733,
+      "observed_wall_seconds": 0.8473428750003222
+    },
+    {
+      "checked_after": 1685,
+      "checked_before": 1684,
+      "cpu_seconds": 0.8270000000000124,
+      "line": 113236,
+      "observed_wall_seconds": 0.8352592919982271
+    }
+  ],
+  "started_utc": "2026-09-29T19:29:41.365926+00:00",
+  "timed_out": true,
+  "timeout_seconds": 500
+}

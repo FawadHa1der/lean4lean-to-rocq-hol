@@ -1,0 +1,32 @@
+{
+  "cleanup": {
+    "processes": {
+      "hol_pid": {
+        "exists": false,
+        "pid": 64442
+      },
+      "supervisor_pid": {
+        "exists": false,
+        "pid": 64420
+      }
+    },
+    "socket_removed": true
+  },
+  "fixed_environment_sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+  "native": {
+    "exit_code": 0,
+    "log_bytes": 395809,
+    "log_sha256": "093765a901ecfb47722b6eaf4fa1fef2e1b462370384e292c2535efe42fb2d2e",
+    "native_assertions": 87,
+    "seconds": 131.86454462500114
+  },
+  "probe": {
+    "exit_code": 0,
+    "log_bytes": 392170,
+    "log_sha256": "413e0b072fc9cc69bd0f1b88bee4187118d46cb5dfa403ef4678ca8611b352be",
+    "native_assertions": 0,
+    "seconds": 57.493069832999026
+  },
+  "review_manifest_sha256": "7677c7e691c7a42884b0ff7e97577960615396e6d8bfeddb62fba5988c2003fa",
+  "runtime_provenance_sha256": "06d22525e8d7440ca455b21d1d4a246d68c052d3a4865533d39cd2a66f961d93"
+}

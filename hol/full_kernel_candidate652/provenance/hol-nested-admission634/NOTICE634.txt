@@ -1,0 +1,12 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Changed HOL Light port of independent rocq/NestedAdmission.v226-257.
+Upstream relationship: Lean4Lean/Inductive/Add.lean, preserved in the project
+notices. Reuses the existing full447 representations, checked631 derivation,
+502 elimination and505/508 restoration. No external checker or verdict oracle.
+Algorithmic reference: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean, commit
+8223d223ed98661882e95d9d6a7126df7097cd76. The original Apache-2.0 license is
+preserved in the enclosing project.
+
+All source and proposed properties are UNCOMPILED. No target execution,
+Arena result, soundness or runtime trust validation is claimed.

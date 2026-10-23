@@ -1,0 +1,1149 @@
+{
+  "bool-general": {
+    "source": "needs \"bool_general_tests.ml\";;\nrun_bool_general ();;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-general [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-empty": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"empty\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-empty [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-nat-context": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"nat-context\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-nat-context [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-dependent": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"dependent\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-dependent [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-beta": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"beta\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-beta [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-let": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"let\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-let [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-named": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"named\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-named [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-guards": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"guards\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-guards [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-missing": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"missing\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-missing [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-impostor-zz": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"impostor-zz\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-impostor-zz [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-impostor-zs": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"impostor-zs\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-impostor-zs [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-impostor-sz": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"impostor-sz\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-impostor-sz [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-impostor-ss": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"impostor-ss\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-impostor-ss [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-beq-finite": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"beq\" \"finite\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-beq-finite [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-empty": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"empty\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-empty [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-nat-context": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"nat-context\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-nat-context [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-dependent": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"dependent\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-dependent [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-beta": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"beta\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-beta [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-let": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"let\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-let [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-named": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"named\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-named [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-guards": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"guards\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-guards [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-missing": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"missing\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-missing [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-impostor-zz": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"impostor-zz\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-impostor-zz [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-impostor-zs": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"impostor-zs\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-impostor-zs [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-impostor-sz": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"impostor-sz\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-impostor-sz [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-impostor-ss": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"impostor-ss\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-impostor-ss [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bool-ble-finite": {
+    "source": "needs \"bool_cases_tests.ml\";;\nrun_bool_cases \"ble\" \"finite\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS bool-ble-finite [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "closed-computation-differential": {
+    "source_file": "closed_computation_tests.ml",
+    "markers": [
+      "CLOSED_COMPUTATION_NATIVE_PASS differential [0-9]+"
+    ],
+    "limit": 180,
+    "options": {
+      "CLOSED_GROUP": "differential"
+    }
+  },
+  "closed-computation-guards": {
+    "source_file": "closed_computation_tests.ml",
+    "markers": [
+      "CLOSED_COMPUTATION_NATIVE_PASS guards [0-9]+"
+    ],
+    "limit": 180,
+    "options": {
+      "CLOSED_GROUP": "guards"
+    }
+  },
+  "closed-computation-benchmark": {
+    "source_file": "closed_computation_tests.ml",
+    "markers": [
+      "CLOSED_COMPUTATION_NATIVE_PASS benchmark [0-9]+"
+    ],
+    "limit": 180,
+    "options": {
+      "CLOSED_GROUP": "benchmark"
+    }
+  },
+  "hadd-119": {
+    "source_file": "hadd_function_files.ml",
+    "markers": [
+      "PRIVATE_INDEXED_FILE_DONE 119 exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "119"
+    }
+  },
+  "hadd-120": {
+    "source_file": "hadd_function_files.ml",
+    "markers": [
+      "PRIVATE_INDEXED_FILE_DONE 120 exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "120"
+    }
+  },
+  "hadd-hadd": {
+    "source_file": "hadd_positive_tests.ml",
+    "markers": [
+      "PRIVATE_POSITIVE_DONE hadd exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "hadd"
+    }
+  },
+  "hadd-raw055": {
+    "source_file": "hadd_positive_tests.ml",
+    "markers": [
+      "PRIVATE_POSITIVE_DONE raw055 exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "raw055"
+    }
+  },
+  "hadd-domain": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_TYPED altered_field_domain closed_formation",
+      "PRIVATE_DECLINE altered_domain_fixed_anchor [^\\r\\n]+",
+      "PRIVATE_DECLINE altered_domain_original_recursor [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE domain no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "domain"
+    }
+  },
+  "hadd-universes": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_TYPED swapped_result_universes_and_parameters closed_formation",
+      "PRIVATE_DECLINE exact_result_universes [^\\r\\n]+",
+      "PRIVATE_DECLINE candidate_uniform_result [^\\r\\n]+",
+      "PRIVATE_DECLINE polymorphic_field_universe_bound [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE universes no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "universes"
+    }
+  },
+  "hadd-metadata": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_TYPED original_types_before_metadata_tamper closed_formation",
+      "PRIVATE_DECLINE wrong_field_count [^\\r\\n]+",
+      "PRIVATE_DECLINE recursor_universe_parameter_order [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE metadata no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "metadata"
+    }
+  },
+  "hadd-rhs": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_TYPED rhs_beta_wrapper closed_inference_and_conversion",
+      "PRIVATE_DECLINE typed_computational_rhs_shape [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE rhs no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "rhs"
+    }
+  },
+  "hadd-erased": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_DECLINE illtyped_erased_beta_formation [^\\r\\n]+",
+      "PRIVATE_DECLINE illtyped_erased_beta [^\\r\\n]+",
+      "PRIVATE_DECLINE illtyped_erased_let_formation [^\\r\\n]+",
+      "PRIVATE_DECLINE illtyped_erased_let [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE erased no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "erased"
+    }
+  },
+  "hadd-forward": {
+    "source_file": "hadd_control_tests.ml",
+    "markers": [
+      "PRIVATE_TYPED forward_constructor_in_final_environment closed_formation",
+      "PRIVATE_DECLINE forward_header_only_formation [^\\r\\n]+",
+      "PRIVATE_DECLINE forward_bridge_guard [^\\r\\n]+",
+      "PRIVATE_DECLINE forward_raw_admission [^\\r\\n]+",
+      "PRIVATE_CONTROL_DONE forward no_resource_negatives unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "forward"
+    }
+  },
+  "hadd-counterexample": {
+    "source_file": "hol/hadd_counterexample_tests.ml",
+    "markers": [
+      "PRIVATE_COUNTEREXAMPLE_DONE old_bridge_accepts new_admission_declines exact_closed unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "hadd-raw-rhs": {
+    "source_file": "hadd_function_controls.ml",
+    "markers": [
+      "INDEXED_POSITIVE authentic119_control exact_closed",
+      "INDEXED_DECLINE rhs_computational_tamper [^\\r\\n]+",
+      "INDEXED_DECLINE rhs_erased_illtyped_annotation [^\\r\\n]+",
+      "INDEXED_DECLINE wrong_canonical_anchor [^\\r\\n]+",
+      "PRIVATE_INDEXED_CONTROLS_DONE rhs positive_gate 3_declines exact_closed unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "rhs"
+    }
+  },
+  "hadd-static": {
+    "source_file": "hadd_static_tests.ml",
+    "markers": [
+      "PRIVATE_BRIDGE_STATIC_DONE 11_assertions certified_false_is_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "hadd-boundary": {
+    "source_file": "hadd_boundary_tests.ml",
+    "markers": [
+      "HOL_MINDEX_BOUNDARY_TESTS_PASSED 4",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED 4",
+      "PRIVATE_BOUNDARY_DONE prefixes28_10_and27_9 totals29_11 trace3 unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "hadd-mixed": {
+    "source_file": "hadd_mixed_tests.ml",
+    "markers": [
+      "PRIVATE_MIXED_DECODED exact_original_blocks count=6",
+      "PRIVATE_MIXED_DONE exact_original_raw_poly_history three_invariants tamper_proof_failure rules29_11 unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-type": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"type\";;\n",
+    "markers": [
+      "HOL_MINDEX_TYPE_TESTS_PASSED 22"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-prop": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"prop\";;\n",
+    "markers": [
+      "HOL_MINDEX_PROP_TESTS_PASSED 18"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-higher": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"higher\";;\n",
+    "markers": [
+      "HOL_MINDEX_HIGHER_TESTS_PASSED 17"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-dependent": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"dependent\";;\n",
+    "markers": [
+      "HOL_MINDEX_DEPENDENT_TESTS_PASSED 15"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-metadata_a": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"metadata_a\";;\n",
+    "markers": [
+      "HOL_MINDEX_METADATA_A_TESTS_PASSED 17"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-metadata_b": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"metadata_b\";;\n",
+    "markers": [
+      "HOL_MINDEX_METADATA_B_TESTS_PASSED 17"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-metadata_c": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"metadata_c\";;\n",
+    "markers": [
+      "HOL_MINDEX_METADATA_C_TESTS_PASSED 17"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-indices_a": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"indices_a\";;\n",
+    "markers": [
+      "HOL_MINDEX_INDICES_A_TESTS_PASSED 18"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-indices_b": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"indices_b\";;\n",
+    "markers": [
+      "HOL_MINDEX_INDICES_B_TESTS_PASSED 19"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-uniform_levels": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"uniform_levels\";;\n",
+    "markers": [
+      "HOL_MINDEX_UNIFORM_LEVELS_TESTS_PASSED 16"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-uniform_params": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"uniform_params\";;\n",
+    "markers": [
+      "HOL_MINDEX_UNIFORM_PARAMS_TESTS_PASSED 17"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-mixed": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_tests.ml\";;\nl4_mindex_tests \"mixed\";;\n",
+    "markers": [
+      "HOL_MINDEX_MIXED_TESTS_PASSED 16"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-boundary": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mindex_boundary_tests.ml\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MINDEX_BOUNDARY_TESTS_PASSED 4",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED 4"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "indexed-history-rs": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_RS_PASSED 25"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "rs"
+    }
+  },
+  "indexed-history-mamb": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_MAMB_PASSED 24"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "mamb"
+    }
+  },
+  "indexed-history-forged_index": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_FORGED_INDEX_PASSED 28"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "forged_index"
+    }
+  },
+  "indexed-history-forged_motive": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_FORGED_MOTIVE_PASSED 28"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "forged_motive"
+    }
+  },
+  "indexed-history-joint": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_JOINT_PASSED 25"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "joint"
+    }
+  },
+  "indexed-history-joint_forged": {
+    "source_file": "indexed_history.ml",
+    "markers": [
+      "HOL_COMPOSE_HISTORY_JOINT_FORGED_PASSED 6"
+    ],
+    "limit": 180,
+    "options": {
+      "HOL_HISTORY_GROUP": "joint_forged"
+    }
+  },
+  "raw-function-file-119": {
+    "source_file": "indexed_file_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_FILE_DONE 119 exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "119"
+    }
+  },
+  "raw-function-file-120": {
+    "source_file": "indexed_file_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_FILE_DONE 120 exact_original_history three_invariants tamper_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "120"
+    }
+  },
+  "raw-function-positive": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE positive positive_gate 0_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "positive"
+    }
+  },
+  "raw-function-domain-positive": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE domain-positive positive_gate 1_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "domain-positive"
+    }
+  },
+  "raw-function-domain": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE domain positive_gate 3_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed",
+      "INDEXED_TYPED_CONTROL hidden_domain_has_closed_formation_and_entry_bridge",
+      "INDEXED_TYPED_CONTROL nonuniform_beta_has_closed_formation_and_entry_bridge"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "domain"
+    }
+  },
+  "raw-function-telescope": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE telescope positive_gate 2_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed",
+      "INDEXED_TYPED_CONTROL second_domain_has_closed_formation_and_entry_bridge",
+      "INDEXED_TYPED_CONTROL nested_nonuniform_has_closed_formation_and_entry_bridge"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "telescope"
+    }
+  },
+  "raw-function-formation": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE formation positive_gate 3_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "formation"
+    }
+  },
+  "raw-function-metadata": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE metadata positive_gate 3_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "metadata"
+    }
+  },
+  "raw-function-rhs": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE rhs positive_gate 3_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "rhs"
+    }
+  },
+  "raw-function-result": {
+    "source_file": "indexed_control_tests.ml",
+    "markers": [
+      "PRIVATE_INDEXED_CONTROLS_DONE result positive_gate 2_declines exact_closed unchanged_axioms",
+      "INDEXED_POSITIVE authentic119_control exact_closed",
+      "INDEXED_TYPED_CONTROL result_beta_has_closed_formation_and_signature_conversion"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "result"
+    }
+  },
+  "mutual-positive": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"positive\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_POSITIVE_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-higher": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"higher\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_HIGHER_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-dependent": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"dependent\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_DEPENDENT_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-prop": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"prop\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_PROP_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-metadata": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"metadata\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_METADATA_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-metadata2": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"metadata2\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_METADATA2_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mutual-negative": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/mutual_tests.ml\";;\nl4_mutual_tests \"negative\";;\nneeds \"hol/mutual_boundary_tests.ml\";;\n",
+    "markers": [
+      "HOL_MUTUAL_NEGATIVE_TESTS_PASSED [0-9]+",
+      "HOL_MUTUAL_BOUNDARY_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pred-general": {
+    "source_file": "pred_general_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS pred-general [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pred-cases": {
+    "source_file": "pred_cases_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS pred-cases [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "sub-general": {
+    "source_file": "sub_general_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS sub-general [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "sub-cases": {
+    "source_file": "sub_cases_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS sub-cases [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mul-general": {
+    "source_file": "mul_general_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS mul-general [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "mul-cases": {
+    "source_file": "mul_cases_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS mul-cases [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pow-general": {
+    "source_file": "pow_general_tests.ml",
+    "markers": [
+      "COMPOSED_WORK_PASS pow-general [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pow-empty": {
+    "source": "needs \"pow_cases_tests.ml\";;\nrun_pow_cases \"empty\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS pow-empty [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pow-contexts": {
+    "source": "needs \"pow_cases_tests.ml\";;\nrun_pow_cases \"contexts\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS pow-contexts [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "pow-wrappers": {
+    "source": "needs \"pow_cases_tests.ml\";;\nrun_pow_cases \"wrappers\";;\n",
+    "markers": [
+      "COMPOSED_WORK_PASS pow-wrappers [0-9]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "bridge-static": {
+    "source_file": "bridge_static_tests.ml",
+    "markers": [
+      "PRIVATE_BRIDGE_STATIC_DONE 11_assertions certified_false_is_decline unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "add-context-general": {
+    "source_file": "add_context_general_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "add-context": {
+    "source_file": "add_context_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "derived-add": {
+    "source_file": "derived_add_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "derived-add-wrappers": {
+    "source_file": "derived_add_wrapper_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "add-evaluation-general": {
+    "source_file": "add_evaluation_general_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "add-evaluation": {
+    "source_file": "add_evaluation_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "nat-recurrence-general": {
+    "source_file": "nat_recurrence_general_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "nat-recurrence": {
+    "source_file": "nat_recurrence_tests.ml",
+    "markers": [
+      "PRIVATE_NAT_EVALUATION_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "closed-syntax": {
+    "source_file": "closed_syntax_tests.ml",
+    "markers": [
+      "PRIVATE_CLOSED_SYNTAX_CASES_DONE 550_assertions twelve_closed_terms unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "instantiation": {
+    "source_file": "instantiation_tests.ml",
+    "markers": [
+      "PRIVATE_INSTANTIATION_CASES_DONE 64_assertions seven_cases unchanged_rules unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "history-inventory": {
+    "source_file": "history_inventory_tests.ml",
+    "markers": [
+      "PRIVATE_HISTORY_INVENTORY_DONE seven_controls three_general_lemmas unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "trace-empty": {
+    "source_file": "compose_mutual_trace_v2_tests.ml",
+    "markers": [
+      "PRIVATE_MUTUAL_TRACE_DONE empty exact_history invariants tamper_proof_failure unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "empty"
+    }
+  },
+  "trace-recursive": {
+    "source_file": "compose_mutual_trace_v2_tests.ml",
+    "markers": [
+      "PRIVATE_MUTUAL_TRACE_DONE recursive exact_history invariants tamper_proof_failure unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "recursive"
+    }
+  },
+  "trace-forged": {
+    "source_file": "compose_mutual_trace_v2_tests.ml",
+    "markers": [
+      "PRIVATE_MUTUAL_TRACE_DONE forged decline no_certificate unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "forged"
+    }
+  },
+  "raw-positive": {
+    "source_file": "hol/raw_positive_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_POSITIVE_DONE exact_raw055 closed policy unique unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-controls": {
+    "source_file": "hol/raw_control_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_CONTROLS_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-counterexample": {
+    "source_file": "hol/raw_counterexample_tests.ml",
+    "markers": [
+      "PRIVATE_COUNTEREXAMPLE_DONE old_bridge_accepts new_admission_declines exact_closed unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-e2e": {
+    "source_file": "hol/raw_e2e_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_FILES_DONE authentic055_119_120_accept three_declines unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-head": {
+    "source_file": "hol/raw_head_positive_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_HEAD_POSITIVE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-string-positive": {
+    "source_file": "hol/raw_string_positive_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_STRING_POSITIVE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-string-native": {
+    "source_file": "hol/raw_string_native_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_STRING_NATIVE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "iterative-validation": {
+    "source_file": "compose_validation_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_VALIDATION_DONE iterative_syntax rules29_11 unchanged_axioms"
+    ],
+    "limit": 180,
+    "options": {}
+  },
+  "raw-string-a": {
+    "source_file": "hol/raw_string_negative_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_STRING_CONTROLS_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "RAW_STRING_GROUP": "a"
+    }
+  },
+  "raw-string-b": {
+    "source_file": "hol/raw_string_negative_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_STRING_CONTROLS_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "RAW_STRING_GROUP": "b"
+    }
+  },
+  "raw-string-c": {
+    "source_file": "hol/raw_string_negative_tests.ml",
+    "markers": [
+      "PRIVATE_RAW_STRING_CONTROLS_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "RAW_STRING_GROUP": "c"
+    }
+  },
+  "shift-admission-gate": {
+    "source_file": "compose_shift_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_SHIFT_CASE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "admission-gate"
+    }
+  },
+  "shift-compute-one": {
+    "source_file": "compose_shift_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_SHIFT_CASE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "compute-one"
+    }
+  },
+  "shift-wrong-result": {
+    "source_file": "compose_shift_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_SHIFT_CASE_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "wrong-result"
+    }
+  },
+  "quotient-files": {
+    "source_file": "compose_file_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_FILES_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "quotient"
+    }
+  },
+  "structure-files": {
+    "source_file": "compose_file_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_FILES_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "structure"
+    }
+  },
+  "reflexive-files": {
+    "source_file": "compose_file_tests.ml",
+    "markers": [
+      "PRIVATE_COMPOSE_FILES_DONE [^\\r\\n]+"
+    ],
+    "limit": 180,
+    "options": {
+      "COMPOSE_GROUP": "reflexive"
+    }
+  },
+  "preserved-full": {
+    "source": "needs \"hol/private_boot.ml\";;\nneeds \"hol/raw_ctor_admission.ml\";;\nneeds \"hol/tests.ml\";;\nneeds \"hol/nat_literal_tests.ml\";;\nneeds \"hol/family_tests.ml\";;\nneeds \"hol/indexed_tests.ml\";;\nneeds \"hol/projection_core_tests.ml\";;\nneeds \"hol/projection_tests.ml\";;\nneeds \"hol/structure_tests.ml\";;\nneeds \"hol/quotient_tests.ml\";;\nneeds \"hol/primitive_contract_tests.ml\";;\nneeds \"hol/text_tests.ml\";;\nneeds \"hol/string_syntax_tests.ml\";;\nneeds \"hol/string_literal_tests.ml\";;\nneeds \"hol/string_quotient_tests.ml\";;\nneeds \"hol/structure_major_tests.ml\";;\nneeds \"hol/structure_string_tests.ml\";;\nneeds \"hol/reflexive_tests.ml\";;\nneeds \"hol/validation_tests.ml\";;\nif axioms()<>private_axioms then failwith \"axiom change\";;\nif private_native_rule_count<>29 || private_admission_rule_count<>11 then failwith \"rule count change\";;\nprint_endline \"HOL_COMPOSITION_INVARIANTS_TESTS_PASSED 3\";;\n",
+    "markers": [
+      "HOL_CORE_TESTS_PASSED [0-9]+",
+      "HOL_ADMISSION_TESTS_PASSED [0-9]+",
+      "HOL_ENVIRONMENT_TESTS_PASSED [0-9]+",
+      "HOL_INDUCTIVE_TESTS_PASSED [0-9]+",
+      "HOL_NAT_LITERAL_TESTS_PASSED [0-9]+",
+      "HOL_FAMILY_TESTS_PASSED [0-9]+",
+      "HOL_INDEXED_TESTS_PASSED [0-9]+",
+      "HOL_PROJECTION_CORE_TESTS_PASSED [0-9]+",
+      "HOL_PROJECTION_TESTS_PASSED [0-9]+",
+      "HOL_STRUCTURE_TESTS_PASSED [0-9]+",
+      "HOL_QUOTIENT_TESTS_PASSED [0-9]+",
+      "HOL_PRIMITIVE_POW_FACTORY_TESTS_PASSED [0-9]+",
+      "HOL_TEXT_PRIMITIVE_TESTS_PASSED [0-9]+",
+      "HOL_STRING_SYNTAX_TESTS_PASSED [0-9]+",
+      "HOL_STRING_LITERAL_TESTS_PASSED [0-9]+",
+      "HOL_STRING_QUOTIENT_TESTS_PASSED [0-9]+",
+      "HOL_STRUCTURE_MAJOR_TESTS_PASSED [0-9]+",
+      "HOL_STRUCTURE_STRING_EXCLUSION_TESTS_PASSED [0-9]+",
+      "HOL_REFLEXIVE_TESTS_PASSED [0-9]+",
+      "HOL_ITERATIVE_VALIDATION_TESTS_PASSED [0-9]+",
+      "HOL_COMPOSITION_INVARIANTS_TESTS_PASSED [0-9]+"
+    ],
+    "limit": 900,
+    "options": {
+      "HOL_PRIMITIVE_SUITE": "pow",
+      "HOL_PRIMITIVE_POW_PHASE": "factory"
+    }
+  }
+}

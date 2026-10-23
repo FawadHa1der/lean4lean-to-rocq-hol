@@ -1,0 +1,39 @@
+{
+  "active_socket_clients": [],
+  "checked_at": "2026-09-29T21:42:48.237278+00:00",
+  "client_sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+  "evidence_sha256": {
+    "projection-report.json": "3375b6e43d36263225202ed30ff4bed8e48f86b203a6f439634ec596ac360d0d",
+    "recursor-probe-report.json": "1a2a74af5bcf39cd1729eccf55e6f88e59d16960b54a93debb4877c1facaafbf",
+    "runtime-provenance.json": "64313f76a1805d102cdb0a4779e380b760a0d3feb4b40c62b5acbb7d48f946dc"
+  },
+  "hol_pid": 84593,
+  "parent_states": [
+    "84562  3149 Ss   30:56 /opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python scripts/hol-check.py --serve --case-timeout 30 --startup-timeout 180 --provenance-output build/reports/hol-projection-primitive-runtime.json",
+    "84593 84592 S    30:56 /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/bin/ocamlrun /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light/ocaml-hol -init /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light/hol.ml -I /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light"
+  ],
+  "prior_arena_observation": {
+    "checker_command": "python3 scripts/hol-check.py --socket /private/tmp/hol-run-3qgkb1d2/s --timeout 10",
+    "report_sha256": "d118b1b394bf1863563f9e9c4e33c15f8c58c0d0d78d75e5ed7ab5ed57ddf9e4",
+    "selected_actual_results": [
+      {
+        "elapsed_seconds": 10.114932,
+        "exit_code": 2,
+        "id": "tutorial/078_boolRecEqns",
+        "stderr": "HOL decline: case wall timeout; child killed and reaped\n",
+        "timed_out": false
+      },
+      {
+        "elapsed_seconds": 10.120435,
+        "exit_code": 2,
+        "id": "tutorial/079_prodRecEqns",
+        "stderr": "HOL decline: case wall timeout; child killed and reaped\n",
+        "timed_out": false
+      }
+    ]
+  },
+  "socket_exists": true,
+  "supervisor_left_alive": true,
+  "supervisor_pid": 84562,
+  "worker_children": []
+}

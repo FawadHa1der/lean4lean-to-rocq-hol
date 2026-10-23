@@ -1,0 +1,15 @@
+Source549 full-syntax natural reducer composition
+=================================================
+Copyright 2026 Fawad Haider. Apache License2.0; exact LICENSE included.
+Changed port of local rocq/Checker.v325-405(reference and optimized natural
+reducers),with actual489spine,491results,493lookup,533readiness,543internal
+methods and544numeric operations. Original attribution in pinned rocq/NOTICE.
+Algorithmic upstream Lean4Lean,Mario Carneiro and contributors,commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Local policies are not blanket
+upstream equivalence. Full447 metadata-erased representation is unchanged.
+
+Two actual HOL definitions,not a host-language verdict wrapper. Twenty
+proposed proof scripts are UNCOMPILED. Python reuses the exact first5942bytes
+of544model definitions,not its tests;new fixtures test composed control flow.
+Callbacks are internal fixture methods,not inference/proof-checking engines.
+No compiled refinement,equivalence,typing/admission or performance claim.

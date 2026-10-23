@@ -1,0 +1,17 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Preserved successor of513 implementation and514 proof scripts. Original
+sources and blocking independent review515 remain unchanged. See their
+notices for local Rocq and pinned Lean4Lean provenance; Apache LICENSE is
+retained in513 and the parent archive.
+
+Only semantic repair: replace unavailable FLAT by installed HOL core
+ITLIST APPEND lists []. Rebound function/proof names and needs paths select
+the successor without loading the broken predecessor. Corrected the safety
+comment to state that recs exact-role checking is deferred. Three additional
+fold-order proof scripts cover cons, three symbolic lists and duplicates.
+All21 selected proof scripts remain UNCOMPILED; actual preparation is NOT
+admission. The unchanged handwritten514 model still describes preparation's
+intended semantics. fold_model518 is an additional bounded handwritten fold
+model, imports only json and performs no file/network/process/clock access.
+Neither model is target-code validation. No default integration, native
+authority, resource/cleanup/deadline/trust changes, Solidity edits or pushes.

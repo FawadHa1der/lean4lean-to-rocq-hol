@@ -1,0 +1,952 @@
+{
+  "binary_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "checker_pid": 89410,
+  "classification": "timeout",
+  "command": [
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "--progress",
+    "1",
+    "--fuel",
+    "512",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.ndjson"
+  ],
+  "declaration_events": 1704,
+  "driver_error": null,
+  "driver_pid": 86584,
+  "elapsed_seconds": 119.022947999998,
+  "exit_code": -9,
+  "finished_utc": "2026-09-29T19:52:42.988868+00:00",
+  "fuel": 512,
+  "input_after": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.ndjson",
+    "sha256": "dce08f76af5892eda7110dc6b5d382d2a1a8cc07bcd8a0116b7e4b5d50a23877",
+    "size": 6253436
+  },
+  "integrity_verified": true,
+  "last_progress": {
+    "checked": 1703,
+    "cpu_seconds": 101.194,
+    "declaration": {
+      "names": [
+        "Array.foldlM_toList.aux._unary"
+      ],
+      "tag": "thm"
+    },
+    "line": 120590,
+    "observed_wall_seconds": 104.35894037499747,
+    "stage": "declaration"
+  },
+  "log_bytes": {
+    "stderr": 101902,
+    "stdout": 0
+  },
+  "log_truncated": {
+    "stderr": false,
+    "stdout": false
+  },
+  "phase_events": [
+    {
+      "checked": 0,
+      "cpu_seconds": 0.002,
+      "line": 0,
+      "observed_wall_seconds": 0.003728832998604048,
+      "stage": "parse"
+    },
+    {
+      "checked": 0,
+      "cpu_seconds": 0.121,
+      "line": 0,
+      "observed_wall_seconds": 0.12214620799932163,
+      "stage": "schedule"
+    },
+    {
+      "checked": 0,
+      "cpu_seconds": 0.23,
+      "line": 0,
+      "observed_wall_seconds": 0.2318237079998653,
+      "stage": "check"
+    }
+  ],
+  "prefix_line": 120590,
+  "processes_reaped": true,
+  "sample": {
+    "checker_pid": 89410,
+    "command": [
+      "/usr/bin/sample",
+      "89410",
+      "5",
+      "1",
+      "-mayDie",
+      "-file",
+      "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T194909Z-b88-validation-prefix-120590/sample.txt"
+    ],
+    "correlation": {
+      "interpretation": "Progress is a lower bound only; do not attribute this sample to one declaration.",
+      "no_observed_progress_events_across_sample": false,
+      "progress_after": {
+        "checked": 1236,
+        "cpu_seconds": 34.695,
+        "declaration": {
+          "names": [
+            "Lean.Omega.tidy_sat"
+          ],
+          "tag": "thm"
+        },
+        "line": 67428,
+        "observed_wall_seconds": 35.325175999998464,
+        "stage": "declaration"
+      },
+      "progress_before": {
+        "checked": 1186,
+        "cpu_seconds": 29.841,
+        "declaration": {
+          "names": [
+            "Lean.Omega.IntList.dot_mod_gcd_left"
+          ],
+          "tag": "thm"
+        },
+        "line": 62870,
+        "observed_wall_seconds": 30.01294124999913,
+        "stage": "declaration"
+      },
+      "progress_events_during": [
+        {
+          "checked": 1187,
+          "cpu_seconds": 30.708,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.gcd_dvd_dot_left"
+            ],
+            "tag": "thm"
+          },
+          "line": 62885,
+          "observed_wall_seconds": 30.9453661669977,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1188,
+          "cpu_seconds": 30.712,
+          "declaration": {
+            "names": [
+              "Lean.Omega.Coeffs.gcd_dvd_dot_left"
+            ],
+            "tag": "thm"
+          },
+          "line": 62898,
+          "observed_wall_seconds": 30.949196874997142,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1189,
+          "cpu_seconds": 30.72,
+          "declaration": {
+            "names": [
+              "Lean.Omega.Constraint.div_sat'"
+            ],
+            "tag": "thm"
+          },
+          "line": 62976,
+          "observed_wall_seconds": 30.95698524999898,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1190,
+          "cpu_seconds": 30.746,
+          "declaration": {
+            "names": [
+              "Membership",
+              "Membership.mk",
+              "Membership.rec"
+            ],
+            "tag": "inductive"
+          },
+          "line": 63014,
+          "observed_wall_seconds": 30.98472233299981,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1191,
+          "cpu_seconds": 30.749,
+          "declaration": {
+            "names": [
+              "Membership.mem"
+            ],
+            "tag": "def"
+          },
+          "line": 63023,
+          "observed_wall_seconds": 30.98824841699752,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1192,
+          "cpu_seconds": 30.751,
+          "declaration": {
+            "names": [
+              "List.Mem",
+              "List.Mem.head",
+              "List.Mem.tail",
+              "List.Mem.rec"
+            ],
+            "tag": "inductive"
+          },
+          "line": 63116,
+          "observed_wall_seconds": 30.99040979199708,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1193,
+          "cpu_seconds": 30.756,
+          "declaration": {
+            "names": [
+              "List.instMembership"
+            ],
+            "tag": "def"
+          },
+          "line": 63131,
+          "observed_wall_seconds": 30.9953745419989,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1194,
+          "cpu_seconds": 30.757,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.IntList.[0].List.mem_cons_self"
+            ],
+            "tag": "thm"
+          },
+          "line": 63155,
+          "observed_wall_seconds": 30.997271707998152,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1195,
+          "cpu_seconds": 30.763,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.IntList.[0].List.mem_cons_of_mem"
+            ],
+            "tag": "thm"
+          },
+          "line": 63185,
+          "observed_wall_seconds": 31.00305358299738,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1196,
+          "cpu_seconds": 30.773,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.dot_eq_zero_of_left_eq_zero"
+            ],
+            "tag": "thm"
+          },
+          "line": 63379,
+          "observed_wall_seconds": 31.013493916998414,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1197,
+          "cpu_seconds": 30.91,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.gcd_dvd"
+            ],
+            "tag": "thm"
+          },
+          "line": 63464,
+          "observed_wall_seconds": 31.162021666998044,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1198,
+          "cpu_seconds": 31.132,
+          "declaration": {
+            "names": [
+              "Nat.dvd_zero._simp_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 63472,
+          "observed_wall_seconds": 31.402661042000545,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1199,
+          "cpu_seconds": 31.137,
+          "declaration": {
+            "names": [
+              "Nat.dvd_gcd"
+            ],
+            "tag": "thm"
+          },
+          "line": 63571,
+          "observed_wall_seconds": 31.407839083,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1200,
+          "cpu_seconds": 31.163,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.IntList.[0].Lean.Omega.IntList.dvd_gcd._simp_1_2"
+            ],
+            "tag": "thm"
+          },
+          "line": 63588,
+          "observed_wall_seconds": 31.436046625000017,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1201,
+          "cpu_seconds": 31.169,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.IntList.[0].Lean.Omega.IntList.dvd_gcd._simp_1_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 63590,
+          "observed_wall_seconds": 31.442512749999878,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1202,
+          "cpu_seconds": 31.175,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.dvd_gcd"
+            ],
+            "tag": "thm"
+          },
+          "line": 63696,
+          "observed_wall_seconds": 31.44900612499987,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1203,
+          "cpu_seconds": 31.328,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Nat.Dvd.[0].Nat.dvd_antisymm.match_1_1"
+            ],
+            "tag": "def"
+          },
+          "line": 63851,
+          "observed_wall_seconds": 31.61335995799891,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1204,
+          "cpu_seconds": 31.51,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Nat.Dvd.[0].Nat.eq_zero_of_zero_dvd.match_1_1"
+            ],
+            "tag": "def"
+          },
+          "line": 63892,
+          "observed_wall_seconds": 31.808475874997384,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1205,
+          "cpu_seconds": 31.532,
+          "declaration": {
+            "names": [
+              "Nat.eq_zero_of_zero_dvd"
+            ],
+            "tag": "thm"
+          },
+          "line": 63912,
+          "observed_wall_seconds": 31.83226462499806,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1206,
+          "cpu_seconds": 31.542,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Nat.Dvd.[0].Nat.le_of_dvd.match_1_1"
+            ],
+            "tag": "def"
+          },
+          "line": 63915,
+          "observed_wall_seconds": 31.84310033300062,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1207,
+          "cpu_seconds": 31.559,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Nat.Dvd.[0].Nat.le_of_dvd.match_1_3"
+            ],
+            "tag": "def"
+          },
+          "line": 63964,
+          "observed_wall_seconds": 31.86064187499869,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1208,
+          "cpu_seconds": 31.625,
+          "declaration": {
+            "names": [
+              "Nat.le_of_dvd"
+            ],
+            "tag": "thm"
+          },
+          "line": 64078,
+          "observed_wall_seconds": 31.933761124997545,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1209,
+          "cpu_seconds": 31.693,
+          "declaration": {
+            "names": [
+              "Nat.dvd_antisymm"
+            ],
+            "tag": "thm"
+          },
+          "line": 64133,
+          "observed_wall_seconds": 32.00682812499872,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1210,
+          "cpu_seconds": 31.747,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.gcd_eq_iff"
+            ],
+            "tag": "thm"
+          },
+          "line": 64241,
+          "observed_wall_seconds": 32.06485320799766,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1211,
+          "cpu_seconds": 31.804,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.IntList.[0].Lean.Omega.IntList.gcd_eq_zero._simp_1_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 64256,
+          "observed_wall_seconds": 32.13074229199992,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1212,
+          "cpu_seconds": 31.828,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Int.DivMod.Bootstrap.[0].Int.zero_dvd.match_1_1"
+            ],
+            "tag": "def"
+          },
+          "line": 64310,
+          "observed_wall_seconds": 32.15598366699851,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1213,
+          "cpu_seconds": 31.85,
+          "declaration": {
+            "names": [
+              "Int.zero_dvd"
+            ],
+            "tag": "thm"
+          },
+          "line": 64372,
+          "observed_wall_seconds": 32.17983999999706,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1214,
+          "cpu_seconds": 31.879,
+          "declaration": {
+            "names": [
+              "Int.zero_dvd._simp_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 64383,
+          "observed_wall_seconds": 32.21022974999869,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1215,
+          "cpu_seconds": 31.885,
+          "declaration": {
+            "names": [
+              "implies_true"
+            ],
+            "tag": "thm"
+          },
+          "line": 64397,
+          "observed_wall_seconds": 32.21699808300036,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1216,
+          "cpu_seconds": 31.887,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.gcd_eq_zero"
+            ],
+            "tag": "thm"
+          },
+          "line": 64506,
+          "observed_wall_seconds": 32.21904637499756,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1217,
+          "cpu_seconds": 31.988,
+          "declaration": {
+            "names": [
+              "_private.Init.Omega.Constraint.[0].Lean.Omega.normalize_sat._simp_1_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 64518,
+          "observed_wall_seconds": 32.327005541999824,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1218,
+          "cpu_seconds": 32.002,
+          "declaration": {
+            "names": [
+              "Lean.Omega.Constraint.trivial_say"
+            ],
+            "tag": "thm"
+          },
+          "line": 64588,
+          "observed_wall_seconds": 32.341803707997315,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1219,
+          "cpu_seconds": 32.032,
+          "declaration": {
+            "names": [
+              "Lean.Omega.normalize_sat"
+            ],
+            "tag": "thm"
+          },
+          "line": 65171,
+          "observed_wall_seconds": 32.373708874998556,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1220,
+          "cpu_seconds": 33.05,
+          "declaration": {
+            "names": [
+              "Lean.Omega.positivize"
+            ],
+            "tag": "def"
+          },
+          "line": 65177,
+          "observed_wall_seconds": 33.513586916997156,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1221,
+          "cpu_seconds": 33.051,
+          "declaration": {
+            "names": [
+              "Lean.Omega.positivizeConstraint"
+            ],
+            "tag": "def"
+          },
+          "line": 65184,
+          "observed_wall_seconds": 33.51484824999716,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1222,
+          "cpu_seconds": 33.052,
+          "declaration": {
+            "names": [
+              "Lean.Omega.positivizeCoeffs"
+            ],
+            "tag": "def"
+          },
+          "line": 65189,
+          "observed_wall_seconds": 33.5159807079981,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1223,
+          "cpu_seconds": 33.053,
+          "declaration": {
+            "names": [
+              "Lean.Omega.positivize?_eq_some"
+            ],
+            "tag": "thm"
+          },
+          "line": 65278,
+          "observed_wall_seconds": 33.517104832997575,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1224,
+          "cpu_seconds": 33.11,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.instHMulInt"
+            ],
+            "tag": "def"
+          },
+          "line": 65293,
+          "observed_wall_seconds": 33.57809066700065,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1225,
+          "cpu_seconds": 33.111,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.mul_smul_left"
+            ],
+            "tag": "thm"
+          },
+          "line": 65502,
+          "observed_wall_seconds": 33.57969545800006,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1226,
+          "cpu_seconds": 33.324,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.sum_smul"
+            ],
+            "tag": "thm"
+          },
+          "line": 65589,
+          "observed_wall_seconds": 33.808616374997655,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1227,
+          "cpu_seconds": 33.431,
+          "declaration": {
+            "names": [
+              "Lean.Omega.IntList.dot_smul_left"
+            ],
+            "tag": "thm"
+          },
+          "line": 65648,
+          "observed_wall_seconds": 33.922255833000236,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1228,
+          "cpu_seconds": 33.467,
+          "declaration": {
+            "names": [
+              "Lean.Omega.Coeffs.dot_smul_left"
+            ],
+            "tag": "thm"
+          },
+          "line": 65670,
+          "observed_wall_seconds": 33.960379916999955,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1229,
+          "cpu_seconds": 33.493,
+          "declaration": {
+            "names": [
+              "_private.Init.Data.Int.Lemmas.[0].Int.neg_eq_neg_one_mul.match_1_1"
+            ],
+            "tag": "def"
+          },
+          "line": 65673,
+          "observed_wall_seconds": 33.987958707999496,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1230,
+          "cpu_seconds": 33.501,
+          "declaration": {
+            "names": [
+              "Int.neg_eq_neg_one_mul"
+            ],
+            "tag": "thm"
+          },
+          "line": 65747,
+          "observed_wall_seconds": 33.99642237499938,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1231,
+          "cpu_seconds": 33.582,
+          "declaration": {
+            "names": [
+              "Int.neg_le_neg"
+            ],
+            "tag": "thm"
+          },
+          "line": 65806,
+          "observed_wall_seconds": 34.083694417000515,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1232,
+          "cpu_seconds": 33.614,
+          "declaration": {
+            "names": [
+              "Int.neg_le_neg_iff"
+            ],
+            "tag": "thm"
+          },
+          "line": 65842,
+          "observed_wall_seconds": 34.118227791997924,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1233,
+          "cpu_seconds": 33.626,
+          "declaration": {
+            "names": [
+              "Int.neg_le_neg_iff._simp_1"
+            ],
+            "tag": "thm"
+          },
+          "line": 65856,
+          "observed_wall_seconds": 34.13166879199707,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1234,
+          "cpu_seconds": 33.633,
+          "declaration": {
+            "names": [
+              "Lean.Omega.Constraint.neg_sat"
+            ],
+            "tag": "thm"
+          },
+          "line": 66581,
+          "observed_wall_seconds": 34.138676582999324,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1235,
+          "cpu_seconds": 34.248,
+          "declaration": {
+            "names": [
+              "Lean.Omega.positivize_sat"
+            ],
+            "tag": "thm"
+          },
+          "line": 66814,
+          "observed_wall_seconds": 34.831258832997264,
+          "stage": "declaration"
+        },
+        {
+          "checked": 1236,
+          "cpu_seconds": 34.695,
+          "declaration": {
+            "names": [
+              "Lean.Omega.tidy_sat"
+            ],
+            "tag": "thm"
+          },
+          "line": 67428,
+          "observed_wall_seconds": 35.325175999998464,
+          "stage": "declaration"
+        }
+      ],
+      "single_observed_active_declaration": false
+    },
+    "ended_wall_seconds": 35.636250207997364,
+    "exit_code": 0,
+    "progress_at_trigger": {
+      "checked": 1186,
+      "cpu_seconds": 29.841,
+      "declaration": {
+        "names": [
+          "Lean.Omega.IntList.dot_mod_gcd_left"
+        ],
+        "tag": "thm"
+      },
+      "line": 62870,
+      "observed_wall_seconds": 30.01294124999913,
+      "stage": "declaration"
+    },
+    "sampler_pid": 90867,
+    "started_wall_seconds": 30.013009166999836
+  },
+  "sample_not_taken_reason": null,
+  "scope_note": "A diagnostic prefix run is not full Init or a new Arena case.",
+  "slowest_completed_batches": [
+    {
+      "checked_after": 1521,
+      "checked_before": 1520,
+      "cpu_seconds": 21.90599999999999,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Range.Polymorphic.Nat.[0].Std.PRange.instLawfulHasSizeNat._proof_2"
+        ],
+        "tag": "thm"
+      },
+      "line": 94434,
+      "observed_wall_seconds": 22.567217209001683
+    },
+    {
+      "checked_after": 1498,
+      "checked_before": 1497,
+      "cpu_seconds": 5.111000000000004,
+      "declaration": {
+        "names": [
+          "Lean.Omega.Constraint.combine_sat"
+        ],
+        "tag": "thm"
+      },
+      "line": 90658,
+      "observed_wall_seconds": 5.495066167000914
+    },
+    {
+      "checked_after": 1434,
+      "checked_before": 1433,
+      "cpu_seconds": 3.612000000000002,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Range.Polymorphic.Nat.[0].Std.PRange.instLawfulUpwardEnumerableNat._proof_1"
+        ],
+        "tag": "thm"
+      },
+      "line": 83772,
+      "observed_wall_seconds": 3.704625374997704
+    },
+    {
+      "checked_after": 1518,
+      "checked_before": 1517,
+      "cpu_seconds": 3.561000000000007,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Range.Polymorphic.Nat.[0].Std.PRange.instLawfulHasSizeNat._proof_1"
+        ],
+        "tag": "thm"
+      },
+      "line": 92563,
+      "observed_wall_seconds": 3.5987539589987136
+    },
+    {
+      "checked_after": 1600,
+      "checked_before": 1599,
+      "cpu_seconds": 3.405000000000001,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Range.Polymorphic.RangeIterator.[0].Std.Rxc.Iterator.instFinitenessRelation._proof_1"
+        ],
+        "tag": "thm"
+      },
+      "line": 105169,
+      "observed_wall_seconds": 3.5125010829979146
+    },
+    {
+      "checked_after": 1268,
+      "checked_before": 1267,
+      "cpu_seconds": 2.9470000000000027,
+      "declaration": {
+        "names": [
+          "Lean.Omega.Constraint.add_sat"
+        ],
+        "tag": "thm"
+      },
+      "line": 72577,
+      "observed_wall_seconds": 3.0092312500019034
+    },
+    {
+      "checked_after": 1283,
+      "checked_before": 1282,
+      "cpu_seconds": 2.466000000000001,
+      "declaration": {
+        "names": [
+          "Lean.Omega.Constraint.scale_sat"
+        ],
+        "tag": "thm"
+      },
+      "line": 74899,
+      "observed_wall_seconds": 2.4856709170016984
+    },
+    {
+      "checked_after": 1510,
+      "checked_before": 1509,
+      "cpu_seconds": 1.881999999999998,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Range.Polymorphic.Instances.[0].Std.Rxc.instIsAlwaysFiniteOfLawfulHasSize._proof_5"
+        ],
+        "tag": "thm"
+      },
+      "line": 91495,
+      "observed_wall_seconds": 1.913198125002964
+    },
+    {
+      "checked_after": 949,
+      "checked_before": 948,
+      "cpu_seconds": 1.7929999999999993,
+      "declaration": {
+        "names": [
+          "Int.mul_add"
+        ],
+        "tag": "thm"
+      },
+      "line": 44756,
+      "observed_wall_seconds": 1.8023927499998535
+    },
+    {
+      "checked_after": 1661,
+      "checked_before": 1660,
+      "cpu_seconds": 1.679000000000002,
+      "declaration": {
+        "names": [
+          "_private.Init.Data.Iterators.Lemmas.Consumers.Monadic.Collect.[0].Std.IterM.toArray.go_eq"
+        ],
+        "tag": "thm"
+      },
+      "line": 111093,
+      "observed_wall_seconds": 1.7130256659984298
+    }
+  ],
+  "started_utc": "2026-09-29T19:50:43.961293+00:00",
+  "target": {
+    "line": 120590,
+    "names": [
+      "Array.foldlM_toList.aux._unary"
+    ],
+    "tag": "thm",
+    "wire_record": {
+      "thm": {
+        "all": [
+          10948
+        ],
+        "levelParams": [
+          14,
+          118,
+          1842
+        ],
+        "name": 10948,
+        "type": 101708,
+        "value": 107796
+      }
+    }
+  },
+  "timed_out": true,
+  "timeout_seconds": 119.0
+}

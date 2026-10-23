@@ -1,0 +1,20 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+Changed HOL Light port of local rocq/Primitives.v191-468. The local source is a
+changed Gallina adaptation of Lean4Lean/Primitive.lean by Mario Carneiro and
+Lean4Lean contributors, Apache License2.0, pinned revision
+8223d223ed98661882e95d9d6a7126df7097cd76.
+Upstream attribution: https://github.com/digama0/lean4lean.
+No upstream verification assumptions or full checker correctness are imported.
+Exact local source and upstream reference file digests are in INPUTS621.sha256.
+
+Changes: real canonical full447 construction-only quotation as HOL functions;
+fresh reflection/condition datatypes; explicit491 sequencing of actual597
+typing/conversion and619 authentication; byte-list hierarchical names; total
+path-fold helper; proposed uncompiled properties/regressions. The conservative
+Rocq checks, raw construction behavior and refusal distinctions are retained.
+Canonical dependencies are unchanged. No source-dispatched verdicts are used.
+
+The included LICENSE is byte-identical to the local
+vendor/lean4lean/LICENSE. This work is distributed under the same terms.
+All source and proposed proofs remain UNCOMPILED and UNEXECUTED.

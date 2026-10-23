@@ -1,0 +1,918 @@
+{
+  "arena_manifest": {
+    "path": "arena/manifest.json",
+    "sha256": "d0ef9bd650fa4256cca4e4256ef45eda096e8ad3505945dad9c41a3f3d063b19"
+  },
+  "captured_at": "2026-09-29T21:54:32.194887+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "3cb929081538719a40b6c3a867fd9366ebd5fe9e62934713deee5514fe1fb994",
+      "size": 1340
+    },
+    {
+      "path": "arena/corpus/tutorial/126_quotMkType.ndjson",
+      "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "size": 6450
+    },
+    {
+      "path": "arena/corpus/tutorial/127_quotIndType.ndjson",
+      "sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "size": 6490
+    },
+    {
+      "path": "arena/corpus/tutorial/128_quotLiftType.ndjson",
+      "sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "size": 6496
+    },
+    {
+      "path": "arena/corpus/tutorial/129_quotSoundType.ndjson",
+      "sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "size": 7332
+    },
+    {
+      "path": "arena/corpus/tutorial/130_quotLiftReduction.ndjson",
+      "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "size": 7957
+    },
+    {
+      "path": "arena/corpus/tutorial/131_quotIndReduction.ndjson",
+      "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "size": 7817
+    },
+    {
+      "path": "build/frontend/hol_input.cmi",
+      "sha256": "d8307d28548bcf7f9fb26410e695b31ad48fea08ff76c68cbe55c917c640d362",
+      "size": 11279
+    },
+    {
+      "path": "build/frontend/hol_input.cmo",
+      "sha256": "503dc914cab463fc5ee94fca04fc8c48c6a510495e5e96908a79d99756cc3ca2",
+      "size": 8956
+    },
+    {
+      "path": "build/frontend/replay.cmi",
+      "sha256": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+      "size": 9865
+    },
+    {
+      "path": "build/frontend/replay.cmo",
+      "sha256": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+      "size": 11562
+    },
+    {
+      "path": "build/frontend/wire.cmi",
+      "sha256": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+      "size": 12005
+    },
+    {
+      "path": "build/frontend/wire.cmo",
+      "sha256": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+      "size": 22663
+    },
+    {
+      "path": "frontend/hol_check.ml",
+      "sha256": "1497777a2d28cee194a9a71c4cb8280da4568da816682531da60b32d1186e8a3",
+      "size": 13293
+    },
+    {
+      "path": "frontend/hol_input.ml",
+      "sha256": "24cab45b222e49cfff409661167a617b5e2235a654445bc8089ac546166b637a",
+      "size": 6740
+    },
+    {
+      "path": "frontend/hol_server.ml",
+      "sha256": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+      "size": 9438
+    },
+    {
+      "path": "frontend/replay.ml",
+      "sha256": "4be904adc035610223b13f71479da21969729f40a4142b80374d4b5e50ddb228",
+      "size": 8556
+    },
+    {
+      "path": "frontend/wire.ml",
+      "sha256": "4e204f626e9dd61a049c5d1bc60b2aaaddab597e7770e0922c68fa017d82d802",
+      "size": 12634
+    },
+    {
+      "path": "hol/core.ml",
+      "sha256": "23478ec1c1619a7312eb8168270cdc3f80e8d27e1cae7b8d548bcc9a5f77b704",
+      "size": 23383
+    },
+    {
+      "path": "hol/declarations.ml",
+      "sha256": "ce3050792d11768135b5d28257ecea42b817640e156802f58c6809ba839eeea5",
+      "size": 5068
+    },
+    {
+      "path": "hol/environment.ml",
+      "sha256": "f07a34bd6d30812389e3d57071f39bc6a11cf07d0ad342ba6c78406408999400",
+      "size": 56410
+    },
+    {
+      "path": "hol/environment_rules.ml",
+      "sha256": "e31e46f3d08bb372f2837f1a288f8d628d21759aa956c483f65772fbcc34c986",
+      "size": 23432
+    },
+    {
+      "path": "hol/family_entries.ml",
+      "sha256": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+      "size": 1367
+    },
+    {
+      "path": "hol/family_syntax.ml",
+      "sha256": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+      "size": 4906
+    },
+    {
+      "path": "hol/indexed_entries.ml",
+      "sha256": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+      "size": 1283
+    },
+    {
+      "path": "hol/indexed_syntax.ml",
+      "sha256": "96979cc0f14c75be47e4d52185a2f2c21d09d72db2fcedbd98bebe9967eab8d6",
+      "size": 7358
+    },
+    {
+      "path": "hol/inductive_entries.ml",
+      "sha256": "d1b91bf60059c9064a039d1b4f9444eb76101447920cb0ba1ba69502e5216cc1",
+      "size": 2978
+    },
+    {
+      "path": "hol/inductive_model.ml",
+      "sha256": "78efe749ce9dd386a941f54addb69595616249771a6eaff9b4fab77b213fab93",
+      "size": 12593
+    },
+    {
+      "path": "hol/inductive_syntax.ml",
+      "sha256": "4fb6aee2088eebe42bf22cccbf80455598dfcb651224a6a07c658fe115316fdb",
+      "size": 5543
+    },
+    {
+      "path": "hol/judgments.ml",
+      "sha256": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+      "size": 2173
+    },
+    {
+      "path": "hol/nested_names.ml",
+      "sha256": "8785e897ba1221b663a10b0492defba5d27865ca02d974b4c178feb60edec530",
+      "size": 1845
+    },
+    {
+      "path": "hol/primitive_contracts.ml",
+      "sha256": "0c6be8cb520b2782f6a1fdc603eee59d79ca7b3176185a894a88c86856f2b027",
+      "size": 8815
+    },
+    {
+      "path": "hol/primitive_names.ml",
+      "sha256": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+      "size": 2398
+    },
+    {
+      "path": "hol/primitive_validation.ml",
+      "sha256": "c38b22ed18b106145dd1b95dc90d9eb7af2993f9ee36fb836b332566013bcb39",
+      "size": 10468
+    },
+    {
+      "path": "hol/projection_entries.ml",
+      "sha256": "c03a5bbda56e20e6bba5cad927ba473a7c0ecb6822575413560962ab17db99c5",
+      "size": 1006
+    },
+    {
+      "path": "hol/projection_syntax.ml",
+      "sha256": "3760af2e9672c4a0c49a15c43c3ab6523a11f06dd30251bc8387f7cfed904da9",
+      "size": 4793
+    },
+    {
+      "path": "hol/quotient_entries.ml",
+      "sha256": "8718f55592fd4062e4c98a463d9051ccec761dfc1928685da2e008e1ce08beda",
+      "size": 1890
+    },
+    {
+      "path": "hol/quotient_model.ml",
+      "sha256": "a885f08f047bcf5cae5d1579d27edb5d284acf404a8394c43651f8196124992c",
+      "size": 1956
+    },
+    {
+      "path": "hol/quotient_syntax.ml",
+      "sha256": "efe53e0a41fab434931d5ffc860ca38f5ed95d56e8c40653e797655826cde40e",
+      "size": 3589
+    },
+    {
+      "path": "hol/quotient_syntax_tests.ml",
+      "sha256": "117248d5e75e933b81ec5beeacad6132b6bda13540a94d46ba7d5e9d1575570e",
+      "size": 3761
+    },
+    {
+      "path": "hol/quotient_tests.ml",
+      "sha256": "d8b740fb4b6130ede9e96fb57c9a2e5f7e31c928395cf4aadff7d0d21ec9f1ca",
+      "size": 8910
+    },
+    {
+      "path": "hol/syntax.ml",
+      "sha256": "e2b470d6fe10fbd519cf32069bbcd60b9857d96d692d8e6a7e131ae828148a70",
+      "size": 2908
+    },
+    {
+      "path": "scripts/hol-check.py",
+      "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+      "size": 24612
+    },
+    {
+      "path": "scripts/hol-server.sh",
+      "sha256": "78b7567fcc274f81cdcce6e688d80f10434195786b71889bf777d2b8ca801b38",
+      "size": 235
+    },
+    {
+      "path": "scripts/test_arena.py",
+      "sha256": "a2b4e18804a0a8a522e6901770626e4633fcdd8f2b2c315a6a7c537279c58827",
+      "size": 14606
+    },
+    {
+      "path": "scripts/test_metadata_mutations.py",
+      "sha256": "4c691c7d201c0291a46e48542499d710fcdeab8e2371aac8457ec292de3f57db",
+      "size": 25235
+    },
+    {
+      "path": "scripts/toolchain-env.sh",
+      "sha256": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903",
+      "size": 1661
+    },
+    {
+      "path": "scripts/toolchain-exec.sh",
+      "sha256": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+      "size": 327
+    },
+    {
+      "path": "tests/hol_indexed_audit/witnesses.py",
+      "sha256": "2002f8c07cac7fa3f9bb431ca4dc74454e33b02259fa510674e594cc859c8805",
+      "size": 27336
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean",
+      "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382",
+      "size": 32477
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Quot.lean",
+      "sha256": "79c51dae8b2ac0e09537aaabfb32075fe4a9d5dd34a1a78d47a88229a74926c5",
+      "size": 5251
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Replay.lean",
+      "sha256": "245b79946d527869fae09953a1c60d19cc40022b00cb54a5f491bb4ac9fa2b77",
+      "size": 13528
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/TypeChecker.lean",
+      "sha256": "32a426fb2cd092d2cc973866ac91adb44b3b91c463891b78c21d95c864fbf808",
+      "size": 41774
+    }
+  ],
+  "project": {
+    "bootstrap": {
+      "sha256": "88c1d460e2f4d7c500229ad7802daef64a0beb419345302d2a6457e83050d79c",
+      "size_bytes": 940
+    },
+    "inputs": [
+      {
+        "identity": {
+          "ctime_ns": 1790718673365798745,
+          "dev": 16777232,
+          "ino": 72263699,
+          "mode": 33188,
+          "mtime_ns": 1790718673365695119,
+          "size": 11279,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmi",
+        "role": "bridge-interface",
+        "sha256": "d8307d28548bcf7f9fb26410e695b31ad48fea08ff76c68cbe55c917c640d362",
+        "size_bytes": 11279
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718673366467293,
+          "dev": 16777232,
+          "ino": 71331816,
+          "mode": 33188,
+          "mtime_ns": 1790718673366467293,
+          "size": 8956,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "503dc914cab463fc5ee94fca04fc8c48c6a510495e5e96908a79d99756cc3ca2",
+        "size_bytes": 8956
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718673331724380,
+          "dev": 16777232,
+          "ino": 72263698,
+          "mode": 33188,
+          "mtime_ns": 1790718673331621754,
+          "size": 9865,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmi",
+        "role": "bridge-interface",
+        "sha256": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+        "size_bytes": 9865
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718673333486438,
+          "dev": 16777232,
+          "ino": 71550709,
+          "mode": 33188,
+          "mtime_ns": 1790718673333486438,
+          "size": 11562,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+        "size_bytes": 11562
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718673292657426,
+          "dev": 16777232,
+          "ino": 72263697,
+          "mode": 33188,
+          "mtime_ns": 1790718673292559550,
+          "size": 12005,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmi",
+        "role": "bridge-interface",
+        "sha256": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+        "size_bytes": 12005
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718673296193668,
+          "dev": 16777232,
+          "ino": 71331814,
+          "mode": 33188,
+          "mtime_ns": 1790718673296193668,
+          "size": 22663,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+        "size_bytes": 22663
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790717923345490337,
+          "dev": 16777232,
+          "ino": 71331800,
+          "mode": 33188,
+          "mtime_ns": 1790717923345490337,
+          "size": 13293,
+          "uid": 501
+        },
+        "path": "frontend/hol_check.ml",
+        "role": "hol-source-dependency",
+        "sha256": "1497777a2d28cee194a9a71c4cb8280da4568da816682531da60b32d1186e8a3",
+        "size_bytes": 13293
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790704294238721223,
+          "dev": 16777232,
+          "ino": 71332413,
+          "mode": 33188,
+          "mtime_ns": 1790704294238721223,
+          "size": 9438,
+          "uid": 501
+        },
+        "path": "frontend/hol_server.ml",
+        "role": "hol-source-dependency",
+        "sha256": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+        "size_bytes": 9438
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716887824592826,
+          "dev": 16777232,
+          "ino": 71149091,
+          "mode": 33188,
+          "mtime_ns": 1790716887824592826,
+          "size": 23383,
+          "uid": 501
+        },
+        "path": "hol/core.ml",
+        "role": "hol-source-dependency",
+        "sha256": "23478ec1c1619a7312eb8168270cdc3f80e8d27e1cae7b8d548bcc9a5f77b704",
+        "size_bytes": 23383
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790714962912086510,
+          "dev": 16777232,
+          "ino": 71307777,
+          "mode": 33188,
+          "mtime_ns": 1790714962912086510,
+          "size": 5068,
+          "uid": 501
+        },
+        "path": "hol/declarations.ml",
+        "role": "hol-source-dependency",
+        "sha256": "ce3050792d11768135b5d28257ecea42b817640e156802f58c6809ba839eeea5",
+        "size_bytes": 5068
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718429724170232,
+          "dev": 16777232,
+          "ino": 71332059,
+          "mode": 33188,
+          "mtime_ns": 1790718429724170232,
+          "size": 56410,
+          "uid": 501
+        },
+        "path": "hol/environment.ml",
+        "role": "hol-source-dependency",
+        "sha256": "f07a34bd6d30812389e3d57071f39bc6a11cf07d0ad342ba6c78406408999400",
+        "size_bytes": 56410
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718159316629820,
+          "dev": 16777232,
+          "ino": 71331885,
+          "mode": 33188,
+          "mtime_ns": 1790718159316629820,
+          "size": 23432,
+          "uid": 501
+        },
+        "path": "hol/environment_rules.ml",
+        "role": "hol-source-dependency",
+        "sha256": "e31e46f3d08bb372f2837f1a288f8d628d21759aa956c483f65772fbcc34c986",
+        "size_bytes": 23432
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790709883632653087,
+          "dev": 16777232,
+          "ino": 71513711,
+          "mode": 33188,
+          "mtime_ns": 1790709883632653087,
+          "size": 1367,
+          "uid": 501
+        },
+        "path": "hol/family_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+        "size_bytes": 1367
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790709848011934768,
+          "dev": 16777232,
+          "ino": 71513710,
+          "mode": 33188,
+          "mtime_ns": 1790709848011934768,
+          "size": 4906,
+          "uid": 501
+        },
+        "path": "hol/family_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+        "size_bytes": 4906
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790711641668140330,
+          "dev": 16777232,
+          "ino": 71678025,
+          "mode": 33188,
+          "mtime_ns": 1790711641668140330,
+          "size": 1283,
+          "uid": 501
+        },
+        "path": "hol/indexed_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+        "size_bytes": 1283
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790714962988091837,
+          "dev": 16777232,
+          "ino": 71678024,
+          "mode": 33188,
+          "mtime_ns": 1790714962988091837,
+          "size": 7358,
+          "uid": 501
+        },
+        "path": "hol/indexed_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "96979cc0f14c75be47e4d52185a2f2c21d09d72db2fcedbd98bebe9967eab8d6",
+        "size_bytes": 7358
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790717880981617314,
+          "dev": 16777232,
+          "ino": 71409475,
+          "mode": 33188,
+          "mtime_ns": 1790717880981617314,
+          "size": 2978,
+          "uid": 501
+        },
+        "path": "hol/inductive_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "d1b91bf60059c9064a039d1b4f9444eb76101447920cb0ba1ba69502e5216cc1",
+        "size_bytes": 2978
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790717880999006313,
+          "dev": 16777232,
+          "ino": 71413459,
+          "mode": 33188,
+          "mtime_ns": 1790717880999006313,
+          "size": 12593,
+          "uid": 501
+        },
+        "path": "hol/inductive_model.ml",
+        "role": "hol-source-dependency",
+        "sha256": "78efe749ce9dd386a941f54addb69595616249771a6eaff9b4fab77b213fab93",
+        "size_bytes": 12593
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790714962957097105,
+          "dev": 16777232,
+          "ino": 71409474,
+          "mode": 33188,
+          "mtime_ns": 1790714962957097105,
+          "size": 5543,
+          "uid": 501
+        },
+        "path": "hol/inductive_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "4fb6aee2088eebe42bf22cccbf80455598dfcb651224a6a07c658fe115316fdb",
+        "size_bytes": 5543
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790701808419045090,
+          "dev": 16777232,
+          "ino": 71149093,
+          "mode": 33188,
+          "mtime_ns": 1790701808419045090,
+          "size": 2173,
+          "uid": 501
+        },
+        "path": "hol/judgments.ml",
+        "role": "hol-source-dependency",
+        "sha256": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+        "size_bytes": 2173
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790714962972374096,
+          "dev": 16777232,
+          "ino": 71514179,
+          "mode": 33188,
+          "mtime_ns": 1790714962972374096,
+          "size": 1845,
+          "uid": 501
+        },
+        "path": "hol/nested_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "8785e897ba1221b663a10b0492defba5d27865ca02d974b4c178feb60edec530",
+        "size_bytes": 1845
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716983210546608,
+          "dev": 16777232,
+          "ino": 71584024,
+          "mode": 33188,
+          "mtime_ns": 1790716983210546608,
+          "size": 8815,
+          "uid": 501
+        },
+        "path": "hol/primitive_contracts.ml",
+        "role": "hol-source-dependency",
+        "sha256": "0c6be8cb520b2782f6a1fdc603eee59d79ca7b3176185a894a88c86856f2b027",
+        "size_bytes": 8815
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790707240137078943,
+          "dev": 16777232,
+          "ino": 71504888,
+          "mode": 33188,
+          "mtime_ns": 1790707240137078943,
+          "size": 2398,
+          "uid": 501
+        },
+        "path": "hol/primitive_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+        "size_bytes": 2398
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716983244648537,
+          "dev": 16777232,
+          "ino": 71584026,
+          "mode": 33188,
+          "mtime_ns": 1790716983244648537,
+          "size": 10468,
+          "uid": 501
+        },
+        "path": "hol/primitive_validation.ml",
+        "role": "hol-source-dependency",
+        "sha256": "c38b22ed18b106145dd1b95dc90d9eb7af2993f9ee36fb836b332566013bcb39",
+        "size_bytes": 10468
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716951988755395,
+          "dev": 16777232,
+          "ino": 71984918,
+          "mode": 33188,
+          "mtime_ns": 1790716951988755395,
+          "size": 1006,
+          "uid": 501
+        },
+        "path": "hol/projection_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "c03a5bbda56e20e6bba5cad927ba473a7c0ecb6822575413560962ab17db99c5",
+        "size_bytes": 1006
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716951962782700,
+          "dev": 16777232,
+          "ino": 71984917,
+          "mode": 33188,
+          "mtime_ns": 1790716951962782700,
+          "size": 4793,
+          "uid": 501
+        },
+        "path": "hol/projection_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "3760af2e9672c4a0c49a15c43c3ab6523a11f06dd30251bc8387f7cfed904da9",
+        "size_bytes": 4793
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790718159316437360,
+          "dev": 16777232,
+          "ino": 72260190,
+          "mode": 33188,
+          "mtime_ns": 1790718159316437360,
+          "size": 1890,
+          "uid": 501
+        },
+        "path": "hol/quotient_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "8718f55592fd4062e4c98a463d9051ccec761dfc1928685da2e008e1ce08beda",
+        "size_bytes": 1890
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790717038045458693,
+          "dev": 16777232,
+          "ino": 72243883,
+          "mode": 33188,
+          "mtime_ns": 1790717038045458693,
+          "size": 1956,
+          "uid": 501
+        },
+        "path": "hol/quotient_model.ml",
+        "role": "hol-source-dependency",
+        "sha256": "a885f08f047bcf5cae5d1579d27edb5d284acf404a8394c43651f8196124992c",
+        "size_bytes": 1956
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716465752843411,
+          "dev": 16777232,
+          "ino": 72064730,
+          "mode": 33188,
+          "mtime_ns": 1790716465752843411,
+          "size": 3589,
+          "uid": 501
+        },
+        "path": "hol/quotient_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "efe53e0a41fab434931d5ffc860ca38f5ed95d56e8c40653e797655826cde40e",
+        "size_bytes": 3589
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790714968912557117,
+          "dev": 16777232,
+          "ino": 71149092,
+          "mode": 33188,
+          "mtime_ns": 1790714968912557117,
+          "size": 2908,
+          "uid": 501
+        },
+        "path": "hol/syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "e2b470d6fe10fbd519cf32069bbcd60b9857d96d692d8e6a7e131ae828148a70",
+        "size_bytes": 2908
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790716290920781973,
+          "dev": 16777232,
+          "ino": 71332412,
+          "mode": 33188,
+          "mtime_ns": 1790716290920781973,
+          "size": 24612,
+          "uid": 501
+        },
+        "path": "scripts/hol-check.py",
+        "role": "supervisor-source",
+        "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+        "size_bytes": 24612
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790703865018250743,
+          "dev": 16777232,
+          "ino": 71332411,
+          "mode": 33188,
+          "mtime_ns": 1790703865018250743,
+          "size": 235,
+          "uid": 501
+        },
+        "path": "scripts/hol-server.sh",
+        "role": "launcher-source",
+        "sha256": "78b7567fcc274f81cdcce6e688d80f10434195786b71889bf777d2b8ca801b38",
+        "size_bytes": 235
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790701849109563309,
+          "dev": 16777232,
+          "ino": 70955088,
+          "mode": 33188,
+          "mtime_ns": 1790701849109563309,
+          "size": 1661,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-env.sh",
+        "role": "launcher-source",
+        "sha256": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903",
+        "size_bytes": 1661
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790702632809891303,
+          "dev": 16777232,
+          "ino": 70955089,
+          "mode": 33188,
+          "mtime_ns": 1790702632809891303,
+          "size": 327,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-exec.sh",
+        "role": "launcher-source",
+        "sha256": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+        "size_bytes": 327
+      }
+    ],
+    "literal_needs": {
+      "frontend/hol_check.ml": [
+        "hol/primitive_validation.ml"
+      ],
+      "frontend/hol_server.ml": [],
+      "hol/core.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/declarations.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/environment.ml": [
+        "hol/core.ml",
+        "hol/environment_rules.ml",
+        "hol/inductive_model.ml"
+      ],
+      "hol/environment_rules.ml": [
+        "hol/family_entries.ml",
+        "hol/family_syntax.ml",
+        "hol/indexed_entries.ml",
+        "hol/indexed_syntax.ml",
+        "hol/inductive_entries.ml",
+        "hol/inductive_syntax.ml",
+        "hol/nested_names.ml",
+        "hol/primitive_contracts.ml",
+        "hol/primitive_names.ml",
+        "hol/projection_entries.ml",
+        "hol/projection_syntax.ml",
+        "hol/quotient_entries.ml",
+        "hol/quotient_syntax.ml"
+      ],
+      "hol/family_entries.ml": [],
+      "hol/family_syntax.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/indexed_entries.ml": [],
+      "hol/indexed_syntax.ml": [
+        "hol/family_syntax.ml"
+      ],
+      "hol/inductive_entries.ml": [],
+      "hol/inductive_model.ml": [
+        "hol/core.ml",
+        "hol/quotient_model.ml"
+      ],
+      "hol/inductive_syntax.ml": [
+        "hol/declarations.ml"
+      ],
+      "hol/judgments.ml": [
+        "hol/syntax.ml"
+      ],
+      "hol/nested_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/primitive_contracts.ml": [
+        "hol/primitive_names.ml",
+        "hol/syntax.ml"
+      ],
+      "hol/primitive_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/primitive_validation.ml": [
+        "hol/environment.ml",
+        "hol/primitive_contracts.ml"
+      ],
+      "hol/projection_entries.ml": [],
+      "hol/projection_syntax.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/quotient_entries.ml": [],
+      "hol/quotient_model.ml": [
+        "hol/core.ml",
+        "hol/quotient_syntax.ml"
+      ],
+      "hol/quotient_syntax.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/syntax.ml": []
+    },
+    "project_root": "/Users/fawadhaider/code/lean4 in rocq:hol light",
+    "source_roots": [
+      "hol/environment.ml",
+      "hol/primitive_validation.ml",
+      "frontend/hol_check.ml",
+      "frontend/hol_server.ml"
+    ]
+  },
+  "schema": 1,
+  "scope": "Project closure and explicit upstream/helper/source pins; no runtime or semantic attestation.",
+  "seeds": [
+    {
+      "id": "tutorial/126_quotMkType",
+      "path": "corpus/tutorial/126_quotMkType.ndjson",
+      "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "size": 6450
+    },
+    {
+      "id": "tutorial/127_quotIndType",
+      "path": "corpus/tutorial/127_quotIndType.ndjson",
+      "sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "size": 6490
+    },
+    {
+      "id": "tutorial/128_quotLiftType",
+      "path": "corpus/tutorial/128_quotLiftType.ndjson",
+      "sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "size": 6496
+    },
+    {
+      "id": "tutorial/129_quotSoundType",
+      "path": "corpus/tutorial/129_quotSoundType.ndjson",
+      "sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "size": 7332
+    },
+    {
+      "id": "tutorial/130_quotLiftReduction",
+      "path": "corpus/tutorial/130_quotLiftReduction.ndjson",
+      "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "size": 7957
+    },
+    {
+      "id": "tutorial/131_quotIndReduction",
+      "path": "corpus/tutorial/131_quotIndReduction.ndjson",
+      "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "size": 7817
+    }
+  ],
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76"
+}

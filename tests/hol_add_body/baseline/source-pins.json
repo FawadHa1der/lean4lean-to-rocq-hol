@@ -1,0 +1,9 @@
+{
+  "description": "Original main add factory and unchanged rule/environment dependencies for portable old/new proof regressions.",
+  "source_sha256": {
+    "hol/primitive_validation.ml": "a7e93ec86303d9d71c7095f490437720c13bc28323c817366068a94f65346765",
+    "hol/environment_rules.ml": "27b6c1e7253b07033bf3a87f9d9730a857ba4b3a18f5f65764c9883a4fc4ae9f",
+    "hol/primitive_contracts.ml": "a58bcf52f227bb3af1b3737a9ed443b98c750cb6d77efd1b1dc3f5678b1db5e2",
+    "hol/environment.ml": "36edfbefcaa5c566ad93ca20886cd1c8ad873bed05105a3d74c3d63b33828403"
+  }
+}

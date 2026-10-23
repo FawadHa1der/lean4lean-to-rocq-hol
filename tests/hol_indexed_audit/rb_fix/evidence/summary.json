@@ -1,0 +1,45 @@
+{
+  "base_environment_sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+  "cleanup": {
+    "processes": {
+      "hol_pid": {
+        "exists": false,
+        "pid": 72468
+      },
+      "supervisor_pid": {
+        "exists": false,
+        "pid": 72446
+      }
+    },
+    "socket_removed": true
+  },
+  "fixed_environment_sha256": "91fa4b30e5a385dd4fb6ead82dc7c0cabaa9bac66341fa5b8bf90d623f87a3da",
+  "rb-native": {
+    "exit_code": 0,
+    "log_bytes": 395810,
+    "log_sha256": "c641c0bbd35c9f367e923106939f21d4403046a2517050c5d1267843c75136a9",
+    "native_assertions": 87,
+    "project_provenance_unchanged": true,
+    "provenance_sha256": "5b6e1b0c19992f3e72a10900ae8e7b3f625ca8f8ae763c904938556609e1813d",
+    "seconds": 104.57521395799995
+  },
+  "rb-probe": {
+    "exit_code": 0,
+    "log_bytes": 392341,
+    "log_sha256": "ffcfb0c7e7f3462546e0065e8374069f7748e429829a5ebe3bfd668e313927f7",
+    "native_assertions": 0,
+    "project_provenance_unchanged": true,
+    "provenance_sha256": "7cbaac1ea6cf833eef454921c1f6b00bd3abc3219be664655fac72c8ae434b80",
+    "seconds": 52.89045279200218
+  },
+  "rb-probe2": {
+    "exit_code": 0,
+    "log_bytes": 392669,
+    "log_sha256": "2bc49f958867a85adffe1ef3956e416b0a96c1a797006f72463791f2063ac7d7",
+    "native_assertions": 0,
+    "project_provenance_unchanged": true,
+    "provenance_sha256": "08aea6ccc1471c58b0c0a94fd90354bf3fd436d35e408287f42d862ed36ea915",
+    "seconds": 55.628519957994286
+  },
+  "runtime_provenance_sha256": "35cc318f9a50e66d2a7d7e058f040f9671fd2412e53cb697e9d69ec95141d3dd"
+}

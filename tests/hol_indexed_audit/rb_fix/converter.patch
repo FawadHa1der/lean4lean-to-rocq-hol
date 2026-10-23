@@ -1,0 +1,12 @@
+--- a/hol/environment.ml
++++ b/hol/environment.ml
+@@ -284,7 +284,8 @@
+     let h,args = strip_comb tm in
+     match args with
+     | n::_ when is_const h &&
+-        mem (fst(dest_const h)) ["l4_vars";"l4_decimal_aux";"l4_fresh_univ_aux"] &&
++        mem (fst(dest_const h),List.length args)
++          ["l4_vars",2;"l4_decimal_aux",2;"l4_fresh_univ_aux",3] &&
+         is_numeral n && n<>`0` ->
+       let rec first_argument k conv = if k=1 then RAND_CONV conv
+         else RATOR_CONV(first_argument (k-1) conv) in

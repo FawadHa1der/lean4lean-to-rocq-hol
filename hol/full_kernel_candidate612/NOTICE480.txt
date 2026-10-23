@@ -1,0 +1,46 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of the independent local Rocq implementation:
+  /Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Syntax.v:113-132
+    expr_eqb, with name_eqb/list_eqb/level_eqb structural comparisons.
+  /Users/fawadhaider/code/lean4 in rocq:hol light/rocq/NestedTransform.v:165-202
+    nested_same_flags, nested_key_eq, nested_find_mapping.
+Exact local source SHA-256 values are recorded in INPUTS480.sha256.
+
+Algorithmic ancestry: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean, pinned revision
+8223d223ed98661882e95d9d6a7126df7097cd76, including
+Lean4Lean/Inductive/Add.lean and Expr.lean. The local Rocq NOTICE attributes
+these operations and describes its changed, fuel-explicit reimplementation.
+No upstream verification assumptions or unfinished proofs are imported.
+LICENSE is the unchanged Apache-2.0 text from held437, byte-identical to
+rocq/LICENSE and vendor/lean4lean/LICENSE at the inspected local root.
+
+Read-only dependencies: full local datatype447 and result/bind437. Held449
+provides structural/list recursion and theorem-script style, not definitions
+of these four new operations. No copy, update or selection of held dependencies
+is performed. PinReader477 and reverse-bridge work478 are outside this scope.
+
+This is fidelity to LOCAL ROCQ metadata-payload-erased syntax, not full Lean
+Expr.eqv or metadata-payload equality. Wrappers remain observable, but their
+payloads are absent from datatype447. Distinct upstream payloads can therefore
+collapse to one local key and change auxiliary count/order. This work does not
+repair that limitation, assert an enforced restricted input domain, or claim
+full soundness, serialization fidelity, or Lean/Rocq/HOL equivalence.
+
+Names and string literals use inherited num-list encodings; only byte-valued
+lists have a direct local Rocq string interpretation. Natural numbers are
+unbounded. No encoding correspondence theorem or byte validation is supplied.
+Universe comparison is structural, not normalized or semantic level equality.
+Binder names and binder information are ignored. expr_eqb also ignores let
+nonDep, which the separate fuelled flags pass compares. Flags alone are not
+an equality test. Success means a computed value, not declaration acceptance.
+
+All HOL definitions and theorem scripts are SOURCE ONLY / UNCOMPILED.
+The finite Python models are handwritten, not extracted or interpreted HOL or
+Rocq programs; their passing assertions are neither proof nor source equivalence.
+No target parser, compiler, proof kernel, native checker, process/time/resource
+probe, stopped-session retry, or Arena validation is run. Session78 stays STOPPED.
+No default loader, consumed snapshot, integration bundle, Solidity file, commit
+or push is changed. The overall port remains incomplete.

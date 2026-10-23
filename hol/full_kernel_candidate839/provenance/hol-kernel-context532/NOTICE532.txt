@@ -1,0 +1,17 @@
+Source532 kernel context and occurrence operations
+=================================================
+Modified implementation: Copyright 2026 Fawad Haider. Apache License 2.0.
+The upstream license is retained unmodified in LICENSE.
+Immediate changed-source references: rocq/Syntax.v218-231,
+rocq/InductiveUtils.v15,21-29, and rocq/Checker.v30-63.
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+commit8223d223ed98661882e95d9d6a7126df7097cd76.
+Full attribution retained in pinned rocq/NOTICE.
+
+Twelve actual HOL operations and one context datatype preserve full491 binding
+payloads, free and bound lists, full493 declaration metadata, and all13 full447
+expression forms. Reuse491's allocator; do not duplicate it in production.
+The Python model is handwritten and does not execute target code.
+All26 proposed HOL proof scripts remain UNCOMPILED. No native comparison,
+Arena verdict, scope/admission proof, complete upstream equivalence or default
+runtime integration is claimed. Pins preserve bytes, not correctness.

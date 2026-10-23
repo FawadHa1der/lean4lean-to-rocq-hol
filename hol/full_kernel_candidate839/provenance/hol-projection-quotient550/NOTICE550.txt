@@ -1,0 +1,54 @@
+Full447 projection and quotient source port550
+=============================================
+Modified implementation: Copyright 2026 Fawad Haider.
+SPDX-License-Identifier: Apache-2.0. The accompanying LICENSE is the unmodified
+local vendor/lean4lean/LICENSE, SHA256
+c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.
+
+Immediate reference: local rocq/Checker.v636-699, with core_spine/core_apps,
+core_constructor and Syntax.v declaration/result/context representations.
+Exact local file bytes, rather than an assumed upstream identity, are pinned
+in INPUTS550.sha256. Upstream attribution below is historical provenance,
+not a claim that current local files equal that upstream commit.
+
+Changed HOL object-language implementation using full447 expressions,491
+results,493 declaration metadata,532 contexts/constructor lookup,543 methods,
+489 application/spine operations, and actual539 string expansion. Two total
+list-first list helpers supplement those dependencies. All native syntax,
+loading and proof claims remain UNCOMPILED. No callback supplies declaration
+lookup, constructor recognition, string expansion or a final checker verdict.
+The reference's internal reduce/method parameters remain internal parameters.
+The handwritten finite model uses callback fixtures for those parameters only;
+it is not an implementation of the missing full checker or WHNF engine.
+
+Inherited representation limits remain:447 follows the metadata-payload-erased
+local Rocq syntax, not lossless Lean serialization; HOL names/strings use
+natural-number lists, whose nonbyte values cannot be Rocq ascii. Actual539
+rejects such literal bytes. This package supplies no encoding or refinement
+proof, admission proof, end-to-end checker or upstream equivalence theorem.
+
+Original local rocq/NOTICE attribution follows:
+----------------------------------------------
+Lean4Lean Gallina dependent-function core port
+
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Commit 8223d223ed98661882e95d9d6a7126df7097cd76
+  Author: Mario Carneiro and Lean4Lean contributors
+  Lean4Lean/Level.lean, TypeChecker.lean, LocalContext.lean,
+  Instantiate.lean, Expr.lean, Declaration.lean, Inductive/Reduce.lean,
+  Quot.lean and Primitive.lean (operation/signature reference).
+These files have no individual copyright header in the pinned snapshot;
+the repository's Apache-2.0 LICENSE is included here unmodified.
+
+This is a changed Gallina reimplementation: structural syntax, list-backed
+guarded universe sublevels, de Bruijn local contexts, fuel-explicit pure
+checking, no pointer caches or native substitutions, explicit declines.
+The upstream verification assumptions and unfinished proofs are not imported.
+
+The universe algorithm follows Yoan Geran, "A Canonical Form for Universe
+Levels in Impredicative Type Theory", as implemented and attributed in
+Lean4Lean/Level.lean. No claim of complete formal verification is made.

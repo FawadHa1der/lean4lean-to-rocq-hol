@@ -1,0 +1,17 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Changed HOL port of local rocq/Inductive.v129-147,299-319,338-353 and
+rocq/InductiveUtils.v69-89. Algorithmic ancestry is Lean4Lean by Mario Carneiro
+and contributors, upstream8223d223ed98661882e95d9d6a7126df7097cd76.
+The original Apache-2.0 LICENSE is retained in516 and the parent archive.
+
+Eight actual logical operations reuse full syntax447, metadata493/516,
+state491, binder operations489, expression equality480, firstn494 and skipn499.
+Result and state tuples use HOL right-associated representations. Guarded
+EL is defined only on in-range branches, matching nth_error's option domain;
+no arbitrary out-of-range list element can fabricate a motive.
+
+All source/proof scripts UNCOMPILED. These helpers neither infer types nor
+establish positivity, universe correctness, checked derivation or admission.
+Model tests, when run, are handwritten, not extracted Rocq or evaluated HOL.
+No native authority, default integration, proof/trust weakening, resource/
+deadline/cleanup changes, Solidity edits, commits or pushes.

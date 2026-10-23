@@ -1,0 +1,35 @@
+Primitive recursors622: changed full447 HOL source port
+=======================================================
+Copyright 2026 Fawad Haider. Licensed under Apache License 2.0.
+LICENSE and ROCQ_NOTICE622.txt are exact unmodified copies of rocq/LICENSE and
+rocq/NOTICE. Each implementation/proposed-proof source retains its SPDX notice.
+
+Behavioral source:
+  ROOT/rocq/Primitives.v469-711 (exact SHA in INPUT_PINS622.json)
+  Checker.v and InductiveUtils.v for canonical597/606 call and state semantics.
+  ROOT/docs/PRIMITIVES.md documents the caller and metadata-admission boundary.
+ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light.
+Algorithmic ancestry:
+  Lean4Lean, Mario Carneiro and contributors, Apache-2.0.
+  https://github.com/digama0/lean4lean
+  Attribution commit8223d223ed98661882e95d9d6a7126df7097cd76.
+  Local vendor/lean4lean/Lean4Lean/Primitive.lean inspected at190-290,350-435.
+The commit is preserved attribution, not newly network-verified history.
+The local Rocq adaptation, including its stronger guards and rejection order,
+is the exact behavioral target; upstream success assumptions are not imported.
+
+Changes:
+  Actual HOL definitions over full447 syntax,491 results/states,493 declarations,
+  489 locals,532 contexts,597 concrete checker,619 foundations and621 quotation.
+  One new three-field probe record; no duplicate canonical datatype or helper.
+  Lambda opening is not606's Pi opener: it inspects raw lambdas/metadata and
+  checks their original domains with sort_of. Public argument order unchanged.
+  Reuse canonical489 list-first application/closing and509 structural-list
+  comparison. All comparison/typed calls and first-failure branches retained.
+  Well-founded F is retyped in the original outer scope; pack/dom are closed
+  then inferred there. Recursive probes use typed ih, not the candidate itself.
+
+17 term definitions (14 requested routines/values plus3 probe projections),
+one probe datatype,27 property scripts and23 regression scripts.
+ALL UNCOMPILED / NOT EXECUTED. No model/prover/native job, primitive admission,
+runtime custody validation, trust expansion, or logical soundness claim.

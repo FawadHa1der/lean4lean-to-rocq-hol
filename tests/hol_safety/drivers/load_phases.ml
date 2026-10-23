@@ -1,0 +1,33 @@
+(* Concatenated into interactive stdin by run.py; never load this file with needs.
+   Lexer switches affect parsing, so each phase must execute at the toplevel. *)
+set_jrh_lexer;;
+let private_axioms = axioms();;
+unset_jrh_lexer;;
+Topdirs.dir_directory (Filename.concat (Sys.getenv "OPAMROOT") "lean4lean/lib/zarith");;
+Topdirs.dir_directory (Filename.concat (Sys.getenv "OPAMROOT") "lean4lean/lib/yojson");;
+Topdirs.dir_directory "build/frontend";;
+Topdirs.dir_load Format.std_formatter "zarith.cma";;
+Topdirs.dir_load Format.std_formatter "yojson.cma";;
+Topdirs.dir_load Format.std_formatter "unix.cma";;
+Topdirs.dir_load Format.std_formatter "wire.cmo";;
+Topdirs.dir_load Format.std_formatter "replay.cmo";;
+Topdirs.dir_load Format.std_formatter "hol_input.cmo";;
+Topdirs.dir_load Format.std_formatter "hol_safety_input.cmo";;
+use_file_raise_failure := true;;
+load_path := [Sys.getcwd()];;
+print_endline "SAFETY_LOAD_PHASE transport ordinary";;
+set_jrh_lexer;;
+needs "hol/environment.ml";;
+needs "hol/primitive_validation.ml";;
+needs "hol/text_validation.ml";;
+let private_native_rule_count = List.length(CONJUNCTS l4_edef_RULES);;
+let private_admission_rule_count = List.length(CONJUNCTS(SPEC `[]:l4_entry list` l4_evalid_RULES));;
+needs "hol/raw_indexed_admission.ml";;
+needs "hol/safety_admission.ml";;
+print_endline "SAFETY_LOAD_PHASE proofs jrh";;
+unset_jrh_lexer;;
+needs "frontend/hol_check.ml";;
+print_endline "SAFETY_LOAD_PHASE frontend ordinary";;
+set_jrh_lexer;;
+needs "frontend/hol_safety_check.ml";;
+print_endline "SAFETY_LOAD_PHASE adapter jrh";;

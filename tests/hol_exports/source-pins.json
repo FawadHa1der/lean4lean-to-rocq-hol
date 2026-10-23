@@ -1,0 +1,16 @@
+{
+  "pin_version": 1,
+  "source_manifest_sha256": "985cadef081276d8796bc7ee113a47b1f0b2de994f0892dd6027b1f821a52f30",
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76",
+  "reference_sources": [
+    {"path": "vendor/lean4lean/Lean4Lean/Environment/Basic.lean", "sha256": "549c16d924d7840858935da71e60169ea3990cf484187e11a2382c39d89e7620"},
+    {"path": "vendor/lean4lean/Lean4Lean/Primitive.lean", "sha256": "0bafbbd0fffd0e56034b205bfacb9985c908d56d3d4cee4379059777d5f83c2e"},
+    {"path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean", "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382"},
+    {"path": "arena/exporter-source/Export/Parse.lean", "sha256": "1f943b5cc776eece6d528937b976509c8bd57d10bc69a39b1c119bfb6d664286"}
+  ],
+  "seeds": [
+    {"family": "nat", "id": "tutorial/102_aNatLit", "path": "corpus/tutorial/102_aNatLit.ndjson", "size": 3101, "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"},
+    {"family": "bool", "id": "tutorial/037_boolType", "path": "corpus/tutorial/037_boolType.ndjson", "size": 2377, "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"},
+    {"family": "empty", "id": "tutorial/036_empty", "path": "corpus/tutorial/036_empty.ndjson", "size": 1228, "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"}
+  ]
+}

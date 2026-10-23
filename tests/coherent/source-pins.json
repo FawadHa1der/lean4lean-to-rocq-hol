@@ -1,0 +1,16 @@
+{
+  "pin_version": 1,
+  "source_manifest_sha256": "985cadef081276d8796bc7ee113a47b1f0b2de994f0892dd6027b1f821a52f30",
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76",
+  "upstream_files": [
+    {"path": "vendor/lean4lean/Lean4Lean/Environment/Basic.lean", "sha256": "549c16d924d7840858935da71e60169ea3990cf484187e11a2382c39d89e7620"},
+    {"path": "vendor/lean4lean/Lean4Lean/Primitive.lean", "sha256": "0bafbbd0fffd0e56034b205bfacb9985c908d56d3d4cee4379059777d5f83c2e"},
+    {"path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean", "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382"},
+    {"path": "vendor/lean4lean/Lean4Lean/Environment.lean", "sha256": "201783fa73cf40ef5959da18554fe9fe22f1ee65bbf5c3e181ae5ca71c92d331"}
+  ],
+  "seeds": [
+    {"family": "empty", "id": "tutorial/036_empty", "path": "corpus/tutorial/036_empty.ndjson", "size": 1228, "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"},
+    {"family": "singleton", "id": "tutorial/042_pUnitType", "path": "corpus/tutorial/042_pUnitType.ndjson", "size": 1843, "sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248"},
+    {"family": "enum", "id": "tutorial/037_boolType", "path": "corpus/tutorial/037_boolType.ndjson", "size": 2377, "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"}
+  ]
+}

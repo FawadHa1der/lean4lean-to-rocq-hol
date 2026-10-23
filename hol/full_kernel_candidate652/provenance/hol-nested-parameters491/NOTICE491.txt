@@ -1,0 +1,28 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Changed HOL Light port of local Rocq Syntax.v result/error vocabulary,
+InductiveUtils.v ind_state/ind_fresh, and NestedTransform.v raw parameter helpers.
+Lean4Lean upstream pin8223d223ed98661882e95d9d6a7126df7097cd76;
+https://github.com/digama0/lean4lean. Preserve the accompanying upstream license.
+
+The state datatype retains next counter, bound bindings and free bindings;
+bindings retain type and optional value. Fresh allocation prepends a no-value
+free binding and leaves the bound list unchanged. It intentionally follows the
+local _rocq_ind name policy, not Lean's operational name generator. It does not
+validate collisions in an arbitrary caller-supplied state. Caller freshness and
+free-context invariants still require proofs and integration.
+
+The complete local result vocabulary is retained:13 rejection reasons and3
+decline reasons. The437 helper's unsupported/fuel cases map to declines, never
+rejections. A successful helper computes a value, not acceptance of a theorem.
+Opening parameters rejects malformed raw Pi shape; instantiating parameters
+declines unsupported raw shape. Zero requested parameters succeed even at zero
+fuel, but a positive request checks fuel before shape. No normalization or
+domain validation is introduced. These helpers cannot replace admission checks.
+
+The extended447 syntax preserves annotations but lacks metadata payload values;
+full upstream representation correspondence is not claimed. Context flattening
+and num encoding of local N/nat fields also need explicit correspondence proofs.
+The target files and12 theorem scripts remain SOURCE ONLY / UNCOMPILED.
+No native compiler/prover/extraction or Arena result is established. No default
+integration, old evidence/authority reuse, guard weakening, Solidity changes,
+commit or push. Family expansion, worklist, restoration and admission remain.

@@ -1,0 +1,7 @@
+/bin/
+/downloads/
+/logs/
+/opam-root/
+/perl5/
+/smoke-build/
+/.setup-lock/

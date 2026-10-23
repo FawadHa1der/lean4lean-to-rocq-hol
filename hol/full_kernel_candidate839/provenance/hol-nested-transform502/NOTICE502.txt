@@ -1,0 +1,19 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Draft changed HOL port of local rocq/NestedTransform.v:307-436. Algorithmic
+ancestry: Mario Carneiro/Lean4Lean contributors, upstream commit
+8223d223ed98661882e95d9d6a7126df7097cd76, Apache-2.0. See LICENSE.
+
+Actual root replacement/preorder rewrite/constructor rewrite/spec replacement/
+growing worklist/elimination definitions, plus total nth_error. These join held
+498 family expansion,499 restoration record and480 key operations. Dependencies
+remain independently incomplete; this source has NO target compilation, finite
+model evaluation or independent review yet. No proof scripts are supplied here.
+Do not load/select it as a reviewed/default checker. It is a draft successor.
+
+The full local syntax transformation is represented but not validated. It is
+not declaration admission or a formal equivalence/soundness result. It inherits
+the exact local naming/fuel conventions and representation/metadata-payload
+limitations described by dependencies. Reconstructed metadata still requires
+checked derivation, restoration and comparison against exported claims.
+No compiler/prover/native/checker/exporter, resource/process/time probe, failed
+capture inspection, guard/authority change, Solidity edit, commit or push.

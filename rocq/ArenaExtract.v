@@ -1,0 +1,21 @@
+(* Private extraction; no production extraction file is edited. *)
+From Stdlib Require Import Extraction.
+From LeanPort Require Import Syntax Universes Checker Primitives Declarations InductiveUtils
+  Inductive NestedTransform NestedAdmission Quotient Safety InductiveSafety
+  DagScope DagArena DagAdmission DagTheoremOpaque IndexedDagAdmission CombinedAdmissionRefinement
+  PersistentIndex PersistentAdmission QuotientTransaction QuotientTransactionDelta
+  QuotientPersistentIndex QuotientFlagInvariant SemanticModel DeclarativeTyping
+  CheckerSoundness DefEqCache FuelConfig.
+Extraction Language OCaml.
+Extraction "lean_arena.ml" admit_extended admit_mutual admit_inductive_extended admit_quotient
+  admit_dag_definition decode_then_admit_definition arena_build empty_arena scope_ref
+  admit classify_primitive admit_dag_theorem decode_then_admit_theorem
+  admit_dag_opaque decode_then_admit_opaque whnf empty_context
+  indexed_admit indexed_dag_admit linear_env_admit
+  indexed_admit_dag_definition indexed_admit_dag_theorem indexed_admit_dag_opaque
+  RuntimeChecker.use_index EnvironmentIndexSuffixBenchmark.suffix_bitfold8
+  linear_cache_new_admit new_ordinary_decode_admit
+  initial_state admit_batch state_environment
+  initialize_quotient quotient_runtime_initial quotient_runtime_initialize
+  cached_defeq uniform_fuel_config infer_with_config whnf_with_config
+  defeq_with_config check_with_config admit_with_config.

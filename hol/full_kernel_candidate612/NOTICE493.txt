@@ -1,0 +1,27 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Changed HOL Light port of local Rocq Syntax.v declaration metadata, primitive/
+quotient/kind/hint vocabulary, effective hints and environment lookup, plus
+Inductive.v ind_spec. The project adapts Lean4Lean commit
+8223d223ed98661882e95d9d6a7126df7097cd76; https://github.com/digama0/lean4lean.
+Preserve accompanying upstream license and the project's upstream attribution.
+
+All fields of the local Rocq records are retained:8 inductive,5 constructor,
+3 rule,8 recursor,6 declaration,2 specification fields.18 primitives,4 quotient
+roles,12 declaration constructors (including recursive unsafe wrappers), and
+3 reducibility hints are represented. Counts/heights use unbounded HOL num;
+there is no UInt32 truncation. Recursor RHS and optional declaration values use
+extended447 expressions, without a restricted projection to the legacy syntax.
+
+These are representation definitions, not well-formedness/admission predicates.
+Invalid or inconsistent exported metadata is representable and must be checked
+later. Lookup is first-match and does not silently bypass unsupported/unsafe
+entries. Effective hints retain hints only for exact Definition/Primitive kinds;
+an unsafe wrapper is not automatically unwrapped. List-first find_decl differs
+from Rocq's argument order. Semantic and encoding correspondence remain open.
+Inherited447/Rocq metadata payload erasure and num-list string validity remain
+explicit gaps. No logical verdict is outsourced or read from a test manifest.
+
+SOURCE ONLY / UNCOMPILED,12 uncompiled theorem scripts. No default checker or
+loader change, native validation, authority/gate change, Solidity edit, commit
+or push. Full nested candidate, family expansion, rewrite, restoration and
+checked admission remain separate operations, not established by these records.

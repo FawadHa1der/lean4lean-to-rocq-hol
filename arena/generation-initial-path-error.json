@@ -1,0 +1,688 @@
+{
+  "cases": [
+    {
+      "id": "corner-cases/alg-conv-trans-acc",
+      "published_sha256": "5e368979269338849ce48b7591b218624ec072521ac4293930356b4fc55efb44",
+      "published_size": 67968,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-acc-left",
+      "published_sha256": "a24e768f3f35871ce0915017d3f37416d85acebd7eea019b08ceafb4a3c6be1b",
+      "published_size": 68991,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-acc-right",
+      "published_sha256": "81ab1d26c3c760b243873d1432298bd135bbdc74259c69c7abca740c297c4fe2",
+      "published_size": 69258,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-quot",
+      "published_sha256": "b95ab3f5f8c67411ca3bcb35c2888ce03d88bd651bb128a4e9da7f4304ad7db5",
+      "published_size": 8680,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-quot-left",
+      "published_sha256": "9dd49f5ebd01c72f393f41fd718e9d40b371afe5e044446189b5765ac6dc0db5",
+      "published_size": 8833,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-quot-left-def",
+      "published_sha256": "c14f073a6f062ee1a31bbc0e466eb2ffaced726393a423c8a68751f2cd2f49c1",
+      "published_size": 10774,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/alg-conv-trans-quot-right",
+      "published_sha256": "53568a1d31b275e0255c18ea6c116a183909920b9d074c9cecab0a5b318d0a41",
+      "published_size": 9254,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/eta-ctor",
+      "published_sha256": "03f9442400878003a0e2157373cdaf0ac20d680522cda534351ac5d25fb35001",
+      "published_size": 9234,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/eta-rule-k",
+      "published_sha256": "abe59b1ceda4632c9964f46da1f9d485bf3ceb1045136fe8b32695369d33206b",
+      "published_size": 6626,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/imax-right-successor",
+      "published_sha256": "00412ecd8a255812553a38f66bd84f521a233fce178742065005ff053c6cbd0f",
+      "published_size": 806,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/nested-nonuniform-param",
+      "published_sha256": "396cea793fb200feb78db27bbc2168b3a10fcc84b67b64a26fc4df3f7ae834e0",
+      "published_size": 9415,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/proj-maybe-prop",
+      "published_sha256": "61dfee11e3ea0f8c88e812f735b4951b12067637c12b7a0c96bb4ef4003b3094",
+      "published_size": 8308,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/proj-maybe-prop-past",
+      "published_sha256": "69ad6bc0dd7e945c32076b8c39071ea4712b4f591dfa8c1d515b5dea96040f56",
+      "published_size": 8313,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/subject-reduction-redex",
+      "published_sha256": "d056db183e4934cb5b0e838cdc20ee6ddb4a4a00a574423cd495e8b0e93bce53",
+      "published_size": 68158,
+      "status": "generation_error"
+    },
+    {
+      "id": "corner-cases/subject-reduction-reduct",
+      "published_sha256": "856836ce9c74591e0277047ad6448aadc2b93ef96eb9010e0922c32aacd055e2",
+      "published_size": 67092,
+      "status": "generation_error"
+    },
+    {
+      "id": "perf/magma-string-n4",
+      "published_sha256": "158b54b527a3171cfff366e525d1f3ad78147f024e7946ec04fa6f20ef97bc5a",
+      "published_size": 17353248,
+      "status": "generation_error"
+    },
+    {
+      "id": "perf/magma-string-pair-n9",
+      "published_sha256": "deeeea5010e88e313dcf3d1b9642a5f9de8fb711066dd0256cec3b35d38c05ae",
+      "published_size": 17354635,
+      "status": "generation_error"
+    }
+  ],
+  "finished": true,
+  "lean_binary_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+  "lean_version_output": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "lock": {
+    "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+    "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+    "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+    "lean_version": "4.34.1",
+    "lock_version": 1,
+    "scope": "15 missing generated either cases and two approximately 17 MB magma-string cases only",
+    "toolchain": {
+      "release_asset_id": 586761729,
+      "sha256": "65f22a4f047738ec742667b3247e836a86ebf06eabc12655c3dee00637e37866",
+      "size": 562038070,
+      "url": "https://github.com/leanprover/lean4/releases/download/v4.34.1/lean-4.34.1-darwin_aarch64.tar.zst"
+    },
+    "tutorial_exporter_revision": "777c921eba89aac5f14cc388717935b5fa2cb739"
+  },
+  "sandbox_profile": "(version 1)\n(deny default)\n(allow process*)\n(allow file-read*)\n(allow sysctl-read)\n(allow mach-lookup)\n(allow file-write* (subpath (param \"WORK\")) (literal \"/dev/null\"))\n",
+  "script_sha256": "766c3b7a8ab7cbff53425727cc8a737c0ca0a544aa6b25c155cd13c265ea868c",
+  "steps": [
+    {
+      "command": [
+        "/usr/bin/true"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation",
+      "elapsed_seconds": 0.01,
+      "exit_code": 0,
+      "label": "sandbox-probe",
+      "lean_path": ".",
+      "stderr": "generation/logs/000.stderr",
+      "stdout": "generation/logs/000.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Export.olean",
+        "Export.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/exporter-66f1fb4bc256",
+      "elapsed_seconds": 4.838,
+      "exit_code": 0,
+      "label": "compile exporter 66f1fb4bc256",
+      "lean_path": ".",
+      "stderr": "generation/logs/001.stderr",
+      "stdout": "generation/logs/001.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.569,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/alg-conv.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/002.stderr",
+      "stdout": "generation/logs/002.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "trans"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.622,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-acc",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/003.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-acc.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "left"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.564,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-acc-left",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/004.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-acc-left.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "right"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.563,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-acc-right",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/005.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-acc-right.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv-trans-quot",
+      "elapsed_seconds": 0.56,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/alg-conv-trans-quot.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/006.stderr",
+      "stdout": "generation/logs/006.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "trans"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv-trans-quot",
+      "elapsed_seconds": 0.622,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-quot",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/007.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-quot.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "left"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv-trans-quot",
+      "elapsed_seconds": 0.618,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-quot-left",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/008.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-quot-left.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "left'"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv-trans-quot",
+      "elapsed_seconds": 0.615,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-quot-left-def",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/009.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-quot-left-def.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "right"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv-trans-quot",
+      "elapsed_seconds": 0.623,
+      "exit_code": 1,
+      "label": "export corner-cases/alg-conv-trans-quot-right",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/010.stderr",
+      "stdout": "generation/exports/corner-cases/alg-conv-trans-quot-right.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/eta-ctor",
+      "elapsed_seconds": 0.564,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/eta-ctor.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/011.stderr",
+      "stdout": "generation/logs/011.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "etaCtor"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/eta-ctor",
+      "elapsed_seconds": 0.561,
+      "exit_code": 1,
+      "label": "export corner-cases/eta-ctor",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/012.stderr",
+      "stdout": "generation/exports/corner-cases/eta-ctor.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/eta-rule-k",
+      "elapsed_seconds": 0.568,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/eta-rule-k.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/013.stderr",
+      "stdout": "generation/logs/013.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "etaRuleK"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/eta-rule-k",
+      "elapsed_seconds": 0.623,
+      "exit_code": 1,
+      "label": "export corner-cases/eta-rule-k",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/014.stderr",
+      "stdout": "generation/exports/corner-cases/eta-rule-k.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/imax-right-successor",
+      "elapsed_seconds": 0.568,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/imax-right-successor.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/015.stderr",
+      "stdout": "generation/logs/015.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "imaxRightOne",
+        "imaxRightSucc"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/imax-right-successor",
+      "elapsed_seconds": 0.622,
+      "exit_code": 1,
+      "label": "export corner-cases/imax-right-successor",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/016.stderr",
+      "stdout": "generation/exports/corner-cases/imax-right-successor.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Export.olean",
+        "Export.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/exporter-777c921eba89",
+      "elapsed_seconds": 1.06,
+      "exit_code": 0,
+      "label": "compile exporter 777c921eba89",
+      "lean_path": ".",
+      "stderr": "generation/logs/017.stderr",
+      "stdout": "generation/logs/017.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Tutorial/AddConstInfo.olean",
+        "Tutorial/AddConstInfo.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.184,
+      "exit_code": 0,
+      "label": "compile nested-nonuniform-param Tutorial/AddConstInfo.lean",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/018.stderr",
+      "stdout": "generation/logs/018.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Tutorial/Export.olean",
+        "Tutorial/Export.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.68,
+      "exit_code": 0,
+      "label": "compile nested-nonuniform-param Tutorial/Export.lean",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/019.stderr",
+      "stdout": "generation/logs/019.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Tutorial/TestCaseEnv.olean",
+        "Tutorial/TestCaseEnv.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.621,
+      "exit_code": 0,
+      "label": "compile nested-nonuniform-param Tutorial/TestCaseEnv.lean",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/020.stderr",
+      "stdout": "generation/logs/020.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Tutorial/Meta.olean",
+        "Tutorial/Meta.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.837,
+      "exit_code": 0,
+      "label": "compile nested-nonuniform-param Tutorial/Meta.lean",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/021.stderr",
+      "stdout": "generation/logs/021.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "CornerCases/NestedNonuniformParam.olean",
+        "CornerCases/NestedNonuniformParam.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.561,
+      "exit_code": 0,
+      "label": "compile nested-nonuniform-param CornerCases/NestedNonuniformParam.lean",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/022.stderr",
+      "stdout": "generation/logs/022.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-777c921eba89/Main.lean",
+        "CornerCases.NestedNonuniformParam",
+        "--",
+        "E"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/tutorial",
+      "elapsed_seconds": 0.621,
+      "exit_code": 1,
+      "label": "export corner-cases/nested-nonuniform-param",
+      "lean_path": ".:../exporter-777c921eba89",
+      "stderr": "generation/logs/023.stderr",
+      "stdout": "generation/exports/corner-cases/nested-nonuniform-param.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/proj-maybe-prop",
+      "elapsed_seconds": 0.567,
+      "exit_code": 0,
+      "label": "compile tests/corner-cases/proj-maybe-prop.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/024.stderr",
+      "stdout": "generation/logs/024.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "projMaybeProp"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/proj-maybe-prop",
+      "elapsed_seconds": 0.571,
+      "exit_code": 1,
+      "label": "export corner-cases/proj-maybe-prop",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/025.stderr",
+      "stdout": "generation/exports/corner-cases/proj-maybe-prop.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "projMaybePropPast"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/proj-maybe-prop",
+      "elapsed_seconds": 0.567,
+      "exit_code": 1,
+      "label": "export corner-cases/proj-maybe-prop-past",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/026.stderr",
+      "stdout": "generation/exports/corner-cases/proj-maybe-prop-past.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "redex"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.615,
+      "exit_code": 1,
+      "label": "export corner-cases/subject-reduction-redex",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/027.stderr",
+      "stdout": "generation/exports/corner-cases/subject-reduction-redex.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "reduct"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/alg-conv",
+      "elapsed_seconds": 0.557,
+      "exit_code": 1,
+      "label": "export corner-cases/subject-reduction-reduct",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/028.stderr",
+      "stdout": "generation/exports/corner-cases/subject-reduction-reduct.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/magma-string-n4",
+      "elapsed_seconds": 0.351,
+      "exit_code": 0,
+      "label": "compile tests/perf/magma-string-n4.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/029.stderr",
+      "stdout": "generation/logs/029.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "countermodel"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/magma-string-n4",
+      "elapsed_seconds": 0.564,
+      "exit_code": 1,
+      "label": "export perf/magma-string-n4",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/030.stderr",
+      "stdout": "generation/exports/perf/magma-string-n4.ndjson",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-o",
+        "Test.olean",
+        "Test.lean"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/magma-string-pair-n9",
+      "elapsed_seconds": 5.442,
+      "exit_code": 0,
+      "label": "compile tests/perf/magma-string-pair-n9.lean Test.lean",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/031.stderr",
+      "stdout": "generation/logs/031.stdout",
+      "timeout": false
+    },
+    {
+      "command": [
+        "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/toolchain/lean-4.34.1-darwin_aarch64/bin/lean",
+        "--run",
+        "../exporter-66f1fb4bc256/Main.lean",
+        "Test",
+        "--",
+        "countermodel"
+      ],
+      "cwd": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/generation/magma-string-pair-n9",
+      "elapsed_seconds": 0.567,
+      "exit_code": 1,
+      "label": "export perf/magma-string-pair-n9",
+      "lean_path": ".:../exporter-66f1fb4bc256",
+      "stderr": "generation/logs/032.stderr",
+      "stdout": "generation/exports/perf/magma-string-pair-n9.ndjson",
+      "timeout": false
+    }
+  ]
+}

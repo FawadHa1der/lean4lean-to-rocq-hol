@@ -1,0 +1,56 @@
+{
+  "audit_problem_count": 0,
+  "audit_problems": [],
+  "batches": 1521,
+  "byte_identity": "original bytes from byte zero through the newline ending the target declaration",
+  "declaration_records": 1521,
+  "dependency_closed_in_input_order": true,
+  "expression_nodes": 83459,
+  "format_metadata": {
+    "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+    },
+    "format": {
+      "version": "3.1.0"
+    },
+    "lean": {
+      "githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+      "version": "4.34.1"
+    }
+  },
+  "last_declaration": {
+    "line": 94434,
+    "names": [
+      "_private.Init.Data.Range.Polymorphic.Nat.[0].Std.PRange.instLawfulHasSizeNat._proof_2"
+    ],
+    "tag": "thm",
+    "wire_record": {
+      "thm": {
+        "all": [
+          9397
+        ],
+        "levelParams": [],
+        "name": 9397,
+        "type": 81720,
+        "value": 83458
+      }
+    }
+  },
+  "limitations": [
+    "This audit checks transport dependencies, not typing or logical validity.",
+    "The prefix is a diagnostic derivative, not the full Arena input or a new Arena case.",
+    "No separate checker execution is performed on the extracted prefix."
+  ],
+  "missing_constant_names": [],
+  "observed_full_run_batch_order_matches_prefix": true,
+  "prefix_bytes": 4865221,
+  "prefix_lines": 94434,
+  "prefix_path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-94434.ndjson",
+  "prefix_sha256": "846760ab10763b75c62570405d6704377e2ae107d5fb189464edbfb0dea3922a",
+  "reachable_expression_nodes": 83459,
+  "referenced_constant_names": 1679,
+  "source_integrity_verified_by_run": true,
+  "source_sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+  "source_sha256_reverified_at_extraction": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a"
+}

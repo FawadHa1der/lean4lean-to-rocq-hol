@@ -1,0 +1,18 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Original conservative repair glue and proposed list proofs for the independent
+Lean4Lean HOL port. LICENSE is retained unchanged from source498.
+
+Behavioral source: local rocq/NestedTransform.v231-235 and Inductive.v46-47.
+Canonical frozen498 and516 provide the affected use and existing equivalent
+right-fold helper. Neither source is copied into a modified successor.
+Algorithmic ancestry: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76 (inherited attribution).
+Local pinned vendor/lean4lean/Lean4Lean/Inductive/Add.lean was read as source;
+its naming policy is not asserted identical to the Rocq adaptation.
+
+Uses stock HOL Light list recursion, APPEND, ITLIST and proof APIs. Stock
+lists.ml credits University of Cambridge1998, John Harrison1998-2007 and
+Marco Maggesi2014. HOL_LIGHT_LICENSE650.txt preserves the stock license.
+No stock or parent implementation is modified, no axiom or unfinished
+upstream proof is imported, and no successful runtime evidence is claimed.

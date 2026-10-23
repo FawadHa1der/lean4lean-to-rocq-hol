@@ -1,0 +1,27 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light definitions adapted from the independent local Rocq port,
+rocq/NestedTransform.v (nested_lookup_local, nested_rebase, nested_has_new,
+nested_any_new), with source pin recorded by the validation model. The project
+adapts Lean4Lean, commit 8223d223ed98661882e95d9d6a7126df7097cd76,
+https://github.com/digama0/lean4lean. Preserve its accompanying LICENSE.
+
+This fragment uses the local Rocq metadata-payload-erased syntax from447.
+Local records are projected to identifier lists, the only fields observed by
+these four helpers. No lookup/global validation of their types is implied.
+The helpers' internal result type distinguishes fuel and unsupported declines
+from success; success is a computed value, NOT acceptance of a declaration.
+Partial list-length checks, first-match behavior, fuel-before-work, short
+circuit order and binder/metadata/let flags are intentional compatibility
+details. Free-local rebasing is simultaneous, not repeated substitution.
+The generic helper is intentionally compatible with the local Rocq helper,
+including first-match duplicate IDs. Pinned Lean abstraction chooses the last
+matching duplicate. Upstream correspondence therefore requires distinct source
+IDs, aligned lists and no loose BVars in the input; these must be established
+by the actual caller/fresh-local pipeline, not assumed for arbitrary records.
+
+SOURCE ONLY / UNCOMPILED. No HOL evaluation, proof-kernel check, extraction,
+native comparison or Arena result is claimed. The selected checker is
+unchanged. Candidate detection, equality, expansion, rewrite worklist,
+restoration, declaration admission, integration and equivalence proofs remain.

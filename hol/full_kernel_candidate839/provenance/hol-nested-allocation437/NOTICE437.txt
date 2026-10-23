@@ -1,0 +1,39 @@
+Copyright 2026 Fawad Haider. Licensed under Apache-2.0; see LICENSE.
+
+Changed source-only HOL Light port of the LOCAL Rocq naming policy in
+/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/NestedTransform.v:204-232.
+Name equality/membership/uniqueness follow Syntax.v:9-36. rec_name is actually
+defined in Inductive.v:48, NOT InductiveUtils.v (which was inspected).
+Left-to-right map_result is Inductive.v:209-213. Local allocation regressions
+appear in NestedTransform.v:645-661. No integration or admission rule is added.
+
+Algorithmic ancestry: Mario Carneiro and Lean4Lean contributors,
+Lean4Lean/Inductive/Add.lean, pinned commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Apache-2.0 LICENSE reproduced unchanged.
+Pinned upstream mkUniqueName:575-582 uses n.appendIndexAfter i, tests env.contains
+on that candidate only, and updates nextIdx. Its caller uses `_nested ++ J_name`
+at line649 and Name.replacePrefix at line660. THIS COMPONENT IS NOT EQUIVALENCE
+TO THAT WHOLE LEAN ALGORITHM. The local Rocq policy generates _rocq_nested with
+a numeric component and checks the auxiliary, recursor, and every renamed
+constructor against used names AND against duplicates within that reservation.
+Explicit fuel and Unsupported declines are local policy, not upstream errors.
+
+Held HOL420 name helpers and HOL432 converse proofs are read-only dependencies.
+The executable definitions need only held420 (which needs hol/syntax.ml).
+The optional property file also needs held432. No loader is edited. Relative
+hol/syntax.ml resolution is inherited and remains untested. HOL num-list string
+segments and natural numeric segments are unrestricted; only byte-valued lists
+have a direct Rocq string interpretation. No encoding/representation theorem
+or external Lean Name API equivalence is supplied.
+
+All target definitions, proof scripts, and fixtures are UNCOMPILED. No prover,
+target compiler, native checker, oracle verdict, or default integration was run
+or introduced. Finite Python source models are not proof extraction or a kernel
+check. Session75 stays stopped; this work grants no new execution authority.
+Restoration/renaming safety outside this allocator remains the parent's scope.
+
+model437.py adapts the bounded preload/token-binding/effect-denial approach of
+held model432.py (42abde498f303dcdf1d42a653646d1b40c37f874a163ba5218b4d85e9d367076),
+using pinned helper223 (bcb0c1259a67eb2b49b66fbb4bae1175c678e2366214e25666a01c848bbdccbb).
+Its models, allocation schemas, and mutation controls are new. No existing
+source/model/helper, repository, Solidity, stopped session, or git state is edited.

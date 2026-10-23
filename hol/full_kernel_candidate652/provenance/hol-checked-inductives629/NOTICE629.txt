@@ -1,0 +1,23 @@
+Checked inductive HOL Light port629
+==================================
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under Apache License, Version2.0; LICENSE is the exact unmodified
+vendor/lean4lean/LICENSE. ROCQ_NOTICE629.txt retains local rocq/NOTICE verbatim.
+
+Changed full447 HOL reimplementation of local rocq/Inductive.v:
+103-127 check_inductive_types;149-169 check_positive;
+215-297 check_field,check_ctors,check_all_ctors,large_elimination,k_target.
+Supporting local references: InductiveUtils.v,Declarations.v,Syntax.v.
+
+Algorithmic provenance: Lean4Lean, Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean; recorded reference commit
+8223d223ed98661882e95d9d6a7126df7097cd76, as attributed in local rocq/NOTICE.
+Lean4Lean/Inductive/Add.lean1-305 was read for provenance/context and its actual
+file bytes are pinned. The direct behavior target is the local Rocq version,
+not a claim of identical upstream Lean scheduling/representation.
+No upstream verification assumptions, axioms or unfinished proofs are imported.
+
+Canonical HOL dependencies are separately pinned and reused without changes.
+No new datatypes, verdict oracle or externally supplied proof callback.
+All definitions and45 proposed scripts are UNCOMPILED source. No native,
+model, Arena or whole-kernel soundness result is asserted.

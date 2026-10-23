@@ -1,0 +1,23 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Fresh held-entry integration for the independent Lean4Lean HOL port.
+Changed files: entry_flatten650655.ml and entry_file642655.ml adapt frozen650
+and642 top-level proof declarations to delayed thunks. Statements/tactics
+are unchanged except two650 helper theorem references now invoke their held
+proof functions. Other stage entries bind existing functions without copying
+or modifying their algorithms, fixtures, expectations or checker logic.
+
+Inherited algorithmic ancestry: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76.642's notices attribute its
+frontend/replay.ml, frontend/rocq_adapter.ml and checked Rocq admissions;
+650's notices attribute Rocq NestedTransform.v231-235 and Inductive.v46-47.
+These are ancestry references, not new semantic-equivalence claims.
+
+Stock HOL Light APIs are linked, not copied or modified here. Their original
+copyrights/licenses remain required in the enclosing652 stock bundle.650's
+list operations credit University of Cambridge1998, John Harrison1998-2007,
+Marco Maggesi2014. All original project/stock notices must be retained.
+LICENSE is the unchanged Apache-2.0 text retained by650/498.
+
+SOURCE ONLY / UNCOMPILED / UNEXECUTED. No new axiom, unsafe theorem cast,
+supplied checker verdict, authority grant, runtime evidence or native loader.

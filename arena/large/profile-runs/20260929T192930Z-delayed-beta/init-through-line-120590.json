@@ -1,0 +1,60 @@
+{
+  "audit_problem_count": 0,
+  "audit_problems": [],
+  "batches": 1704,
+  "byte_identity": "original bytes from byte zero through the newline ending the target declaration",
+  "declaration_records": 1704,
+  "dependency_closed_in_input_order": true,
+  "expression_nodes": 107797,
+  "format_metadata": {
+    "exporter": {
+      "name": "lean4export",
+      "version": "3.1.0"
+    },
+    "format": {
+      "version": "3.1.0"
+    },
+    "lean": {
+      "githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+      "version": "4.34.1"
+    }
+  },
+  "last_declaration": {
+    "line": 120590,
+    "names": [
+      "Array.foldlM_toList.aux._unary"
+    ],
+    "tag": "thm",
+    "wire_record": {
+      "thm": {
+        "all": [
+          10948
+        ],
+        "levelParams": [
+          14,
+          118,
+          1842
+        ],
+        "name": 10948,
+        "type": 101708,
+        "value": 107796
+      }
+    }
+  },
+  "limitations": [
+    "This audit checks transport dependencies, not typing or logical validity.",
+    "The prefix is a diagnostic derivative, not the full Arena input or a new Arena case.",
+    "No separate checker execution is performed on the extracted prefix."
+  ],
+  "missing_constant_names": [],
+  "observed_full_run_batch_order_matches_prefix": true,
+  "prefix_bytes": 6253436,
+  "prefix_lines": 120590,
+  "prefix_path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.ndjson",
+  "prefix_sha256": "dce08f76af5892eda7110dc6b5d382d2a1a8cc07bcd8a0116b7e4b5d50a23877",
+  "reachable_expression_nodes": 107797,
+  "referenced_constant_names": 1861,
+  "source_integrity_verified_by_run": true,
+  "source_sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+  "source_sha256_reverified_at_extraction": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a"
+}

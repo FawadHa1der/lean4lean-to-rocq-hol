@@ -1,0 +1,32 @@
+Checked minors630: changed full447 HOL source port
+================================================
+Copyright 2026 Fawad Haider. Licensed under Apache License 2.0.
+LICENSE is the exact unmodified vendored Lean4Lean Apache-2.0 license.
+ROCQ_NOTICE630.txt retains the complete local Rocq port attribution notice.
+
+Direct behavioral reference:
+/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Inductive.v
+lines321-336 build_recursive_args,355-381 build_minors,383-393 build_all_minors.
+The existing521 build_ihs corresponds to lines338-353, not reimplemented here.
+Checked telescope/application behavior is reused from canonical606, itself
+a changed port of InductiveUtils.v91-162 using concrete597 kernel functions.
+
+Algorithmic ancestry: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean, locally attributed commit
+8223d223ed98661882e95d9d6a7126df7097cd76.
+Vendored Lean4Lean/Inductive/Add.lean331-400 was inspected for ancestry.
+The direct specification for630 is the local Rocq implementation, not an
+assertion that every upstream continuation/local-scope policy is identical.
+No network verification of that historical commit was performed.
+
+Changes: three actual HOL list-recursive definitions over canonical full447
+expressions,489 locals,491 results/state,493 declarations and516 records.
+521 supplies recursive-app recognition/raw indices/IH construction;606
+supplies actual checked telescope opening/parameter application through597.
+Pair projections make the right-nested opening payload explicit. EL is used
+only behind the exact motive owner bound. No additional admission check,
+datatype, caller-supplied verdict, reduced syntax, derive or admit is added.
+
+All source and26 proposed HOL scripts are UNCOMPILED / UNEXECUTED.
+No logical soundness, HOL parse/typecheck, native result or admission theorem
+is claimed. See SOURCE_REPORT630.txt for remaining obligations.

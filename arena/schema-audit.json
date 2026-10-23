@@ -1,0 +1,317 @@
+{
+  "audit_version": 1,
+  "errors": [],
+  "examples": {
+    "implicit_level_zero_reference": [
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 3
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 62
+      },
+      {
+        "case": "bugs/ctor-num-fields",
+        "detail": null,
+        "line": 3
+      },
+      {
+        "case": "bugs/ctor-num-fields",
+        "detail": null,
+        "line": 30
+      },
+      {
+        "case": "bugs/k-rec-conv",
+        "detail": null,
+        "line": 14
+      },
+      {
+        "case": "bugs/k-rec-conv",
+        "detail": null,
+        "line": 62
+      },
+      {
+        "case": "bugs/large-elim-param",
+        "detail": null,
+        "line": 23
+      },
+      {
+        "case": "bugs/large-elim-param",
+        "detail": null,
+        "line": 27
+      }
+    ],
+    "implicit_name_zero_reference": [
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 2
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 8
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 11
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 13
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 14
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 17
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 21
+      },
+      {
+        "case": "bugs/constlevels",
+        "detail": null,
+        "line": 22
+      }
+    ],
+    "nonconsecutive_index": [
+      {
+        "case": "other/level-index-out-of-order",
+        "detail": {
+          "il": 2
+        },
+        "line": 3
+      },
+      {
+        "case": "other/level-index-out-of-order",
+        "detail": {
+          "il": 1
+        },
+        "line": 4
+      },
+      {
+        "case": "other/sparse-name-index",
+        "detail": {
+          "in": 2
+        },
+        "line": 2
+      },
+      {
+        "case": "other/sparse-name-index",
+        "detail": {
+          "ie": 4
+        },
+        "line": 3
+      }
+    ]
+  },
+  "explicit_index_zero": {
+    "ie": 212
+  },
+  "exporters": {
+    "handcrafted:0.1.0": 2,
+    "lean4export:3.1.0": 211
+  },
+  "field_counts": {
+    "app": {
+      "arg": 822376,
+      "fn": 822376
+    },
+    "axiom": {
+      "isUnsafe": 36,
+      "levelParams": 36,
+      "name": 36,
+      "type": 36
+    },
+    "const": {
+      "name": 19556,
+      "us": 19556
+    },
+    "def": {
+      "all": 6482,
+      "hints": 6482,
+      "levelParams": 6482,
+      "name": 6482,
+      "safety": 6482,
+      "type": 6482,
+      "value": 6482
+    },
+    "forallE": {
+      "binderInfo": 71998,
+      "body": 71998,
+      "name": 71998,
+      "type": 71998
+    },
+    "inductive": {
+      "ctors": 1122,
+      "recs": 1122,
+      "types": 1122
+    },
+    "inductive.ctors": {
+      "cidx": 1367,
+      "induct": 1367,
+      "isUnsafe": 1367,
+      "levelParams": 1367,
+      "name": 1367,
+      "numFields": 1367,
+      "numParams": 1367,
+      "type": 1367
+    },
+    "inductive.recs": {
+      "all": 1131,
+      "isUnsafe": 1131,
+      "k": 1131,
+      "levelParams": 1131,
+      "name": 1131,
+      "numIndices": 1131,
+      "numMinors": 1131,
+      "numMotives": 1131,
+      "numParams": 1131,
+      "rules": 1131,
+      "type": 1131
+    },
+    "inductive.recs.rules": {
+      "ctor": 1369,
+      "nfields": 1369,
+      "rhs": 1369
+    },
+    "inductive.types": {
+      "all": 1123,
+      "ctors": 1123,
+      "isRec": 1123,
+      "isReflexive": 1123,
+      "isUnsafe": 1123,
+      "levelParams": 1123,
+      "name": 1123,
+      "numIndices": 1123,
+      "numNested": 1123,
+      "numParams": 1123,
+      "type": 1123
+    },
+    "lam": {
+      "binderInfo": 109427,
+      "body": 109427,
+      "name": 109427,
+      "type": 109427
+    },
+    "letE": {
+      "body": 5627,
+      "name": 5627,
+      "nondep": 5627,
+      "type": 5627,
+      "value": 5627
+    },
+    "meta": {
+      "exporter": 213,
+      "format": 213,
+      "lean": 213
+    },
+    "num": {
+      "i": 30486,
+      "pre": 30486
+    },
+    "opaque": {
+      "all": 24,
+      "isUnsafe": 24,
+      "levelParams": 24,
+      "name": 24,
+      "type": 24,
+      "value": 24
+    },
+    "proj": {
+      "idx": 1217,
+      "struct": 1217,
+      "typeName": 1217
+    },
+    "quot": {
+      "kind": 60,
+      "levelParams": 60,
+      "name": 60,
+      "type": 60
+    },
+    "str": {
+      "pre": 58149,
+      "str": 58149
+    },
+    "thm": {
+      "all": 6171,
+      "levelParams": 6171,
+      "name": 6171,
+      "type": 6171,
+      "value": 6171
+    }
+  },
+  "format_versions": {
+    "3.1.0": 213
+  },
+  "isReflexive": {
+    "false": 1100,
+    "true": 23
+  },
+  "lean_versions": {
+    "4.29.1": 16,
+    "4.34.1": 197
+  },
+  "manifest_sha256": "007fbef161abb973fb52fa6ab8513ef42e26938cd9ded614f082c967b2cbf81a",
+  "nested_counts": {
+    "ctors": 1367,
+    "recs": 1131,
+    "rules": 1369,
+    "types": 1123
+  },
+  "note": "Observational inventory, not a formal schema or checker verdict. Rejected proof inputs are included.",
+  "observation_counts": {
+    "implicit_level_zero_reference": 326,
+    "implicit_name_zero_reference": 13829,
+    "nonconsecutive_index": 4
+  },
+  "record_counts": {
+    "app": 822376,
+    "axiom": 36,
+    "bvar": 10687,
+    "const": 19556,
+    "def": 6482,
+    "forallE": 71998,
+    "imax": 69,
+    "inductive": 1122,
+    "lam": 109427,
+    "letE": 5627,
+    "max": 252,
+    "meta": 213,
+    "natVal": 522,
+    "num": 30486,
+    "opaque": 24,
+    "param": 438,
+    "proj": 1217,
+    "quot": 60,
+    "sort": 986,
+    "str": 58149,
+    "strVal": 150,
+    "succ": 420,
+    "thm": 6171
+  },
+  "scanned_bytes": 58569103,
+  "scanned_cases": 213,
+  "scanned_lines": 1146468,
+  "unavailable_cases": [
+    "cedar",
+    "con-leche",
+    "cslib",
+    "init",
+    "mathlib",
+    "navier-stokes-euler",
+    "std"
+  ]
+}

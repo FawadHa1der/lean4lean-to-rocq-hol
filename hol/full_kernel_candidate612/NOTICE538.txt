@@ -1,0 +1,15 @@
+Source538 bounded alpha comparison and delta-selection helpers
+================================================================
+Copyright2026 Fawad Haider. Apache License2.0;unmodified license in LICENSE.
+Changed port of local rocq/Checker.v940-974(core_alpha/core_alpha_eq),
+1028-1075(core_delta_info/head/sides/erasing_delta),using Syntax.v hints and
+existing full447/480/489/491/493/532 representations and helper definitions.
+Original attribution in pinned rocq/NOTICE. Algorithmic upstream Lean4Lean,
+Mario Carneiro and contributors,commit8223d223ed98661882e95d9d6a7126df7097cd76.
+Local fuel/resource policies and optimizations are not blanket upstream claims.
+
+Six actual HOL functions,not a host-language verdict wrapper. All26 proposed
+proof scripts are UNCOMPILED. The handwritten Python model has no extracted
+target relation. No default runtime integration or acceptance theorem is added.
+Pins identify exact evidence bytes,not proof correctness. Prior safeguards
+and trust requirements remain unchanged.

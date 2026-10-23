@@ -1,0 +1,305 @@
+{
+  "baselines": [
+    {
+      "elapsed_seconds": 3.541492,
+      "exit_code": 0,
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/declarations",
+      "sha256": "d377134466059ac7e75ad492d897386bb34d4475f5c62d4e017cfe9704856224",
+      "status": "accepted",
+      "stderr": "HOL accept: line=128 checked=3 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 2.817652,
+      "exit_code": 0,
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/declarations",
+      "sha256": "645d6f2f59e965b0995d9a46d1351201a27f461c7c160366a705957fb85410bd",
+      "status": "accepted",
+      "stderr": "HOL accept: line=110 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    }
+  ],
+  "cases": [
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "elapsed_seconds": 8.533605,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/original",
+      "sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=199 checked=4 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "elapsed_seconds": 8.346899,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/universe-zero",
+      "sha256": "a3cc3de449c4a39b4c14dfe136afd527d233bd425210bfdcd8fc7d139e4727f7",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=236 checked=4 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "elapsed_seconds": 7.881395,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/original",
+      "sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=205 checked=3 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "elapsed_seconds": 7.618562,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/universe-zero",
+      "sha256": "d6dcadf0556a8f0abc57309124f9cf1289c72941d2a8066ed50852caa5f094c0",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=231 checked=3 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    }
+  ],
+  "checker": {
+    "after": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72261684,
+        "mtime_ns": 1790717821731370312,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_projection_audit/diagnose_recursor_exports.py",
+        "sha256": "433792cb353167de6d5b1fb747897faf2c9cc11275f83c8d0e8d24f955c88a06",
+        "size": 5869
+      },
+      {
+        "device": 16777232,
+        "inode": 72260201,
+        "mtime_ns": 1790717490319283839,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_projection_audit/projection_audit.py",
+        "sha256": "8094cfea89f22863fc17f338366a1ddd2348a8fa94278ac9273b4391a3b447db",
+        "size": 18247
+      },
+      {
+        "device": 16777232,
+        "inode": 72072600,
+        "mtime_ns": 1790716364891626358,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/reports/hol-projection-primitive-runtime.json",
+        "sha256": "64313f76a1805d102cdb0a4779e380b760a0d3feb4b40c62b5acbb7d48f946dc",
+        "size": 11888
+      },
+      {
+        "device": 16777232,
+        "inode": 71332412,
+        "mtime_ns": 1790716290920781973,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/hol-check.py",
+        "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+        "size": 24612
+      }
+    ],
+    "before": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72261684,
+        "mtime_ns": 1790717821731370312,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_projection_audit/diagnose_recursor_exports.py",
+        "sha256": "433792cb353167de6d5b1fb747897faf2c9cc11275f83c8d0e8d24f955c88a06",
+        "size": 5869
+      },
+      {
+        "device": 16777232,
+        "inode": 72260201,
+        "mtime_ns": 1790717490319283839,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_projection_audit/projection_audit.py",
+        "sha256": "8094cfea89f22863fc17f338366a1ddd2348a8fa94278ac9273b4391a3b447db",
+        "size": 18247
+      },
+      {
+        "device": 16777232,
+        "inode": 72072600,
+        "mtime_ns": 1790716364891626358,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/reports/hol-projection-primitive-runtime.json",
+        "sha256": "64313f76a1805d102cdb0a4779e380b760a0d3feb4b40c62b5acbb7d48f946dc",
+        "size": 11888
+      },
+      {
+        "device": 16777232,
+        "inode": 71332412,
+        "mtime_ns": 1790716290920781973,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/hol-check.py",
+        "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+        "size": 24612
+      }
+    ],
+    "snapshotted": false,
+    "unchanged": true
+  },
+  "finished_at": "2026-09-29T21:42:02.894505+00:00",
+  "manifest_sha256": "cfefff7e76c3b73431a76541ec5ea30fdd72c4d268debda68df572a241116e94",
+  "runtime": {
+    "bootstrap_matches": true,
+    "differences": [
+      {
+        "path": "hol/core.ml",
+        "review": [
+          "23478ec1c1619a7312eb8168270cdc3f80e8d27e1cae7b8d548bcc9a5f77b704",
+          23383
+        ],
+        "runtime": [
+          "acd440b00fd104ac2d9cb6d6ce9cd14e38c3a6f299b99baa191c960472fd9c0a",
+          22493
+        ]
+      },
+      {
+        "path": "hol/environment.ml",
+        "review": [
+          "a32ded08e913408ea149850a4e5be531b8b3df42c6e765a67a17f86003f5af5f",
+          50240
+        ],
+        "runtime": [
+          "f87ad8b7ebdbf20a6b5e05de6b1814fd5c590fe07162efa125b2fd031a0ed7f0",
+          46155
+        ]
+      },
+      {
+        "path": "hol/environment_rules.ml",
+        "review": [
+          "c4a21e8336764caf64abab5725e05b78b3659590b2e855ce9b6d630cd887a37a",
+          21715
+        ],
+        "runtime": [
+          "f409066bc852c510509ecc8755ba4138cf3f6bfd6372f1a2afee46499fb02cad",
+          20906
+        ]
+      },
+      {
+        "path": "hol/primitive_contracts.ml",
+        "review": [
+          "0c6be8cb520b2782f6a1fdc603eee59d79ca7b3176185a894a88c86856f2b027",
+          8815
+        ],
+        "runtime": [
+          "22ad8c57225ab81d7c368a26dc6dcaba9949648a7d8e363dcb69b05505de938d",
+          5987
+        ]
+      },
+      {
+        "path": "hol/primitive_validation.ml",
+        "review": [
+          "c38b22ed18b106145dd1b95dc90d9eb7af2993f9ee36fb836b332566013bcb39",
+          10468
+        ],
+        "runtime": [
+          "7d36541c8d03aea8062de066cce1115f4022ed89d6851fe7b86c122f8d3218bb",
+          8015
+        ]
+      },
+      {
+        "path": "hol/projection_entries.ml",
+        "review": [
+          "c03a5bbda56e20e6bba5cad927ba473a7c0ecb6822575413560962ab17db99c5",
+          1006
+        ],
+        "runtime": [
+          "38f139a1e8ea5e97be625751ea1c2b65af24c954e1a604308b2095a1d43a0bd1",
+          560
+        ]
+      },
+      {
+        "path": "hol/projection_syntax.ml",
+        "review": [
+          "3760af2e9672c4a0c49a15c43c3ab6523a11f06dd30251bc8387f7cfed904da9",
+          4793
+        ],
+        "runtime": [
+          "70ebfee5164e9cbc209b6abf23dac41072a101fcbd9e3d2b24c131c12f46a1bb",
+          3639
+        ]
+      }
+    ],
+    "limitations": [
+      "Two matching filesystem snapshots, not an attestation of executed bytes or runtime state.",
+      "No HOL toolchain, external OCaml libraries, dynamic libraries, OS, or semantic attestation.",
+      "Literal-needs closure under the project loader contract; not analysis of arbitrary OCaml.",
+      "Bytecode and interfaces are hashed; correspondence to build sources is not established.",
+      "Edits after READY and transient changes restored between observations may go undetected."
+    ],
+    "manifest_sha256": "64313f76a1805d102cdb0a4779e380b760a0d3feb4b40c62b5acbb7d48f946dc",
+    "matches_review": false,
+    "socket": "/private/tmp/hol-run-3qgkb1d2/s"
+  },
+  "summary": {
+    "baseline_gaps": 0,
+    "baselines_accepted": 2,
+    "complete": true,
+    "coverage_gaps": 0,
+    "covered": 4,
+    "executed": 4,
+    "failures": 0,
+    "statuses": {
+      "correct_accept": 4
+    },
+    "total": 4
+  }
+}

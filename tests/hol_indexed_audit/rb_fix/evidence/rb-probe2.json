@@ -1,0 +1,978 @@
+{
+  "bootstrap_sha256": "e501e72f7fceaaf48a9e04b6b9edf11aa4f09636a92bc1e161ce1ecccdf8a884",
+  "conversion_probe_sha256": "bc363bf4be72e21aa0c425c6cf799377a934a7db5d63bc70235c9fba17c13e9e",
+  "exit_code": 0,
+  "inputs": {
+    "build/frontend/hol_input.cmi": "e869b853bdf15e8b3031c078070442135f72b0fdc88559bd4a1d4f6f880f7ddd",
+    "build/frontend/hol_input.cmo": "24c15fcdbf3ce3b4848c9298ea8c071377c76e81b0018198dc76fbdfe746f7be",
+    "build/frontend/replay.cmi": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+    "build/frontend/replay.cmo": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+    "build/frontend/wire.cmi": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+    "build/frontend/wire.cmo": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+    "frontend/hol_check.ml": "6c1cce43373b9247e5b64aa893bf86ba9cf9ec3662905554ffc55b45cf56e0bf",
+    "frontend/hol_input.ml": "b2873d0c1ab057ab4e4185b8344355bd1ef9d1cfd87d3dc792863f55dbaefb13",
+    "frontend/hol_server.ml": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+    "frontend/replay.ml": "4be904adc035610223b13f71479da21969729f40a4142b80374d4b5e50ddb228",
+    "frontend/wire.ml": "4e204f626e9dd61a049c5d1bc60b2aaaddab597e7770e0922c68fa017d82d802",
+    "hol/core.ml": "1b26e9ada6b56b04b6ef4c5636b45470fcf4d9a4a1dcc48bd27acb4e7d70270a",
+    "hol/declarations.ml": "6163d695caa096eab0ef1a95c7e04e980c7a4e9d8a3183c7124202c4a07c6cc0",
+    "hol/environment.ml": "f056e4d2e8e17ab3ac8b882886979157717a8f53608a8e40caeace7ea3b7660f",
+    "hol/environment_rules.ml": "bc91e7a6067ba40d08c88b50057d69a6c389559c2e1240cb5322ee7a942fe497",
+    "hol/family_entries.ml": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+    "hol/family_syntax.ml": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+    "hol/indexed_entries.ml": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+    "hol/indexed_syntax.ml": "f57f23028e8918533e092cb1254be3a763af2b601ca9f1df670a224b1adb5d2c",
+    "hol/indexed_tests.ml": "f9eb2af8ac20a1d3512458c4c69cff8903b0473679c38c1534754505efb11fe8",
+    "hol/inductive_entries.ml": "29bb89870aca8d9c0be88632ab7eafe8dc74214fc54762292aa669d9b17102d8",
+    "hol/inductive_model.ml": "785bd03b57e427387958b43f9b6abbdbb003142abbf35619b3b904f35af11c61",
+    "hol/inductive_syntax.ml": "6d11be9da91c0f0b608b9b3e3eaf9ed9fd53120f3148bdfca3d4bbdaef387791",
+    "hol/judgments.ml": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+    "hol/nested_names.ml": "222eff31256425ec96664bbf57d014a6762bc57a7206eef07a3d2a06204a371d",
+    "hol/primitive_names.ml": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+    "hol/syntax.ml": "ee6eba129b3eaeb91a41d56f640589a774f3f95402df7f7cf4c99f2ce86b0849"
+  },
+  "kind": "private-direct-HOL-probe-not-server-readiness",
+  "log_bytes": 392669,
+  "log_sha256": "2bc49f958867a85adffe1ef3956e416b0a96c1a797006f72463791f2063ac7d7",
+  "project_snapshot_after": {
+    "bootstrap": {
+      "sha256": "4c5343570ee79fb2577f24ecac4e04de89246c728188a1120056b4cc2b22d66d",
+      "size_bytes": 899
+    },
+    "inputs": [
+      {
+        "identity": {
+          "ctime_ns": 1790715783471637379,
+          "dev": 16777232,
+          "ino": 72058990,
+          "mode": 33188,
+          "mtime_ns": 1790715783471550587,
+          "size": 10645,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmi",
+        "role": "bridge-interface",
+        "sha256": "e869b853bdf15e8b3031c078070442135f72b0fdc88559bd4a1d4f6f880f7ddd",
+        "size_bytes": 10645
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783472001586,
+          "dev": 16777232,
+          "ino": 72058992,
+          "mode": 33188,
+          "mtime_ns": 1790715783471918086,
+          "size": 7947,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "24c15fcdbf3ce3b4848c9298ea8c071377c76e81b0018198dc76fbdfe746f7be",
+        "size_bytes": 7947
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471814878,
+          "dev": 16777232,
+          "ino": 72058991,
+          "mode": 33188,
+          "mtime_ns": 1790715783471739629,
+          "size": 9865,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmi",
+        "role": "bridge-interface",
+        "sha256": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+        "size_bytes": 9865
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471448879,
+          "dev": 16777232,
+          "ino": 72058989,
+          "mode": 33188,
+          "mtime_ns": 1790715783471345546,
+          "size": 11562,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+        "size_bytes": 11562
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471245046,
+          "dev": 16777232,
+          "ino": 72058988,
+          "mode": 33188,
+          "mtime_ns": 1790715783471169588,
+          "size": 12005,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmi",
+        "role": "bridge-interface",
+        "sha256": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+        "size_bytes": 12005
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471049297,
+          "dev": 16777232,
+          "ino": 72058987,
+          "mode": 33188,
+          "mtime_ns": 1790715783470973338,
+          "size": 22663,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+        "size_bytes": 22663
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463380979,
+          "dev": 16777232,
+          "ino": 72058951,
+          "mode": 33188,
+          "mtime_ns": 1790715783463305021,
+          "size": 12301,
+          "uid": 501
+        },
+        "path": "frontend/hol_check.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6c1cce43373b9247e5b64aa893bf86ba9cf9ec3662905554ffc55b45cf56e0bf",
+        "size_bytes": 12301
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463199063,
+          "dev": 16777232,
+          "ino": 72058950,
+          "mode": 33188,
+          "mtime_ns": 1790715783463117522,
+          "size": 9438,
+          "uid": 501
+        },
+        "path": "frontend/hol_server.ml",
+        "role": "hol-source-dependency",
+        "sha256": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+        "size_bytes": 9438
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465691266,
+          "dev": 16777232,
+          "ino": 72058963,
+          "mode": 33188,
+          "mtime_ns": 1790715783465612183,
+          "size": 20432,
+          "uid": 501
+        },
+        "path": "hol/core.ml",
+        "role": "hol-source-dependency",
+        "sha256": "1b26e9ada6b56b04b6ef4c5636b45470fcf4d9a4a1dcc48bd27acb4e7d70270a",
+        "size_bytes": 20432
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464557519,
+          "dev": 16777232,
+          "ino": 72058957,
+          "mode": 33188,
+          "mtime_ns": 1790715783464473977,
+          "size": 4749,
+          "uid": 501
+        },
+        "path": "hol/declarations.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6163d695caa096eab0ef1a95c7e04e980c7a4e9d8a3183c7124202c4a07c6cc0",
+        "size_bytes": 4749
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715787215673405,
+          "dev": 16777232,
+          "ino": 72058954,
+          "mode": 33188,
+          "mtime_ns": 1790715787215673405,
+          "size": 37403,
+          "uid": 501
+        },
+        "path": "hol/environment.ml",
+        "role": "hol-source-dependency",
+        "sha256": "f056e4d2e8e17ab3ac8b882886979157717a8f53608a8e40caeace7ea3b7660f",
+        "size_bytes": 37403
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466349390,
+          "dev": 16777232,
+          "ino": 72058966,
+          "mode": 33188,
+          "mtime_ns": 1790715783466256598,
+          "size": 18969,
+          "uid": 501
+        },
+        "path": "hol/environment_rules.ml",
+        "role": "hol-source-dependency",
+        "sha256": "bc91e7a6067ba40d08c88b50057d69a6c389559c2e1240cb5322ee7a942fe497",
+        "size_bytes": 18969
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465878682,
+          "dev": 16777232,
+          "ino": 72058964,
+          "mode": 33188,
+          "mtime_ns": 1790715783465791808,
+          "size": 1367,
+          "uid": 501
+        },
+        "path": "hol/family_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+        "size_bytes": 1367
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464367602,
+          "dev": 16777232,
+          "ino": 72058956,
+          "mode": 33188,
+          "mtime_ns": 1790715783464275061,
+          "size": 4906,
+          "uid": 501
+        },
+        "path": "hol/family_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+        "size_bytes": 4906
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464143728,
+          "dev": 16777232,
+          "ino": 72058955,
+          "mode": 33188,
+          "mtime_ns": 1790715783464052936,
+          "size": 1283,
+          "uid": 501
+        },
+        "path": "hol/indexed_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+        "size_bytes": 1283
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466764264,
+          "dev": 16777232,
+          "ino": 72058968,
+          "mode": 33188,
+          "mtime_ns": 1790715783466684347,
+          "size": 7258,
+          "uid": 501
+        },
+        "path": "hol/indexed_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "f57f23028e8918533e092cb1254be3a763af2b601ca9f1df670a224b1adb5d2c",
+        "size_bytes": 7258
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465494558,
+          "dev": 16777232,
+          "ino": 72058962,
+          "mode": 33188,
+          "mtime_ns": 1790715783465401767,
+          "size": 2865,
+          "uid": 501
+        },
+        "path": "hol/inductive_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "29bb89870aca8d9c0be88632ab7eafe8dc74214fc54762292aa669d9b17102d8",
+        "size_bytes": 2865
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466555681,
+          "dev": 16777232,
+          "ino": 72058967,
+          "mode": 33188,
+          "mtime_ns": 1790715783466467598,
+          "size": 12497,
+          "uid": 501
+        },
+        "path": "hol/inductive_model.ml",
+        "role": "hol-source-dependency",
+        "sha256": "785bd03b57e427387958b43f9b6abbdbb003142abbf35619b3b904f35af11c61",
+        "size_bytes": 12497
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464749268,
+          "dev": 16777232,
+          "ino": 72058958,
+          "mode": 33188,
+          "mtime_ns": 1790715783464661685,
+          "size": 5468,
+          "uid": 501
+        },
+        "path": "hol/inductive_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6d11be9da91c0f0b608b9b3e3eaf9ed9fd53120f3148bdfca3d4bbdaef387791",
+        "size_bytes": 5468
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465287934,
+          "dev": 16777232,
+          "ino": 72058961,
+          "mode": 33188,
+          "mtime_ns": 1790715783465210767,
+          "size": 2173,
+          "uid": 501
+        },
+        "path": "hol/judgments.ml",
+        "role": "hol-source-dependency",
+        "sha256": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+        "size_bytes": 2173
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466103349,
+          "dev": 16777232,
+          "ino": 72058965,
+          "mode": 33188,
+          "mtime_ns": 1790715783466000307,
+          "size": 1740,
+          "uid": 501
+        },
+        "path": "hol/nested_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "222eff31256425ec96664bbf57d014a6762bc57a7206eef07a3d2a06204a371d",
+        "size_bytes": 1740
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464932518,
+          "dev": 16777232,
+          "ino": 72058959,
+          "mode": 33188,
+          "mtime_ns": 1790715783464857810,
+          "size": 2398,
+          "uid": 501
+        },
+        "path": "hol/primitive_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+        "size_bytes": 2398
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463724229,
+          "dev": 16777232,
+          "ino": 72058953,
+          "mode": 33188,
+          "mtime_ns": 1790715783463646646,
+          "size": 2700,
+          "uid": 501
+        },
+        "path": "hol/syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "ee6eba129b3eaeb91a41d56f640589a774f3f95402df7f7cf4c99f2ce86b0849",
+        "size_bytes": 2700
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783468321969,
+          "dev": 16777232,
+          "ino": 72058975,
+          "mode": 33188,
+          "mtime_ns": 1790715783468247386,
+          "size": 24524,
+          "uid": 501
+        },
+        "path": "scripts/hol-check.py",
+        "role": "supervisor-source",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size_bytes": 24524
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783467950470,
+          "dev": 16777232,
+          "ino": 72058973,
+          "mode": 33188,
+          "mtime_ns": 1790715783467874262,
+          "size": 235,
+          "uid": 501
+        },
+        "path": "scripts/hol-server.sh",
+        "role": "launcher-source",
+        "sha256": "78b7567fcc274f81cdcce6e688d80f10434195786b71889bf777d2b8ca801b38",
+        "size_bytes": 235
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783468142011,
+          "dev": 16777232,
+          "ino": 72058974,
+          "mode": 33188,
+          "mtime_ns": 1790715783468062220,
+          "size": 1661,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-env.sh",
+        "role": "launcher-source",
+        "sha256": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903",
+        "size_bytes": 1661
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783467168430,
+          "dev": 16777232,
+          "ino": 72058970,
+          "mode": 33188,
+          "mtime_ns": 1790715783467064305,
+          "size": 327,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-exec.sh",
+        "role": "launcher-source",
+        "sha256": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+        "size_bytes": 327
+      }
+    ],
+    "literal_needs": {
+      "frontend/hol_check.ml": [],
+      "frontend/hol_server.ml": [],
+      "hol/core.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/declarations.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/environment.ml": [
+        "hol/core.ml",
+        "hol/environment_rules.ml",
+        "hol/inductive_model.ml"
+      ],
+      "hol/environment_rules.ml": [
+        "hol/family_entries.ml",
+        "hol/family_syntax.ml",
+        "hol/indexed_entries.ml",
+        "hol/indexed_syntax.ml",
+        "hol/inductive_entries.ml",
+        "hol/inductive_syntax.ml",
+        "hol/nested_names.ml",
+        "hol/primitive_names.ml"
+      ],
+      "hol/family_entries.ml": [],
+      "hol/family_syntax.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/indexed_entries.ml": [],
+      "hol/indexed_syntax.ml": [
+        "hol/family_syntax.ml"
+      ],
+      "hol/inductive_entries.ml": [],
+      "hol/inductive_model.ml": [
+        "hol/core.ml"
+      ],
+      "hol/inductive_syntax.ml": [
+        "hol/declarations.ml"
+      ],
+      "hol/judgments.ml": [
+        "hol/syntax.ml"
+      ],
+      "hol/nested_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/primitive_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/syntax.ml": []
+    },
+    "project_root": "/private/tmp/hol-indexed-p2.BLzUH9/rb-probe2",
+    "source_roots": [
+      "hol/environment.ml",
+      "frontend/hol_check.ml",
+      "frontend/hol_server.ml"
+    ]
+  },
+  "project_snapshot_before": {
+    "bootstrap": {
+      "sha256": "4c5343570ee79fb2577f24ecac4e04de89246c728188a1120056b4cc2b22d66d",
+      "size_bytes": 899
+    },
+    "inputs": [
+      {
+        "identity": {
+          "ctime_ns": 1790715783471637379,
+          "dev": 16777232,
+          "ino": 72058990,
+          "mode": 33188,
+          "mtime_ns": 1790715783471550587,
+          "size": 10645,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmi",
+        "role": "bridge-interface",
+        "sha256": "e869b853bdf15e8b3031c078070442135f72b0fdc88559bd4a1d4f6f880f7ddd",
+        "size_bytes": 10645
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783472001586,
+          "dev": 16777232,
+          "ino": 72058992,
+          "mode": 33188,
+          "mtime_ns": 1790715783471918086,
+          "size": 7947,
+          "uid": 501
+        },
+        "path": "build/frontend/hol_input.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "24c15fcdbf3ce3b4848c9298ea8c071377c76e81b0018198dc76fbdfe746f7be",
+        "size_bytes": 7947
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471814878,
+          "dev": 16777232,
+          "ino": 72058991,
+          "mode": 33188,
+          "mtime_ns": 1790715783471739629,
+          "size": 9865,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmi",
+        "role": "bridge-interface",
+        "sha256": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+        "size_bytes": 9865
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471448879,
+          "dev": 16777232,
+          "ino": 72058989,
+          "mode": 33188,
+          "mtime_ns": 1790715783471345546,
+          "size": 11562,
+          "uid": 501
+        },
+        "path": "build/frontend/replay.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+        "size_bytes": 11562
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471245046,
+          "dev": 16777232,
+          "ino": 72058988,
+          "mode": 33188,
+          "mtime_ns": 1790715783471169588,
+          "size": 12005,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmi",
+        "role": "bridge-interface",
+        "sha256": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+        "size_bytes": 12005
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783471049297,
+          "dev": 16777232,
+          "ino": 72058987,
+          "mode": 33188,
+          "mtime_ns": 1790715783470973338,
+          "size": 22663,
+          "uid": 501
+        },
+        "path": "build/frontend/wire.cmo",
+        "role": "bridge-bytecode",
+        "sha256": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+        "size_bytes": 22663
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463380979,
+          "dev": 16777232,
+          "ino": 72058951,
+          "mode": 33188,
+          "mtime_ns": 1790715783463305021,
+          "size": 12301,
+          "uid": 501
+        },
+        "path": "frontend/hol_check.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6c1cce43373b9247e5b64aa893bf86ba9cf9ec3662905554ffc55b45cf56e0bf",
+        "size_bytes": 12301
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463199063,
+          "dev": 16777232,
+          "ino": 72058950,
+          "mode": 33188,
+          "mtime_ns": 1790715783463117522,
+          "size": 9438,
+          "uid": 501
+        },
+        "path": "frontend/hol_server.ml",
+        "role": "hol-source-dependency",
+        "sha256": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+        "size_bytes": 9438
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465691266,
+          "dev": 16777232,
+          "ino": 72058963,
+          "mode": 33188,
+          "mtime_ns": 1790715783465612183,
+          "size": 20432,
+          "uid": 501
+        },
+        "path": "hol/core.ml",
+        "role": "hol-source-dependency",
+        "sha256": "1b26e9ada6b56b04b6ef4c5636b45470fcf4d9a4a1dcc48bd27acb4e7d70270a",
+        "size_bytes": 20432
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464557519,
+          "dev": 16777232,
+          "ino": 72058957,
+          "mode": 33188,
+          "mtime_ns": 1790715783464473977,
+          "size": 4749,
+          "uid": 501
+        },
+        "path": "hol/declarations.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6163d695caa096eab0ef1a95c7e04e980c7a4e9d8a3183c7124202c4a07c6cc0",
+        "size_bytes": 4749
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715787215673405,
+          "dev": 16777232,
+          "ino": 72058954,
+          "mode": 33188,
+          "mtime_ns": 1790715787215673405,
+          "size": 37403,
+          "uid": 501
+        },
+        "path": "hol/environment.ml",
+        "role": "hol-source-dependency",
+        "sha256": "f056e4d2e8e17ab3ac8b882886979157717a8f53608a8e40caeace7ea3b7660f",
+        "size_bytes": 37403
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466349390,
+          "dev": 16777232,
+          "ino": 72058966,
+          "mode": 33188,
+          "mtime_ns": 1790715783466256598,
+          "size": 18969,
+          "uid": 501
+        },
+        "path": "hol/environment_rules.ml",
+        "role": "hol-source-dependency",
+        "sha256": "bc91e7a6067ba40d08c88b50057d69a6c389559c2e1240cb5322ee7a942fe497",
+        "size_bytes": 18969
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465878682,
+          "dev": 16777232,
+          "ino": 72058964,
+          "mode": 33188,
+          "mtime_ns": 1790715783465791808,
+          "size": 1367,
+          "uid": 501
+        },
+        "path": "hol/family_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+        "size_bytes": 1367
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464367602,
+          "dev": 16777232,
+          "ino": 72058956,
+          "mode": 33188,
+          "mtime_ns": 1790715783464275061,
+          "size": 4906,
+          "uid": 501
+        },
+        "path": "hol/family_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+        "size_bytes": 4906
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464143728,
+          "dev": 16777232,
+          "ino": 72058955,
+          "mode": 33188,
+          "mtime_ns": 1790715783464052936,
+          "size": 1283,
+          "uid": 501
+        },
+        "path": "hol/indexed_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+        "size_bytes": 1283
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466764264,
+          "dev": 16777232,
+          "ino": 72058968,
+          "mode": 33188,
+          "mtime_ns": 1790715783466684347,
+          "size": 7258,
+          "uid": 501
+        },
+        "path": "hol/indexed_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "f57f23028e8918533e092cb1254be3a763af2b601ca9f1df670a224b1adb5d2c",
+        "size_bytes": 7258
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465494558,
+          "dev": 16777232,
+          "ino": 72058962,
+          "mode": 33188,
+          "mtime_ns": 1790715783465401767,
+          "size": 2865,
+          "uid": 501
+        },
+        "path": "hol/inductive_entries.ml",
+        "role": "hol-source-dependency",
+        "sha256": "29bb89870aca8d9c0be88632ab7eafe8dc74214fc54762292aa669d9b17102d8",
+        "size_bytes": 2865
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466555681,
+          "dev": 16777232,
+          "ino": 72058967,
+          "mode": 33188,
+          "mtime_ns": 1790715783466467598,
+          "size": 12497,
+          "uid": 501
+        },
+        "path": "hol/inductive_model.ml",
+        "role": "hol-source-dependency",
+        "sha256": "785bd03b57e427387958b43f9b6abbdbb003142abbf35619b3b904f35af11c61",
+        "size_bytes": 12497
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464749268,
+          "dev": 16777232,
+          "ino": 72058958,
+          "mode": 33188,
+          "mtime_ns": 1790715783464661685,
+          "size": 5468,
+          "uid": 501
+        },
+        "path": "hol/inductive_syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "6d11be9da91c0f0b608b9b3e3eaf9ed9fd53120f3148bdfca3d4bbdaef387791",
+        "size_bytes": 5468
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783465287934,
+          "dev": 16777232,
+          "ino": 72058961,
+          "mode": 33188,
+          "mtime_ns": 1790715783465210767,
+          "size": 2173,
+          "uid": 501
+        },
+        "path": "hol/judgments.ml",
+        "role": "hol-source-dependency",
+        "sha256": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+        "size_bytes": 2173
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783466103349,
+          "dev": 16777232,
+          "ino": 72058965,
+          "mode": 33188,
+          "mtime_ns": 1790715783466000307,
+          "size": 1740,
+          "uid": 501
+        },
+        "path": "hol/nested_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "222eff31256425ec96664bbf57d014a6762bc57a7206eef07a3d2a06204a371d",
+        "size_bytes": 1740
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783464932518,
+          "dev": 16777232,
+          "ino": 72058959,
+          "mode": 33188,
+          "mtime_ns": 1790715783464857810,
+          "size": 2398,
+          "uid": 501
+        },
+        "path": "hol/primitive_names.ml",
+        "role": "hol-source-dependency",
+        "sha256": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+        "size_bytes": 2398
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783463724229,
+          "dev": 16777232,
+          "ino": 72058953,
+          "mode": 33188,
+          "mtime_ns": 1790715783463646646,
+          "size": 2700,
+          "uid": 501
+        },
+        "path": "hol/syntax.ml",
+        "role": "hol-source-dependency",
+        "sha256": "ee6eba129b3eaeb91a41d56f640589a774f3f95402df7f7cf4c99f2ce86b0849",
+        "size_bytes": 2700
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783468321969,
+          "dev": 16777232,
+          "ino": 72058975,
+          "mode": 33188,
+          "mtime_ns": 1790715783468247386,
+          "size": 24524,
+          "uid": 501
+        },
+        "path": "scripts/hol-check.py",
+        "role": "supervisor-source",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size_bytes": 24524
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783467950470,
+          "dev": 16777232,
+          "ino": 72058973,
+          "mode": 33188,
+          "mtime_ns": 1790715783467874262,
+          "size": 235,
+          "uid": 501
+        },
+        "path": "scripts/hol-server.sh",
+        "role": "launcher-source",
+        "sha256": "78b7567fcc274f81cdcce6e688d80f10434195786b71889bf777d2b8ca801b38",
+        "size_bytes": 235
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783468142011,
+          "dev": 16777232,
+          "ino": 72058974,
+          "mode": 33188,
+          "mtime_ns": 1790715783468062220,
+          "size": 1661,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-env.sh",
+        "role": "launcher-source",
+        "sha256": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903",
+        "size_bytes": 1661
+      },
+      {
+        "identity": {
+          "ctime_ns": 1790715783467168430,
+          "dev": 16777232,
+          "ino": 72058970,
+          "mode": 33188,
+          "mtime_ns": 1790715783467064305,
+          "size": 327,
+          "uid": 501
+        },
+        "path": "scripts/toolchain-exec.sh",
+        "role": "launcher-source",
+        "sha256": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+        "size_bytes": 327
+      }
+    ],
+    "literal_needs": {
+      "frontend/hol_check.ml": [],
+      "frontend/hol_server.ml": [],
+      "hol/core.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/declarations.ml": [
+        "hol/judgments.ml"
+      ],
+      "hol/environment.ml": [
+        "hol/core.ml",
+        "hol/environment_rules.ml",
+        "hol/inductive_model.ml"
+      ],
+      "hol/environment_rules.ml": [
+        "hol/family_entries.ml",
+        "hol/family_syntax.ml",
+        "hol/indexed_entries.ml",
+        "hol/indexed_syntax.ml",
+        "hol/inductive_entries.ml",
+        "hol/inductive_syntax.ml",
+        "hol/nested_names.ml",
+        "hol/primitive_names.ml"
+      ],
+      "hol/family_entries.ml": [],
+      "hol/family_syntax.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/indexed_entries.ml": [],
+      "hol/indexed_syntax.ml": [
+        "hol/family_syntax.ml"
+      ],
+      "hol/inductive_entries.ml": [],
+      "hol/inductive_model.ml": [
+        "hol/core.ml"
+      ],
+      "hol/inductive_syntax.ml": [
+        "hol/declarations.ml"
+      ],
+      "hol/judgments.ml": [
+        "hol/syntax.ml"
+      ],
+      "hol/nested_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/primitive_names.ml": [
+        "hol/inductive_syntax.ml"
+      ],
+      "hol/syntax.ml": []
+    },
+    "project_root": "/private/tmp/hol-indexed-p2.BLzUH9/rb-probe2",
+    "source_roots": [
+      "hol/environment.ml",
+      "frontend/hol_check.ml",
+      "frontend/hol_server.ml"
+    ]
+  },
+  "scope": "Project files and supplied bootstrap only; no runtime/toolchain/semantics attestation.",
+  "seconds": 55.628519957994286,
+  "unchanged": true
+}

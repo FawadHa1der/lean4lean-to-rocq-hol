@@ -1,0 +1,15 @@
+{
+  "lock_version": 1,
+  "lean_version": "4.34.1",
+  "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+  "toolchain": {
+    "url": "https://github.com/leanprover/lean4/releases/download/v4.34.1/lean-4.34.1-darwin_aarch64.tar.zst",
+    "size": 562038070,
+    "sha256": "65f22a4f047738ec742667b3247e836a86ebf06eabc12655c3dee00637e37866",
+    "release_asset_id": 586761729
+  },
+  "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "tutorial_exporter_revision": "777c921eba89aac5f14cc388717935b5fa2cb739",
+  "scope": "15 missing generated either cases and two approximately 17 MB magma-string cases only"
+}

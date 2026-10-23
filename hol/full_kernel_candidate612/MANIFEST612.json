@@ -1,0 +1,1529 @@
+{
+  "additional_stock_libraries": 2,
+  "authority_created": false,
+  "bytes": 243337,
+  "count": 43,
+  "default_integration_changed": false,
+  "file_outputs": {
+    "HOL_LIGHT_LICENSE": {
+      "bytes": 1631,
+      "sha256": "fd1a38c49a5b6acbdf1baa9e544006be3e889cd83703745a42b36a68dc084481"
+    },
+    "LICENSE": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "Library/bitsize.ml": {
+      "bytes": 7240,
+      "sha256": "6f01574b26e18a2b357416a3dffc84d3eee3e650d53fda190e8540059f460a35"
+    },
+    "Library/prime.ml": {
+      "bytes": 103203,
+      "sha256": "640f709c4b1e4292b96ba3b8b5c08a33a685f657fc9b516e183bb1287a9b4483"
+    },
+    "NOTICE420.txt": {
+      "bytes": 1201,
+      "sha256": "4f052858202d049a0a93300d0df398ca018ad8267384b79ebe60678fa466c46c"
+    },
+    "NOTICE437.txt": {
+      "bytes": 2606,
+      "sha256": "36b4483a3422638447475a61c71311420fab9c9f3cff6c62c84a24ef06c3b68b"
+    },
+    "NOTICE447.txt": {
+      "bytes": 1773,
+      "sha256": "2197c880d21a452d3a2d1ae42cedf652322bc370010b4107dc5d481a3291ec84"
+    },
+    "NOTICE449.txt": {
+      "bytes": 1725,
+      "sha256": "3acabe8a92b4844c6d35636bec8c1169b36c1b5e4e82ead61aaa5783c18bb222"
+    },
+    "NOTICE480.txt": {
+      "bytes": 2866,
+      "sha256": "83687c4b341cab1e1994fbc89138c04fede7ae156aa6d5b9aaf25c250708cd5b"
+    },
+    "NOTICE488.txt": {
+      "bytes": 1780,
+      "sha256": "830f1c2f0a1eb6fcf73710f8ea62ef02abb41b65df14da589cd87937d45e3ae1"
+    },
+    "NOTICE489.txt": {
+      "bytes": 1921,
+      "sha256": "3e457201cfe220928cb45c51028b208d805ae1ab8bdeec2e3ed6f49cf503b443"
+    },
+    "NOTICE491.txt": {
+      "bytes": 1914,
+      "sha256": "6d615585b3a258f23e6ffc46cb02cd457388cbde16dc4b5a060927be9c0532de"
+    },
+    "NOTICE493.txt": {
+      "bytes": 1853,
+      "sha256": "5e3b45221597b0c72b82507ae14e26d709902e5968aa6e5edd943887faaf5ca2"
+    },
+    "NOTICE494.txt": {
+      "bytes": 1754,
+      "sha256": "aef308b729e17c2f882685a361adefd0c51d9e28dc49b2d6aead5cb71247f5d3"
+    },
+    "NOTICE509.txt": {
+      "bytes": 2478,
+      "sha256": "99c74457b4d934ec625e688ee5ad862d6227236f54f004a1957a8a585a232eb9"
+    },
+    "NOTICE526.txt": {
+      "bytes": 1983,
+      "sha256": "f0aaf65a46d6c205ff4d6d7748ba7acddd13f4981f9facc6da08f37162307e85"
+    },
+    "NOTICE528.txt": {
+      "bytes": 1591,
+      "sha256": "9fdb079026162cc20bb27816078dc4a88de5e48db79b6e0ff90326b55e25d51d"
+    },
+    "NOTICE532.txt": {
+      "bytes": 1033,
+      "sha256": "3877c3a2161d77b9a705e8b6de9b8773e59abf99277d4a687dd7e9e808f3b4fe"
+    },
+    "NOTICE533.txt": {
+      "bytes": 1933,
+      "sha256": "7a7538c720ff03959494e97e04dd9d74f374f302e2d11e479f6e9032f5af7753"
+    },
+    "NOTICE538.txt": {
+      "bytes": 1016,
+      "sha256": "c20fedbffbd6da8d6ef34900bde1a606289876b6bc36269b49eb043edd2dbc9e"
+    },
+    "NOTICE539.txt": {
+      "bytes": 2647,
+      "sha256": "ab2bb2e18a9d20efbc2edfbfc1e7a3889ee3907cca59fc4d6817aa9b5f18bb37"
+    },
+    "NOTICE543.txt": {
+      "bytes": 1192,
+      "sha256": "21c23cede3e9a36f5929a4c520f0eea9299e3173a7abeee7c55a105411cd8b78"
+    },
+    "NOTICE544.txt": {
+      "bytes": 2762,
+      "sha256": "4eafef7ff42079bc044dd89431b5075e5cf19634c4ed29bf4d0539d53d155922"
+    },
+    "NOTICE549.txt": {
+      "bytes": 999,
+      "sha256": "5c5abbe5bf78909f7c2c4ec9ea66aeb1f59dcb8714d9ec6a4ab2d4f496fdcabb"
+    },
+    "NOTICE550.txt": {
+      "bytes": 3075,
+      "sha256": "3cf107e142a644c56214b82b40f1279e054a26e20b1fc706cf47e7ca72bb8e79"
+    },
+    "NOTICE555.txt": {
+      "bytes": 1213,
+      "sha256": "f72519c74d045fdfecfd49da5a9b1b6588813bea4958d79dcf72b2e2adf80a67"
+    },
+    "NOTICE557.txt": {
+      "bytes": 2613,
+      "sha256": "52571aecd5e96e97c852b6b6c032ed5831bf99aa3ee4fb2e3a665da24582bdcc"
+    },
+    "NOTICE560.txt": {
+      "bytes": 524,
+      "sha256": "eeddd2a91bef55a1e903920650a24f2e681fb14312c66bd9feb4c1748764149a"
+    },
+    "NOTICE562.txt": {
+      "bytes": 2104,
+      "sha256": "3244ac7a152fcfa851230644786df31a1c2b15da81cdb0341334cfef5ef698b7"
+    },
+    "NOTICE577.txt": {
+      "bytes": 3065,
+      "sha256": "e7946a3abdf36b36d89608757c45a3ed4b2037d36a94203f309164fee34066fe"
+    },
+    "NOTICE585.txt": {
+      "bytes": 2611,
+      "sha256": "ab047e85473d70c2a610e62626f76c1ac3879b853a47def708e62e60950b2469"
+    },
+    "NOTICE586.txt": {
+      "bytes": 1212,
+      "sha256": "3d1c2542060a747127608314b51b6d0fd83a278dc3bcd892d1abfc4c595d7100"
+    },
+    "NOTICE594.txt": {
+      "bytes": 2586,
+      "sha256": "1e763d9b7ea906ef4e45b104c213b83ab940761d8771b5e3d03e01d482c87193"
+    },
+    "NOTICE595.txt": {
+      "bytes": 2847,
+      "sha256": "2f8a15f50a41a7227c19a7f08749af64cd4419c9bec12a1cd2905800fcd84820"
+    },
+    "NOTICE596.txt": {
+      "bytes": 2633,
+      "sha256": "a05f377d56f304d513e887bb0a759deb48eba400cc7902559a6427fd86e0d79b"
+    },
+    "NOTICE597.txt": {
+      "bytes": 1480,
+      "sha256": "35c17249441f9943b53ed7e65871b17ff6cc65c1287319218b3eb43c5ac4ae2f"
+    },
+    "README.txt": {
+      "bytes": 1838,
+      "sha256": "60bf89773257c2d00ad3737f7e3e6a536f0bd21d67e905576777ed3f8e108eba"
+    },
+    "ROCQ_NOTICE": {
+      "bytes": 1212,
+      "sha256": "2025d7af275fde49dc0e38e61952fb974a441f71bdb0e5832776afee227ec738"
+    },
+    "hol/constant_operations528.ml": {
+      "bytes": 2996,
+      "sha256": "e3e2a7aef5bb242a4cff97188555a1f8077b36fe10f411b0fd65354bda7b06b8"
+    },
+    "hol/conversion_fallback596.ml": {
+      "bytes": 6840,
+      "sha256": "c903d3de80758b1704f20e00aa55513c69ff714601d4693591d25d825e1826f8"
+    },
+    "hol/conversion_fallback_properties596.ml": {
+      "bytes": 7681,
+      "sha256": "e17793b029303b1f15d2476347d84b52c74f4b46b431fdecabae83bcda8cc7f1"
+    },
+    "hol/conversion_fallback_regressions596.ml": {
+      "bytes": 7482,
+      "sha256": "85e2e172252dac13281e627614cbef36ca22792c254751ba2746a298f945804a"
+    },
+    "hol/conversion_helpers595.ml": {
+      "bytes": 6666,
+      "sha256": "18b5bbeab899cb026f0b3dba6ebe0d2f0301301014ee7894381862df3ed76d1e"
+    },
+    "hol/conversion_properties595.ml": {
+      "bytes": 9390,
+      "sha256": "7a4c1bef442e6bd94bcc67dcd367f1b832bac017565904ce6ff89a1aa5d01fb3"
+    },
+    "hol/inference586.ml": {
+      "bytes": 5829,
+      "sha256": "7021d1550c30793c08a6b7fa14cb6005858486c83c6a5891464d39c99fe9c050"
+    },
+    "hol/inference_properties586.ml": {
+      "bytes": 4702,
+      "sha256": "0499bb255abb59c7ef1d4a8ff6eb8a538c8e70add4a0b11b637f9f985eb47abb"
+    },
+    "hol/kernel_beta526.ml": {
+      "bytes": 4392,
+      "sha256": "d3beb2e826e0fc991d469622b1eadd7b8139f94a774813af61b6ab49545deee5"
+    },
+    "hol/kernel_checker597.ml": {
+      "bytes": 3326,
+      "sha256": "3e333336e4e3ad9cf91be0fb96f51dd3b6430e73d29a12dc1dc09035253f497a"
+    },
+    "hol/kernel_context532.ml": {
+      "bytes": 3797,
+      "sha256": "375a152f184b5c5f4dd0133020488ab6fccc0f3457a489ec553050c65092e863"
+    },
+    "hol/kernel_control543.ml": {
+      "bytes": 8111,
+      "sha256": "5897578117add33bdfbbe2c0c10cb08e907c7ed48add5e19079a90a041437136"
+    },
+    "hol/kernel_conversion597.ml": {
+      "bytes": 6494,
+      "sha256": "e002181f20becbd7c4b1ad422b92ede489705d8db257f0b5ab40d5b1a415e4ce"
+    },
+    "hol/kernel_declarations493.ml": {
+      "bytes": 8173,
+      "sha256": "cae8e241643941e13d119e916cf287273cc2767981b6ae2eb5d9f60f96d9203b"
+    },
+    "hol/kernel_fastpaths538.ml": {
+      "bytes": 5054,
+      "sha256": "f27950f6f7445ba40274611334f43b478c5969afee91ff5577c2e5c783f1fa66"
+    },
+    "hol/kernel_locals489.ml": {
+      "bytes": 4930,
+      "sha256": "33772b5423a85e98201a4e788c162622310da92ba8b438bde291581459c98849"
+    },
+    "hol/kernel_naturals544.ml": {
+      "bytes": 3229,
+      "sha256": "9033422434c4973a499ad6f72acf31cbf1f2567364af0a8e16f1c9496a3fa9e3"
+    },
+    "hol/kernel_properties597.ml": {
+      "bytes": 6022,
+      "sha256": "b47bf8c8e54a714ca5333f407f68d9190a552f9f50f65d9393f5a84e63ddfdb8"
+    },
+    "hol/kernel_strings539.ml": {
+      "bytes": 3464,
+      "sha256": "0038586a693fa7f0f35a68a4c86477e8d5fcfc5d3711d8140722eaee049c083d"
+    },
+    "hol/kernel_syntax447.ml": {
+      "bytes": 6576,
+      "sha256": "575f1bd8cb63c2b622c146b7ccedbc9dbf68f86ffc74a742d97994f93dd4cbcb"
+    },
+    "hol/kernel_universes488.ml": {
+      "bytes": 3113,
+      "sha256": "5b7ba44f691061d725b2c97b2297280c5f5d1aad31362e850e7389cf2d790163"
+    },
+    "hol/literal_readiness533.ml": {
+      "bytes": 5894,
+      "sha256": "82b2a4e083d817b922ebce67be6a38c1c0aa60dd13e0ee5b336b76c31a2ae5d3"
+    },
+    "hol/member_verification509.ml": {
+      "bytes": 6399,
+      "sha256": "b1ed71d3309b190bb21362be48724425dc7ee4223f4a6da5e06d630016188297"
+    },
+    "hol/natural_reduction549.ml": {
+      "bytes": 3653,
+      "sha256": "f9ec783ffd1fe14105b8e57f8e4ab29a6fd41c18878501f5ad0df229bd04b581"
+    },
+    "hol/nested_allocation437.ml": {
+      "bytes": 3351,
+      "sha256": "b0899b03d6dd408c414e1b44260761633d1fadf0c0e7c1df9da8bba19bafe4f7"
+    },
+    "hol/nested_candidate494.ml": {
+      "bytes": 3091,
+      "sha256": "2aa43722ce61347dd4d497eb6a89d4dfafbbfbccb4581e3e83152dd58f4ab5c7"
+    },
+    "hol/nested_keys480.ml": {
+      "bytes": 5911,
+      "sha256": "7bdf69671c68fca46b0fea8a85f5945efe0d61e09ce4970e7727141652ecbd1e"
+    },
+    "hol/nested_parameters491.ml": {
+      "bytes": 4205,
+      "sha256": "66ffde6f11b2b6fb11ecd49b60cea771319cbb1851d2a32d7cd093b174e87c0d"
+    },
+    "hol/nested_prefix420.ml": {
+      "bytes": 2546,
+      "sha256": "5523f571beb90d5db141c15eb0aa96d54f3b067aa9a19ffe12a645df9893ad0c"
+    },
+    "hol/nested_traversal449.ml": {
+      "bytes": 6058,
+      "sha256": "a52c4e8159d8fbd2179ed3fefff020fea9f27d6e60183cad8fe798c72c4c4cce"
+    },
+    "hol/projection_properties577.ml": {
+      "bytes": 5867,
+      "sha256": "9aae737e1bc12039b5ffb1f6d93cb70884d8e53f276a04556f157a852a0622af"
+    },
+    "hol/projection_quotient550.ml": {
+      "bytes": 3828,
+      "sha256": "e3fbc4a6ad0a65d5743ddaf649d117c953984091a41bb371585ab1710d44269a"
+    },
+    "hol/projection_typing577.ml": {
+      "bytes": 3865,
+      "sha256": "7aab641d3e8718e866cb0e3bdc7d65b2b35da257f1f11f3720ad4145fc742eb1"
+    },
+    "hol/recursor_conversion585.ml": {
+      "bytes": 5545,
+      "sha256": "b778d4f12b3547092f72f1f231e35876350d3878fe5818ceb0e8713584b11c39"
+    },
+    "hol/recursor_conversion_properties585.ml": {
+      "bytes": 11577,
+      "sha256": "18d95a13982e6a19dc75a5aafe24f22054cc2de3d976ea06b7474ad2ddeed2e1"
+    },
+    "hol/recursor_conversion_regressions585.ml": {
+      "bytes": 3962,
+      "sha256": "42c9d920705d996c437cfad25b695f709b0c1c37fd2a524e295b5b944ad66cce"
+    },
+    "hol/recursor_helpers560.ml": {
+      "bytes": 2295,
+      "sha256": "63a593590ea30b457d85478250450615004077cec2101370323737a0014fbb79"
+    },
+    "hol/syntax.ml": {
+      "bytes": 3037,
+      "sha256": "d3d6f321f370be060f5375c824fccf7fca8d79bf10795faabc23899eb0a3b102"
+    },
+    "hol/universe_decision555.ml": {
+      "bytes": 6475,
+      "sha256": "d5ee771a9c6d69f785e1d1d6034e67e9bf0694858992ded6a9d47c11a8e406ce"
+    },
+    "hol/universe_properties562.ml": {
+      "bytes": 6217,
+      "sha256": "d1810f452febd11c26d56f2ea9b7f825725c9e81f3ed09fd77634965df092d6e"
+    },
+    "hol/whnf_control594.ml": {
+      "bytes": 5700,
+      "sha256": "10af412e8ad95db15dfa96f10c0b0877b705edafba8e7815bb21853c4da230c3"
+    },
+    "hol/whnf_control_properties594.ml": {
+      "bytes": 11955,
+      "sha256": "3fbac264894b019c697fe4b0d3602a616daff4faae5fdd4a8dd135950a5bd9e3"
+    },
+    "hol/whnf_control_regressions594.ml": {
+      "bytes": 7159,
+      "sha256": "ad5e1f7dfaf7e5b4cb163c500a1f454393422e2ac09eacf01194cad16e899ebb"
+    },
+    "run_proofs612.ml": {
+      "bytes": 1765,
+      "sha256": "193291d6644cdb0d6dbe1f64294a1ad5ed670ca66c4f56a3ce2821452843b331"
+    }
+  },
+  "input_origins": {
+    "HOL_LIGHT_LICENSE": {
+      "bytes": 1631,
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/toolchain/opam-root/lean4lean/lib/hol_light/LICENSE",
+      "sha256": "fd1a38c49a5b6acbdf1baa9e544006be3e889cd83703745a42b36a68dc084481"
+    },
+    "LICENSE": {
+      "bytes": 11357,
+      "path": "/private/tmp/hol-kernel-composition597/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "Library/bitsize.ml": {
+      "bytes": 7240,
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/toolchain/opam-root/lean4lean/lib/hol_light/Library/bitsize.ml",
+      "sha256": "6f01574b26e18a2b357416a3dffc84d3eee3e650d53fda190e8540059f460a35"
+    },
+    "Library/prime.ml": {
+      "bytes": 103203,
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/toolchain/opam-root/lean4lean/lib/hol_light/Library/prime.ml",
+      "sha256": "640f709c4b1e4292b96ba3b8b5c08a33a685f657fc9b516e183bb1287a9b4483"
+    },
+    "NOTICE420.txt": {
+      "bytes": 1201,
+      "path": "/private/tmp/hol-nested-prefix420/NOTICE420.txt",
+      "sha256": "4f052858202d049a0a93300d0df398ca018ad8267384b79ebe60678fa466c46c"
+    },
+    "NOTICE437.txt": {
+      "bytes": 2606,
+      "path": "/private/tmp/hol-nested-allocation437/NOTICE437.txt",
+      "sha256": "36b4483a3422638447475a61c71311420fab9c9f3cff6c62c84a24ef06c3b68b"
+    },
+    "NOTICE447.txt": {
+      "bytes": 1773,
+      "path": "/private/tmp/hol-kernel-syntax447/NOTICE447.txt",
+      "sha256": "2197c880d21a452d3a2d1ae42cedf652322bc370010b4107dc5d481a3291ec84"
+    },
+    "NOTICE449.txt": {
+      "bytes": 1725,
+      "path": "/private/tmp/hol-nested-traversal449/NOTICE449.txt",
+      "sha256": "3acabe8a92b4844c6d35636bec8c1169b36c1b5e4e82ead61aaa5783c18bb222"
+    },
+    "NOTICE480.txt": {
+      "bytes": 2866,
+      "path": "/private/tmp/hol-nested-keys480/NOTICE480.txt",
+      "sha256": "83687c4b341cab1e1994fbc89138c04fede7ae156aa6d5b9aaf25c250708cd5b"
+    },
+    "NOTICE488.txt": {
+      "bytes": 1780,
+      "path": "/private/tmp/hol-kernel-universes488/NOTICE488.txt",
+      "sha256": "830f1c2f0a1eb6fcf73710f8ea62ef02abb41b65df14da589cd87937d45e3ae1"
+    },
+    "NOTICE489.txt": {
+      "bytes": 1921,
+      "path": "/private/tmp/hol-kernel-locals489/NOTICE489.txt",
+      "sha256": "3e457201cfe220928cb45c51028b208d805ae1ab8bdeec2e3ed6f49cf503b443"
+    },
+    "NOTICE491.txt": {
+      "bytes": 1914,
+      "path": "/private/tmp/hol-nested-parameters491/NOTICE491.txt",
+      "sha256": "6d615585b3a258f23e6ffc46cb02cd457388cbde16dc4b5a060927be9c0532de"
+    },
+    "NOTICE493.txt": {
+      "bytes": 1853,
+      "path": "/private/tmp/hol-kernel-declarations493/NOTICE493.txt",
+      "sha256": "5e3b45221597b0c72b82507ae14e26d709902e5968aa6e5edd943887faaf5ca2"
+    },
+    "NOTICE494.txt": {
+      "bytes": 1754,
+      "path": "/private/tmp/hol-nested-candidate494/NOTICE494.txt",
+      "sha256": "aef308b729e17c2f882685a361adefd0c51d9e28dc49b2d6aead5cb71247f5d3"
+    },
+    "NOTICE509.txt": {
+      "bytes": 2478,
+      "path": "/private/tmp/hol-member-verification509/NOTICE509.txt",
+      "sha256": "99c74457b4d934ec625e688ee5ad862d6227236f54f004a1957a8a585a232eb9"
+    },
+    "NOTICE526.txt": {
+      "bytes": 1983,
+      "path": "/private/tmp/hol-kernel-beta526/NOTICE526.txt",
+      "sha256": "f0aaf65a46d6c205ff4d6d7748ba7acddd13f4981f9facc6da08f37162307e85"
+    },
+    "NOTICE528.txt": {
+      "bytes": 1591,
+      "path": "/private/tmp/hol-constant-operations528/NOTICE528.txt",
+      "sha256": "9fdb079026162cc20bb27816078dc4a88de5e48db79b6e0ff90326b55e25d51d"
+    },
+    "NOTICE532.txt": {
+      "bytes": 1033,
+      "path": "/private/tmp/hol-kernel-context532/NOTICE532.txt",
+      "sha256": "3877c3a2161d77b9a705e8b6de9b8773e59abf99277d4a687dd7e9e808f3b4fe"
+    },
+    "NOTICE533.txt": {
+      "bytes": 1933,
+      "path": "/private/tmp/hol-literal-readiness533/NOTICE533.txt",
+      "sha256": "7a7538c720ff03959494e97e04dd9d74f374f302e2d11e479f6e9032f5af7753"
+    },
+    "NOTICE538.txt": {
+      "bytes": 1016,
+      "path": "/private/tmp/hol-kernel-fastpaths538/NOTICE538.txt",
+      "sha256": "c20fedbffbd6da8d6ef34900bde1a606289876b6bc36269b49eb043edd2dbc9e"
+    },
+    "NOTICE539.txt": {
+      "bytes": 2647,
+      "path": "/private/tmp/hol-kernel-strings539/NOTICE539.txt",
+      "sha256": "ab2bb2e18a9d20efbc2edfbfc1e7a3889ee3907cca59fc4d6817aa9b5f18bb37"
+    },
+    "NOTICE543.txt": {
+      "bytes": 1192,
+      "path": "/private/tmp/hol-kernel-control543/NOTICE543.txt",
+      "sha256": "21c23cede3e9a36f5929a4c520f0eea9299e3173a7abeee7c55a105411cd8b78"
+    },
+    "NOTICE544.txt": {
+      "bytes": 2762,
+      "path": "/private/tmp/hol-kernel-naturals544/NOTICE544.txt",
+      "sha256": "4eafef7ff42079bc044dd89431b5075e5cf19634c4ed29bf4d0539d53d155922"
+    },
+    "NOTICE549.txt": {
+      "bytes": 999,
+      "path": "/private/tmp/hol-natural-reduction549/NOTICE549.txt",
+      "sha256": "5c5abbe5bf78909f7c2c4ec9ea66aeb1f59dcb8714d9ec6a4ab2d4f496fdcabb"
+    },
+    "NOTICE550.txt": {
+      "bytes": 3075,
+      "path": "/private/tmp/hol-projection-quotient550/NOTICE550.txt",
+      "sha256": "3cf107e142a644c56214b82b40f1279e054a26e20b1fc706cf47e7ca72bb8e79"
+    },
+    "NOTICE555.txt": {
+      "bytes": 1213,
+      "path": "/private/tmp/hol-universe-decision555/NOTICE555.txt",
+      "sha256": "f72519c74d045fdfecfd49da5a9b1b6588813bea4958d79dcf72b2e2adf80a67"
+    },
+    "NOTICE557.txt": {
+      "bytes": 2613,
+      "path": "/private/tmp/hol-recursor-composition560/NOTICE557.txt",
+      "sha256": "52571aecd5e96e97c852b6b6c032ed5831bf99aa3ee4fb2e3a665da24582bdcc"
+    },
+    "NOTICE560.txt": {
+      "bytes": 524,
+      "path": "/private/tmp/hol-recursor-composition560/NOTICE560.txt",
+      "sha256": "eeddd2a91bef55a1e903920650a24f2e681fb14312c66bd9feb4c1748764149a"
+    },
+    "NOTICE562.txt": {
+      "bytes": 2104,
+      "path": "/private/tmp/hol-universe-proof562/NOTICE562.txt",
+      "sha256": "3244ac7a152fcfa851230644786df31a1c2b15da81cdb0341334cfef5ef698b7"
+    },
+    "NOTICE577.txt": {
+      "bytes": 3065,
+      "path": "/private/tmp/hol-projection-typing577/NOTICE577.txt",
+      "sha256": "e7946a3abdf36b36d89608757c45a3ed4b2037d36a94203f309164fee34066fe"
+    },
+    "NOTICE585.txt": {
+      "bytes": 2611,
+      "path": "/private/tmp/hol-recursor-conversion585/NOTICE585.txt",
+      "sha256": "ab047e85473d70c2a610e62626f76c1ac3879b853a47def708e62e60950b2469"
+    },
+    "NOTICE586.txt": {
+      "bytes": 1212,
+      "path": "/private/tmp/hol-inference586/NOTICE586.txt",
+      "sha256": "3d1c2542060a747127608314b51b6d0fd83a278dc3bcd892d1abfc4c595d7100"
+    },
+    "NOTICE594.txt": {
+      "bytes": 2586,
+      "path": "/private/tmp/hol-whnf-control594/NOTICE594.txt",
+      "sha256": "1e763d9b7ea906ef4e45b104c213b83ab940761d8771b5e3d03e01d482c87193"
+    },
+    "NOTICE595.txt": {
+      "bytes": 2847,
+      "path": "/private/tmp/hol-conversion-helpers595/NOTICE595.txt",
+      "sha256": "2f8a15f50a41a7227c19a7f08749af64cd4419c9bec12a1cd2905800fcd84820"
+    },
+    "NOTICE596.txt": {
+      "bytes": 2633,
+      "path": "/private/tmp/hol-conversion-fallback596/NOTICE596.txt",
+      "sha256": "a05f377d56f304d513e887bb0a759deb48eba400cc7902559a6427fd86e0d79b"
+    },
+    "NOTICE597.txt": {
+      "bytes": 1480,
+      "path": "/private/tmp/hol-kernel-composition597/NOTICE597.txt",
+      "sha256": "35c17249441f9943b53ed7e65871b17ff6cc65c1287319218b3eb43c5ac4ae2f"
+    },
+    "README.txt": {
+      "bytes": 1838,
+      "path": "/private/tmp/hol-core-bundle612/README.txt",
+      "sha256": "60bf89773257c2d00ad3737f7e3e6a536f0bd21d67e905576777ed3f8e108eba"
+    },
+    "ROCQ_NOTICE": {
+      "bytes": 1212,
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/NOTICE",
+      "sha256": "2025d7af275fde49dc0e38e61952fb974a441f71bdb0e5832776afee227ec738"
+    },
+    "hol/constant_operations528.ml": {
+      "bytes": 3111,
+      "path": "/private/tmp/hol-constant-operations528/hol/constant_operations528.ml",
+      "sha256": "897461a716c51eb40733e58df972760de3a3045adf01cd60a0aea3e4c145ad89"
+    },
+    "hol/conversion_fallback596.ml": {
+      "bytes": 7131,
+      "path": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback596.ml",
+      "sha256": "03a9a975e16f6ecbaf5e2d7f9ba85905f571d9eb6fa714cae2fdba89a182168e"
+    },
+    "hol/conversion_fallback_properties596.ml": {
+      "bytes": 7721,
+      "path": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback_properties596.ml",
+      "sha256": "c9740a46c25a8b84d2ffff528fe325b8cc37d55fbe12b5682b3b0eba0b03fef5"
+    },
+    "hol/conversion_fallback_regressions596.ml": {
+      "bytes": 7522,
+      "path": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback_regressions596.ml",
+      "sha256": "733e13083e2012019416c3c15953c5251d6c19daac44374d3584bf67a1f86d26"
+    },
+    "hol/conversion_helpers595.ml": {
+      "bytes": 6816,
+      "path": "/private/tmp/hol-conversion-helpers595/hol/conversion_helpers595.ml",
+      "sha256": "4ab386471765da74f08a38dde68b53820918e75ca02e06dddd5c21c417064d8b"
+    },
+    "hol/conversion_properties595.ml": {
+      "bytes": 9429,
+      "path": "/private/tmp/hol-conversion-helpers595/hol/conversion_properties595.ml",
+      "sha256": "2269a5a187d85ba63bdfb544baaba6a8361c60af20e4f487856f059600a484db"
+    },
+    "hol/inference586.ml": {
+      "bytes": 5947,
+      "path": "/private/tmp/hol-inference586/hol/inference586.ml",
+      "sha256": "4e399d3606cdb606c046b1d34444ddf2bf93b5b20cc241bb266416e9cda7cf35"
+    },
+    "hol/inference_properties586.ml": {
+      "bytes": 4732,
+      "path": "/private/tmp/hol-inference586/hol/inference_properties586.ml",
+      "sha256": "4f68ad2747a04d9e75a1b2228c9b7fccbc157b2c43aa7f2a911b8ea9426b2e54"
+    },
+    "hol/kernel_beta526.ml": {
+      "bytes": 4426,
+      "path": "/private/tmp/hol-kernel-beta526/hol/kernel_beta526.ml",
+      "sha256": "7c0c3bac1e2f08fcdd347071f94a8f587f0d7568cf6dc68d1902809fbc3224ea"
+    },
+    "hol/kernel_checker597.ml": {
+      "bytes": 3428,
+      "path": "/private/tmp/hol-kernel-composition597/hol/kernel_checker597.ml",
+      "sha256": "33ae5c496eeb026590aef9dbcb3907ceb137f6c7584e1fe11e07625623fc3b10"
+    },
+    "hol/kernel_context532.ml": {
+      "bytes": 3875,
+      "path": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+      "sha256": "47254a9e20d0f10fa8f2e3428bc6a71ff18234f0282666ea7bbb19d9e3c587a1"
+    },
+    "hol/kernel_control543.ml": {
+      "bytes": 8149,
+      "path": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+      "sha256": "406907852dd15f30b9c3ca500f345a1864dc553782b4507521443b9f6b2cfaff"
+    },
+    "hol/kernel_conversion597.ml": {
+      "bytes": 6612,
+      "path": "/private/tmp/hol-kernel-composition597/hol/kernel_conversion597.ml",
+      "sha256": "32096663935017cc15217bf1bed86038764fc5063c517103ef830dad2ea74307"
+    },
+    "hol/kernel_declarations493.ml": {
+      "bytes": 8207,
+      "path": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+      "sha256": "73090af08e3a4a1819b8a96f741e8c24bf1ae7e0d476dc2ea0c4193eee1c0793"
+    },
+    "hol/kernel_fastpaths538.ml": {
+      "bytes": 5121,
+      "path": "/private/tmp/hol-kernel-fastpaths538/hol/kernel_fastpaths538.ml",
+      "sha256": "b21b9674c5209bcfd352ff00ea8258ffe58bd0c2db9babd5e5d439f70ec2e665"
+    },
+    "hol/kernel_locals489.ml": {
+      "bytes": 4964,
+      "path": "/private/tmp/hol-kernel-locals489/hol/kernel_locals489.ml",
+      "sha256": "8fecda1b49e39dc82643962b9fc307e9aa2c27b294666a7c242e2577900ad015"
+    },
+    "hol/kernel_naturals544.ml": {
+      "bytes": 3305,
+      "path": "/private/tmp/hol-kernel-naturals544/hol/kernel_naturals544.ml",
+      "sha256": "3bd4bca3e3a9ac42d8568553b543dbd5040b6a3f75ab8e3f2ca4c0e69fb83a54"
+    },
+    "hol/kernel_properties597.ml": {
+      "bytes": 6061,
+      "path": "/private/tmp/hol-kernel-composition597/hol/kernel_properties597.ml",
+      "sha256": "2579ca232cac606f555f6843045109ff16a2b423665e37437b9f3714819dd082"
+    },
+    "hol/kernel_strings539.ml": {
+      "bytes": 3574,
+      "path": "/private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml",
+      "sha256": "ebdca369c2212997d132c3859a160ec619422a09a7da5f1263b0a8bb831f36c0"
+    },
+    "hol/kernel_syntax447.ml": {
+      "bytes": 6634,
+      "path": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+      "sha256": "f1805ecf8edb812af3c575f218ada5fb94b2f52c36c31b298f06efc703195570"
+    },
+    "hol/kernel_universes488.ml": {
+      "bytes": 3147,
+      "path": "/private/tmp/hol-kernel-universes488/hol/kernel_universes488.ml",
+      "sha256": "a96933acaf02bb4d30f97ef2251591dda03a10733e34dfe0d4ddc8de4b62c410"
+    },
+    "hol/literal_readiness533.ml": {
+      "bytes": 5969,
+      "path": "/private/tmp/hol-literal-readiness533/hol/literal_readiness533.ml",
+      "sha256": "61f3cc6a92dac722b2346bb2516edb9afaaddb5435f9fc0310d6d1c80f4ebdc8"
+    },
+    "hol/member_verification509.ml": {
+      "bytes": 6546,
+      "path": "/private/tmp/hol-member-verification509/hol/member_verification509.ml",
+      "sha256": "7f9f02cf7052d7471b5be3650d2a83eb998570aa368fd8676b57cdef75f28a1c"
+    },
+    "hol/natural_reduction549.ml": {
+      "bytes": 3724,
+      "path": "/private/tmp/hol-natural-reduction549/hol/natural_reduction549.ml",
+      "sha256": "cf425931964027135035f5da629b894a14c9be3b3c03ba46c664fd28734aa63d"
+    },
+    "hol/nested_allocation437.ml": {
+      "bytes": 3385,
+      "path": "/private/tmp/hol-nested-allocation437/hol/nested_allocation437.ml",
+      "sha256": "0e328c8492f9b7a19fc1ac22c92972d944c7dc3c994b3c7ec2e93e1ca2b18d75"
+    },
+    "hol/nested_candidate494.ml": {
+      "bytes": 3206,
+      "path": "/private/tmp/hol-nested-candidate494/hol/nested_candidate494.ml",
+      "sha256": "17e132abe8de687689bb3839439bcdd64a549df0c231fbc8e4ba9f699588df9a"
+    },
+    "hol/nested_keys480.ml": {
+      "bytes": 5983,
+      "path": "/private/tmp/hol-nested-keys480/hol/nested_keys480.ml",
+      "sha256": "0f9c2a9ede258e84325edd659e8b3fa7e49e61a0ffd270eb21dbe4cd958d9de4"
+    },
+    "hol/nested_parameters491.ml": {
+      "bytes": 4277,
+      "path": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+      "sha256": "3d7a9398bb6c70a53fc1355dfcf90abb0d26cf1362beef3e4f262f68e1bc13a2"
+    },
+    "hol/nested_prefix420.ml": {
+      "bytes": 2546,
+      "path": "/private/tmp/hol-nested-prefix420/hol/nested_prefix420.ml",
+      "sha256": "5523f571beb90d5db141c15eb0aa96d54f3b067aa9a19ffe12a645df9893ad0c"
+    },
+    "hol/nested_traversal449.ml": {
+      "bytes": 6130,
+      "path": "/private/tmp/hol-nested-traversal449/hol/nested_traversal449.ml",
+      "sha256": "aca26ec3033094bd2fa7a9153bacb7930814f8d41e4b8bf2e4c8467cafc5ba6c"
+    },
+    "hol/projection_properties577.ml": {
+      "bytes": 5940,
+      "path": "/private/tmp/hol-projection-typing577/hol/projection_properties577.ml",
+      "sha256": "e9aab0953bb4b37f2d33c9f581de8c80f767e4c9711a6841b787efe4c4b57c66"
+    },
+    "hol/projection_quotient550.ml": {
+      "bytes": 4007,
+      "path": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+      "sha256": "6a3f609410c58e8e4a0064310bffe08bf2721d23deb4786a74b7a067dfe4f8f1"
+    },
+    "hol/projection_typing577.ml": {
+      "bytes": 3975,
+      "path": "/private/tmp/hol-projection-typing577/hol/projection_typing577.ml",
+      "sha256": "190b327e51186ff2c1dca00682367a12afed46a7b7d73732a0cdfece8d1ad941"
+    },
+    "hol/recursor_conversion585.ml": {
+      "bytes": 5770,
+      "path": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion585.ml",
+      "sha256": "567e77a83540f0d42e7e03a9dbc8fff0dc31169fe638c0e09af132563d6f1070"
+    },
+    "hol/recursor_conversion_properties585.ml": {
+      "bytes": 11617,
+      "path": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion_properties585.ml",
+      "sha256": "03f8514057a558837dde199daa0ca5f68f832e5f76b1acf28b2a3ea6a051d11d"
+    },
+    "hol/recursor_conversion_regressions585.ml": {
+      "bytes": 4002,
+      "path": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion_regressions585.ml",
+      "sha256": "d16231fc451c9be6b68fc77aff4d4b87ae5a0e82e68ff29424cab9c17eb8f98e"
+    },
+    "hol/recursor_helpers560.ml": {
+      "bytes": 2367,
+      "path": "/private/tmp/hol-recursor-composition560/hol/recursor_helpers560.ml",
+      "sha256": "3667e96a64938e0f9205f1cfeec4de3691f82d76ab854528d9f1d6230c942f29"
+    },
+    "hol/syntax.ml": {
+      "bytes": 3037,
+      "path": "/private/tmp/hol-string-compose340/run-002/source-package/hol/syntax.ml",
+      "sha256": "d3d6f321f370be060f5375c824fccf7fca8d79bf10795faabc23899eb0a3b102"
+    },
+    "hol/universe_decision555.ml": {
+      "bytes": 6513,
+      "path": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+      "sha256": "566bc1665134eac1c63393a1a55d99f4cfabec2ce1adde0e0b303b0e5fdd7e34"
+    },
+    "hol/universe_properties562.ml": {
+      "bytes": 6255,
+      "path": "/private/tmp/hol-universe-proof562/hol/universe_properties562.ml",
+      "sha256": "b6801e1741ddeb7e8e52a7b09d5d21b13adc8469728fdf2e66949b076171fd0f"
+    },
+    "hol/whnf_control594.ml": {
+      "bytes": 5995,
+      "path": "/private/tmp/hol-whnf-control594/hol/whnf_control594.ml",
+      "sha256": "4182e136ea149b6ea0efdd758bb126d39fe750bbd0b766bac893ac83583bec0d"
+    },
+    "hol/whnf_control_properties594.ml": {
+      "bytes": 11988,
+      "path": "/private/tmp/hol-whnf-control594/hol/whnf_control_properties594.ml",
+      "sha256": "53fd53a046a5770c8acc2409825c524ce77320380652cfc09104a711921c117a"
+    },
+    "hol/whnf_control_regressions594.ml": {
+      "bytes": 7192,
+      "path": "/private/tmp/hol-whnf-control594/hol/whnf_control_regressions594.ml",
+      "sha256": "370f6ae51798396870a7d0e48d88dc076942958709fc0c403b05e69ada0bfec6"
+    },
+    "run_proofs612.ml": {
+      "bytes": 1765,
+      "path": "/private/tmp/hol-core-bundle612/run_proofs612.ml",
+      "sha256": "193291d6644cdb0d6dbe1f64294a1ad5ed670ca66c4f56a3ce2821452843b331"
+    }
+  },
+  "kind": "SOURCE_ONLY_CORE_CANDIDATE612",
+  "literal_needs_rewrites": {
+    "hol/constant_operations528.ml": [
+      {
+        "after": "hol/kernel_universes488.ml",
+        "before": "/private/tmp/hol-kernel-universes488/hol/kernel_universes488.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/kernel_declarations493.ml",
+        "before": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+        "line": 6
+      }
+    ],
+    "hol/conversion_fallback596.ml": [
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/universe_decision555.ml",
+        "before": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+        "line": 7
+      },
+      {
+        "after": "hol/kernel_fastpaths538.ml",
+        "before": "/private/tmp/hol-kernel-fastpaths538/hol/kernel_fastpaths538.ml",
+        "line": 8
+      },
+      {
+        "after": "hol/nested_keys480.ml",
+        "before": "/private/tmp/hol-nested-keys480/hol/nested_keys480.ml",
+        "line": 9
+      },
+      {
+        "after": "hol/kernel_strings539.ml",
+        "before": "/private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml",
+        "line": 10
+      },
+      {
+        "after": "hol/projection_quotient550.ml",
+        "before": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+        "line": 11
+      },
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 12
+      },
+      {
+        "after": "hol/conversion_helpers595.ml",
+        "before": "/private/tmp/hol-conversion-helpers595/hol/conversion_helpers595.ml",
+        "line": 13
+      }
+    ],
+    "hol/conversion_fallback_properties596.ml": [
+      {
+        "after": "hol/conversion_fallback596.ml",
+        "before": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback596.ml",
+        "line": 4
+      }
+    ],
+    "hol/conversion_fallback_regressions596.ml": [
+      {
+        "after": "hol/conversion_fallback_properties596.ml",
+        "before": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback_properties596.ml",
+        "line": 4
+      }
+    ],
+    "hol/conversion_helpers595.ml": [
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/universe_decision555.ml",
+        "before": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/kernel_fastpaths538.ml",
+        "before": "/private/tmp/hol-kernel-fastpaths538/hol/kernel_fastpaths538.ml",
+        "line": 7
+      },
+      {
+        "after": "hol/projection_quotient550.ml",
+        "before": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+        "line": 8
+      }
+    ],
+    "hol/conversion_properties595.ml": [
+      {
+        "after": "hol/conversion_helpers595.ml",
+        "before": "/private/tmp/hol-conversion-helpers595/hol/conversion_helpers595.ml",
+        "line": 4
+      }
+    ],
+    "hol/inference586.ml": [
+      {
+        "after": "hol/constant_operations528.ml",
+        "before": "/private/tmp/hol-constant-operations528/hol/constant_operations528.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/projection_typing577.ml",
+        "before": "/private/tmp/hol-projection-typing577/hol/projection_typing577.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/projection_quotient550.ml",
+        "before": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+        "line": 7
+      }
+    ],
+    "hol/inference_properties586.ml": [
+      {
+        "after": "hol/inference586.ml",
+        "before": "/private/tmp/hol-inference586/hol/inference586.ml",
+        "line": 3
+      }
+    ],
+    "hol/kernel_beta526.ml": [
+      {
+        "after": "hol/kernel_locals489.ml",
+        "before": "/private/tmp/hol-kernel-locals489/hol/kernel_locals489.ml",
+        "line": 4
+      }
+    ],
+    "hol/kernel_checker597.ml": [
+      {
+        "after": "hol/kernel_conversion597.ml",
+        "before": "/private/tmp/hol-kernel-composition597/hol/kernel_conversion597.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/inference586.ml",
+        "before": "/private/tmp/hol-inference586/hol/inference586.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/whnf_control594.ml",
+        "before": "/private/tmp/hol-whnf-control594/hol/whnf_control594.ml",
+        "line": 7
+      }
+    ],
+    "hol/kernel_context532.ml": [
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/kernel_declarations493.ml",
+        "before": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+        "line": 5
+      }
+    ],
+    "hol/kernel_control543.ml": [
+      {
+        "after": "hol/literal_readiness533.ml",
+        "before": "/private/tmp/hol-literal-readiness533/hol/literal_readiness533.ml",
+        "line": 5
+      }
+    ],
+    "hol/kernel_conversion597.ml": [
+      {
+        "after": "hol/conversion_fallback596.ml",
+        "before": "/private/tmp/hol-conversion-fallback596/hol/conversion_fallback596.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/natural_reduction549.ml",
+        "before": "/private/tmp/hol-natural-reduction549/hol/natural_reduction549.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/constant_operations528.ml",
+        "before": "/private/tmp/hol-constant-operations528/hol/constant_operations528.ml",
+        "line": 6
+      }
+    ],
+    "hol/kernel_declarations493.ml": [
+      {
+        "after": "hol/kernel_syntax447.ml",
+        "before": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+        "line": 4
+      }
+    ],
+    "hol/kernel_fastpaths538.ml": [
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_keys480.ml",
+        "before": "/private/tmp/hol-nested-keys480/hol/nested_keys480.ml",
+        "line": 5
+      }
+    ],
+    "hol/kernel_locals489.ml": [
+      {
+        "after": "hol/kernel_syntax447.ml",
+        "before": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+        "line": 4
+      }
+    ],
+    "hol/kernel_naturals544.ml": [
+      {
+        "after": "hol/literal_readiness533.ml",
+        "before": "/private/tmp/hol-literal-readiness533/hol/literal_readiness533.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 5
+      }
+    ],
+    "hol/kernel_properties597.ml": [
+      {
+        "after": "hol/kernel_checker597.ml",
+        "before": "/private/tmp/hol-kernel-composition597/hol/kernel_checker597.ml",
+        "line": 3
+      }
+    ],
+    "hol/kernel_strings539.ml": [
+      {
+        "after": "hol/literal_readiness533.ml",
+        "before": "/private/tmp/hol-literal-readiness533/hol/literal_readiness533.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/kernel_locals489.ml",
+        "before": "/private/tmp/hol-kernel-locals489/hol/kernel_locals489.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 6
+      }
+    ],
+    "hol/kernel_syntax447.ml": [
+      {
+        "after": "hol/syntax.ml",
+        "before": "/private/tmp/hol-string-compose340/run-002/source-package/hol/syntax.ml",
+        "line": 4
+      }
+    ],
+    "hol/kernel_universes488.ml": [
+      {
+        "after": "hol/kernel_syntax447.ml",
+        "before": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+        "line": 5
+      }
+    ],
+    "hol/literal_readiness533.ml": [
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/member_verification509.ml",
+        "before": "/private/tmp/hol-member-verification509/hol/member_verification509.ml",
+        "line": 5
+      }
+    ],
+    "hol/member_verification509.ml": [
+      {
+        "after": "hol/nested_keys480.ml",
+        "before": "/private/tmp/hol-nested-keys480/hol/nested_keys480.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/kernel_universes488.ml",
+        "before": "/private/tmp/hol-kernel-universes488/hol/kernel_universes488.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/kernel_declarations493.ml",
+        "before": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 7
+      }
+    ],
+    "hol/natural_reduction549.ml": [
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/kernel_naturals544.ml",
+        "before": "/private/tmp/hol-kernel-naturals544/hol/kernel_naturals544.ml",
+        "line": 6
+      }
+    ],
+    "hol/nested_allocation437.ml": [
+      {
+        "after": "hol/nested_prefix420.ml",
+        "before": "/private/tmp/hol-nested-prefix420/hol/nested_prefix420.ml",
+        "line": 4
+      }
+    ],
+    "hol/nested_candidate494.ml": [
+      {
+        "after": "hol/kernel_declarations493.ml",
+        "before": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/nested_traversal449.ml",
+        "before": "/private/tmp/hol-nested-traversal449/hol/nested_traversal449.ml",
+        "line": 6
+      }
+    ],
+    "hol/nested_keys480.ml": [
+      {
+        "after": "hol/kernel_syntax447.ml",
+        "before": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_allocation437.ml",
+        "before": "/private/tmp/hol-nested-allocation437/hol/nested_allocation437.ml",
+        "line": 5
+      }
+    ],
+    "hol/nested_parameters491.ml": [
+      {
+        "after": "hol/kernel_locals489.ml",
+        "before": "/private/tmp/hol-kernel-locals489/hol/kernel_locals489.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_allocation437.ml",
+        "before": "/private/tmp/hol-nested-allocation437/hol/nested_allocation437.ml",
+        "line": 5
+      }
+    ],
+    "hol/nested_prefix420.ml": [],
+    "hol/nested_traversal449.ml": [
+      {
+        "after": "hol/kernel_syntax447.ml",
+        "before": "/private/tmp/hol-kernel-syntax447/hol/kernel_syntax447.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_allocation437.ml",
+        "before": "/private/tmp/hol-nested-allocation437/hol/nested_allocation437.ml",
+        "line": 5
+      }
+    ],
+    "hol/projection_properties577.ml": [
+      {
+        "after": "hol/projection_typing577.ml",
+        "before": "/private/tmp/hol-projection-typing577/hol/projection_typing577.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/universe_properties562.ml",
+        "before": "/private/tmp/hol-universe-proof562/hol/universe_properties562.ml",
+        "line": 5
+      }
+    ],
+    "hol/projection_quotient550.ml": [
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/kernel_declarations493.ml",
+        "before": "/private/tmp/hol-kernel-declarations493/hol/kernel_declarations493.ml",
+        "line": 7
+      },
+      {
+        "after": "hol/kernel_locals489.ml",
+        "before": "/private/tmp/hol-kernel-locals489/hol/kernel_locals489.ml",
+        "line": 8
+      },
+      {
+        "after": "hol/kernel_strings539.ml",
+        "before": "/private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml",
+        "line": 9
+      }
+    ],
+    "hol/projection_typing577.ml": [
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/universe_decision555.ml",
+        "before": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/nested_candidate494.ml",
+        "before": "/private/tmp/hol-nested-candidate494/hol/nested_candidate494.ml",
+        "line": 7
+      }
+    ],
+    "hol/recursor_conversion585.ml": [
+      {
+        "after": "hol/recursor_helpers560.ml",
+        "before": "/private/tmp/hol-recursor-composition560/hol/recursor_helpers560.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/universe_decision555.ml",
+        "before": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+        "line": 7
+      },
+      {
+        "after": "hol/kernel_naturals544.ml",
+        "before": "/private/tmp/hol-kernel-naturals544/hol/kernel_naturals544.ml",
+        "line": 8
+      },
+      {
+        "after": "hol/kernel_strings539.ml",
+        "before": "/private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml",
+        "line": 9
+      },
+      {
+        "after": "hol/projection_quotient550.ml",
+        "before": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+        "line": 10
+      }
+    ],
+    "hol/recursor_conversion_properties585.ml": [
+      {
+        "after": "hol/recursor_conversion585.ml",
+        "before": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion585.ml",
+        "line": 4
+      }
+    ],
+    "hol/recursor_conversion_regressions585.ml": [
+      {
+        "after": "hol/recursor_conversion_properties585.ml",
+        "before": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion_properties585.ml",
+        "line": 4
+      }
+    ],
+    "hol/recursor_helpers560.ml": [
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 4
+      },
+      {
+        "after": "hol/nested_candidate494.ml",
+        "before": "/private/tmp/hol-nested-candidate494/hol/nested_candidate494.ml",
+        "line": 5
+      }
+    ],
+    "hol/syntax.ml": [],
+    "hol/universe_decision555.ml": [
+      {
+        "after": "hol/nested_parameters491.ml",
+        "before": "/private/tmp/hol-nested-parameters491/hol/nested_parameters491.ml",
+        "line": 4
+      }
+    ],
+    "hol/universe_properties562.ml": [
+      {
+        "after": "hol/universe_decision555.ml",
+        "before": "/private/tmp/hol-universe-decision555/hol/universe_decision555.ml",
+        "line": 4
+      }
+    ],
+    "hol/whnf_control594.ml": [
+      {
+        "after": "hol/kernel_beta526.ml",
+        "before": "/private/tmp/hol-kernel-beta526/hol/kernel_beta526.ml",
+        "line": 5
+      },
+      {
+        "after": "hol/constant_operations528.ml",
+        "before": "/private/tmp/hol-constant-operations528/hol/constant_operations528.ml",
+        "line": 6
+      },
+      {
+        "after": "hol/kernel_control543.ml",
+        "before": "/private/tmp/hol-kernel-control543/hol/kernel_control543.ml",
+        "line": 7
+      },
+      {
+        "after": "hol/natural_reduction549.ml",
+        "before": "/private/tmp/hol-natural-reduction549/hol/natural_reduction549.ml",
+        "line": 8
+      },
+      {
+        "after": "hol/projection_quotient550.ml",
+        "before": "/private/tmp/hol-projection-quotient550/hol/projection_quotient550.ml",
+        "line": 9
+      },
+      {
+        "after": "hol/recursor_conversion585.ml",
+        "before": "/private/tmp/hol-recursor-conversion585/hol/recursor_conversion585.ml",
+        "line": 10
+      },
+      {
+        "after": "hol/kernel_context532.ml",
+        "before": "/private/tmp/hol-kernel-context532/hol/kernel_context532.ml",
+        "line": 11
+      },
+      {
+        "after": "hol/kernel_strings539.ml",
+        "before": "/private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml",
+        "line": 12
+      }
+    ],
+    "hol/whnf_control_properties594.ml": [
+      {
+        "after": "hol/whnf_control594.ml",
+        "before": "/private/tmp/hol-whnf-control594/hol/whnf_control594.ml",
+        "line": 4
+      }
+    ],
+    "hol/whnf_control_regressions594.ml": [
+      {
+        "after": "hol/whnf_control_properties594.ml",
+        "before": "/private/tmp/hol-whnf-control594/hol/whnf_control_properties594.ml",
+        "line": 4
+      }
+    ]
+  },
+  "native_execution": false,
+  "new_compiled_proofs": 0,
+  "outputs": [
+    {
+      "bytes": 2996,
+      "path": "hol/constant_operations528.ml",
+      "sha256": "e3e2a7aef5bb242a4cff97188555a1f8077b36fe10f411b0fd65354bda7b06b8"
+    },
+    {
+      "bytes": 6838,
+      "path": "hol/conversion_fallback596.ml",
+      "sha256": "ca67b38c549d1729254fe90892417d539c0adf9b27ffc66e7a31fa1f45243f5b"
+    },
+    {
+      "bytes": 7673,
+      "path": "hol/conversion_fallback_properties596.ml",
+      "sha256": "c7f3124869c8672cf273ef8497aab2d92b90d21a58a0731e91fea79c6d8bdcea"
+    },
+    {
+      "bytes": 7522,
+      "path": "hol/conversion_fallback_regressions596.ml",
+      "sha256": "35e30c02e727641d298bbfea0b9846e55016e61a5763bfaf6bfd84a3ea7f47ed"
+    },
+    {
+      "bytes": 6658,
+      "path": "hol/conversion_helpers595.ml",
+      "sha256": "65cbec414119f36246a6ca3ed4dd1268e9896f14355aaa896d6d5b9b57c5b839"
+    },
+    {
+      "bytes": 9572,
+      "path": "hol/conversion_properties595.ml",
+      "sha256": "eecf69f0b636d3c7d58921bcce2bc18e1bf8b4d30f216bcf8e8b2af095d89e30"
+    },
+    {
+      "bytes": 6606,
+      "path": "hol/inference586.ml",
+      "sha256": "10d36f24ba395472dba6c34cb21b2212e23b971fdc167a3e98d9f99828193ff5"
+    },
+    {
+      "bytes": 4698,
+      "path": "hol/inference_properties586.ml",
+      "sha256": "7248b0cf7830dcd18fbfd29b4e041cbba5107b97899a62948fa6d6ef817b984a"
+    },
+    {
+      "bytes": 5477,
+      "path": "hol/kernel_beta526.ml",
+      "sha256": "c37e316dce23c2e18867e483697e2d20034e1621a195dac660a2f1cc06b54b1f"
+    },
+    {
+      "bytes": 3326,
+      "path": "hol/kernel_checker597.ml",
+      "sha256": "3e333336e4e3ad9cf91be0fb96f51dd3b6430e73d29a12dc1dc09035253f497a"
+    },
+    {
+      "bytes": 4222,
+      "path": "hol/kernel_context532.ml",
+      "sha256": "9eb5b4f747589631f498682b0bcb5f991eafafee5c673843b5fd4ff53a686d9f"
+    },
+    {
+      "bytes": 8635,
+      "path": "hol/kernel_control543.ml",
+      "sha256": "c85aee60bccf563251c7b9c69df970bc92655ceba7cd7f6eabc9f7259a4018c5"
+    },
+    {
+      "bytes": 6490,
+      "path": "hol/kernel_conversion597.ml",
+      "sha256": "029508190d33e5833295beeb4da42d59325e01bbff2c92b3f250cb2a18bda50b"
+    },
+    {
+      "bytes": 8173,
+      "path": "hol/kernel_declarations493.ml",
+      "sha256": "cae8e241643941e13d119e916cf287273cc2767981b6ae2eb5d9f60f96d9203b"
+    },
+    {
+      "bytes": 5743,
+      "path": "hol/kernel_fastpaths538.ml",
+      "sha256": "dc537ea134ce8714fcc69d7c4a92d68031ffada40b52547ff943641c0e85c264"
+    },
+    {
+      "bytes": 4974,
+      "path": "hol/kernel_locals489.ml",
+      "sha256": "3adc7497ef38a30094526f06ba3d87a95e5cf5d83fa98b99f75bd5dd94fdfa08"
+    },
+    {
+      "bytes": 3229,
+      "path": "hol/kernel_naturals544.ml",
+      "sha256": "9033422434c4973a499ad6f72acf31cbf1f2567364af0a8e16f1c9496a3fa9e3"
+    },
+    {
+      "bytes": 6022,
+      "path": "hol/kernel_properties597.ml",
+      "sha256": "b47bf8c8e54a714ca5333f407f68d9190a552f9f50f65d9393f5a84e63ddfdb8"
+    },
+    {
+      "bytes": 3464,
+      "path": "hol/kernel_strings539.ml",
+      "sha256": "0038586a693fa7f0f35a68a4c86477e8d5fcfc5d3711d8140722eaee049c083d"
+    },
+    {
+      "bytes": 8190,
+      "path": "hol/kernel_syntax447.ml",
+      "sha256": "8f59a42f79f169c413aeb60501a4febe703551ddd8a050ba1126c33136fc022f"
+    },
+    {
+      "bytes": 3135,
+      "path": "hol/kernel_universes488.ml",
+      "sha256": "b1535db9fffe16bb93c700b4d62324eff3b4d1ee4389d7eb243c32dd1615cd1e"
+    },
+    {
+      "bytes": 6406,
+      "path": "hol/literal_readiness533.ml",
+      "sha256": "0fbfc0f3a3c41d1b3da6d4f1349a5998f98955d4325147daa5191f28c690f822"
+    },
+    {
+      "bytes": 6399,
+      "path": "hol/member_verification509.ml",
+      "sha256": "b1ed71d3309b190bb21362be48724425dc7ee4223f4a6da5e06d630016188297"
+    },
+    {
+      "bytes": 3653,
+      "path": "hol/natural_reduction549.ml",
+      "sha256": "f9ec783ffd1fe14105b8e57f8e4ab29a6fd41c18878501f5ad0df229bd04b581"
+    },
+    {
+      "bytes": 3337,
+      "path": "hol/nested_allocation437.ml",
+      "sha256": "24d924546696cd0712bc20198cb64230b234d055063569425889de0f54984006"
+    },
+    {
+      "bytes": 3091,
+      "path": "hol/nested_candidate494.ml",
+      "sha256": "2aa43722ce61347dd4d497eb6a89d4dfafbbfbccb4581e3e83152dd58f4ab5c7"
+    },
+    {
+      "bytes": 5944,
+      "path": "hol/nested_keys480.ml",
+      "sha256": "8b76346ce45ea28aca152c0b0da5dde4252bed021db7823488fcd5576323380c"
+    },
+    {
+      "bytes": 4227,
+      "path": "hol/nested_parameters491.ml",
+      "sha256": "6e3b982f5baf4f22900ec7f6af0fb7fd6b9161f4496b90c4cc33654aef90d2a1"
+    },
+    {
+      "bytes": 2546,
+      "path": "hol/nested_prefix420.ml",
+      "sha256": "5523f571beb90d5db141c15eb0aa96d54f3b067aa9a19ffe12a645df9893ad0c"
+    },
+    {
+      "bytes": 6091,
+      "path": "hol/nested_traversal449.ml",
+      "sha256": "f3b29dc6d99de0ee7b0e19dea391087f870aa12fa5c88d8c84fa00f1de830f7c"
+    },
+    {
+      "bytes": 5819,
+      "path": "hol/projection_properties577.ml",
+      "sha256": "dfcef4c26dbd42bb7391d2efe6c2096bd871f5fe148686004fa19aebc813e08d"
+    },
+    {
+      "bytes": 3808,
+      "path": "hol/projection_quotient550.ml",
+      "sha256": "8f120aca178bbfc5c5243834d00836337fc81cd4b25f130d8ce81883c9faf127"
+    },
+    {
+      "bytes": 3851,
+      "path": "hol/projection_typing577.ml",
+      "sha256": "f7560c301cc1bdb0a6a53af245acbe3d1c33e8e368ad55fda8b4f95871c67f43"
+    },
+    {
+      "bytes": 5545,
+      "path": "hol/recursor_conversion585.ml",
+      "sha256": "b778d4f12b3547092f72f1f231e35876350d3878fe5818ceb0e8713584b11c39"
+    },
+    {
+      "bytes": 11962,
+      "path": "hol/recursor_conversion_properties585.ml",
+      "sha256": "493038e0826702ea47702111dc0d720e79bd57dd0a5aef1245f4ceb1152205c3"
+    },
+    {
+      "bytes": 4213,
+      "path": "hol/recursor_conversion_regressions585.ml",
+      "sha256": "38e80339e3eab1a78c825913610678e315ae521bbcfa41ed9d828a5769197455"
+    },
+    {
+      "bytes": 2291,
+      "path": "hol/recursor_helpers560.ml",
+      "sha256": "1d88d1dd48f4fee0dc1fe4d7e0a4704df202bf4058a765d0869b8006b846f939"
+    },
+    {
+      "bytes": 3037,
+      "path": "hol/syntax.ml",
+      "sha256": "d3d6f321f370be060f5375c824fccf7fca8d79bf10795faabc23899eb0a3b102"
+    },
+    {
+      "bytes": 6475,
+      "path": "hol/universe_decision555.ml",
+      "sha256": "d5ee771a9c6d69f785e1d1d6034e67e9bf0694858992ded6a9d47c11a8e406ce"
+    },
+    {
+      "bytes": 6217,
+      "path": "hol/universe_properties562.ml",
+      "sha256": "d1810f452febd11c26d56f2ea9b7f825725c9e81f3ed09fd77634965df092d6e"
+    },
+    {
+      "bytes": 5696,
+      "path": "hol/whnf_control594.ml",
+      "sha256": "eaa2fadcc8d27d1c303886791845585e8e6663e66b0ab60d0dee245e886739fc"
+    },
+    {
+      "bytes": 11939,
+      "path": "hol/whnf_control_properties594.ml",
+      "sha256": "6ae231ec266458ad91f99563a087f887832e76c37893e15dda74b0d4a676c915"
+    },
+    {
+      "bytes": 7147,
+      "path": "hol/whnf_control_regressions594.ml",
+      "sha256": "7cfba7c815f9819ab73a505cd78ba26a434e91cced0f7c78fc85b6884816311f"
+    }
+  ],
+  "project_sources": 43,
+  "runtime_namespace_verified": false,
+  "source_graph_sha256": "3028aca26028f80ea4cb4c91c42690d0c828babb53af4b722561dc231a16b7e6",
+  "source_review_pending": true
+}

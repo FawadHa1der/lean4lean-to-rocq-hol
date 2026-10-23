@@ -1,0 +1,40 @@
+WHNF control594: changed source-only HOL component
+=================================================
+Copyright 2026 Fawad Haider. Apache License, Version 2.0; LICENSE included.
+Changed implementation of local rocq/Checker.v701-711 and831-922.
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76,
+Lean4Lean/TypeChecker.lean323-414,416-451,519-543.
+The pinned upstream file has no individual copyright header. Its repository
+license and local Rocq attribution are retained. INPUTS594.sha256 pins the
+actual source bytes, direct dependencies and selected shared semantic inputs.
+It is not a complete transitively sealed loader or runtime admission record.
+
+This full447 port follows the local Rocq behavior, not unrestricted equivalence
+with upstream Lean. Local bound/free lookup, constant/level/meta checks and UTF8
+validation remain explicit. Upstream assumes well-formed inputs at several of
+these points. Local application reduction rebuilds the spine and tries quotient
+then recursor directly; upstream also branches on whether the head changed and
+may re-enter core WHNF. No cache or pointer-identity shortcut is introduced.
+Local fuel/error and Nat readiness behavior is preserved; no Lean native
+reduceBool/reduceNat hook is added. The variable called native is the inherited
+pure Nat result, not an external executable or verdict oracle.
+
+Cheap projection uses the core method on its major, but canonical550's string
+expansion and canonical585's recursor majors still use the full smaller method.
+The zero-name/full-Nat routes, delta steps, ordered failures and finite round
+control match the local routines. No extra admission gate is inserted or removed.
+Logical evaluation equations do not establish extracted execution order or cost.
+
+Canonical526 beta,528 constants/levels/delta,543 methods/rounds,549 Nat,
+550 projection/quotient,585 recursor,532 context and539 strings are reused.
+585 retains repaired560's557 definitions and the unchanged555 universe decision.
+No datatype/list helper is duplicated. HOL needs uses basename plus digest;
+retain canonical dependency paths and bytes, not modified same-basename forks.
+Existing dependency licenses and notices remain applicable.
+
+All49 conditional proof/regression scripts are UNCOMPILED and NOT RUN.
+Arbitrary method records are internal parameters, not a public checker API.
+No admission, axiom, cast, source-model execution, native comparison, Arena
+verdict, complete kernel or typed-reduction/soundness proof is claimed.

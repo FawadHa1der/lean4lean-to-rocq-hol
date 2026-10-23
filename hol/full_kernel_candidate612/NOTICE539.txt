@@ -1,0 +1,40 @@
+Full447 HOL string decoding and expansion source port539
+======================================================
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under Apache License, Version2.0. LICENSE is an unmodified copy of
+the pinned local vendor/lean4lean/LICENSE; its hash is in INPUTS539.sha256.
+
+Immediate algorithmic reference: local rocq/Checker.v430-487, definitions
+core_cont,core_digit,core_append_digit,core_utf8,core_char_list,core_expand_string.
+The exact file bytes, not an assumed upstream revision, are pinned in INPUTS539.
+Local rocq/NOTICE attributes the Gallina port to Lean4Lean, Mario Carneiro and
+Lean4Lean contributors, https://github.com/digama0/lean4lean, historical commit
+8223d223ed98661882e95d9d6a7126df7097cd76. This is attribution, not a claim that
+the current local Checker.v is identical to any upstream file or commit.
+
+This is a changed HOL object-language reimplementation, not an OCaml decoder:
+one structurally recursive scanner replaces Rocq's multibyte lookahead recursion.
+It carries pending-byte count,accumulator,next-byte lower/upper bounds, and
+consumes exactly one list element per recursive call. The public entry starts
+in state(0,0,128,192). Explicit byte bounds conservatively reject num>255, which
+cannot occur in Rocq ascii. No fuel fallback,narrower byte-string domain,
+new axiom,admission,unchecked cast or host codec is introduced.
+
+Actual full447 expression constructors/full491 results and489 list-first
+application helper are reused. Char/Char.ofNat/String.ofList names reuse533.
+Only List's name constant is added. Existing hol/string_syntax.ml was audited:
+it expands decoded scalars into the older l4_expr representation. Its logical
+scalar predicate is representation-independent, but no duplicate of that
+predicate is introduced; the scanner mirrors the source's byte restrictions.
+The old OCaml string_scalars helper in hol/core.ml is not imported or called.
+
+The primitive digit helpers and raw character-list builder remain total on
+naturals. They are not validators. Public decoding/expansion rejects malformed
+UTF8,including nonbytes; it does not normalize,strip a BOM,or reject Unicode
+noncharacters. Successful expansion constructs a term; it does not establish
+environment readiness,typing,checked admission or end-to-end kernel validity.
+
+All HOL source and22 proposed proof scripts are UNCOMPILED. Python results are
+finite handwritten-model evidence only,not target proofs,extraction validation
+or Arena outcomes. Scanner equivalence/public reachable-state invariants remain
+formal proof obligations. All native authority and safety limits stay unchanged.

@@ -1,0 +1,33 @@
+Successor562 source-only proof repair
+====================================
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+
+Changed derivative of source555 properties: reverse ALL_MEM in the
+l4_guard_subset_sound555 rewrite list, with an added prominent change notice.
+The regression successor changes ONLY its needs path to the repaired properties.
+Theorem names, statements, all other tactics and the original core dependency
+are unchanged.30 properties+14 regressions remain44 UNCOMPILED scripts, not
+44 new proofs. No model or native execution. PATCH562.diff records every change.
+LICENSE is an exact copy of source555's Apache2.0 license, SHA256 c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.
+
+Retained source555 attribution notice follows verbatim. Its operation/script
+inventory describes the original package, not additional562 implementations.
+
+Source555 full-syntax universe normalization and comparison
+=========================================================
+Copyright 2026 Fawad Haider. Apache License2.0; exact LICENSE included.
+Changed HOL object-language port of local rocq/Universes.v1-115 and
+Checker.v40-46;original local attribution is in pinned rocq/NOTICE.
+Algorithmic upstream Lean4Lean,Mario Carneiro and contributors,commit
+8223d223ed98661882e95d9d6a7126df7097cd76,Level.lean,following Yoan Geran's
+canonical guarded-universe representation. The exact local vendor source
+is pinned separately;no blanket upstream implementation equivalence claim.
+
+Local representation is list-backed,unminimized guarded atoms,not the
+upstream grouped ordered tree map. The comparison checks each atom against
+some dominator;normal forms are not compared by raw list equality.
+Full447sixconstructor levels,actual491results and437name membership are used.
+HOL natural byte lists/name equality still require representation refinement.
+16actual definitions plus1datatype;44proposed proof scripts UNCOMPILED.
+No full normalization soundness/completeness proof port or native conversion.
+The handwritten model and semantic samples are not target/Arena execution.

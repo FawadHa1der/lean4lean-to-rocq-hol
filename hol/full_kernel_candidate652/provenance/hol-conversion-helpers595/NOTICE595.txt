@@ -1,0 +1,51 @@
+Conversion helpers595: changed source-only HOL component
+========================================================
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Changed implementation of local rocq/Checker.v eta_compare, argument/head/
+field comparison, delta congruence, structure eta and unit-like helpers.
+Use the canonical full447 syntax,491 results,493 declarations,532 context,
+543 seven-field methods,555 universe comparison,538 delta metadata/heuristics,
+489 application spines/447 lifting, and550 list skip. No duplicate types.
+The two list-recursive595 interfaces are list-first; all others retain Rocq
+order. See INTERFACE595.txt and SOURCE_REPORT595.txt.
+
+The direct behavioral reference is local Rocq, not unconditional equality
+with upstream Lean on arbitrary raw terms or malformed environments.
+Upstream algorithmic reference: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean, snapshot
+8223d223ed98661882e95d9d6a7126df7097cd76. Its TypeChecker.lean has no individual
+copyright header in the pinned snapshot; the exact repository Apache LICENSE
+is included unmodified. SHA-256:
+c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.
+
+The helper callbacks must be built internally by the future well-founded
+checker. Admitted environments and suitable typed contexts remain obligations.
+These operational equations are UNCOMPILED, not soundness, adequacy, runtime
+verification, Arena acceptance, or execution/admission authority.
+No new trust flags, proof admissions, axioms, runtime guards or native code.
+
+The local Rocq NOTICE is preserved verbatim below.
+
+Lean4Lean Gallina dependent-function core port
+
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Commit 8223d223ed98661882e95d9d6a7126df7097cd76
+  Author: Mario Carneiro and Lean4Lean contributors
+  Lean4Lean/Level.lean, TypeChecker.lean, LocalContext.lean,
+  Instantiate.lean, Expr.lean, Declaration.lean, Inductive/Reduce.lean,
+  Quot.lean and Primitive.lean (operation/signature reference).
+These files have no individual copyright header in the pinned snapshot;
+the repository's Apache-2.0 LICENSE is included here unmodified.
+
+This is a changed Gallina reimplementation: structural syntax, list-backed
+guarded universe sublevels, de Bruijn local contexts, fuel-explicit pure
+checking, no pointer caches or native substitutions, explicit declines.
+The upstream verification assumptions and unfinished proofs are not imported.
+
+The universe algorithm follows Yoan Geran, "A Canonical Form for Universe
+Levels in Impredicative Type Theory", as implemented and attributed in
+Lean4Lean/Level.lean. No claim of complete formal verification is made.

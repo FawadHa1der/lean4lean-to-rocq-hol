@@ -1,0 +1,25 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Changed port of local rocq/NestedAdmission.v151-158, with algorithmic ancestry
+in Mario Carneiro and Lean4Lean contributors' Inductive/Add.lean707-722 at
+upstream8223d223ed98661882e95d9d6a7126df7097cd76. Apache LICENSE retained.
+
+Decimal conversion is an independently written quotient/remainder recurrence.
+Installed Stdlib DecimalString.v/DecimalNat.v were consulted for the semantic
+contract of NilZero.string_of_uint(Nat.to_uint n); no LGPL implementation or
+proof text is copied into the new implementation. It is not unary succession.
+HOL's existing WF_REC_num and DIV_MUL_LE support the existence/decrease proofs;
+new_specification must receive a closed proved theorem, never an axiom.
+
+All17 prove scripts (two required before the decimal definition,seven properties,
+eight regressions) are UNCOMPILED. No logical declaration/load, target run,
+native extraction, parser equivalence, Lean equivalence or Arena result is
+claimed. The bounded handwritten model and standard formatting expectations
+are testing aids only. Names/strings use inherited HOL natural-list encoding.
+
+Names-first argument order for auxiliary_rec_names differs from local Rocq's
+main-first order; callers must adapt it explicitly. Zero gives rec_0 even
+though the actual admission caller starts at1. Duplicate source names and
+input order are preserved. Freshness/collision checking is a caller obligation.
+Temporary and relative dependency paths remain unselected runtime source.
+No guards, trust requirements, pending native authority, Solidity or existing
+source/evidence were changed. No commits or pushes.

@@ -1,0 +1,8 @@
+{
+  "all_runtime_project_inputs_match_review": true,
+  "compared_inputs": 27,
+  "different_or_missing_inputs": [],
+  "review_snapshot_sha256": "7677c7e691c7a42884b0ff7e97577960615396e6d8bfeddb62fba5988c2003fa",
+  "runtime_provenance_sha256": "19aa5c31e75e63e3859b643f897815b4a46ff6e423b38de3189d7507a99be34d",
+  "scope": "Project-file hashes only, not runtime state or semantic attestation."
+}

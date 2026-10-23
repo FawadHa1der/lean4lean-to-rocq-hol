@@ -1,0 +1,9 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Parent646 implementation is original glue using public HOL Light interfaces.
+Source references are the project's pinned toolchain installation:
+toolchain/opam-root/lean4lean/lib/hol_light/compute.ml
+toolchain/opam-root/lean4lean/lib/hol_light/calc_num.ml
+toolchain/opam-root/lean4lean/lib/hol_light/equal.ml
+toolchain/opam-root/lean4lean/lib/hol_light/simp.ml
+These stock files retain their own copyright/licensing notices. No stock
+implementation is vendored or changed by this candidate.

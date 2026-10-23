@@ -1,0 +1,32 @@
+Checked telescope606: changed full447 HOL source port
+====================================================
+Copyright 2026 Fawad Haider. Licensed under Apache License 2.0.
+LICENSE is the exact unmodified vendored Lean4Lean Apache-2.0 license.
+ROCQ_NOTICE606.txt preserves the complete exact attribution notice of the
+local Rocq port, including its upstream and algorithmic attributions.
+
+Direct behavioral source:
+  /Users/fawadhaider/code/lean4 in rocq:hol light/rocq/InductiveUtils.v91-162
+  State/local/fresh definitions: the same file, lines9-29.
+  Concrete checker API reference: rocq/Checker.v1410-1497.
+Algorithmic ancestry:
+  Lean4Lean, Mario Carneiro and contributors,
+  https://github.com/digama0/lean4lean
+  commit8223d223ed98661882e95d9d6a7126df7097cd76
+  vendor/lean4lean/Lean4Lean/Inductive/Add.lean; inspected lines1-110.
+The commit is the local NOTICE attribution, not a new network verification.
+The vendored Add.lean file begins with imports and has no individual
+copyright header there. Exact inspected input files are pinned separately.
+
+Changes: actual HOL definitions over existing full447 syntax,491 results and
+state,489 locals,532 context,480 structural expression comparison and concrete
+597 kernel entry points. The annotation stripper uses an internal boolean
+phase solely to express immediate-child structural recursion. Opening returns
+the existing491 right-nested payload (locals,(body,state)), rather than relying
+on Rocq/HOL tuple notation to agree. No new datatype or proof oracle is added.
+The raw491 opener/parameter instantiator are deliberately not substituted for
+the checked routines. See INTERFACE606.txt for unchanged public argument order.
+
+ALL HOL SOURCE AND 37 PROPOSED SCRIPTS ARE UNCOMPILED / NOT EXECUTED.
+No claim of HOL admission, logical soundness, executable compatibility,
+environment admission, native execution, or end-to-end validation is made.

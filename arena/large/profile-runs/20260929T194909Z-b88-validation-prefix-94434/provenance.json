@@ -1,0 +1,66 @@
+{
+  "authorized_max_seconds": 120,
+  "binary_before": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "command": [
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "--progress",
+    "1",
+    "--fuel",
+    "512",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-94434.ndjson"
+  ],
+  "created_utc": "2026-09-29T19:49:19.399580+00:00",
+  "driver": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_prefixes.py",
+    "sha256": "41771ff1684b12638538d7af1507429b1d5c8366f8ccbd9f3dd5db3cd7e2adc9",
+    "size": 14095
+  },
+  "driver_helper": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_init.py",
+    "sha256": "050237f9673efed870fba2c8af693ac1cfe58ff23cbd1f66b3fe56cb68289174",
+    "size": 12755
+  },
+  "enforced_timeout_seconds": 119.0,
+  "fuel": 512,
+  "input_before": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-94434.ndjson",
+    "sha256": "846760ab10763b75c62570405d6704377e2ae107d5fb189464edbfb0dea3922a",
+    "size": 4865221
+  },
+  "maximum_sample_invocations": 1,
+  "note": "No full Init input, shared build binary, core source, or main manifest is used or changed.",
+  "origin_provenance": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/provenance.json",
+    "sha256": "33c5bef64633976102684cd4a0170b326341dac0bfd2269f7d507365ac12e9ac",
+    "size": 4909
+  },
+  "prefix_audit": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-94434.json",
+    "sha256": "8d44f7faf519beeea31d043b8b6be0cb17f64718cc4297c7ea6f14bcfa4d054f",
+    "size": 1883
+  },
+  "sample_after_seconds": 30.0,
+  "sample_duration_seconds": 5,
+  "target": {
+    "line": 94434,
+    "names": [
+      "_private.Init.Data.Range.Polymorphic.Nat.[0].Std.PRange.instLawfulHasSizeNat._proof_2"
+    ],
+    "tag": "thm",
+    "wire_record": {
+      "thm": {
+        "all": [
+          9397
+        ],
+        "levelParams": [],
+        "name": 9397,
+        "type": 81720,
+        "value": 83458
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of raw local Rocq nested-restoration helpers.
+This directory adapts rocq/NestedAdmission.v:8-37, with local-record and
+extended-expression/lift dependencies from489 and447. See SOURCES495.txt.
+Algorithmic upstream attribution also includes Lean4Lean/Inductive/Add.lean,
+Mario Carneiro and Lean4Lean contributors, at the revision below.
+The upstream Apache-2.0 LICENSE is included byte-for-byte.
+
+The four requested helpers are structural HOL definitions. The fifth definition
+is a total option eliminator for the free-variable case, not an oracle.
+These operations perform raw syntax manipulation, not typing or admission.
+The source is not wired into any executable checker. All HOL definitions and
+28 prove scripts remain SOURCE ONLY / UNCOMPILED; no target result is claimed.
+The Python code is two handwritten finite models with shared data/equality,
+not extraction, evaluation of target HOL, a certified interpreter, or an
+upstream Lean comparison. It uses no external tools, files, or network.
+
+Representation boundary: all13 extended expression constructors, all4 binder
+variants, nonDep, structured names, universe fields and metadata wrappers are
+retained. Metadata PAYLOADS are absent already in local Rocq/syntax447.
+Num-list string/name validity and the Rocq/HOL name-equality correspondence
+remain external obligations. This is not lossless Lean serialization.
+
+No full restore_nested_expr, environment, declaration metadata, candidate
+detection493-494, or checked admission is implemented here. No native approval,
+guard/authority, loader selection, or existing evidence is changed.
+Session78 remains stopped; goal continuation is not native approval.
+
+----- Unmodified local source attribution: ROOT/rocq/NOTICE -----
+Lean4Lean Gallina dependent-function core port
+
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Commit 8223d223ed98661882e95d9d6a7126df7097cd76
+  Author: Mario Carneiro and Lean4Lean contributors
+  Lean4Lean/Level.lean, TypeChecker.lean, LocalContext.lean,
+  Instantiate.lean, Expr.lean, Declaration.lean, Inductive/Reduce.lean,
+  Quot.lean and Primitive.lean (operation/signature reference).
+These files have no individual copyright header in the pinned snapshot;
+the repository's Apache-2.0 LICENSE is included here unmodified.
+
+This is a changed Gallina reimplementation: structural syntax, list-backed
+guarded universe sublevels, de Bruijn local contexts, fuel-explicit pure
+checking, no pointer caches or native substitutions, explicit declines.
+The upstream verification assumptions and unfinished proofs are not imported.
+
+The universe algorithm follows Yoan Geran, "A Canonical Form for Universe
+Levels in Impredicative Type Theory", as implemented and attributed in
+Lean4Lean/Level.lean. No claim of complete formal verification is made.

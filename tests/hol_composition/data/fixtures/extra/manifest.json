@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Char.ofNat-invalid-safe-tag",
+    "expected": 1,
+    "sha256": "35cc5bd83b0b4bfb817cdcedf4e80da918cf2053dd8886df0569a0d171feb022"
+  },
+  {
+    "name": "String.ofList-invalid-safe-tag",
+    "expected": 1,
+    "sha256": "1e749f94cfe9772c07cff928afeb71880404b39480de698bae4747d0a1f2ce05"
+  },
+  {
+    "name": "literal-unsafe",
+    "expected": 2,
+    "sha256": "d2aea701a76baf33631efcc3b133aa0ed1ae2b1c5dbc1875e01549685e71a1c9"
+  },
+  {
+    "name": "literal-partial",
+    "expected": 2,
+    "sha256": "29ffff37605f6a34772de0873924a3b527c866fe437a2bd53c9c38ed422801cd"
+  },
+  {
+    "name": "utf-surrogate",
+    "expected": 1,
+    "sha256": "968b24522e9259d1f70ce61f9665087aaf7ec6492ccbbfbf5cad0fadd5352b6b"
+  },
+  {
+    "name": "utf-overlong",
+    "expected": 1,
+    "sha256": "da826add56b5f0675b7cc5378ddcf45176a843c88c4639d524b413037b6e6245"
+  },
+  {
+    "name": "utf-continuation",
+    "expected": 1,
+    "sha256": "f2dd43864cfae2ebef7e97ab7fc01fc5ed6bfba703d81f7bb2e1a4935daf674a"
+  },
+  {
+    "name": "utf-out-of-range",
+    "expected": 1,
+    "sha256": "b4fbe04ed71ec7019c0ab9b88e5db8ce2984a0c36a06b1aa153a9a5c1c359cee"
+  }
+]

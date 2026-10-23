@@ -1,0 +1,24 @@
+Full-file fixtures644: original test data and a held stock-computation adapter
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+LICENSE retains the unmodified Apache-2.0 license from the source633 package.
+
+These are changed/additional fixtures for the independent Lean4Lean port, not
+a copy of a successful exporter result or any previous runtime evidence.
+Behavioral references: local rocq/Declarations.v, Safety.v, Inductive.v,
+InductiveSafety.v and canonical full447/489/491/493/509/516/521/522/597/
+607/624/629/630/631/633/634/642 source. Exact selected pins are in INPUTS644.
+Algorithmic ancestry retained from those packages: Mario Carneiro and the
+Lean4Lean contributors, https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76. This is inherited attribution,
+not a new network verification or an imported upstream proof assumption.
+
+The held runner links parent's original Kernel_compute646 adapter over the
+stock HOL Light Compute module. Neither implementation is copied or replaced.
+compute.ml credits Alexey Solovyev2018 and Bruno
+Barras2000, under the HOL Light license. HOL_LIGHT_LICENSE644.txt preserves
+the stock notice: University of Cambridge1998, John Harrison and others
+1998-2012. calc_num.ml and ind_types.ml remain unmodified stock sources.
+
+All sources and proposed proof entrypoints are UNCOMPILED / NOT EXECUTED.
+No logical verdict oracle, new axiom, model run, private capture, native job,
+resource/clock/process probe or admission/authorization record is supplied.

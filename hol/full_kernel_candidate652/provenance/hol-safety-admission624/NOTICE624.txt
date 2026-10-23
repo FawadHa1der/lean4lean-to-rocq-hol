@@ -1,0 +1,19 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+Changed full-syntax HOL Light port of local rocq/Safety.v9-109,
+which adapts Lean4Lean/Environment.lean, Mario Carneiro and contributors,
+Apache-2.0, pinned8223d223ed98661882e95d9d6a7126df7097cd76.
+Preserve the project and upstream notices/licenses in any packaged copy.
+
+Reference ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light
+rocq/Safety.v SHA256
+7e5b8e167425b19bf08c7c80937b2ee7b6c153af9899ab63b62816c07db36646
+rocq/SafetyRegression.v SHA256
+f69b251cc828e3a98cfdcadee48ab3d15596c5e8eb677f4fac77ef8827d95621
+rocq/Declarations.v SHA256
+c6df333989265d84b9cd1aa81a011db63f46b4b02d1fc8acc44e09b4db3fc488
+
+SOURCE ONLY / UNCOMPILED. No HOL proof, checker execution or Arena result.
+Needs actual620 ordinary admission, not607's restricted stub for definitions.
+No new axiom, caller verdict callback, unchecked cast or guard relaxation.
+Safety gate equations are not a semantic noninterference/soundness proof.

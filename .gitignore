@@ -1,0 +1,10 @@
+/build/
+/rocq/*.vo
+/rocq/*.vos
+/rocq/*.vok
+/rocq/*.glob
+/rocq/.*.aux
+/rocq/.lia.cache
+/rocq/extracted/
+/vendor/
+*.DS_Store

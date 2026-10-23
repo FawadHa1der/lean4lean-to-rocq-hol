@@ -1,0 +1,62 @@
+{
+  "checker_pid": 71641,
+  "command": [
+    "/usr/bin/sample",
+    "71641",
+    "5",
+    "1",
+    "-mayDie",
+    "-file",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T205000Z-dispatch-array/sample.txt"
+  ],
+  "correlation": {
+    "interpretation": "No progress events were observed across the sample window; the preceding declaration remained active.",
+    "no_observed_progress_events_across_sample": true,
+    "progress_after": {
+      "checked": 1703,
+      "cpu_seconds": 32.754,
+      "declaration": {
+        "names": [
+          "Array.foldlM_toList.aux._unary"
+        ],
+        "tag": "thm"
+      },
+      "line": 120590,
+      "observed_wall_seconds": 34.218641333998676,
+      "stage": "declaration"
+    },
+    "progress_before": {
+      "checked": 1703,
+      "cpu_seconds": 32.754,
+      "declaration": {
+        "names": [
+          "Array.foldlM_toList.aux._unary"
+        ],
+        "tag": "thm"
+      },
+      "line": 120590,
+      "observed_wall_seconds": 34.218641333998676,
+      "stage": "declaration"
+    },
+    "progress_events_during": [],
+    "single_observed_active_declaration": true
+  },
+  "ended_wall_seconds": 50.05501729200114,
+  "exit_code": 0,
+  "progress_at_trigger": {
+    "checked": 1703,
+    "cpu_seconds": 32.754,
+    "declaration": {
+      "names": [
+        "Array.foldlM_toList.aux._unary"
+      ],
+      "tag": "thm"
+    },
+    "line": 120590,
+    "observed_wall_seconds": 34.218641333998676,
+    "stage": "declaration"
+  },
+  "quiet_seconds_at_trigger": 10.01132270800008,
+  "sampler_pid": 75205,
+  "started_wall_seconds": 44.229964041998755
+}

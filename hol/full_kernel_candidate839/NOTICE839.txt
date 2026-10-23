@@ -1,0 +1,36 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Source-only HOL quotient dependency parity successor839.
+Not compiled, tested, admitted by a runtime profile or submitted to Arena.
+
+Adapted from this project's rocq/Quotient.v dependency predicates and admission
+order, SHA256bedc3b8bbdc8efde0ad685a49a15fdae2c23bf172f8c89135bca5eff79886ea5.
+The existing quotient syntax/admission derives from pinned Lean4Lean Quot.lean,
+SHA25679c51dae8b2ac0e09537aaabfb32075fe4a9d5dd34a1a78d47a88229a74926c5.
+Retain the parent candidate's Lean4Lean/HOL Light licenses and all notices.
+
+The patch adds actual object-language definitions, connects admission608 to
+them and adds all three defining theorems to the production computation registry.
+It does not delegate a logical decision to Rocq, Lean, OCaml host Booleans or
+expected test outcomes. The fixture builder constructs real closed HOL equations
+with the existing Kernel_compute646; expected values are tests only. No new axiom,
+unchecked cast, proof admission or resource-rule change is introduced.
+
+This repairs parity with the CURRENT ROCQ PER-DECLARATION ADMISSION POLICY.
+It does not implement or prove equivalence to upstream's atomic four-declaration
+addQuot/quotInit protocol. Existing atomic-family sources and replay obligations
+remain separate. A dependency predicate alone does not prove that an arbitrary
+input environment is valid or that the complete Lean checker is sound.
+
+First-error order is preserved: Eq prerequisite, header (including fuel decline),
+generated name/arity, generated type, dependency metadata, then canonical insert.
+Lookup uses the first visible declaration, never a scan for a deeper good entry.
+Dependencies require the correct built-in kind, name, unique universe parameters,
+parameter count, no value and the alpha-renamed canonical type under expr_eqb480.
+Hints are intentionally ignored, matching Rocq, and metadata expression wrappers
+are not stripped. Type needs none; ctor/lift need type; induction needs type/ctor.
+
+The historical source652 and its manifests/reviews remain unchanged. A fresh
+full candidate and source manifest are required before any future native use.
+The old818/829 runner pins, counts and7090 approval do not authorize this source.

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "001_basicDef",
+    "bytes": 367,
+    "sha256": "66160bdc748c91306eddc888fe8a268dd336c385979902022c2902da0680efd5"
+  },
+  {
+    "name": "003_arrowType",
+    "bytes": 622,
+    "sha256": "aa2c0aa79d56f1ad43b41df7bd9a5e1876eafcba560a39845f5a9a5c290a72a2"
+  },
+  {
+    "name": "004_dependentType",
+    "bytes": 460,
+    "sha256": "74d890dafbd178c44ef0d1b8b5ef339f628efcd5c2a84d33307330b512ee8a08"
+  },
+  {
+    "name": "006_betaReduction",
+    "bytes": 1363,
+    "sha256": "e20bf2f42a95fc8edf901b00f1c99d3f8d2f4293abebe50d835269a1187283dd"
+  },
+  {
+    "name": "013_thmProof",
+    "bytes": 1345,
+    "sha256": "3bdd74e5e5c4b6413961de59db89ec750ac301dd86c6f8cfedf91e8f01a5ee2c"
+  },
+  {
+    "name": "018_levelParams",
+    "bytes": 1429,
+    "sha256": "67f5ee4d9bebc000d57f0bbf08b84481634209b78844f31409bc737c82625a20"
+  },
+  {
+    "name": "030_peano1",
+    "bytes": 3692,
+    "sha256": "c0bfe06648cd6fc49ca8b9488a88ab79cc4d518613e7eb5b81db4508389716fb"
+  },
+  {
+    "name": "035_letRed",
+    "bytes": 627,
+    "sha256": "648dcc1d99fb02a44fcb00bccdfeb7221bff807cd1f184239c9f4aa8749677e3"
+  },
+  {
+    "name": "036_empty",
+    "bytes": 1228,
+    "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+  },
+  {
+    "name": "037_boolType",
+    "bytes": 2377,
+    "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"
+  },
+  {
+    "name": "040_prodType",
+    "bytes": 3919,
+    "sha256": "2f82e7d70c3c170a7fb5b9d081c328a0075c8109f4979862cf5666355b94fd7d"
+  },
+  {
+    "name": "044_natDef",
+    "bytes": 3392,
+    "sha256": "e1ea8ce5e5814320ec6f9c1d10bfe7fa0955432595627a40f629e56366bf49be"
+  },
+  {
+    "name": "063_boolRec",
+    "bytes": 3092,
+    "sha256": "3da418a44a96a39dcbf70cd482c6ef8320d8cbb2593de2c21f163dd862551afd"
+  },
+  {
+    "name": "084_Prod.snd",
+    "bytes": 4646,
+    "sha256": "8cdc1c4b40f2ae776fc7bc898b01d9a9c4efb9f7bf0099162dbd7d2aff705464"
+  },
+  {
+    "name": "102_aNatLit",
+    "bytes": 3101,
+    "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+  }
+]

@@ -1,0 +1,16 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+This is a changed HOL Light port of the independent project's
+rocq/Inductive.v derive_inductive and admit_inductive definitions. The source
+project and its upstream provenance are preserved in the project notices.
+Algorithmic reference: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean, commit
+8223d223ed98661882e95d9d6a7126df7097cd76, Inductive/Add.lean.
+The repository's Apache-2.0 license is preserved in the enclosing project.
+This package uses the existing full447 expression/declaration/result types.
+No new axiom, external-checker delegation, manifest lookup or unchecked
+logical verdict callback is added.
+
+All HOL definitions and proposed proof scripts are SOURCE ONLY / UNCOMPILED.
+No executable compatibility, Arena result, logical soundness theorem or
+successful HOL parsing/typechecking is claimed by this package.

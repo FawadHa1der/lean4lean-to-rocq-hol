@@ -1,0 +1,26 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+Changed HOL Light port of the local Rocq syntax and substitution operations in
+rocq/Syntax.v and their Lean4Lean sources. Pinned Lean4Lean revision:
+8223d223ed98661882e95d9d6a7126df7097cd76. Upstream https://github.com/digama0/lean4lean.
+Local reference vendor/lean4lean retains the upstream Apache-2.0 license.
+
+This prerequisite representation has all6 local Rocq universe constructors,
+all4 binder-information variants, and13 expression constructors (the two literal
+variants are separate). Names, binder information, let nonDep and metadata
+wrappers are retained. As in Rocq, metadata payloads are erased; num-list string
+encoding validity is external. This is not a lossless Lean runtime/serialization
+model, an admission checker, or a claim of full Lean4Lean compatibility.
+In particular, upstream Expr.eqv compares metadata payloads. Two different
+payloads with the same body erase to the same local representation, which can
+merge nested memoization keys. This is a representation/compatibility gap,
+not a demonstrated unsound acceptance. A full-input port must retain payload
+equality information or justify and enforce a restricted input domain.
+
+kernel_syntax447.ml, kernel_bridge447.ml and kernel_properties447.ml are held
+SOURCE ONLY / UNCOMPILED. Native Session76 remains stopped. No default loader,
+guard, existing evidence, Solidity source, commit or push is changed. The legacy
+HOL representation embeds into this one with default binderInfo and false
+nonDep. The reverse bridge is partial and refuses noncanonical fields instead
+of silently erasing them. Full nested transformation/restoration and downstream
+judgment/checker migration still require implementation and target validation.

@@ -1,0 +1,26 @@
+Source528 constant operations
+============================
+Modified implementation: Copyright2026 Fawad Haider.
+Apache License2.0; unmodified upstream license retained in LICENSE.
+
+Immediate changed-source references in the independent local port:
+rocq/Syntax.v56-63 (level_wf),451-452 (instantiate_levels fast path).
+rocq/Checker.v136-160 (check_level/check_levels/get_constant),801-816 (core_unfold).
+Full original attribution retained in pinned rocq/NOTICE; upstream algorithmic
+reference Lean4Lean commit8223d223ed98661882e95d9d6a7126df7097cd76,
+Mario Carneiro and contributors,https://github.com/digama0/lean4lean.
+No unfinished upstream proof assumptions imported.
+
+The five actual logical operations reuse447 full syntax/level-meta detection,
+488 universe substitution,489 spine/application operations,491 result types
+and bind,493 full declaration metadata/lookup,and437 structured-name membership.
+Names carry suffix528 to avoid redefining any frozen dependency.
+Parameter order matches immediate Rocq except reused list-first helpers.
+Empty-parameter instantiate_levels fast path is inlined,not a new definition.
+
+This is source-only: every proposed HOL proof is UNCOMPILED. No OCaml native
+verdict wrapper,caller inference oracle or precomputed answer supplies results.
+The bounded Python model is handwritten,not extracted or target execution.
+No full Lean4Lean equivalence,admission soundness or serialization claim follows.
+Input/output pins identify exact bytes,not correctness. Existing resource,
+cleanup and trust requirements are unchanged; no default runtime integration.

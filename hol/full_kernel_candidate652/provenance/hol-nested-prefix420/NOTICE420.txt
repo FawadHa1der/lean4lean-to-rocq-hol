@@ -1,0 +1,18 @@
+Copyright 2026 Fawad Haider. Licensed under Apache-2.0.
+
+This source-only HOL Light component adapts the structured prefix-replacement
+logic in this project's rocq/NestedTransform.v (nested_replace_prefix), whose
+upstream algorithm is Lean4Lean Inductive/Add.lean at commit
+8223d223ed98661882e95d9d6a7126df7097cd76. See vendor/lean4lean/LICENSE.
+Constructor generation uses Name.replacePrefix at line660 in the pinned
+Add.lean. This component does NOT claim full equivalence to that external Name
+API when the supplied old name is not a prefix. It explicitly returns Miss,
+corresponding to the local Rocq helper's UnsupportedDeclaration branch once
+fuel is sufficient; the future caller must preserve that inability-to-decide
+distinction. It must not classify a Miss as a logical rejection or success.
+
+Changed implementation: unbounded structural recursion over the existing HOL
+l4_name datatype, typed result, append/depth helpers and dormant proofs/fixtures.
+The original139-file source package and every consumed native attempt remain
+unchanged. No nested admission rule, export, bridge or default loader is enabled.
+All target proof scripts remain unparsed/uncompiled until separately validated.

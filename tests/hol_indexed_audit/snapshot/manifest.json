@@ -1,0 +1,270 @@
+{
+  "arena_source_pins": [
+    {
+      "id": "tutorial/043_eqType",
+      "path": "corpus/tutorial/043_eqType.ndjson",
+      "sha256": "17e2890610e6c4f97c9f8d62919736f27928d058aa6df4f769e285418b9eba2e",
+      "size": 3324
+    },
+    {
+      "id": "tutorial/086_PSigma.snd",
+      "path": "corpus/tutorial/086_PSigma.snd.ndjson",
+      "sha256": "9a84a3af533679eadb262be72db7a2d17798aaeba1aea38d4144c9c003c4e179",
+      "size": 5177
+    },
+    {
+      "id": "tutorial/076_sortElimPropRec",
+      "path": "corpus/tutorial/076_sortElimPropRec.ndjson",
+      "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e",
+      "size": 5773
+    },
+    {
+      "id": "tutorial/095_projDataIndexRec",
+      "path": "corpus/tutorial/095_projDataIndexRec.ndjson",
+      "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a",
+      "size": 6921
+    }
+  ],
+  "captured_at": "2026-09-29T20:15:53.097850+00:00",
+  "inputs": [
+    {
+      "old_family_startup_match": null,
+      "path": "arena/corpus/tutorial/043_eqType.ndjson",
+      "sha256": "17e2890610e6c4f97c9f8d62919736f27928d058aa6df4f769e285418b9eba2e",
+      "size_bytes": 3324
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "arena/corpus/tutorial/076_sortElimPropRec.ndjson",
+      "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e",
+      "size_bytes": 5773
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "arena/corpus/tutorial/086_PSigma.snd.ndjson",
+      "sha256": "9a84a3af533679eadb262be72db7a2d17798aaeba1aea38d4144c9c003c4e179",
+      "size_bytes": 5177
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "arena/corpus/tutorial/095_projDataIndexRec.ndjson",
+      "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a",
+      "size_bytes": 6921
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/hol_input.cmi",
+      "sha256": "e869b853bdf15e8b3031c078070442135f72b0fdc88559bd4a1d4f6f880f7ddd",
+      "size_bytes": 10645
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/hol_input.cmo",
+      "sha256": "24c15fcdbf3ce3b4848c9298ea8c071377c76e81b0018198dc76fbdfe746f7be",
+      "size_bytes": 7947
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/replay.cmi",
+      "sha256": "5327e5f058c02abd756e474f8ab21102214612711ee11b5c0ee4e7c1e06b974f",
+      "size_bytes": 9865
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/replay.cmo",
+      "sha256": "870acc5c17a60b9aa1bcc6a40f6547d3d5184f15b2240d55d02b21ef59a13b7f",
+      "size_bytes": 11562
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/wire.cmi",
+      "sha256": "14c866d6fb19d45dc806e82d6c83d4623e949232a0787de04be4d5bdd0ff1d1a",
+      "size_bytes": 12005
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "build/frontend/wire.cmo",
+      "sha256": "25e33b06d71f7f0d73dab8c9a0427cf0d2390bcdb345da28e92aacae486d5123",
+      "size_bytes": 22663
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "frontend/hol_check.ml",
+      "sha256": "6c1cce43373b9247e5b64aa893bf86ba9cf9ec3662905554ffc55b45cf56e0bf",
+      "size_bytes": 12301
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "frontend/hol_input.ml",
+      "sha256": "b2873d0c1ab057ab4e4185b8344355bd1ef9d1cfd87d3dc792863f55dbaefb13",
+      "size_bytes": 5986
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "frontend/hol_server.ml",
+      "sha256": "e9cc919f7acf2e4ef597304a6663d95a581bcbeabbefc5aac4b0ddb9a3dfcfe8",
+      "size_bytes": 9438
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "frontend/replay.ml",
+      "sha256": "4be904adc035610223b13f71479da21969729f40a4142b80374d4b5e50ddb228",
+      "size_bytes": 8556
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "frontend/wire.ml",
+      "sha256": "4e204f626e9dd61a049c5d1bc60b2aaaddab597e7770e0922c68fa017d82d802",
+      "size_bytes": 12634
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "hol/core.ml",
+      "sha256": "1b26e9ada6b56b04b6ef4c5636b45470fcf4d9a4a1dcc48bd27acb4e7d70270a",
+      "size_bytes": 20432
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/declarations.ml",
+      "sha256": "6163d695caa096eab0ef1a95c7e04e980c7a4e9d8a3183c7124202c4a07c6cc0",
+      "size_bytes": 4749
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "hol/environment.ml",
+      "sha256": "879d3d999ef2b3eb5fe9976e4f8b30fe5998d9ed23fa8f3d5ba575a48e496f58",
+      "size_bytes": 36815
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "hol/environment_rules.ml",
+      "sha256": "bc91e7a6067ba40d08c88b50057d69a6c389559c2e1240cb5322ee7a942fe497",
+      "size_bytes": 18969
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/family_entries.ml",
+      "sha256": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+      "size_bytes": 1367
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/family_syntax.ml",
+      "sha256": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+      "size_bytes": 4906
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "hol/indexed_entries.ml",
+      "sha256": "c1f491eb369945e2ab4b8a5dba5cec4b0421ffe0eb9e246593edcd354e271a67",
+      "size_bytes": 1283
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "hol/indexed_syntax.ml",
+      "sha256": "f57f23028e8918533e092cb1254be3a763af2b601ca9f1df670a224b1adb5d2c",
+      "size_bytes": 7258
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "hol/indexed_tests.ml",
+      "sha256": "f9eb2af8ac20a1d3512458c4c69cff8903b0473679c38c1534754505efb11fe8",
+      "size_bytes": 13416
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/inductive_entries.ml",
+      "sha256": "29bb89870aca8d9c0be88632ab7eafe8dc74214fc54762292aa669d9b17102d8",
+      "size_bytes": 2865
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "hol/inductive_model.ml",
+      "sha256": "785bd03b57e427387958b43f9b6abbdbb003142abbf35619b3b904f35af11c61",
+      "size_bytes": 12497
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/inductive_syntax.ml",
+      "sha256": "6d11be9da91c0f0b608b9b3e3eaf9ed9fd53120f3148bdfca3d4bbdaef387791",
+      "size_bytes": 5468
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/judgments.ml",
+      "sha256": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+      "size_bytes": 2173
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/nested_names.ml",
+      "sha256": "222eff31256425ec96664bbf57d014a6762bc57a7206eef07a3d2a06204a371d",
+      "size_bytes": 1740
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "hol/primitive_names.ml",
+      "sha256": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+      "size_bytes": 2398
+    },
+    {
+      "old_family_startup_match": false,
+      "path": "hol/syntax.ml",
+      "sha256": "ee6eba129b3eaeb91a41d56f640589a774f3f95402df7f7cf4c99f2ce86b0849",
+      "size_bytes": 2700
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "scripts/hol-check.py",
+      "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+      "size_bytes": 24524
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "scripts/hol-server.sh",
+      "sha256": "78b7567fcc274f81cdcce6e688d80f10434195786b71889bf777d2b8ca801b38",
+      "size_bytes": 235
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "scripts/toolchain-env.sh",
+      "sha256": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903",
+      "size_bytes": 1661
+    },
+    {
+      "old_family_startup_match": true,
+      "path": "scripts/toolchain-exec.sh",
+      "sha256": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+      "size_bytes": 327
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "vendor/lean4lean/Lean4Lean/Environment/Basic.lean",
+      "sha256": "549c16d924d7840858935da71e60169ea3990cf484187e11a2382c39d89e7620",
+      "size_bytes": 5471
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean",
+      "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382",
+      "size_bytes": 32477
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "vendor/lean4lean/Lean4Lean/Inductive/Reduce.lean",
+      "sha256": "07850375534ba73e5e7d6ebeddc9eb77bdbe0f953cbd940a269e9e6e3894bb31",
+      "size_bytes": 5095
+    },
+    {
+      "old_family_startup_match": null,
+      "path": "vendor/lean4lean/Lean4Lean/Replay.lean",
+      "sha256": "245b79946d527869fae09953a1c60d19cc40022b00cb54a5f491bb4ac9fa2b77",
+      "size_bytes": 13528
+    }
+  ],
+  "old_family_provenance_sha256": "736c1498de3f35b9f6dbac0ace01945e2018e38a4764a0ad149d3f2cf5156847",
+  "runtime_identity": "distinct-source-snapshot; no indexed warm server used",
+  "scope": "Filesystem source review, not execution or semantic attestation.",
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76",
+  "version": 1
+}

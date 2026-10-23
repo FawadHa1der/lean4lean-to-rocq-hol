@@ -1,0 +1,3550 @@
+{
+  "cases": [
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/constlevels",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/constlevels",
+        "sha256": "2fa6a967f15f76cfdcea3ef1992ff31a4cc4aa647b0f8fabf0ff61eedb3afbf1"
+      },
+      "path": "inputs/92afc3f163ad8d208cac9fdc3419967ce63b3d7f791758aa21566e59f58772e5.ndjson",
+      "sha256": "92afc3f163ad8d208cac9fdc3419967ce63b3d7f791758aa21566e59f58772e5",
+      "size": 15674,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/ctor-num-fields",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/ctor-num-fields",
+        "sha256": "134ba7d444a9015a073a84b2a919738968a1742e0ba00ecb3535eaece9908278"
+      },
+      "path": "inputs/830c23b49c108b624f20a3f05ede6dbbb341162a618f2ca65a1fae7890efcf91.ndjson",
+      "sha256": "830c23b49c108b624f20a3f05ede6dbbb341162a618f2ca65a1fae7890efcf91",
+      "size": 34918,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/k-rec-conv",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/k-rec-conv",
+        "sha256": "04a692635fe2c6755bc973c4520a29ef3707b5dad6ba23eadcd5dd6e71c0f06e"
+      },
+      "path": "inputs/41357141b52d75452869bcb16b8019dae5f2c1eb702b1dd74d563f98bb10df75.ndjson",
+      "sha256": "41357141b52d75452869bcb16b8019dae5f2c1eb702b1dd74d563f98bb10df75",
+      "size": 12865,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/large-elim-param",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/large-elim-param",
+        "sha256": "df7d23ff199c4956620f3b1b4d17976c6bbe99ec6c1b5a4e803a7f9f415e331f"
+      },
+      "path": "inputs/cb1e28451bbac6313a65a20d2dee5aec810cb7f9bf6f75143d2c8b20dda22cf2.ndjson",
+      "sha256": "cb1e28451bbac6313a65a20d2dee5aec810cb7f9bf6f75143d2c8b20dda22cf2",
+      "size": 5542,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/large-elim-prop-bool",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/large-elim-prop-bool",
+        "sha256": "f3e9ff227b49feedb76e24332ec070498e9d82e4d04d371066dffc243a8de36b"
+      },
+      "path": "inputs/b3f6a5f73c5d553a869abc9bfce24cb168f1ed3985669a27f04b656252081b78.ndjson",
+      "sha256": "b3f6a5f73c5d553a869abc9bfce24cb168f1ed3985669a27f04b656252081b78",
+      "size": 23146,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/level-imax-leq",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/level-imax-leq",
+        "sha256": "497eaa80a214386c679356c33a72c8beab5019c4938494b1608e3772a2756191"
+      },
+      "path": "inputs/ad7cfe4adf0d2987d80136439c1a417ad4e91e000f7ff03e8b23ec87281d3dd1.ndjson",
+      "sha256": "ad7cfe4adf0d2987d80136439c1a417ad4e91e000f7ff03e8b23ec87281d3dd1",
+      "size": 5708,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/level-imax-normalization",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/level-imax-normalization",
+        "sha256": "d368d5569321b717b7ec95bd1f4fa5bbd7d6e1f8d6ebdf1a0644dc8bc76bc2ec"
+      },
+      "path": "inputs/09be773865a753eeb07eb682111fbd9486b5d1783f8fe94fb9f46b0afbaf33e6.ndjson",
+      "sha256": "09be773865a753eeb07eb682111fbd9486b5d1783f8fe94fb9f46b0afbaf33e6",
+      "size": 5897,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/nat-rec-k-lie",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/nat-rec-k-lie",
+        "sha256": "5a49d132bb0c7dca091baa481333f5e97e390fde72c8ec18c6124a690ec47d7c"
+      },
+      "path": "inputs/5a49d132bb0c7dca091baa481333f5e97e390fde72c8ec18c6124a690ec47d7c.ndjson",
+      "sha256": "5a49d132bb0c7dca091baa481333f5e97e390fde72c8ec18c6124a690ec47d7c",
+      "size": 6413,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/nat-rec-rules",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/nat-rec-rules",
+        "sha256": "934e59fdc4f2a978605c4a44e90b94b57e9940f3828620c0db337b7125cdd169"
+      },
+      "path": "inputs/f90e0517ee96bbe80beec94d9388041ed0a27cf64a1de0ea05149308d978cc2f.ndjson",
+      "sha256": "f90e0517ee96bbe80beec94d9388041ed0a27cf64a1de0ea05149308d978cc2f",
+      "size": 8345,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/nested-unused-param",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/nested-unused-param",
+        "sha256": "25afcc9267523cfd26edf94ca01ebe34ca0e8a24954e4b4e3d397a61688b8778"
+      },
+      "path": "inputs/afbc8fae3bccca9e2190f14c8dcaf5fa25edb5541a2a8de5a045b45fad9d02ab.ndjson",
+      "sha256": "afbc8fae3bccca9e2190f14c8dcaf5fa25edb5541a2a8de5a045b45fad9d02ab",
+      "size": 62593,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/orphan-rec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/orphan-rec",
+        "sha256": "738f28bc1175d70faf09f4b45ae7ca92e8b8d397f6c5d0183240cd695f6d7bc4"
+      },
+      "path": "inputs/738f28bc1175d70faf09f4b45ae7ca92e8b8d397f6c5d0183240cd695f6d7bc4.ndjson",
+      "sha256": "738f28bc1175d70faf09f4b45ae7ca92e8b8d397f6c5d0183240cd695f6d7bc4",
+      "size": 1401,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/proj-non-structure",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/proj-non-structure",
+        "sha256": "3ab758759629ad56f872cb43671b765d05f63ce5033ae36a7c7e237b3565bcc1"
+      },
+      "path": "inputs/3ab758759629ad56f872cb43671b765d05f63ce5033ae36a7c7e237b3565bcc1.ndjson",
+      "sha256": "3ab758759629ad56f872cb43671b765d05f63ce5033ae36a7c7e237b3565bcc1",
+      "size": 5071,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/proj-of-imax-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/proj-of-imax-prop",
+        "sha256": "d7d0c58b3e62b9b73f7228c121818e9e0602b3fe8284b43a6b41f7c0b2137f65"
+      },
+      "path": "inputs/07edabadab08eb3f246b4cfa9fcafb602a31b50055c40f55eaf6d322780339ac.ndjson",
+      "sha256": "07edabadab08eb3f246b4cfa9fcafb602a31b50055c40f55eaf6d322780339ac",
+      "size": 19778,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/proj-of-stuck-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/proj-of-stuck-prop",
+        "sha256": "4bdc45de8980cf9cb6e712ab6260f42a89201876f096441fb5ec49e3a0052a22"
+      },
+      "path": "inputs/788f2684494d8883c4ccb99f036075cb95b021b121f1247f9377994cedd9d152.ndjson",
+      "sha256": "788f2684494d8883c4ccb99f036075cb95b021b121f1247f9377994cedd9d152",
+      "size": 282306,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/proj-of-subst-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/proj-of-subst-prop",
+        "sha256": "c1e3e96748ade2a9806837460821ea725f460a1f8bc1601d7ce121a9b28ffed0"
+      },
+      "path": "inputs/18c1cb511483bdc23d6b8a93728dcc9d50824f4f00037d00923113859a0a228e.ndjson",
+      "sha256": "18c1cb511483bdc23d6b8a93728dcc9d50824f4f00037d00923113859a0a228e",
+      "size": 261081,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/rec-k-lie",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/rec-k-lie",
+        "sha256": "e800053a06ad3f9af370f4377b500d52231d6b8522c3b1f35d15fbe1d75f2257"
+      },
+      "path": "inputs/e800053a06ad3f9af370f4377b500d52231d6b8522c3b1f35d15fbe1d75f2257.ndjson",
+      "sha256": "e800053a06ad3f9af370f4377b500d52231d6b8522c3b1f35d15fbe1d75f2257",
+      "size": 5434,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/rec-missing-ih",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/rec-missing-ih",
+        "sha256": "8a240552317ba17d44d175c10531e5f988f55569db5eff734701735ce598fa73"
+      },
+      "path": "inputs/04756909e404b65d799a7d958f2990251c382688092bad9fb6e91d128be15224.ndjson",
+      "sha256": "04756909e404b65d799a7d958f2990251c382688092bad9fb6e91d128be15224",
+      "size": 296541,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/bugs/rec-of-subst-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "bugs/rec-of-subst-prop",
+        "sha256": "572d2eb54a4e7d98d2e1a7bad01c5574f85ed5dacfd5bd1734f88ac37d515759"
+      },
+      "path": "inputs/9f38cffb44314ea2be8eb653bb5ad6ca058338a722f5671d26025e2a0743aef0.ndjson",
+      "sha256": "9f38cffb44314ea2be8eb653bb5ad6ca058338a722f5671d26025e2a0743aef0",
+      "size": 275707,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-acc",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-acc",
+        "sha256": "5e368979269338849ce48b7591b218624ec072521ac4293930356b4fc55efb44"
+      },
+      "path": "inputs/ba2e39108f21f61bc54d02baba19156ed79ea74963b163e4ef98caf3fa042585.ndjson",
+      "sha256": "ba2e39108f21f61bc54d02baba19156ed79ea74963b163e4ef98caf3fa042585",
+      "size": 67989,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-acc-left",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-acc-left",
+        "sha256": "a24e768f3f35871ce0915017d3f37416d85acebd7eea019b08ceafb4a3c6be1b"
+      },
+      "path": "inputs/1008e59debaa2f53c83288c4191af9448f19291a755daa46f6984d4ad080ca42.ndjson",
+      "sha256": "1008e59debaa2f53c83288c4191af9448f19291a755daa46f6984d4ad080ca42",
+      "size": 69012,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-acc-right",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-acc-right",
+        "sha256": "81ab1d26c3c760b243873d1432298bd135bbdc74259c69c7abca740c297c4fe2"
+      },
+      "path": "inputs/7c5a715848ff2138c202a94e0b8a627fa68d5c4a84988638d6965c9323b6d519.ndjson",
+      "sha256": "7c5a715848ff2138c202a94e0b8a627fa68d5c4a84988638d6965c9323b6d519",
+      "size": 69279,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-quot",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-quot",
+        "sha256": "b95ab3f5f8c67411ca3bcb35c2888ce03d88bd651bb128a4e9da7f4304ad7db5"
+      },
+      "path": "inputs/dcbccc90a7ac7893de0b56c878b66fc773b757f5eaf3e070f40e043608c3a768.ndjson",
+      "sha256": "dcbccc90a7ac7893de0b56c878b66fc773b757f5eaf3e070f40e043608c3a768",
+      "size": 8688,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-quot-left",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-quot-left",
+        "sha256": "9dd49f5ebd01c72f393f41fd718e9d40b371afe5e044446189b5765ac6dc0db5"
+      },
+      "path": "inputs/290669ac7f71523e1556e358af45dcd5a1881c533e344f2af1e5b6cd57a2d439.ndjson",
+      "sha256": "290669ac7f71523e1556e358af45dcd5a1881c533e344f2af1e5b6cd57a2d439",
+      "size": 8841,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-quot-left-def",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-quot-left-def",
+        "sha256": "c14f073a6f062ee1a31bbc0e466eb2ffaced726393a423c8a68751f2cd2f49c1"
+      },
+      "path": "inputs/bf359afd8e9563b63bf66c5870ec231d524cbb03e5bde5276b98f9221c85d470.ndjson",
+      "sha256": "bf359afd8e9563b63bf66c5870ec231d524cbb03e5bde5276b98f9221c85d470",
+      "size": 10782,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/alg-conv-trans-quot-right",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/alg-conv-trans-quot-right",
+        "sha256": "53568a1d31b275e0255c18ea6c116a183909920b9d074c9cecab0a5b318d0a41"
+      },
+      "path": "inputs/3864a967237244765fcd823aaa5ca2f6a278a309978ad1710a142e19c8e31445.ndjson",
+      "sha256": "3864a967237244765fcd823aaa5ca2f6a278a309978ad1710a142e19c8e31445",
+      "size": 9262,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/eta-ctor",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/eta-ctor",
+        "sha256": "03f9442400878003a0e2157373cdaf0ac20d680522cda534351ac5d25fb35001"
+      },
+      "path": "inputs/0249b34c4f40ed180b429e4557252aecec7e25af45a3aa629f61964349eb8ee8.ndjson",
+      "sha256": "0249b34c4f40ed180b429e4557252aecec7e25af45a3aa629f61964349eb8ee8",
+      "size": 9238,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/eta-rule-k",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/eta-rule-k",
+        "sha256": "abe59b1ceda4632c9964f46da1f9d485bf3ceb1045136fe8b32695369d33206b"
+      },
+      "path": "inputs/1f09303e015de937f57bf2020e5127260f91e437a165f0549bcb24a5a53d8976.ndjson",
+      "sha256": "1f09303e015de937f57bf2020e5127260f91e437a165f0549bcb24a5a53d8976",
+      "size": 6630,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/imax-right-successor",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/imax-right-successor",
+        "sha256": "00412ecd8a255812553a38f66bd84f521a233fce178742065005ff053c6cbd0f"
+      },
+      "path": "inputs/00412ecd8a255812553a38f66bd84f521a233fce178742065005ff053c6cbd0f.ndjson",
+      "sha256": "00412ecd8a255812553a38f66bd84f521a233fce178742065005ff053c6cbd0f",
+      "size": 806,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/let-value-type-mismatch",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/let-value-type-mismatch",
+        "sha256": "52e75d78c948d466e90fb203e7a04192dde4273c7319d44fc261fd2b3b6beeac"
+      },
+      "path": "inputs/52e75d78c948d466e90fb203e7a04192dde4273c7319d44fc261fd2b3b6beeac.ndjson",
+      "sha256": "52e75d78c948d466e90fb203e7a04192dde4273c7319d44fc261fd2b3b6beeac",
+      "size": 601,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/nested-nonuniform-param",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/nested-nonuniform-param",
+        "sha256": "396cea793fb200feb78db27bbc2168b3a10fcc84b67b64a26fc4df3f7ae834e0"
+      },
+      "path": "inputs/65270e5d90913a2e7fcebfe7decc97b5f883eca396763fff3f295c527f5f9c19.ndjson",
+      "sha256": "65270e5d90913a2e7fcebfe7decc97b5f883eca396763fff3f295c527f5f9c19",
+      "size": 9419,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/positivity-whnf",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/positivity-whnf",
+        "sha256": "5e1c3ea262e5d57f0ffef2cbb7009a5a9020a977b648f109c0b0ab51ef3fa664"
+      },
+      "path": "inputs/5e1c3ea262e5d57f0ffef2cbb7009a5a9020a977b648f109c0b0ab51ef3fa664.ndjson",
+      "sha256": "5e1c3ea262e5d57f0ffef2cbb7009a5a9020a977b648f109c0b0ab51ef3fa664",
+      "size": 4808,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/proj-maybe-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/proj-maybe-prop",
+        "sha256": "61dfee11e3ea0f8c88e812f735b4951b12067637c12b7a0c96bb4ef4003b3094"
+      },
+      "path": "inputs/7abc6458ddfa4f13c81726dfb01852b6162804d2a77f6d2259bc8351c3a7cd6b.ndjson",
+      "sha256": "7abc6458ddfa4f13c81726dfb01852b6162804d2a77f6d2259bc8351c3a7cd6b",
+      "size": 8312,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/proj-maybe-prop-past",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/proj-maybe-prop-past",
+        "sha256": "69ad6bc0dd7e945c32076b8c39071ea4712b4f591dfa8c1d515b5dea96040f56"
+      },
+      "path": "inputs/3ae477a6aaff89172591453d466c6d29f0c9856d958640b6a89aebae531b50a9.ndjson",
+      "sha256": "3ae477a6aaff89172591453d466c6d29f0c9856d958640b6a89aebae531b50a9",
+      "size": 8317,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/proof-param-ok",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/proof-param-ok",
+        "sha256": "7f9b3c07a64b441f8dd0f7dd2912274241fdb17118953fb089f796fdd1590af4"
+      },
+      "path": "inputs/7f9b3c07a64b441f8dd0f7dd2912274241fdb17118953fb089f796fdd1590af4.ndjson",
+      "sha256": "7f9b3c07a64b441f8dd0f7dd2912274241fdb17118953fb089f796fdd1590af4",
+      "size": 2961,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/proof-param-swap",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/proof-param-swap",
+        "sha256": "25cfb47d4c80ebe1ec61931898df8e6bd8d06793aebf3ee8b2a7cd00beca1abc"
+      },
+      "path": "inputs/25cfb47d4c80ebe1ec61931898df8e6bd8d06793aebf3ee8b2a7cd00beca1abc.ndjson",
+      "sha256": "25cfb47d4c80ebe1ec61931898df8e6bd8d06793aebf3ee8b2a7cd00beca1abc",
+      "size": 2961,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/subject-reduction-redex",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/subject-reduction-redex",
+        "sha256": "d056db183e4934cb5b0e838cdc20ee6ddb4a4a00a574423cd495e8b0e93bce53"
+      },
+      "path": "inputs/3f578436f42a5b0b40c5d084fd16993b8290d86e1478af75353b11a3626e8758.ndjson",
+      "sha256": "3f578436f42a5b0b40c5d084fd16993b8290d86e1478af75353b11a3626e8758",
+      "size": 68179,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "either",
+      "format_version": "3.1.0",
+      "id": "metamorphic/corner-cases/subject-reduction-reduct",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "corner-cases/subject-reduction-reduct",
+        "sha256": "856836ce9c74591e0277047ad6448aadc2b93ef96eb9010e0922c32aacd055e2"
+      },
+      "path": "inputs/27be650226ec8232a90f592f08269a039b255f5dcbdc5b99c4d68f25e19f07e4.ndjson",
+      "sha256": "27be650226ec8232a90f592f08269a039b255f5dcbdc5b99c4d68f25e19f07e4",
+      "size": 67113,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/init-prelude",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "init-prelude",
+        "sha256": "eac8baf0fd48f5e7ccada755b36823d402a1e980882818995ade19cffe15a2c5"
+      },
+      "path": "inputs/e3ea072ebfe02ffac272cd20304dd3ef011be21c2c8730cac1966191026e49df.ndjson",
+      "sha256": "e3ea072ebfe02ffac272cd20304dd3ef011be21c2c8730cac1966191026e49df",
+      "size": 3742137,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/extra-rec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/extra-rec",
+        "sha256": "eab650028a71177bd4d9fcb6a84b4e92dd91cf4e7af67023af458d18729be0e2"
+      },
+      "path": "inputs/eab650028a71177bd4d9fcb6a84b4e92dd91cf4e7af67023af458d18729be0e2.ndjson",
+      "sha256": "eab650028a71177bd4d9fcb6a84b4e92dd91cf4e7af67023af458d18729be0e2",
+      "size": 1402,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/level-index-out-of-order",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/level-index-out-of-order",
+        "sha256": "7db8148079e2e8160a1a4c71258ad11b17ce18edfa84ab1e12eae937ec9538d1"
+      },
+      "path": "inputs/7db8148079e2e8160a1a4c71258ad11b17ce18edfa84ab1e12eae937ec9538d1.ndjson",
+      "sha256": "7db8148079e2e8160a1a4c71258ad11b17ce18edfa84ab1e12eae937ec9538d1",
+      "size": 328,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/nat-lit-add",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/nat-lit-add",
+        "sha256": "2eec8aaa1d9c5009f69e7507b08e3f81c23adf56fb8d541a96393b721a715150"
+      },
+      "path": "inputs/77b81055b80eb7f1c81da9f07aab7ee880ecbd866f9ef8ac0a49537186535160.ndjson",
+      "sha256": "77b81055b80eb7f1c81da9f07aab7ee880ecbd866f9ef8ac0a49537186535160",
+      "size": 26650,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/nat-lit-add-bad",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/nat-lit-add-bad",
+        "sha256": "9fcac9c9e16cda51f60bbd91fd14c359bf8b2272aaf02fef86ef0c2aba9333f0"
+      },
+      "path": "inputs/4c9422244cec291347a08bbb4be9525def6a1dfb316d124bd6c015414e1a30e6.ndjson",
+      "sha256": "4c9422244cec291347a08bbb4be9525def6a1dfb316d124bd6c015414e1a30e6",
+      "size": 25947,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/nat-lit-ble",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/nat-lit-ble",
+        "sha256": "f5295492eefe75bdd5714183ccbbebede81bd8d7338e2db98569246f836f1107"
+      },
+      "path": "inputs/748d2c7ab986b26c41e5be4773a74370015af2713910e68bb6f27fbf28ce9a75.ndjson",
+      "sha256": "748d2c7ab986b26c41e5be4773a74370015af2713910e68bb6f27fbf28ce9a75",
+      "size": 29505,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/nat-lit-sub",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/nat-lit-sub",
+        "sha256": "ce96962a24c958b86fa2a37cfc8a3477255c7e67ab69f1ba927e8a5d6cc85d12"
+      },
+      "path": "inputs/7be7e6439ce16df81efcb0cbe78f134636cc0dc63f62555ee4132f445c5ac87e.ndjson",
+      "sha256": "7be7e6439ce16df81efcb0cbe78f134636cc0dc63f62555ee4132f445c5ac87e",
+      "size": 30747,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/orphan-ctor",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/orphan-ctor",
+        "sha256": "2c9b12979ea3da11272d6eca4b0a39523a863d6fb501daf61c4edb8996a97daa"
+      },
+      "path": "inputs/2c9b12979ea3da11272d6eca4b0a39523a863d6fb501daf61c4edb8996a97daa.ndjson",
+      "sha256": "2c9b12979ea3da11272d6eca4b0a39523a863d6fb501daf61c4edb8996a97daa",
+      "size": 1400,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/proj-of-prop",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/proj-of-prop",
+        "sha256": "d7c5ab71c706123991510274596d1c36026201e7ccfd15fc134664fe7dee9116"
+      },
+      "path": "inputs/d7c5ab71c706123991510274596d1c36026201e7ccfd15fc134664fe7dee9116.ndjson",
+      "sha256": "d7c5ab71c706123991510274596d1c36026201e7ccfd15fc134664fe7dee9116",
+      "size": 3967,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/other/sparse-name-index",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "other/sparse-name-index",
+        "sha256": "3279c9c8ae24d5b3a8433ddee5d4a421c4e15e3cd84117fb4873d1284112b96d"
+      },
+      "path": "inputs/3279c9c8ae24d5b3a8433ddee5d4a421c4e15e3cd84117fb4873d1284112b96d.ndjson",
+      "sha256": "3279c9c8ae24d5b3a8433ddee5d4a421c4e15e3cd84117fb4873d1284112b96d",
+      "size": 292,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/app-lam",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/app-lam",
+        "sha256": "552d6e8398f579fcf59ab9abd8187fc7a8a037697da66c129aacb4cc1b9dd414"
+      },
+      "path": "inputs/518b7f03150f37e65fb577328e0759e2e39542d4ffa3697a881d143069552b20.ndjson",
+      "sha256": "518b7f03150f37e65fb577328e0759e2e39542d4ffa3697a881d143069552b20",
+      "size": 1276874,
+      "source_kind": "generated_local",
+      "timeout_seconds": 100
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/args-before-unfold",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/args-before-unfold",
+        "sha256": "08e16707dc6623394c62125592462b7548dd647d0b8a93138dce433d80411d22"
+      },
+      "path": "inputs/69c0553628605f974f0fe4ad332ab23dd1fe01e78203e7da8cf24d86e60115ad.ndjson",
+      "sha256": "69c0553628605f974f0fe4ad332ab23dd1fe01e78203e7da8cf24d86e60115ad",
+      "size": 45606,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/beta-ladder",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/beta-ladder",
+        "sha256": "9e31c146f590cd29a464f45eb2a9ec6aec092dfd0d146a3c5f744b3fc674133a"
+      },
+      "path": "inputs/a43b350a7c38b708e7173ecc976e9f94d4598c16172eaf448253a1774546e092.ndjson",
+      "sha256": "a43b350a7c38b708e7173ecc976e9f94d4598c16172eaf448253a1774546e092",
+      "size": 461381,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/church-numerals",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/church-numerals",
+        "sha256": "4895c59c421bb395f830aaa778db01cf166e9319b546a994e373e640298f4bb7"
+      },
+      "path": "inputs/940d0664a40044d88bf2612063fe53f28a9e8423695f32cc4714f827efa3ce7b.ndjson",
+      "sha256": "940d0664a40044d88bf2612063fe53f28a9e8423695f32cc4714f827efa3ce7b",
+      "size": 9853,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/discarded-argument",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/discarded-argument",
+        "sha256": "ee46aa31d32fe7cc04c1428bd58597c7b843d3fd98340f0fa6c9ab20a6bc7147"
+      },
+      "path": "inputs/255467a31a1cc0fd6458775b17484beb62db0cdddb51c08b60eb4f6acca3efde.ndjson",
+      "sha256": "255467a31a1cc0fd6458775b17484beb62db0cdddb51c08b60eb4f6acca3efde",
+      "size": 16249,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/discarded-argument-match",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/discarded-argument-match",
+        "sha256": "0152a64c923590cc1ef4209652d2ceac248d8668ad11c9b74e183bb3da6ca7e2"
+      },
+      "path": "inputs/e3456253f17c7be8c3a0a3da8fba0672d82995b5682186e9d0bf58a5bee60858.ndjson",
+      "sha256": "e3456253f17c7be8c3a0a3da8fba0672d82995b5682186e9d0bf58a5bee60858",
+      "size": 29937,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/folded-constant-first",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/folded-constant-first",
+        "sha256": "f11febc1959dd30a0c2b4f3491635b4d1279946d51286bd7dfec5fb19229d773"
+      },
+      "path": "inputs/8d9f2867978ea8e5a5ce4db697b9945ee3894e7776b52b717e098c9356502595.ndjson",
+      "sha256": "8d9f2867978ea8e5a5ce4db697b9945ee3894e7776b52b717e098c9356502595",
+      "size": 53210,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/folded-constant-last",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/folded-constant-last",
+        "sha256": "e1a9380283d3285a7242a45e79ce760056c34201089d21fdc3b25a22e4997494"
+      },
+      "path": "inputs/b306fa05c0ba698bfba535c6dfff8b62fcf6879163ea2111d8f03a6c19f6ca75.ndjson",
+      "sha256": "b306fa05c0ba698bfba535c6dfff8b62fcf6879163ea2111d8f03a6c19f6ca75",
+      "size": 52219,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/fueled-chain",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/fueled-chain",
+        "sha256": "e5ca34489fc7b8ee13b1e7f09f76247ab7b01dd1a752a13cc8b796c569e1401a"
+      },
+      "path": "inputs/cc9fbdf5804aaf3f7be9314f0aedacd3dd8e6461a27d31d7b828e51b4e528c55.ndjson",
+      "sha256": "cc9fbdf5804aaf3f7be9314f0aedacd3dd8e6461a27d31d7b828e51b4e528c55",
+      "size": 868965,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/grind-ring-5",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/grind-ring-5",
+        "sha256": "e9c394e0ff311fd10f60dee2433a530f16e82354c32d6588a8775baa06fd221f"
+      },
+      "path": "inputs/af70188820a23647a7e88ee022a8c51ff4bb91142b35514a1db369e2aade33e7.ndjson",
+      "sha256": "af70188820a23647a7e88ee022a8c51ff4bb91142b35514a1db369e2aade33e7",
+      "size": 10245583,
+      "source_kind": "generated_local",
+      "timeout_seconds": 60
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/identical-nesting",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/identical-nesting",
+        "sha256": "4d23216f53395a334f8788b052e268587503317af5f79ca4251416ce617c9df9"
+      },
+      "path": "inputs/020fc9fc1d103fc58738f9983e5066d476b6b305d681c4bba4b780856d10106e.ndjson",
+      "sha256": "020fc9fc1d103fc58738f9983e5066d476b6b305d681c4bba4b780856d10106e",
+      "size": 8953,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/irrelevance-before-evaluation",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/irrelevance-before-evaluation",
+        "sha256": "8cc3996fb088522e56c3670b0bd3b2397ee7b5a81c7fdc634c69a5f052e02e7f"
+      },
+      "path": "inputs/3cabe452a539dc6fab39212db2274568538b0a7c952d79c5c3e0de9950d0c1aa.ndjson",
+      "sha256": "3cabe452a539dc6fab39212db2274568538b0a7c952d79c5c3e0de9950d0c1aa",
+      "size": 17881,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/let-ladder",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/let-ladder",
+        "sha256": "d02afad06729004912e5feeaf25379240b106d98b571cfcfffd974d08853ad65"
+      },
+      "path": "inputs/1bbb33185b02f71c6f4ad8b13a58d65d3bfcc26a28560b40d7850f46383d8d93.ndjson",
+      "sha256": "1bbb33185b02f71c6f4ad8b13a58d65d3bfcc26a28560b40d7850f46383d8d93",
+      "size": 468629,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-list-deep-n21",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-list-deep-n21",
+        "sha256": "b7a211699ab32a5d2397319702e2d5552f5796a6bdac990efa69fb186039f526"
+      },
+      "path": "inputs/368972495f40b692d548cf97fb24fcd08a7d8fa56f451e6526898c80b2ce9447.ndjson",
+      "sha256": "368972495f40b692d548cf97fb24fcd08a7d8fa56f451e6526898c80b2ce9447",
+      "size": 1186314,
+      "source_kind": "generated_local",
+      "timeout_seconds": 80
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-list-deep-n36",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-list-deep-n36",
+        "sha256": "6669cee92ad330dada351ac9e63656f7e9e848dd70376f17030d64677f8c81ac"
+      },
+      "path": "inputs/7e9643ddcb85094b4716ad7ea4c77905cf9be762d75d7cc2102024844432e781.ndjson",
+      "sha256": "7e9643ddcb85094b4716ad7ea4c77905cf9be762d75d7cc2102024844432e781",
+      "size": 1241390,
+      "source_kind": "generated_local",
+      "timeout_seconds": 390
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-list-pair-n21",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-list-pair-n21",
+        "sha256": "b8279fa9189a203c6c11b04702c27c0f99a650b37f2b0165dd260b1d14e9ef84"
+      },
+      "path": "inputs/0f8f8e20d4e1e9572f874b9ca0c7e5d267e6a699470c4a2d9ab95056dabd927e.ndjson",
+      "sha256": "0f8f8e20d4e1e9572f874b9ca0c7e5d267e6a699470c4a2d9ab95056dabd927e",
+      "size": 597086,
+      "source_kind": "generated_local",
+      "timeout_seconds": 260
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-list-pair-n7",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-list-pair-n7",
+        "sha256": "abce636f6a7dd529c0dc6bbad8e7c8e2eaecfdda0d04c191d7f868e3a4468d35"
+      },
+      "path": "inputs/0cf3ae094e918cdd63b8792ec244cd6bc9bdfd5f28c8a78b65f1d26a407c8515.ndjson",
+      "sha256": "0cf3ae094e918cdd63b8792ec244cd6bc9bdfd5f28c8a78b65f1d26a407c8515",
+      "size": 597637,
+      "source_kind": "generated_local",
+      "timeout_seconds": 60
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-string-n4",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-string-n4",
+        "sha256": "158b54b527a3171cfff366e525d1f3ad78147f024e7946ec04fa6f20ef97bc5a"
+      },
+      "path": "inputs/a1afa46dd6c54ccacab65a4438dc14e90c2ac21310642c21f3ed9cf29743040e.ndjson",
+      "sha256": "a1afa46dd6c54ccacab65a4438dc14e90c2ac21310642c21f3ed9cf29743040e",
+      "size": 17353680,
+      "source_kind": "generated_local",
+      "timeout_seconds": 70
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/magma-string-pair-n9",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/magma-string-pair-n9",
+        "sha256": "deeeea5010e88e313dcf3d1b9642a5f9de8fb711066dd0256cec3b35d38c05ae"
+      },
+      "path": "inputs/d0e5869742df4a3773fcefca74a53c459d3b6700a700b071127249c5c4461239.ndjson",
+      "sha256": "d0e5869742df4a3773fcefca74a53c459d3b6700a700b071127249c5c4461239",
+      "size": 17355067,
+      "source_kind": "generated_local",
+      "timeout_seconds": 130
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/refute-cheap-first",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/refute-cheap-first",
+        "sha256": "5484b765b659b0d4a77aa75d82ae3d81f04d9731de30ee08dd5e4c58d0076fba"
+      },
+      "path": "inputs/44130a94f76587eb014fb4f7f3a1d04714f3928da5f6788ab641b9f1c890c617.ndjson",
+      "sha256": "44130a94f76587eb014fb4f7f3a1d04714f3928da5f6788ab641b9f1c890c617",
+      "size": 21179,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/refute-cheap-last",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/refute-cheap-last",
+        "sha256": "ea6fdc9ab4986b6a97e494c7af868704a3e15552506ca2014743a91a83a0e2ec"
+      },
+      "path": "inputs/af08c7c6f2c0141afe3d8c9a1f1bfe985e4dbb577d2aae3c0c99cc678d6e328c.ndjson",
+      "sha256": "af08c7c6f2c0141afe3d8c9a1f1bfe985e4dbb577d2aae3c0c99cc678d6e328c",
+      "size": 20983,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/repeated-subproblem",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/repeated-subproblem",
+        "sha256": "831bb058c28d82bf4c2c6146ae9f91b22b44a914ef362ee19dd66f3211104d37"
+      },
+      "path": "inputs/edca52309add96f115b6bd2ad29bdaf8df52014de5fc9c0e777873a85274826c.ndjson",
+      "sha256": "edca52309add96f115b6bd2ad29bdaf8df52014de5fc9c0e777873a85274826c",
+      "size": 11663,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/shared-subterm",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/shared-subterm",
+        "sha256": "dbc065108aa98512149c3f1a5bb6279630c53bdf64256516ba10ed256322883b"
+      },
+      "path": "inputs/64ed98c48ddd0768c0fbc8428ffceea50792c9887d7194018fb842ddfe1199d3.ndjson",
+      "sha256": "64ed98c48ddd0768c0fbc8428ffceea50792c9887d7194018fb842ddfe1199d3",
+      "size": 51314,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/shift-cascade",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/shift-cascade",
+        "sha256": "73b80da0cfca3226068945fe617eafba6da87d8e24803ff1a987a5d10c1f1a57"
+      },
+      "path": "inputs/e706f55a2a2498321bd39564be06d716776c8fb1934ea2d9ae9410aeee3fe123.ndjson",
+      "sha256": "e706f55a2a2498321bd39564be06d716776c8fb1934ea2d9ae9410aeee3fe123",
+      "size": 262414,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/perf/unroll-versus-evaluate",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "perf/unroll-versus-evaluate",
+        "sha256": "3839db32d95b2ded9bf2ac70960ae4a060b9a998bd67422ed41bc087b1f74179"
+      },
+      "path": "inputs/3d250aecb7bc61d8126e9ff1936af0620ce3850a591207fb5297cf81c6b7e3c3.ndjson",
+      "sha256": "3d250aecb7bc61d8126e9ff1936af0620ce3850a591207fb5297cf81c6b7e3c3",
+      "size": 45649,
+      "source_kind": "generated_local",
+      "timeout_seconds": 50
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/001_basicDef",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/001_basicDef",
+        "sha256": "66160bdc748c91306eddc888fe8a268dd336c385979902022c2902da0680efd5"
+      },
+      "path": "inputs/66160bdc748c91306eddc888fe8a268dd336c385979902022c2902da0680efd5.ndjson",
+      "sha256": "66160bdc748c91306eddc888fe8a268dd336c385979902022c2902da0680efd5",
+      "size": 367,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/002_badDef",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/002_badDef",
+        "sha256": "18c9ea60e02b97067822697e4c9dc716e5e7ba63cacd5688b753c8e92845f415"
+      },
+      "path": "inputs/18c9ea60e02b97067822697e4c9dc716e5e7ba63cacd5688b753c8e92845f415.ndjson",
+      "sha256": "18c9ea60e02b97067822697e4c9dc716e5e7ba63cacd5688b753c8e92845f415",
+      "size": 365,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/003_arrowType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/003_arrowType",
+        "sha256": "aa2c0aa79d56f1ad43b41df7bd9a5e1876eafcba560a39845f5a9a5c290a72a2"
+      },
+      "path": "inputs/aa2c0aa79d56f1ad43b41df7bd9a5e1876eafcba560a39845f5a9a5c290a72a2.ndjson",
+      "sha256": "aa2c0aa79d56f1ad43b41df7bd9a5e1876eafcba560a39845f5a9a5c290a72a2",
+      "size": 622,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/004_dependentType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/004_dependentType",
+        "sha256": "74d890dafbd178c44ef0d1b8b5ef339f628efcd5c2a84d33307330b512ee8a08"
+      },
+      "path": "inputs/74d890dafbd178c44ef0d1b8b5ef339f628efcd5c2a84d33307330b512ee8a08.ndjson",
+      "sha256": "74d890dafbd178c44ef0d1b8b5ef339f628efcd5c2a84d33307330b512ee8a08",
+      "size": 460,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/005_constType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/005_constType",
+        "sha256": "50e86e6b9f1c07c40359497444fc8b9645fc8565550aac1875d0856129f71c46"
+      },
+      "path": "inputs/50e86e6b9f1c07c40359497444fc8b9645fc8565550aac1875d0856129f71c46.ndjson",
+      "sha256": "50e86e6b9f1c07c40359497444fc8b9645fc8565550aac1875d0856129f71c46",
+      "size": 897,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/006_betaReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/006_betaReduction",
+        "sha256": "e20bf2f42a95fc8edf901b00f1c99d3f8d2f4293abebe50d835269a1187283dd"
+      },
+      "path": "inputs/e20bf2f42a95fc8edf901b00f1c99d3f8d2f4293abebe50d835269a1187283dd.ndjson",
+      "sha256": "e20bf2f42a95fc8edf901b00f1c99d3f8d2f4293abebe50d835269a1187283dd",
+      "size": 1363,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/007_betaReduction2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/007_betaReduction2",
+        "sha256": "d5157c04725cc6c0b1940e7050d1a2d6d564675930d8c8a77a9cab1cd35ea2dd"
+      },
+      "path": "inputs/d5157c04725cc6c0b1940e7050d1a2d6d564675930d8c8a77a9cab1cd35ea2dd.ndjson",
+      "sha256": "d5157c04725cc6c0b1940e7050d1a2d6d564675930d8c8a77a9cab1cd35ea2dd",
+      "size": 1434,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/008_forallSortWhnf",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/008_forallSortWhnf",
+        "sha256": "4b8379c48d2018983f1edad8fc7437743f77ceed517a73db9d5b344042ad52aa"
+      },
+      "path": "inputs/972d8cb2bf8fbfbd996956e5b689f61871d0d17b3605681408f5489b7e328aca.ndjson",
+      "sha256": "972d8cb2bf8fbfbd996956e5b689f61871d0d17b3605681408f5489b7e328aca",
+      "size": 1205,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/009_forallSortBad",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/009_forallSortBad",
+        "sha256": "64b1823f5bc87e743ad9e61b0a5b4907d141cd7434e4a9d9316deec82148891f"
+      },
+      "path": "inputs/3e51bae03ace9e9bdc66fadc9f24b759001bd38c9e3c79d1c4c1ee4f2bc56f8e.ndjson",
+      "sha256": "3e51bae03ace9e9bdc66fadc9f24b759001bd38c9e3c79d1c4c1ee4f2bc56f8e",
+      "size": 1277,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/010_nonTypeType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/010_nonTypeType",
+        "sha256": "3a9f600737260fecac39cce77739eba58b52e1bb79c59d5d1d583e3d33b62842"
+      },
+      "path": "inputs/3a9f600737260fecac39cce77739eba58b52e1bb79c59d5d1d583e3d33b62842.ndjson",
+      "sha256": "3a9f600737260fecac39cce77739eba58b52e1bb79c59d5d1d583e3d33b62842",
+      "size": 1094,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/011_nonTypeAxiom",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/011_nonTypeAxiom",
+        "sha256": "b4f10c5b711b37f776c31f73fde48de4f0c040c4c7cd54483d6ff61d81ce3105"
+      },
+      "path": "inputs/b4f10c5b711b37f776c31f73fde48de4f0c040c4c7cd54483d6ff61d81ce3105.ndjson",
+      "sha256": "b4f10c5b711b37f776c31f73fde48de4f0c040c4c7cd54483d6ff61d81ce3105",
+      "size": 1043,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/012_nonPropThm",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/012_nonPropThm",
+        "sha256": "388e6d33ebe9e93e6bfa0ab7a35eb260461850cf3e975842beeb196205a0b990"
+      },
+      "path": "inputs/388e6d33ebe9e93e6bfa0ab7a35eb260461850cf3e975842beeb196205a0b990.ndjson",
+      "sha256": "388e6d33ebe9e93e6bfa0ab7a35eb260461850cf3e975842beeb196205a0b990",
+      "size": 424,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/013_thmProof",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/013_thmProof",
+        "sha256": "3bdd74e5e5c4b6413961de59db89ec750ac301dd86c6f8cfedf91e8f01a5ee2c"
+      },
+      "path": "inputs/3bdd74e5e5c4b6413961de59db89ec750ac301dd86c6f8cfedf91e8f01a5ee2c.ndjson",
+      "sha256": "3bdd74e5e5c4b6413961de59db89ec750ac301dd86c6f8cfedf91e8f01a5ee2c",
+      "size": 1345,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/014_selfProof",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/014_selfProof",
+        "sha256": "53d4c834fb25b5169a4d3847507b7dc7125552f54d81a8970d29cb57682a6f19"
+      },
+      "path": "inputs/53d4c834fb25b5169a4d3847507b7dc7125552f54d81a8970d29cb57682a6f19.ndjson",
+      "sha256": "53d4c834fb25b5169a4d3847507b7dc7125552f54d81a8970d29cb57682a6f19",
+      "size": 459,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/015_levelComp1",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/015_levelComp1",
+        "sha256": "93618512baf81894760413b5d79aca2021f954ac4d95d8d21bd6a7e8ded87b74"
+      },
+      "path": "inputs/93618512baf81894760413b5d79aca2021f954ac4d95d8d21bd6a7e8ded87b74.ndjson",
+      "sha256": "93618512baf81894760413b5d79aca2021f954ac4d95d8d21bd6a7e8ded87b74",
+      "size": 391,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/016_levelComp2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/016_levelComp2",
+        "sha256": "6caaf69b531f7e0729782aee92680d531394251e51ae96471f5934e55b0cd502"
+      },
+      "path": "inputs/6caaf69b531f7e0729782aee92680d531394251e51ae96471f5934e55b0cd502.ndjson",
+      "sha256": "6caaf69b531f7e0729782aee92680d531394251e51ae96471f5934e55b0cd502",
+      "size": 409,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/017_levelComp3",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/017_levelComp3",
+        "sha256": "de86ba3543bfe36e79071304f1dd974208bf6e1bb936a2afb3e2057e6fdf61dc"
+      },
+      "path": "inputs/de86ba3543bfe36e79071304f1dd974208bf6e1bb936a2afb3e2057e6fdf61dc.ndjson",
+      "sha256": "de86ba3543bfe36e79071304f1dd974208bf6e1bb936a2afb3e2057e6fdf61dc",
+      "size": 427,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/018_levelParams",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/018_levelParams",
+        "sha256": "67f5ee4d9bebc000d57f0bbf08b84481634209b78844f31409bc737c82625a20"
+      },
+      "path": "inputs/67474d25de8a6e80a9d67fd8e0be4319cc29019e8d8121be2b441982463a6c49.ndjson",
+      "sha256": "67474d25de8a6e80a9d67fd8e0be4319cc29019e8d8121be2b441982463a6c49",
+      "size": 1437,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/019_tut06_bad01",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/019_tut06_bad01",
+        "sha256": "d33d515d2f0d6688cff31b9c3e5c69d4ec488a4b921c3ea6df2ccf5e6234e422"
+      },
+      "path": "inputs/d33d515d2f0d6688cff31b9c3e5c69d4ec488a4b921c3ea6df2ccf5e6234e422.ndjson",
+      "sha256": "d33d515d2f0d6688cff31b9c3e5c69d4ec488a4b921c3ea6df2ccf5e6234e422",
+      "size": 427,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/020_levelComp4",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/020_levelComp4",
+        "sha256": "6f318f55f779e71bbdd005b8cd3773ac1196188c47a86c68f8647734d4526160"
+      },
+      "path": "inputs/6f318f55f779e71bbdd005b8cd3773ac1196188c47a86c68f8647734d4526160.ndjson",
+      "sha256": "6f318f55f779e71bbdd005b8cd3773ac1196188c47a86c68f8647734d4526160",
+      "size": 424,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/021_levelComp5",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/021_levelComp5",
+        "sha256": "04d8623e060042fc0063306d129928e1b754f3e8fe73116358ae5d4b5f1e7fdb"
+      },
+      "path": "inputs/04d8623e060042fc0063306d129928e1b754f3e8fe73116358ae5d4b5f1e7fdb.ndjson",
+      "sha256": "04d8623e060042fc0063306d129928e1b754f3e8fe73116358ae5d4b5f1e7fdb",
+      "size": 424,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/022_imax1",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/022_imax1",
+        "sha256": "eab978e8b1707d4d570b8b9ac8317f5f3f624c90bafdfd015c7c881ec4e24d9d"
+      },
+      "path": "inputs/eab978e8b1707d4d570b8b9ac8317f5f3f624c90bafdfd015c7c881ec4e24d9d.ndjson",
+      "sha256": "eab978e8b1707d4d570b8b9ac8317f5f3f624c90bafdfd015c7c881ec4e24d9d",
+      "size": 809,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/023_imax2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/023_imax2",
+        "sha256": "a680737e27fc6636484fbe312a401f3b3f18b64c21bb5f0beae24cbae5810a2a"
+      },
+      "path": "inputs/f405ecc0a4443effd31e5cf19c0e6fead9b19961795cdace82d5e7d1f6ca40d4.ndjson",
+      "sha256": "f405ecc0a4443effd31e5cf19c0e6fead9b19961795cdace82d5e7d1f6ca40d4",
+      "size": 832,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/024_levelMaxComm",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/024_levelMaxComm",
+        "sha256": "8b6dd66b224c828c90e312ff9a4c17add5addd50e2a8132bf0edceb53cb5bede"
+      },
+      "path": "inputs/8b6dd66b224c828c90e312ff9a4c17add5addd50e2a8132bf0edceb53cb5bede.ndjson",
+      "sha256": "8b6dd66b224c828c90e312ff9a4c17add5addd50e2a8132bf0edceb53cb5bede",
+      "size": 524,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/025_levelMaxAssoc",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/025_levelMaxAssoc",
+        "sha256": "c1374bd0f3ac87765db5f0b5b0cf48263b5c1c00fabd07db25cd014e05fc845a"
+      },
+      "path": "inputs/c1374bd0f3ac87765db5f0b5b0cf48263b5c1c00fabd07db25cd014e05fc845a.ndjson",
+      "sha256": "c1374bd0f3ac87765db5f0b5b0cf48263b5c1c00fabd07db25cd014e05fc845a",
+      "size": 623,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/026_levelMaxIdem",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/026_levelMaxIdem",
+        "sha256": "d8dfa08ce074504e6aedf2ae8b2a2696af429d6cb8901bde4a26cca603762f52"
+      },
+      "path": "inputs/d8dfa08ce074504e6aedf2ae8b2a2696af429d6cb8901bde4a26cca603762f52.ndjson",
+      "sha256": "d8dfa08ce074504e6aedf2ae8b2a2696af429d6cb8901bde4a26cca603762f52",
+      "size": 447,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/027_levelMaxAbsorb",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/027_levelMaxAbsorb",
+        "sha256": "e1fc01bc9246e2f9dce058722fbeeea7d0cd48ee189f0f0d00c10d34ab812d77"
+      },
+      "path": "inputs/e1fc01bc9246e2f9dce058722fbeeea7d0cd48ee189f0f0d00c10d34ab812d77.ndjson",
+      "sha256": "e1fc01bc9246e2f9dce058722fbeeea7d0cd48ee189f0f0d00c10d34ab812d77",
+      "size": 526,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/028_inferVar",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/028_inferVar",
+        "sha256": "c7f349ea6d7d5a1fd2e9cfd1467f230e6ff8cc3b280bf6f1f38241b1487b3010"
+      },
+      "path": "inputs/c7f349ea6d7d5a1fd2e9cfd1467f230e6ff8cc3b280bf6f1f38241b1487b3010.ndjson",
+      "sha256": "c7f349ea6d7d5a1fd2e9cfd1467f230e6ff8cc3b280bf6f1f38241b1487b3010",
+      "size": 713,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/029_defEqLambda",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/029_defEqLambda",
+        "sha256": "16e32a5cdb9b653f3ea28ca44eefd1915e18cba958a0017ad7646b3d6f7d08ca"
+      },
+      "path": "inputs/16e32a5cdb9b653f3ea28ca44eefd1915e18cba958a0017ad7646b3d6f7d08ca.ndjson",
+      "sha256": "16e32a5cdb9b653f3ea28ca44eefd1915e18cba958a0017ad7646b3d6f7d08ca",
+      "size": 1391,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/030_peano1",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/030_peano1",
+        "sha256": "c0bfe06648cd6fc49ca8b9488a88ab79cc4d518613e7eb5b81db4508389716fb"
+      },
+      "path": "inputs/e328149e39819bebd850162d51e357bdbc7b3de737ca9a618c43750d907d46dd.ndjson",
+      "sha256": "e328149e39819bebd850162d51e357bdbc7b3de737ca9a618c43750d907d46dd",
+      "size": 3696,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/031_peano2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/031_peano2",
+        "sha256": "107b66eff6598febc300a0dcd89c5e658bdb41f9e79e5c869ca9ea84560ef61d"
+      },
+      "path": "inputs/244f11147fc1c88efd40c63d7d71da7cb31de0ae9d3d185fe29432c0a6ddd21d.ndjson",
+      "sha256": "244f11147fc1c88efd40c63d7d71da7cb31de0ae9d3d185fe29432c0a6ddd21d",
+      "size": 4570,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/032_peano3",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/032_peano3",
+        "sha256": "a155941886992c8340cfed582f0c73b634c347b4525b2e58ee93ff91895492da"
+      },
+      "path": "inputs/2b47e77f8ae22d9d73281b643fd48826a21f29be521927cad3860d6e92aa22f1.ndjson",
+      "sha256": "2b47e77f8ae22d9d73281b643fd48826a21f29be521927cad3860d6e92aa22f1",
+      "size": 5010,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/033_letType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/033_letType",
+        "sha256": "b9a44f49220a12951ac34ae4a4269a899fd81093949ea216e37744f519b5fbea"
+      },
+      "path": "inputs/b9a44f49220a12951ac34ae4a4269a899fd81093949ea216e37744f519b5fbea.ndjson",
+      "sha256": "b9a44f49220a12951ac34ae4a4269a899fd81093949ea216e37744f519b5fbea",
+      "size": 489,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/034_letTypeDep",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/034_letTypeDep",
+        "sha256": "c42e3dca20c90a0e942b394ec729548dee81114f0faf2e03dec503cf3ac7a234"
+      },
+      "path": "inputs/c42e3dca20c90a0e942b394ec729548dee81114f0faf2e03dec503cf3ac7a234.ndjson",
+      "sha256": "c42e3dca20c90a0e942b394ec729548dee81114f0faf2e03dec503cf3ac7a234",
+      "size": 1238,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/035_letRed",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/035_letRed",
+        "sha256": "648dcc1d99fb02a44fcb00bccdfeb7221bff807cd1f184239c9f4aa8749677e3"
+      },
+      "path": "inputs/648dcc1d99fb02a44fcb00bccdfeb7221bff807cd1f184239c9f4aa8749677e3.ndjson",
+      "sha256": "648dcc1d99fb02a44fcb00bccdfeb7221bff807cd1f184239c9f4aa8749677e3",
+      "size": 627,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/036_empty",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/036_empty",
+        "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+      },
+      "path": "inputs/18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb.ndjson",
+      "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "size": 1228,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/037_boolType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/037_boolType",
+        "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"
+      },
+      "path": "inputs/60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07.ndjson",
+      "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "size": 2377,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/038_twoBool",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/038_twoBool",
+        "sha256": "023dc45dfe86c392d1253bd438b9bb3b1da07a80a5e5083acd751149c652411d"
+      },
+      "path": "inputs/023dc45dfe86c392d1253bd438b9bb3b1da07a80a5e5083acd751149c652411d.ndjson",
+      "sha256": "023dc45dfe86c392d1253bd438b9bb3b1da07a80a5e5083acd751149c652411d",
+      "size": 4266,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/039_andType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/039_andType",
+        "sha256": "656a1be9f3bb92fd10d459cf3e3a860dbb7213dbce10d2c788d94aed8e0e9b59"
+      },
+      "path": "inputs/656a1be9f3bb92fd10d459cf3e3a860dbb7213dbce10d2c788d94aed8e0e9b59.ndjson",
+      "sha256": "656a1be9f3bb92fd10d459cf3e3a860dbb7213dbce10d2c788d94aed8e0e9b59",
+      "size": 3273,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/040_prodType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/040_prodType",
+        "sha256": "2f82e7d70c3c170a7fb5b9d081c328a0075c8109f4979862cf5666355b94fd7d"
+      },
+      "path": "inputs/f9aa33e4e7ffb034cdc4d9fd443eb7a47c67cc14499f5ce23aa64c23d92ad948.ndjson",
+      "sha256": "f9aa33e4e7ffb034cdc4d9fd443eb7a47c67cc14499f5ce23aa64c23d92ad948",
+      "size": 3927,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/041_pprodType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/041_pprodType",
+        "sha256": "08970427c4e28233478d7e73fdfb47fc26776805f71f36cc83e3cad434a41791"
+      },
+      "path": "inputs/c594727c933632262d49e1215d6a840248e03ef8cfa06f730cee49ce1816dbdc.ndjson",
+      "sha256": "c594727c933632262d49e1215d6a840248e03ef8cfa06f730cee49ce1816dbdc",
+      "size": 3914,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/042_pUnitType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/042_pUnitType",
+        "sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248"
+      },
+      "path": "inputs/29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248.ndjson",
+      "sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "size": 1843,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/043_eqType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/043_eqType",
+        "sha256": "17e2890610e6c4f97c9f8d62919736f27928d058aa6df4f769e285418b9eba2e"
+      },
+      "path": "inputs/4611adfe17687d4672b4c458aea9a16f26e330591b924db3b1184aee9e173aae.ndjson",
+      "sha256": "4611adfe17687d4672b4c458aea9a16f26e330591b924db3b1184aee9e173aae",
+      "size": 3328,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/044_natDef",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/044_natDef",
+        "sha256": "e1ea8ce5e5814320ec6f9c1d10bfe7fa0955432595627a40f629e56366bf49be"
+      },
+      "path": "inputs/e1ea8ce5e5814320ec6f9c1d10bfe7fa0955432595627a40f629e56366bf49be.ndjson",
+      "sha256": "e1ea8ce5e5814320ec6f9c1d10bfe7fa0955432595627a40f629e56366bf49be",
+      "size": 3392,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/045_rbTreeDef",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/045_rbTreeDef",
+        "sha256": "10f50558c3fafe8d13f4129fa45d6b2d3732768e50eb9989d2f2ba66c696e14c"
+      },
+      "path": "inputs/01bef839a8562c8e00600bf2db1d170c8c721ac8e9195695831ac9ea499cf92b.ndjson",
+      "sha256": "01bef839a8562c8e00600bf2db1d170c8c721ac8e9195695831ac9ea499cf92b",
+      "size": 16094,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/046_inductBadNonSort",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/046_inductBadNonSort",
+        "sha256": "0b5743d6dca5ca51a5966d5b1b1a2883fd0ddd0548b36a9c8b66d0fedda3e9c8"
+      },
+      "path": "inputs/0b5743d6dca5ca51a5966d5b1b1a2883fd0ddd0548b36a9c8b66d0fedda3e9c8.ndjson",
+      "sha256": "0b5743d6dca5ca51a5966d5b1b1a2883fd0ddd0548b36a9c8b66d0fedda3e9c8",
+      "size": 1182,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/047_inductBadNonSort2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/047_inductBadNonSort2",
+        "sha256": "bc9abb544e1e918b8cadf898b7251f0b4fb6ba43a89569343b094be27ad83c56"
+      },
+      "path": "inputs/bc9abb544e1e918b8cadf898b7251f0b4fb6ba43a89569343b094be27ad83c56.ndjson",
+      "sha256": "bc9abb544e1e918b8cadf898b7251f0b4fb6ba43a89569343b094be27ad83c56",
+      "size": 598,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/048_inductLevelParam",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/048_inductLevelParam",
+        "sha256": "00e01ad9e397d9ac2f53a0a0932c15681c097fd42eb5f81d3d1779ba8706875e"
+      },
+      "path": "inputs/00e01ad9e397d9ac2f53a0a0932c15681c097fd42eb5f81d3d1779ba8706875e.ndjson",
+      "sha256": "00e01ad9e397d9ac2f53a0a0932c15681c097fd42eb5f81d3d1779ba8706875e",
+      "size": 515,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/049_inductTooFewParams",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/049_inductTooFewParams",
+        "sha256": "a7aa4192b8e986b2cf7c3845d208e818b27db7edda2492d3e5e180f8c379746b"
+      },
+      "path": "inputs/a7aa4192b8e986b2cf7c3845d208e818b27db7edda2492d3e5e180f8c379746b.ndjson",
+      "sha256": "a7aa4192b8e986b2cf7c3845d208e818b27db7edda2492d3e5e180f8c379746b",
+      "size": 548,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/050_inductWrongCtorParams",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/050_inductWrongCtorParams",
+        "sha256": "e00ec458cd70b88e1f8ef6938dbf38b431c5a2d09086f22b8f46216a412625b4"
+      },
+      "path": "inputs/e00ec458cd70b88e1f8ef6938dbf38b431c5a2d09086f22b8f46216a412625b4.ndjson",
+      "sha256": "e00ec458cd70b88e1f8ef6938dbf38b431c5a2d09086f22b8f46216a412625b4",
+      "size": 1182,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/051_inductWrongCtorResParams",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/051_inductWrongCtorResParams",
+        "sha256": "376541e4a12f98f6c3bddd3f2137ff92347ec8cc802de17147154f14fc539af7"
+      },
+      "path": "inputs/376541e4a12f98f6c3bddd3f2137ff92347ec8cc802de17147154f14fc539af7.ndjson",
+      "sha256": "376541e4a12f98f6c3bddd3f2137ff92347ec8cc802de17147154f14fc539af7",
+      "size": 1293,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/052_inductWrongCtorResLevel",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/052_inductWrongCtorResLevel",
+        "sha256": "37bdaecc5ee679e398f190217c451777f14f5ea82d4d45472909574cb2a875d3"
+      },
+      "path": "inputs/37bdaecc5ee679e398f190217c451777f14f5ea82d4d45472909574cb2a875d3.ndjson",
+      "sha256": "37bdaecc5ee679e398f190217c451777f14f5ea82d4d45472909574cb2a875d3",
+      "size": 1411,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/053_inductInIndex",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/053_inductInIndex",
+        "sha256": "ae3f46380ddb3b87ec47dd94f11facfb3b095d68a7e43fea1c051a54ea7df94a"
+      },
+      "path": "inputs/ae3f46380ddb3b87ec47dd94f11facfb3b095d68a7e43fea1c051a54ea7df94a.ndjson",
+      "sha256": "ae3f46380ddb3b87ec47dd94f11facfb3b095d68a7e43fea1c051a54ea7df94a",
+      "size": 1099,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/054_indNeg",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/054_indNeg",
+        "sha256": "891ebd478f35c1b58597f8d5b90855c05683d1945c3392a1b8a49c7036618c72"
+      },
+      "path": "inputs/891ebd478f35c1b58597f8d5b90855c05683d1945c3392a1b8a49c7036618c72.ndjson",
+      "sha256": "891ebd478f35c1b58597f8d5b90855c05683d1945c3392a1b8a49c7036618c72",
+      "size": 996,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/055_reduceCtorParam.mk",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/055_reduceCtorParam.mk",
+        "sha256": "7927f942d5f7c496d93352e55955110fb22e0195707b73e6f3897b5cd88a8894"
+      },
+      "path": "inputs/63b525711fa26c5387812b257945ade31b45b52b8e931e046abe3a70eea8c5b0.ndjson",
+      "sha256": "63b525711fa26c5387812b257945ade31b45b52b8e931e046abe3a70eea8c5b0",
+      "size": 4183,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/056_reduceCtorType.mk",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/056_reduceCtorType.mk",
+        "sha256": "2bd8aa0b62145bfb04c3292516dd8df438594e104efb89f5de6b653db13ed19b"
+      },
+      "path": "inputs/f170f97b79705c95939b928b1115e2654cbd1624122b8901c77165950179adad.ndjson",
+      "sha256": "f170f97b79705c95939b928b1115e2654cbd1624122b8901c77165950179adad",
+      "size": 1553,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/057_indNegReducible",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/057_indNegReducible",
+        "sha256": "ac00e7cb143dfa35fb91c578756027daac4518aace7b27bdbd0097c1d2eae139"
+      },
+      "path": "inputs/ac00e7cb143dfa35fb91c578756027daac4518aace7b27bdbd0097c1d2eae139.ndjson",
+      "sha256": "ac00e7cb143dfa35fb91c578756027daac4518aace7b27bdbd0097c1d2eae139",
+      "size": 1918,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/058_predWithTypeField",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/058_predWithTypeField",
+        "sha256": "4ead0880735e18eb8317edbe6608f1891b35bd321a8062cb279f75a3fd74f753"
+      },
+      "path": "inputs/96b103bb82fcd9b4e36baab63ca63966fbcf77f1b3ac9defb10aa1819b132e63.ndjson",
+      "sha256": "96b103bb82fcd9b4e36baab63ca63966fbcf77f1b3ac9defb10aa1819b132e63",
+      "size": 2027,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/059_typeWithTypeField",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/059_typeWithTypeField",
+        "sha256": "35536ab3714f8d578c1c07776eb9be463b9cda56a05ed3113bc8658f27465814"
+      },
+      "path": "inputs/d1b4bc00d4e7e685266c1b948f424de1e629a4e7fd63daf1675c767c1d0b18a3.ndjson",
+      "sha256": "d1b4bc00d4e7e685266c1b948f424de1e629a4e7fd63daf1675c767c1d0b18a3",
+      "size": 2120,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/060_typeWithTypeFieldPoly",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/060_typeWithTypeFieldPoly",
+        "sha256": "ed5a51876b8dde1bd53599ba783c213a7648ac461fd85c6e5892a411c3a0b5df"
+      },
+      "path": "inputs/609bdcbf8fdd780a445b319c729f83b409cfcb2570ebfee84404f7e2bcfead7c.ndjson",
+      "sha256": "609bdcbf8fdd780a445b319c729f83b409cfcb2570ebfee84404f7e2bcfead7c",
+      "size": 2194,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/061_typeWithTooHighTypeField.mk",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/061_typeWithTooHighTypeField.mk",
+        "sha256": "6852310d3ee1571f605ea6447f85d0e01c867fd209d1185321318078549cf45a"
+      },
+      "path": "inputs/6852310d3ee1571f605ea6447f85d0e01c867fd209d1185321318078549cf45a.ndjson",
+      "sha256": "6852310d3ee1571f605ea6447f85d0e01c867fd209d1185321318078549cf45a",
+      "size": 943,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/062_emptyRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/062_emptyRec",
+        "sha256": "0f2b78a85ead0e23165febd2f3a83f251e12d2c1cadc293f528a7fa444016f36"
+      },
+      "path": "inputs/0f2b78a85ead0e23165febd2f3a83f251e12d2c1cadc293f528a7fa444016f36.ndjson",
+      "sha256": "0f2b78a85ead0e23165febd2f3a83f251e12d2c1cadc293f528a7fa444016f36",
+      "size": 1269,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/063_boolRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/063_boolRec",
+        "sha256": "3da418a44a96a39dcbf70cd482c6ef8320d8cbb2593de2c21f163dd862551afd"
+      },
+      "path": "inputs/3da418a44a96a39dcbf70cd482c6ef8320d8cbb2593de2c21f163dd862551afd.ndjson",
+      "sha256": "3da418a44a96a39dcbf70cd482c6ef8320d8cbb2593de2c21f163dd862551afd",
+      "size": 3092,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/064_twoBoolRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/064_twoBoolRec",
+        "sha256": "9dfcc750a51b3e8ab9954696c40177bad30d486287b627fe06408086d468016b"
+      },
+      "path": "inputs/9dfcc750a51b3e8ab9954696c40177bad30d486287b627fe06408086d468016b.ndjson",
+      "sha256": "9dfcc750a51b3e8ab9954696c40177bad30d486287b627fe06408086d468016b",
+      "size": 4866,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/065_andRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/065_andRec",
+        "sha256": "6d876dc6840102814fc56ba83bd2008855e0fbc41f691f4795885fc4b5da51a9"
+      },
+      "path": "inputs/6d876dc6840102814fc56ba83bd2008855e0fbc41f691f4795885fc4b5da51a9.ndjson",
+      "sha256": "6d876dc6840102814fc56ba83bd2008855e0fbc41f691f4795885fc4b5da51a9",
+      "size": 3313,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/066_prodRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/066_prodRec",
+        "sha256": "a599e1935d3291f405a860c0507cfd39d2d719162ba10d797c0251c858969aec"
+      },
+      "path": "inputs/16cb612ae221907af8fbde4a2ea5516b5914425a75f01cb589df72b7b1a36ca3.ndjson",
+      "sha256": "16cb612ae221907af8fbde4a2ea5516b5914425a75f01cb589df72b7b1a36ca3",
+      "size": 4119,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/067_pprodRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/067_pprodRec",
+        "sha256": "537333591de9684245331a0ba1e051ae79b9dc5749e02b8c623b8c3725a82340"
+      },
+      "path": "inputs/f7840f1cc13afa4b8e27ffb4df948e7abc7d36fa5dd6b0d359a10e6f6c86f7b2.ndjson",
+      "sha256": "f7840f1cc13afa4b8e27ffb4df948e7abc7d36fa5dd6b0d359a10e6f6c86f7b2",
+      "size": 4104,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/068_punitRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/068_punitRec",
+        "sha256": "41d98f6240e8fb36c63b4baa22fbf940a28195c482dc584399a407c69cee1d39"
+      },
+      "path": "inputs/41d98f6240e8fb36c63b4baa22fbf940a28195c482dc584399a407c69cee1d39.ndjson",
+      "sha256": "41d98f6240e8fb36c63b4baa22fbf940a28195c482dc584399a407c69cee1d39",
+      "size": 2227,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/069_eqRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/069_eqRec",
+        "sha256": "5af40a654e735fbe4a4c5f244a36afd8b606932c054abe822b06493ccef0663b"
+      },
+      "path": "inputs/0bc73fa4649e31e56a353d38a499f2e3fd46a4996b4d6970ae9c5f71c669a60f.ndjson",
+      "sha256": "0bc73fa4649e31e56a353d38a499f2e3fd46a4996b4d6970ae9c5f71c669a60f",
+      "size": 3373,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/070_nRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/070_nRec",
+        "sha256": "d68c2401d23beda918b8e8017ac45965be44e60920a9bab158412d6fb65b3556"
+      },
+      "path": "inputs/d68c2401d23beda918b8e8017ac45965be44e60920a9bab158412d6fb65b3556.ndjson",
+      "sha256": "d68c2401d23beda918b8e8017ac45965be44e60920a9bab158412d6fb65b3556",
+      "size": 3394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/071_rbTreeRef",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/071_rbTreeRef",
+        "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6"
+      },
+      "path": "inputs/cb163e61a30a4cab25f925ede5d342bfcc3b5a0efc6054181174c692451a6f05.ndjson",
+      "sha256": "cb163e61a30a4cab25f925ede5d342bfcc3b5a0efc6054181174c692451a6f05",
+      "size": 16560,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/072_boolPropRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/072_boolPropRec",
+        "sha256": "a360387a4cef76fa0a83ea4e9080f65d6170289b25aaaece7ff6301ffe11b305"
+      },
+      "path": "inputs/a360387a4cef76fa0a83ea4e9080f65d6170289b25aaaece7ff6301ffe11b305.ndjson",
+      "sha256": "a360387a4cef76fa0a83ea4e9080f65d6170289b25aaaece7ff6301ffe11b305",
+      "size": 2313,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/073_BogusRecursor",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/073_BogusRecursor",
+        "sha256": "32fa46330a24a77b132ba55d9f9c88c89b4b2730d75fae453d066678a03ef0ca"
+      },
+      "path": "inputs/32fa46330a24a77b132ba55d9f9c88c89b4b2730d75fae453d066678a03ef0ca.ndjson",
+      "sha256": "32fa46330a24a77b132ba55d9f9c88c89b4b2730d75fae453d066678a03ef0ca",
+      "size": 1865,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/074_existsRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/074_existsRec",
+        "sha256": "572a2975c19e88123eca7c032a4915e7641c4d2fe6d81f95ee52597ef33f057e"
+      },
+      "path": "inputs/a61f0df143bf5d0087f1ea63c9d31de0ae1d895d1a116f4ff27d4218225806ca.ndjson",
+      "sha256": "a61f0df143bf5d0087f1ea63c9d31de0ae1d895d1a116f4ff27d4218225806ca",
+      "size": 3669,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/075_typeSingletonRecReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/075_typeSingletonRecReduction",
+        "sha256": "055d92f0c45196c33862eeca4610d988a9be97375009725ca51e3ef64a10b832"
+      },
+      "path": "inputs/cc6ff73b992f06cb43f43f12f8f7c85d3cdb2810cf1dc5b3ff7a62bc629fd053.ndjson",
+      "sha256": "cc6ff73b992f06cb43f43f12f8f7c85d3cdb2810cf1dc5b3ff7a62bc629fd053",
+      "size": 8099,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/076_sortElimPropRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/076_sortElimPropRec",
+        "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e"
+      },
+      "path": "inputs/9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e.ndjson",
+      "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e",
+      "size": 5773,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/077_sortElimProp2Rec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/077_sortElimProp2Rec",
+        "sha256": "eaaa3909ab1527239fa0373e392464e6941097162531033d9a7ad422e7cb9945"
+      },
+      "path": "inputs/4a222f468965a1f7cfead530f3618b98d68dfd45d1e81a8d788693d3b9bf219a.ndjson",
+      "sha256": "4a222f468965a1f7cfead530f3618b98d68dfd45d1e81a8d788693d3b9bf219a",
+      "size": 6798,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/078_boolRecEqns",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/078_boolRecEqns",
+        "sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d"
+      },
+      "path": "inputs/f5f1a43abd595fbf0b63870b69da6f4fa7f7ba4c1e95293675731dab8bc02280.ndjson",
+      "sha256": "f5f1a43abd595fbf0b63870b69da6f4fa7f7ba4c1e95293675731dab8bc02280",
+      "size": 11062,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/079_prodRecEqns",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/079_prodRecEqns",
+        "sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6"
+      },
+      "path": "inputs/769ec6d69b61e686026060e0c3dbbbb2eeed5b4ce288ad97a2e2bfeab79266e2.ndjson",
+      "sha256": "769ec6d69b61e686026060e0c3dbbbb2eeed5b4ce288ad97a2e2bfeab79266e2",
+      "size": 10313,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/080_nRecReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/080_nRecReduction",
+        "sha256": "36eb71b330ee527eb6b3171b4f691c111ff229ad46ba58d4e450b95dae8a412d"
+      },
+      "path": "inputs/13e9601703dbc4a084a466b4037712a0e983fd3bdaa84750546587c07d517392.ndjson",
+      "sha256": "13e9601703dbc4a084a466b4037712a0e983fd3bdaa84750546587c07d517392",
+      "size": 13055,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/081_listRecReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/081_listRecReduction",
+        "sha256": "09c0bde7c1899d49cad18951123ed5fe6f54d6bf2cef6c6d0ba464e4571ae370"
+      },
+      "path": "inputs/f81c7f9681142a7e76774e239c984336cae271f07b0ddcfbf469c2fd1e4184f8.ndjson",
+      "sha256": "f81c7f9681142a7e76774e239c984336cae271f07b0ddcfbf469c2fd1e4184f8",
+      "size": 17902,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/082_RBTree.id_spec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/082_RBTree.id_spec",
+        "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9"
+      },
+      "path": "inputs/b762879b2bcf661a745b9a35314ba91f14afdffc542de3f9f4aef56f6f143a9b.ndjson",
+      "sha256": "b762879b2bcf661a745b9a35314ba91f14afdffc542de3f9f4aef56f6f143a9b",
+      "size": 49021,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/083_And.right",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/083_And.right",
+        "sha256": "9d2b8259b2c66875bcad6be7401d02efa153c01f00a24d03bd9e908ec5e97c42"
+      },
+      "path": "inputs/9d2b8259b2c66875bcad6be7401d02efa153c01f00a24d03bd9e908ec5e97c42.ndjson",
+      "sha256": "9d2b8259b2c66875bcad6be7401d02efa153c01f00a24d03bd9e908ec5e97c42",
+      "size": 4353,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/084_Prod.snd",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/084_Prod.snd",
+        "sha256": "8cdc1c4b40f2ae776fc7bc898b01d9a9c4efb9f7bf0099162dbd7d2aff705464"
+      },
+      "path": "inputs/492083c98f77eb2f68a7ac17965ecc6b2dfbccb160e3c8fbe403c837332cfd0f.ndjson",
+      "sha256": "492083c98f77eb2f68a7ac17965ecc6b2dfbccb160e3c8fbe403c837332cfd0f",
+      "size": 4654,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/085_PProd.snd",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/085_PProd.snd",
+        "sha256": "c1936a363731616d9a7971eac15ae781fbf8ccd5c4d545e289e4020eb02772a5"
+      },
+      "path": "inputs/8cf878cf51d9b2c896b16c595cd487e8f4cce8c8322fb629a00d61eeeb48ed66.ndjson",
+      "sha256": "8cf878cf51d9b2c896b16c595cd487e8f4cce8c8322fb629a00d61eeeb48ed66",
+      "size": 4658,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/086_PSigma.snd",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/086_PSigma.snd",
+        "sha256": "9a84a3af533679eadb262be72db7a2d17798aaeba1aea38d4144c9c003c4e179"
+      },
+      "path": "inputs/9dab406decf2b69707d63e2f8bf0dc83750c1195a919febe529576cda8f9d635.ndjson",
+      "sha256": "9dab406decf2b69707d63e2f8bf0dc83750c1195a919febe529576cda8f9d635",
+      "size": 5185,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/087_projOutOfRange",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/087_projOutOfRange",
+        "sha256": "c523a27118e7e081c515535d7f9e3d69e623f7a1c04a900213086510063dae79"
+      },
+      "path": "inputs/c523a27118e7e081c515535d7f9e3d69e623f7a1c04a900213086510063dae79.ndjson",
+      "sha256": "c523a27118e7e081c515535d7f9e3d69e623f7a1c04a900213086510063dae79",
+      "size": 3875,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/088_projNotStruct",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/088_projNotStruct",
+        "sha256": "ca8056aa5df3b0f96a7a5eca355cce043d91c49563ae228cd4768f0bbe1bfaf4"
+      },
+      "path": "inputs/ca8056aa5df3b0f96a7a5eca355cce043d91c49563ae228cd4768f0bbe1bfaf4.ndjson",
+      "sha256": "ca8056aa5df3b0f96a7a5eca355cce043d91c49563ae228cd4768f0bbe1bfaf4",
+      "size": 3557,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/089_projProp1",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/089_projProp1",
+        "sha256": "f5619c6c975d73e06ed3b80fa20142f62f7ce0696dc7c8fdce648a9ecfcc800d"
+      },
+      "path": "inputs/44718b7b202364f7c9b9251a05bd91d0a64d57637780e0f965d5d6aad1c48a75.ndjson",
+      "sha256": "44718b7b202364f7c9b9251a05bd91d0a64d57637780e0f965d5d6aad1c48a75",
+      "size": 8394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/090_projProp2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/090_projProp2",
+        "sha256": "710944c5a71c80cae0913c31ebe13186401e2717f4e5e731128590acd591d4f9"
+      },
+      "path": "inputs/b5aabbe558c6f9b5de41e9953a575988a60a87a1648a02f028335b1a9fda0609.ndjson",
+      "sha256": "b5aabbe558c6f9b5de41e9953a575988a60a87a1648a02f028335b1a9fda0609",
+      "size": 8394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/091_projProp3",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/091_projProp3",
+        "sha256": "a9d95724c06cc3571103baff68ce75eb3dad454bf935ced5da20deb2e7993348"
+      },
+      "path": "inputs/ad9dcf7282ce02c9f51dc5eb352971b7e9aaead950738dcbb18583b676fba031.ndjson",
+      "sha256": "ad9dcf7282ce02c9f51dc5eb352971b7e9aaead950738dcbb18583b676fba031",
+      "size": 8394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/092_projProp4",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/092_projProp4",
+        "sha256": "958d3fdb2f292912c18fbc8ed3686c60d7d2fa19504385b7062276e20f0e5589"
+      },
+      "path": "inputs/d95a81d8fc13794808b25162609de94bdc8132d205c86f1a65bbd73788f006ab.ndjson",
+      "sha256": "d95a81d8fc13794808b25162609de94bdc8132d205c86f1a65bbd73788f006ab",
+      "size": 8394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/093_projProp5",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/093_projProp5",
+        "sha256": "c6b12e00b68eb80438a619d29a523d4af0907e56e058541b675f34e26f98164e"
+      },
+      "path": "inputs/fa9773d4936941dd6771e86fdaca2fa55426adf7d5e6aaf2f40767f1292a0c30.ndjson",
+      "sha256": "fa9773d4936941dd6771e86fdaca2fa55426adf7d5e6aaf2f40767f1292a0c30",
+      "size": 8600,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/094_projProp6",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/094_projProp6",
+        "sha256": "b8da2aaeb0422306639a720608ff66ffa6c50a75426e18bb3bd58c5f483d13b2"
+      },
+      "path": "inputs/9da173f4cebcb949542253ed8484e5554f7124fa0156e7261b3506f27ef2821f.ndjson",
+      "sha256": "9da173f4cebcb949542253ed8484e5554f7124fa0156e7261b3506f27ef2821f",
+      "size": 8394,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/095_projDataIndexRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/095_projDataIndexRec",
+        "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a"
+      },
+      "path": "inputs/ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a.ndjson",
+      "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a",
+      "size": 6921,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/096_projIndexData",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/096_projIndexData",
+        "sha256": "5153a2bfdb3191f67bcedeccfc2306bf2514fba530a58237660664de1f8f2b6a"
+      },
+      "path": "inputs/578b3a6ac66641714e01e67c3a8913a5337a52d47397ae39a493f8cb9e93a3ae.ndjson",
+      "sha256": "578b3a6ac66641714e01e67c3a8913a5337a52d47397ae39a493f8cb9e93a3ae",
+      "size": 14399,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/097_projIndexData2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/097_projIndexData2",
+        "sha256": "e044fa7d4fc048c6103e60a5c1b41e07070c54cc998403ae323b04ed5cea7793"
+      },
+      "path": "inputs/ec6c3bd60e37de2ee19edcb6dc651e7524c299aaa7d8be6207f22078aad426ff.ndjson",
+      "sha256": "ec6c3bd60e37de2ee19edcb6dc651e7524c299aaa7d8be6207f22078aad426ff",
+      "size": 14401,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/098_projRed",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/098_projRed",
+        "sha256": "2fe756cf6d2b1e6e2c819f8858b1881d88f4f99564257911c730ca2756aa959d"
+      },
+      "path": "inputs/beb6bc45893e6e37be464101a701755e5b826b5dc4f728ea45efc7f6e64bd4d7.ndjson",
+      "sha256": "beb6bc45893e6e37be464101a701755e5b826b5dc4f728ea45efc7f6e64bd4d7",
+      "size": 10159,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/099_ruleK",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/099_ruleK",
+        "sha256": "39dab799309ad05a2f30670776d74b4e6b177175271291dd078a3d3737eef338"
+      },
+      "path": "inputs/8852d32d817e99e3cd70a6af154cac25d55a38ba564753eebfb2e660bb818e2e.ndjson",
+      "sha256": "8852d32d817e99e3cd70a6af154cac25d55a38ba564753eebfb2e660bb818e2e",
+      "size": 6628,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/100_ruleKbad",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/100_ruleKbad",
+        "sha256": "2147c3416825e1c7f78382501f4c3e2f8165d23d464c998a077e69a12e51697a"
+      },
+      "path": "inputs/ffcf0525feab0224c52e424797cc10b3e684b0282a0a6a2dee4eabde7785c8f2.ndjson",
+      "sha256": "ffcf0525feab0224c52e424797cc10b3e684b0282a0a6a2dee4eabde7785c8f2",
+      "size": 6632,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/101_ruleKAcc",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/101_ruleKAcc",
+        "sha256": "59a4dc34b1175f59d9efd17c4c5b9d9f07bdb54c882dc66a65737d29be6d4356"
+      },
+      "path": "inputs/b202a7ff470a90358c26f0f0e9b250eed47825540f09710fb36531b582c104ee.ndjson",
+      "sha256": "b202a7ff470a90358c26f0f0e9b250eed47825540f09710fb36531b582c104ee",
+      "size": 12754,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/102_aNatLit",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/102_aNatLit",
+        "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+      },
+      "path": "inputs/46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930.ndjson",
+      "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930",
+      "size": 3101,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/103_natLitEq",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/103_natLitEq",
+        "sha256": "1918f1c8c5454442474d1db51cf6480182f7e13e31b5b1dd1319751aa8991f90"
+      },
+      "path": "inputs/5aae487601dd667a9a534b00c6e325c4b108303a6df166c5d707a6c9b7c64e51.ndjson",
+      "sha256": "5aae487601dd667a9a534b00c6e325c4b108303a6df166c5d707a6c9b7c64e51",
+      "size": 6278,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/104_proofIrrelevance",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/104_proofIrrelevance",
+        "sha256": "cf25561da46b200deb6aef5aa82fb3bb6051913dae7e92dca1c8b6bb8ff35ba0"
+      },
+      "path": "inputs/a4743b02ab7cca6c5804f2a21f7e28271ea8e6659658d75b429aeae445c00ed3.ndjson",
+      "sha256": "a4743b02ab7cca6c5804f2a21f7e28271ea8e6659658d75b429aeae445c00ed3",
+      "size": 5158,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/105_proofIrrelevanceBad",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/105_proofIrrelevanceBad",
+        "sha256": "2a1fa7289c339a899efdc2a1e4db11cc3d27064caa6cfb4b345a0bc1c247e95d"
+      },
+      "path": "inputs/e52033fe8b3a9b5afb59b86940eb599aeea49b0c4cef75ef947928de6b16b0c0.ndjson",
+      "sha256": "e52033fe8b3a9b5afb59b86940eb599aeea49b0c4cef75ef947928de6b16b0c0",
+      "size": 4855,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/106_proofIrrelevanceWhnf",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/106_proofIrrelevanceWhnf",
+        "sha256": "f697489bbf650d37795af2f6f347029016e7b517bb19b03179d51a065c2fefa2"
+      },
+      "path": "inputs/b9adbf125fa968dd0bab97a803adfe7bacf518c3dc9f05feda8787ff32660311.ndjson",
+      "sha256": "b9adbf125fa968dd0bab97a803adfe7bacf518c3dc9f05feda8787ff32660311",
+      "size": 5761,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/107_proofIrrelevanceUnderBinder",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/107_proofIrrelevanceUnderBinder",
+        "sha256": "f7b2b47cff6e252ac53454889406ef852a97357ccd0a03fcbfcd1f0cae3b83ee"
+      },
+      "path": "inputs/f7b2b47cff6e252ac53454889406ef852a97357ccd0a03fcbfcd1f0cae3b83ee.ndjson",
+      "sha256": "f7b2b47cff6e252ac53454889406ef852a97357ccd0a03fcbfcd1f0cae3b83ee",
+      "size": 1918,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/108_unitEta1",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/108_unitEta1",
+        "sha256": "2771b6cf7b538a8718718696b9d1bcae86f9612a0a933c15140012aa6b7cf733"
+      },
+      "path": "inputs/f2d5bcc47c09c114db71dfbd4a078c84ba273ec1b955b488a6b84900cd3aa000.ndjson",
+      "sha256": "f2d5bcc47c09c114db71dfbd4a078c84ba273ec1b955b488a6b84900cd3aa000",
+      "size": 6399,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/109_unitEta2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/109_unitEta2",
+        "sha256": "14b6411c82f6401fedd29cffdf8a27d8adfc41938a5f28801d5ffbf151b5da0c"
+      },
+      "path": "inputs/454f00d601e56a1ee1345b7ba94ea7a0234b676c39798fd856d421a455565204.ndjson",
+      "sha256": "454f00d601e56a1ee1345b7ba94ea7a0234b676c39798fd856d421a455565204",
+      "size": 6096,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/110_unitEta3",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/110_unitEta3",
+        "sha256": "650b2ff08d1c246397a1605cbaa8a6f756cc68ef6304c2476ac1d13ced56087e"
+      },
+      "path": "inputs/1a4e0c684aeee304fd980bc4546a11eeca58d609f5eb1f2e22684dc95aed9303.ndjson",
+      "sha256": "1a4e0c684aeee304fd980bc4546a11eeca58d609f5eb1f2e22684dc95aed9303",
+      "size": 6177,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/111_indexedUnitEta",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/111_indexedUnitEta",
+        "sha256": "cbb7373c1ca899628177c7d6eb97dc6cf2f1faa3d14cdd1b1d90a5103e15f5d4"
+      },
+      "path": "inputs/1c77f4986cf540d83e56f36dc2f97ac7df61566a21b423a73df9dda22a95db9f.ndjson",
+      "sha256": "1c77f4986cf540d83e56f36dc2f97ac7df61566a21b423a73df9dda22a95db9f",
+      "size": 7376,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/112_structEta",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/112_structEta",
+        "sha256": "a686b22362e05728ef0fce00646dd6f63996ab66e89290bf13ecd492cac17a6d"
+      },
+      "path": "inputs/71a37e40568744b6af627f0731ec977604ae5a69dbac98daeeeac41b54e411f6.ndjson",
+      "sha256": "71a37e40568744b6af627f0731ec977604ae5a69dbac98daeeeac41b54e411f6",
+      "size": 12844,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/113_indexedStructEta",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/113_indexedStructEta",
+        "sha256": "68793088cc096a96a4b7ed07f7417d88a4dafcc7ca4e8b53f6a756aed91e1b2d"
+      },
+      "path": "inputs/5f011c8cc0d531707858b4f54d3415a639b5484498828769b8199ea921c70b55.ndjson",
+      "sha256": "5f011c8cc0d531707858b4f54d3415a639b5484498828769b8199ea921c70b55",
+      "size": 8717,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/114_funEta",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/114_funEta",
+        "sha256": "da363ebc05eca706a952bc9496fe76999850a12b63fe59243707e2c8a581e76d"
+      },
+      "path": "inputs/046cc393d32778e4e74b64a8200f36c92820746fa3026c50f9bd09c977e6bf1d.ndjson",
+      "sha256": "046cc393d32778e4e74b64a8200f36c92820746fa3026c50f9bd09c977e6bf1d",
+      "size": 5343,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/115_funEtaDep",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/115_funEtaDep",
+        "sha256": "a7fbe049abfd96e27d3904a6aea9dd7b9d4fe9c49e5095aacf369678f7af6438"
+      },
+      "path": "inputs/a47daa950c8ca0cb3d3fd9f8a55ca4523468823a5843d2d90d401ce134ad3d6f.ndjson",
+      "sha256": "a47daa950c8ca0cb3d3fd9f8a55ca4523468823a5843d2d90d401ce134ad3d6f",
+      "size": 5451,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/116_funEtaBad",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/116_funEtaBad",
+        "sha256": "54a1fa957b69925682e54479b3c152bfd131ca7f4a9713c05b195c83e9cd239a"
+      },
+      "path": "inputs/dd1c6a3df7b0504726980300609e146c67844783f9ade86d17590a8a128d389b.ndjson",
+      "sha256": "dd1c6a3df7b0504726980300609e146c67844783f9ade86d17590a8a128d389b",
+      "size": 4987,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/117_reflOccLeft",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/117_reflOccLeft",
+        "sha256": "cb1cb23af8bccc7eea0d76f643fe26948f6181a420128743f3ac7b08cd188427"
+      },
+      "path": "inputs/cb1cb23af8bccc7eea0d76f643fe26948f6181a420128743f3ac7b08cd188427.ndjson",
+      "sha256": "cb1cb23af8bccc7eea0d76f643fe26948f6181a420128743f3ac7b08cd188427",
+      "size": 3826,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/118_reflOccInIndex",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/118_reflOccInIndex",
+        "sha256": "f7e26071a31d8a99affda951e49d5ddbe7ba2d387d4641733759a9e0e6e375bd"
+      },
+      "path": "inputs/d7d041f3aa134778304465e9d12b3ee10e5b68482573bd9b38906d04625af409.ndjson",
+      "sha256": "d7d041f3aa134778304465e9d12b3ee10e5b68482573bd9b38906d04625af409",
+      "size": 4048,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/119_reduceCtorParamRefl.mk",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/119_reduceCtorParamRefl.mk",
+        "sha256": "dfc7393cbdc2b2de3d98494acaef6d91d258fd7b3f5f5aa3ddc4ef8b9bfe072f"
+      },
+      "path": "inputs/c2d2acbbf249fd3db379ef394fb416db3b8bd34f641796e11b61d35e40c09b01.ndjson",
+      "sha256": "c2d2acbbf249fd3db379ef394fb416db3b8bd34f641796e11b61d35e40c09b01",
+      "size": 4646,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/120_reduceCtorParamRefl2.mk",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/120_reduceCtorParamRefl2.mk",
+        "sha256": "755bcadfde765454067ad543e81f61cef5ee0e50a724cb0c838d4078a62fad97"
+      },
+      "path": "inputs/d68272f0b3ecf38742a7c728846dd437dbc3b248dba04c0fdbcbf7150b55c851.ndjson",
+      "sha256": "d68272f0b3ecf38742a7c728846dd437dbc3b248dba04c0fdbcbf7150b55c851",
+      "size": 4646,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/121_rTreeRec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/121_rTreeRec",
+        "sha256": "c6a0ad6e173b048457b5b768ba6f8e257d949df3b65c3c6982cdb18d69e031dd"
+      },
+      "path": "inputs/c6a0ad6e173b048457b5b768ba6f8e257d949df3b65c3c6982cdb18d69e031dd.ndjson",
+      "sha256": "c6a0ad6e173b048457b5b768ba6f8e257d949df3b65c3c6982cdb18d69e031dd",
+      "size": 5639,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/122_rtreeRecReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/122_rtreeRecReduction",
+        "sha256": "a191e8bf9036a3bae39b6095ac535eb23ee2ecffc7d80f1560eb3625358492a6"
+      },
+      "path": "inputs/c75a12670a6fdfde87856a981a6e6996de32b0e754c9a1d45f0d6b8c37bbb50c.ndjson",
+      "sha256": "c75a12670a6fdfde87856a981a6e6996de32b0e754c9a1d45f0d6b8c37bbb50c",
+      "size": 10990,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/123_accRecType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/123_accRecType",
+        "sha256": "7b8b4753ff45ddbd9f93f61e78bfa9cf6cb0d217e6901e9fee6d81fc8894fbee"
+      },
+      "path": "inputs/2b99da1016cc8b2b94c90fe8242c358bf1cdada655c572c1fca02e9aee7ccd13.ndjson",
+      "sha256": "2b99da1016cc8b2b94c90fe8242c358bf1cdada655c572c1fca02e9aee7ccd13",
+      "size": 7653,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/124_accRecReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/124_accRecReduction",
+        "sha256": "8cfbf2d3768db33e875e6b5a00856a257146a508bc5a11c63eecdaed9a78cca9"
+      },
+      "path": "inputs/5c2b9897d6c2ccb51418a17f8f26061755f3f57d97129ecffe69502495323846.ndjson",
+      "sha256": "5c2b9897d6c2ccb51418a17f8f26061755f3f57d97129ecffe69502495323846",
+      "size": 13367,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/125_accRecNoEta",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/125_accRecNoEta",
+        "sha256": "7868dfaa2a5574fa383e4fbf42f84d3eab78c43614f0034d2f78f2069ca00f64"
+      },
+      "path": "inputs/a5fa5fac79d29714f13a220bbc0514b2dfd6bd1c5d07e2e0a790de184924fa1e.ndjson",
+      "sha256": "a5fa5fac79d29714f13a220bbc0514b2dfd6bd1c5d07e2e0a790de184924fa1e",
+      "size": 12982,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/126_quotMkType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/126_quotMkType",
+        "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8"
+      },
+      "path": "inputs/60ed682e473f0bc713c9602536a7541a66e7c037d65f41e69c05ee7fd3428b9c.ndjson",
+      "sha256": "60ed682e473f0bc713c9602536a7541a66e7c037d65f41e69c05ee7fd3428b9c",
+      "size": 6458,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/127_quotIndType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/127_quotIndType",
+        "sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7"
+      },
+      "path": "inputs/8852989ba03e72edfd04b2f53235700ad19fcb6d3acdf6a28eb5b77388112a82.ndjson",
+      "sha256": "8852989ba03e72edfd04b2f53235700ad19fcb6d3acdf6a28eb5b77388112a82",
+      "size": 6498,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/128_quotLiftType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/128_quotLiftType",
+        "sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3"
+      },
+      "path": "inputs/8da38464f42a955dd0cf00ab4944722bc8dc3d90da2ad82bae8678b1fa5c8b5a.ndjson",
+      "sha256": "8da38464f42a955dd0cf00ab4944722bc8dc3d90da2ad82bae8678b1fa5c8b5a",
+      "size": 6504,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/129_quotSoundType",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/129_quotSoundType",
+        "sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8"
+      },
+      "path": "inputs/070e5ecaf297866c70cb58640380c7cc33a60cad07f726b7aeb924fa5f4029fb.ndjson",
+      "sha256": "070e5ecaf297866c70cb58640380c7cc33a60cad07f726b7aeb924fa5f4029fb",
+      "size": 7340,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/130_quotLiftReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/130_quotLiftReduction",
+        "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113"
+      },
+      "path": "inputs/c497e1132e4220ed1b9dac80263dc43ce2733aac30bac22a8205f240a3177ba9.ndjson",
+      "sha256": "c497e1132e4220ed1b9dac80263dc43ce2733aac30bac22a8205f240a3177ba9",
+      "size": 7965,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/131_quotIndReduction",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/131_quotIndReduction",
+        "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198"
+      },
+      "path": "inputs/133ff21574488ec83536cb37fd76331bb87f2c22a1dc668c9243529033f73036.ndjson",
+      "sha256": "133ff21574488ec83536cb37fd76331bb87f2c22a1dc668c9243529033f73036",
+      "size": 7825,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/132_dup_defs",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/132_dup_defs",
+        "sha256": "3ddcdcf8426bc589d22186cbb600585763982f4cf5d6c097d1ba506add38562c"
+      },
+      "path": "inputs/3ddcdcf8426bc589d22186cbb600585763982f4cf5d6c097d1ba506add38562c.ndjson",
+      "sha256": "3ddcdcf8426bc589d22186cbb600585763982f4cf5d6c097d1ba506add38562c",
+      "size": 475,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/133_dup_ind_def",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/133_dup_ind_def",
+        "sha256": "5215371a7c7f856b51f2da56aef208ca4ca729642dc778ad3e0ce8ab1906da0d"
+      },
+      "path": "inputs/5215371a7c7f856b51f2da56aef208ca4ca729642dc778ad3e0ce8ab1906da0d.ndjson",
+      "sha256": "5215371a7c7f856b51f2da56aef208ca4ca729642dc778ad3e0ce8ab1906da0d",
+      "size": 1706,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/134_dup_ctor_def",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/134_dup_ctor_def",
+        "sha256": "2ac3801ead3ade2a80fbfc1eabe5afc32191dc6fe92a327a3c04877788298788"
+      },
+      "path": "inputs/2ac3801ead3ade2a80fbfc1eabe5afc32191dc6fe92a327a3c04877788298788.ndjson",
+      "sha256": "2ac3801ead3ade2a80fbfc1eabe5afc32191dc6fe92a327a3c04877788298788",
+      "size": 1707,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/135_dup_rec_def",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/135_dup_rec_def",
+        "sha256": "c151eff211496e19088a099de9647fc09c5d8862c844f5cbac4922fd000aeb99"
+      },
+      "path": "inputs/c151eff211496e19088a099de9647fc09c5d8862c844f5cbac4922fd000aeb99.ndjson",
+      "sha256": "c151eff211496e19088a099de9647fc09c5d8862c844f5cbac4922fd000aeb99",
+      "size": 1706,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/136_misnamed_rec_user",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/136_misnamed_rec_user",
+        "sha256": "084cbdbf52408c13578c9b5e603917d9cbe4f4eed72c8363a9955532c50bf9f9"
+      },
+      "path": "inputs/084cbdbf52408c13578c9b5e603917d9cbe4f4eed72c8363a9955532c50bf9f9.ndjson",
+      "sha256": "084cbdbf52408c13578c9b5e603917d9cbe4f4eed72c8363a9955532c50bf9f9",
+      "size": 2006,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/137_dup_rec_def2",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/137_dup_rec_def2",
+        "sha256": "1491e5f6039864c0b1107e47b981951a82f704213e082400dbc09e8f42c70043"
+      },
+      "path": "inputs/1491e5f6039864c0b1107e47b981951a82f704213e082400dbc09e8f42c70043.ndjson",
+      "sha256": "1491e5f6039864c0b1107e47b981951a82f704213e082400dbc09e8f42c70043",
+      "size": 1748,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/138_dup_ctor_rec",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/138_dup_ctor_rec",
+        "sha256": "8298ec6977778857c4e5a6325eba54b1e81d03c09119342d8dc983b97f2ef1cc"
+      },
+      "path": "inputs/8298ec6977778857c4e5a6325eba54b1e81d03c09119342d8dc983b97f2ef1cc.ndjson",
+      "sha256": "8298ec6977778857c4e5a6325eba54b1e81d03c09119342d8dc983b97f2ef1cc",
+      "size": 1548,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/139_DupConCon",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/139_DupConCon",
+        "sha256": "5ab46914e77307c3d93780fff5ff2c85f717ce1de2dbf3784049ccd6bab6aaa2"
+      },
+      "path": "inputs/5ab46914e77307c3d93780fff5ff2c85f717ce1de2dbf3784049ccd6bab6aaa2.ndjson",
+      "sha256": "5ab46914e77307c3d93780fff5ff2c85f717ce1de2dbf3784049ccd6bab6aaa2",
+      "size": 2206,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/140_falseFromUnsafe",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/140_falseFromUnsafe",
+        "sha256": "210d79a51f88327822ee74f0dd95cc375d8ac95e634c2764f91ed6f3a9766d1d"
+      },
+      "path": "inputs/210d79a51f88327822ee74f0dd95cc375d8ac95e634c2764f91ed6f3a9766d1d.ndjson",
+      "sha256": "210d79a51f88327822ee74f0dd95cc375d8ac95e634c2764f91ed6f3a9766d1d",
+      "size": 1367,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Same JSON values and record order as the pinned source case; no logical transformation.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "metamorphic/tutorial/141_falseFromPartial",
+      "origin": "canonical-json-and-neutral-filename",
+      "parent": {
+        "id": "tutorial/141_falseFromPartial",
+        "sha256": "54e78ff1b3f6335f31703983abb67f840c9b13ca9c2d6bbb3aae9398f8232fe1"
+      },
+      "path": "inputs/54e78ff1b3f6335f31703983abb67f840c9b13ca9c2d6bbb3aae9398f8232fe1.ndjson",
+      "sha256": "54e78ff1b3f6335f31703983abb67f840c9b13ca9c2d6bbb3aae9398f8232fe1",
+      "size": 1370,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Sort 0 inhabits Sort 1.",
+      "expected": "accept",
+      "format_version": "3.1.0",
+      "id": "adversarial/universe-control",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/0cfba8b5b3664234a7cad6f0352e2cdbd872fc588c0284d748e85f88e0544e5b.ndjson",
+      "sha256": "0cfba8b5b3664234a7cad6f0352e2cdbd872fc588c0284d748e85f88e0544e5b",
+      "size": 375,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "Sort 0 does not inhabit itself.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/universe-mismatch",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/faccb0719797c0681a0f64eced50208df6b731b959b14641b70ba07367fca849.ndjson",
+      "sha256": "faccb0719797c0681a0f64eced50208df6b731b959b14641b70ba07367fca849",
+      "size": 375,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "A closed declaration cannot use free de Bruijn index 0.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/unbound-variable",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/63d7c55f37a2f480a49b11932c2a9b5ff4e8eaed442c17d36226a0d281355148.ndjson",
+      "sha256": "63d7c55f37a2f480a49b11932c2a9b5ff4e8eaed442c17d36226a0d281355148",
+      "size": 393,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "A name-table entry is not an environment declaration.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/unknown-constant",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/7a11c906a4a457ea53ffe704f46f2364db541a69120b27042bbc6b8ce1d4a88b.ndjson",
+      "sha256": "7a11c906a4a457ea53ffe704f46f2364db541a69120b27042bbc6b8ce1d4a88b",
+      "size": 456,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "A safe definition may not assume itself before checking its body.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/self-reference",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/5b691fad8c786cec3d21b61b0a5aae623cc1d1ecf898f29d543b78c97b601f3a.ndjson",
+      "sha256": "5b691fad8c786cec3d21b61b0a5aae623cc1d1ecf898f29d543b78c97b601f3a",
+      "size": 411,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "A theorem must prove a proposition, not a universe.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/non-proposition-theorem",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/f3a0269440aa409f90fdbc73b062231270cb7ee3249479569a68f3e5ff029190.ndjson",
+      "sha256": "f3a0269440aa409f90fdbc73b062231270cb7ee3249479569a68f3e5ff029190",
+      "size": 342,
+      "source_kind": "generated_local"
+    },
+    {
+      "availability": "available",
+      "description": "A valid first declaration must not hide a later bad declaration.",
+      "expected": "reject",
+      "format_version": "3.1.0",
+      "id": "adversarial/valid-prefix-invalid-tail",
+      "origin": "local-semantic-mutation",
+      "parent": {
+        "id": "tutorial/001_basicDef"
+      },
+      "path": "inputs/caedc71db44edb206078ec8f5871ef99a1c360ecc6a5d82fb3bac49d565534b8.ndjson",
+      "sha256": "caedc71db44edb206078ec8f5871ef99a1c360ecc6a5d82fb3bac49d565534b8",
+      "size": 513,
+      "source_kind": "generated_local"
+    }
+  ],
+  "manifest_version": 1,
+  "provenance": {
+    "generator": "scripts/test_arena_adversarial.py",
+    "generator_sha256": "8b98aa3d030752835d367629b591e2241ded29debfb3889fe05b4463d940e3e9",
+    "note": "Local generated tests, not additional published Arena cases. Semantic verdicts are specified by the obligations in descriptions; not oracle-confirmed.",
+    "parent_manifest_sha256": "007fbef161abb973fb52fa6ab8513ef42e26938cd9ded614f082c967b2cbf81a"
+  }
+}

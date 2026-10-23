@@ -1,0 +1,40 @@
+Recursor conversion585: changed source-only HOL component
+========================================================
+Copyright 2026 Fawad Haider. Apache License, Version2.0; exact LICENSE included.
+Changed implementation of local rocq/Checker.v517-583 and591-634.
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76,
+Lean4Lean/Inductive/Reduce.lean13-107. The pinned file has no individual
+copyright header. The upstream repository license and the local Rocq attribution
+are retained. Exact file pins are in INPUTS585.sha256.
+
+This is a changed full447 object-language port of the local Rocq algorithms,
+not a blanket equivalence claim for upstream Lean's raw-input behavior.
+Rocq normalizes the major before its K conversion; upstream attempts K first.
+Rocq explicitly gates Nat conversion on owner/readiness and requires Prop-level
+equivalence on its K path. It uses the singleton full-field structure builder
+also for K; upstream K uses mkNullaryCtor and checks metavariable indices.
+Rocq's recursor reduction checks constructor ownership, exact constructor arity,
+rule field count and recursor universe arity. Upstream obtains fields by suffix
+after its own rule/argument checks. The local behavior, including its stricter
+metadata checks and explicit Reject/Decline vocabulary, is preserved here.
+
+Only the duplicate structure branch was factored. The initial normalization,
+literal handling and known-constructor shortcut still precede that branch.
+No extra expression-meta, constructor-universe, safety or environment admission
+predicate has been inserted. The eventual checker must supply admitted metadata
+and its genuine smaller543 method record; arbitrary callbacks do not constitute
+a public checker or proof of soundness.
+
+Dependencies remain canonical and unmodified: repaired560 retains557 names;
+543 methods,555 universe decision,539 string expansion,544 Nat constructor,
+533 literal readiness and550 total list helpers are reused. Shared447 syntax,
+491 results,493 declarations and532 contexts are not redefined or copied.
+HOL needs deduplicates by basename and digest, so do not fork frozen dependency
+bytes under the same basename. Existing dependency licenses remain applicable.
+
+All34 proposed conditional proof/regression scripts are UNCOMPILED and NOT RUN.
+No source models were executed or resource limits tested/changed in this goal.
+There is no new native result, admission, axiom, cast, Arena verdict, full
+recursive checker, typed recursor preservation proof or complete Lean adequacy.

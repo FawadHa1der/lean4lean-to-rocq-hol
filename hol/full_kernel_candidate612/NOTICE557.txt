@@ -1,0 +1,44 @@
+Goal557: pure HOL recursor helpers
+=================================
+Modified implementation: Copyright 2026 Fawad Haider. Apache License 2.0.
+The unmodified Apache-2.0 text is retained in LICENSE.
+
+Immediate executable reference:
+  /Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Checker.v
+  core_major_induct lines490-498, core_make_structure lines500-515,
+  core_find_rule lines585-589. Full snapshot in inputs/rocq/Checker.v.
+  Syntax/metadata reference: inputs/rocq/Syntax.v.
+
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean,
+commit 8223d223ed98661882e95d9d6a7126df7097cd76 as attributed by the
+local rocq/NOTICE. Its Inductive/Reduce.lean is retained in inputs/upstream.
+Also inspected Lean4 src/Lean/Declaration.lean getMajorInduct lines404-410;
+that whole source and its license are retained with content pins. No new
+upstream checkout, network access or claim of a freshly verified git HEAD.
+
+This changed implementation follows the local Rocq raw option semantics,
+not all upstream exceptional/default behavior: make_structure insists on
+one ctor instead of upstream getFirstCtor; missing/wrong-kind metadata is
+NONE instead of unreachable!, and major lookup is option-valued. The source
+reference's checks and omissions, not wholesale upstream equivalence, are
+the contract. Constructor conversion and recursor reduction are NOT ported.
+
+Full447 expression/universe/binder syntax, full493 metadata/rule records,
+532 first-shadow exact-kind lookup, 489 spines/application, 494 saturating
+firstn are reused. HOL structural name equality matches the full name
+constructors; byte/natural encoding refinement to Rocq remains unproved.
+No reduced expression representation, callback, oracle, extra admission gate,
+axiom or default integration is added. The one new support definition
+constructs all projections in ascending order by total natural recursion.
+
+All predecessor notices are retained in inputs/notices. Original dependency
+bytes are in inputs/hol; frozen/hol changes ONLY needs-path strings, preserving
+all definitions. The relative legacy hol/syntax.ml dependency resolves to the
+same content hash as the explicit340 syntax file. Its older expression type
+is loaded for name infrastructure, never used by the three557 operations.
+HOL Light itself and its standard library/toolchain are NOT bundled or run.
+
+All32 new proposed HOL scripts are UNCOMPILED. The Python model is handwritten
+and independent of target execution. Successful raw return values are not
+declaration-admission, typing, eta-soundness or complete checker verdicts.

@@ -1,0 +1,34 @@
+Ordinary declaration foundations607: SOURCE ONLY / UNCOMPILED
+===========================================================
+Copyright2026 Fawad Haider, Apache-2.0. Changed port of local
+rocq/Declarations.v10-67 plus an explicitly limited dispatcher/list fold.
+Lean4Lean algorithmic upstream Mario Carneiro and contributors, commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Preserve rocq/NOTICE and upstream license.
+Local fuel/error semantics are the direct reference, not all-input equivalence.
+
+The header, proposition and checked-constant helpers use concrete597 entry
+points. There is no supplied inference/normalization/typing verdict oracle.
+Header checks preserve duplicate-name, duplicate-universe, scope, inference,
+WHNF and Sort order. Checking a body happens after the header; insertion uses
+the complete493 record and HintOpaque. The generic kind argument belongs to
+an INTERNAL helper, not a public license to forge inductive/primitive metadata.
+
+Two exact input datatypes retain safety, reducibility hints and all ordinary
+input fields. The reserved-name list retains all24 entries in Rocq order.
+admit_basic is deliberately NOT the full admit algorithm: ALL definitions,
+including safe definitions, decline until signature/equation-checked primitive
+classification exists. Unsafe/partial cases also decline. Safe axioms,
+theorems and opaques follow their corresponding reference branches, including
+the theorem's repeated header check. The list-first fold preserves order and
+passes unchanged fuel separately to each declaration. It stops at first failure.
+
+Input axioms are object-language assumptions in the returned environment, not
+new HOL axioms or logical facts proved from nothing. An external axiom policy
+and exact inventory are still required for a consumer's trust claim. Arbitrary
+starting environments are not certified by a raw successful helper result.
+
+No HOL parse, definition admission, proof, native comparison or Arena verdict
+exists for607. All21 proposed operational scripts remain UNCOMPILED. They are
+not environment-invariant preservation, Lean typing soundness, representation
+refinement, primitive classification, nested/quotient/inductive/safety admission
+or complete file dispatch. No old loader/validator/guard or default API changed.

@@ -1,0 +1,30 @@
+Inductive safety633: changed full-syntax HOL Light port
+Copyright 2026 Fawad Haider. Licensed under Apache License 2.0.
+LICENSE and ROCQ_NOTICE633.txt retain the local Rocq license and attribution.
+
+Behavioral source: ROOT/rocq/InductiveSafety.v9-59.
+Nested map: ROOT/rocq/NestedAdmission.v226-256, with earlier restoration helpers.
+ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light.
+Algorithmic ancestry: Lean4Lean, Mario Carneiro and contributors, Apache-2.0;
+https://github.com/digama0/lean4lean, attribution commit
+8223d223ed98661882e95d9d6a7126df7097cd76. This is preserved attribution,
+not a newly network-verified history claim. Local Inductive/Add.lean733-779
+provides upstream nested/safety context; the local Rocq adaptation is the
+exact behavioral target. No upstream unfinished proof or trust assumption
+is imported as a HOL theorem.
+
+Changes: actual HOL definitions reuse full493 declarations and491 results,
+624 checking-local safety views and634 nested checked admission. Only the
+first raw inductive metadata flag selects unsafe mode. No global unwrapping,
+input metadata rewrite, callback verdict, added fuel gate or new datatype.
+Names are filtered against the original persistent environment; only new
+rows receive one unsafe wrapper, and the original tail remains unchanged.
+The unfrozen non-nested631 proposal was superseded by the parent's explicit
+634 connection request. No non-nested alias remains.
+
+Three term definitions, zero datatypes, sixteen proposed operational proof
+scripts and twelve proposed adversarial/positive regression scripts.
+ALL UNCOMPILED / NOT EXECUTED. Source correspondence, executable compatibility,
+logical soundness and runtime verification are separate claims. This package
+provides only source and a bounded source-level map, not any native receipt,
+Arena addition, launch permission, complete proof or admission evidence.

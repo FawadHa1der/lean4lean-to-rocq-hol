@@ -1,0 +1,29 @@
+Primitive admission620: changed HOL source port
+==============================================
+Copyright 2026 Fawad Haider. Apache License, Version 2.0.
+LICENSE reproduces the exact vendored Apache-2.0 license; ROCQ_NOTICE620.txt
+reproduces the exact complete local Rocq notice.
+
+Direct behavioral reference:
+  /Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Primitives.v
+  Implemented ranges144-189 and712-772 with actual621/622 dependencies.
+  Ordinary safe-definition admission: rocq/Declarations.v68-105.
+  Proposed operational inverse statements adapt Primitives.v781-819.
+Algorithmic upstream:
+  Lean4Lean/Primitive.lean and environment admission algorithms,
+  Mario Carneiro and Lean4Lean contributors,
+  https://github.com/digama0/lean4lean
+  commit8223d223ed98661882e95d9d6a7126df7097cd76.
+This attribution comes from the pinned local source/NOTICE, not a new network
+verification. Local Rocq guards, fuel, error order and explicit declines are
+the direct port target, not arbitrary-input equivalence with upstream Lean.
+
+Changed representation: canonical full447 expressions,491 results,493
+primitive kinds,532 contexts,619 equation records and constants; application
+uses existing489 list-first helper. The equation checker is list-first.
+No datatype, caller-supplied verdict oracle, axioms or unchecked admission is
+introduced here. Source constants are symbolic expressions, not sample-based
+numeric verdicts. Text interfaces do not authorize host text computation.
+All proposed definitions/proofs are SOURCE ONLY / UNCOMPILED / NOT RUN.
+No logical soundness, actual HOL admission, complete file checker, ABI, Arena,
+runtime compatibility, or native result is claimed.

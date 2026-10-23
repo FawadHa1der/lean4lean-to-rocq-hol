@@ -1,0 +1,7 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+License text copied byte-for-byte from557/LICENSE; predecessor attribution
+preserved in NOTICE557.txt. Lean4Lean reference: Mario Carneiro and contributors,
+commit8223d223ed98661882e95d9d6a7126df7097cd76, via the local Rocq port.
+This successor changes only four HOL needs-path strings. No algorithm, theorem,
+tactic, symbol or source comment changes. It is not a validated HOL load.
+Canonical dependencies are pinned externally rather than duplicated here.

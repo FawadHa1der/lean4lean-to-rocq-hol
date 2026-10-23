@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Language-neutral Arena corpus manifest v1",
+  "type": "object",
+  "required": ["manifest_version", "cases"],
+  "properties": {
+    "manifest_version": {"const": 1},
+    "provenance": {"type": "object"},
+    "summary": {"type": "object"},
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "expected", "path", "availability"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "expected": {"enum": ["accept", "reject", "either"]},
+          "path": {"type": "string", "minLength": 1, "description": "Relative to this manifest, confined within its directory."},
+          "availability": {"enum": ["available", "missing_download", "missing_generated"]},
+          "source_kind": {"type": "string"},
+          "origin": {"type": "string"},
+          "size": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "timeout_seconds": {"type": "number", "exclusiveMinimum": 0},
+          "skip_reason": {"type": "string"},
+          "missing_reason": {"type": "string"},
+          "configuration": {"type": "object", "description": "Upstream definition, data only; never executed by the runner."}
+        },
+        "allOf": [{
+          "if": {"properties": {"availability": {"const": "available"}}},
+          "then": {"required": ["size", "sha256"]}
+        }]
+      }
+    }
+  },
+  "$comment": "The stdlib runner additionally enforces unique ids, confined/symlink-safe paths and finite positive timeouts. This is the harness schema, not the upstream NDJSON schema."
+}

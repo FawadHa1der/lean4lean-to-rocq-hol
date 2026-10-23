@@ -1,0 +1,30 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Changed HOL Light port of the local Rocq Syntax.v lookup_level, subst_level
+and subst_levels operations, using the existing extended syntax447 types.
+New source-only theorem/regression scripts and hand-written pure models.
+The full Apache-2.0 license is retained in LICENSE.
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Revision 8223d223ed98661882e95d9d6a7126df7097cd76
+  Mario Carneiro and Lean4Lean contributors.
+  Local Rocq reimplementation: Copyright 2026 Fawad Haider.
+The revision is recorded from the local notices, not freshly fetched or
+independently verified against a remote. No networking was performed.
+Exact local file snapshots are pinned by SHA-256 in INPUTS488.sha256.
+
+Verbatim inherited notices are retained in provenance/NOTICE.rocq.txt and
+provenance/NOTICE.syntax447.txt. Session references in those copied notices
+are historical; this package does not resume Session78 or any native run.
+
+This port preserves all fields present in syntax447. The input representation
+already erases metadata payloads and represents strings as num lists. This
+package performs no additional erasure and does not use a restricted bridge.
+Metadata wrappers, structured names, term and level metavariables, binderInfo,
+nonDep, projection fields and literal contents are retained. It does not make
+syntax447 a lossless Lean serialization or establish full compatibility.
+
+SOURCE ONLY / UNCOMPILED. No proof script here has been submitted to HOL.
+No axioms or admissions are added, and no new logical authority is claimed.
+The model comparison is between two hand-written JavaScript models, not
+extracted Rocq and not executed HOL. It is not a checker verdict.

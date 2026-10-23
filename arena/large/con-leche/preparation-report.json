@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {
+      "archive": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/con-leche/downloads/source.tar.gz",
+      "directory": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/con-leche/source/con-leche-78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+      "filename": "source.tar.gz",
+      "kind": "source",
+      "sha256": "d89ec491c3fab19d7c07da0dd45c76f2f7ad18ee8fac405d5080319917e97c22",
+      "size": 10836546,
+      "url": "https://codeload.github.com/leanprover/con-leche/tar.gz/78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff"
+    },
+    {
+      "archive": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/con-leche/downloads/lean-4.33.0-darwin_aarch64.tar.zst",
+      "directory": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/con-leche/toolchain/lean-4.33.0-darwin_aarch64",
+      "filename": "lean-4.33.0-darwin_aarch64.tar.zst",
+      "kind": "toolchain",
+      "release_asset_id": 508371048,
+      "sha256": "db5274b669be270af048b5e4f1e0ce571df6750e411956b3e1e6fcc2012410c2",
+      "size": 556168134,
+      "url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-darwin_aarch64.tar.zst"
+    }
+  ],
+  "finished_at": "2026-09-29T18:49:16.626835+00:00",
+  "lock_sha256": "46697957285d7761afb61bb59c842dbe6db0f66ad0d7b81ab38c3b4f5a7a2ece",
+  "script_sha256": "3af46a6c2a95e8cf9bdce8f16a798a08f606ebcdbe22422ee4a05924e19e2432",
+  "started_at": "2026-09-29T18:49:16.417477+00:00"
+}

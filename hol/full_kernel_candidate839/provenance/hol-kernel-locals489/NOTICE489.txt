@@ -1,0 +1,31 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of the local Rocq InductiveUtils.v local record,
+abstract_local, close_pi, close_lam, apply_exprs, apply_locals and split_app.
+The independent project adapts Lean4Lean commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Preserve upstream LICENSE and NOTICE.
+Upstream: https://github.com/digama0/lean4lean
+
+This code uses all constructors of the extended local syntax447. Binder info,
+user names, free/metavariables, let nonDep and metadata wrappers are retained.
+Metadata payloads remain absent from447, as in the local Rocq syntax. This is
+not a claim of lossless upstream serialization or full Lean4Lean equivalence.
+
+Local records contain identifier, display name, binder info and type, exactly
+the four local Rocq fields. The new HOL list-first application helpers reverse
+the Rocq helper's argument order, not its fold-left semantics. Split traverses
+only the application's left spine; it does not unwrap metadata or normalize.
+Closing folds right, so earlier binders abstract occurrences in later domains.
+Abstraction preserves existing bound indices; it does not shift loose BVars.
+An unrestricted abstraction/instantiation inverse theorem would be false.
+Freshness, unique identifiers, well-scoped local types and caller context
+invariants are not assumed/proved by these generic operations.
+
+The definition and property files are SOURCE ONLY / UNCOMPILED. Model checks
+are handwritten finite computations, not execution of HOL/Rocq or extraction.
+No checker loader, runtime selection, old proof evidence, native authority,
+resource/ownership/cleanup safeguards or Solidity source is changed.
+Opening raw parameters, fresh-local/context generation, candidate detection,
+family expansion, rewrite worklist, restoration and verified admission remain
+separate implementation/integration obligations. Full goal remains incomplete.

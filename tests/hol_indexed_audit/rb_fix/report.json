@@ -1,0 +1,416 @@
+{
+  "baselines": [
+    {
+      "elapsed_seconds": 1.161679,
+      "exit_code": 0,
+      "family": "eq",
+      "id": "baseline/eq",
+      "sha256": "4611adfe17687d4672b4c458aea9a16f26e330591b924db3b1184aee9e173aae",
+      "status": "accepted",
+      "stderr": "HOL accept: line=62 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 114,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 2.143657,
+      "exit_code": 0,
+      "family": "psigma",
+      "id": "baseline/psigma",
+      "sha256": "da078412b5eeadb549a2ab4c7e252a16efce34e2cfc2f95ed27f1ee57acaf317",
+      "status": "accepted",
+      "stderr": "HOL accept: line=72 checked=1 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 114,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 5.580543,
+      "exit_code": 0,
+      "family": "sortelim",
+      "id": "baseline/sortelim",
+      "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e",
+      "status": "accepted",
+      "stderr": "HOL accept: line=97 checked=3 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 114,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 4.500452,
+      "exit_code": 0,
+      "family": "proof-field",
+      "id": "baseline/proof-field",
+      "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a",
+      "status": "accepted",
+      "stderr": "HOL accept: line=111 checked=4 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 2.417794,
+      "exit_code": 0,
+      "family": "eq-iota",
+      "id": "baseline/eq-iota",
+      "sha256": "ddcb8dce44db20a6def0eb387c34d8344db471861c23ac0d8c1ca4d2f1c40a3e",
+      "status": "accepted",
+      "stderr": "HOL accept: line=99 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 114,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 5.363821,
+      "exit_code": 0,
+      "family": "psigma-iota",
+      "id": "baseline/psigma-iota",
+      "sha256": "58a362ec7d50f5c9b292ce47b3dde1fc89e9bde0b0d08726ff250eb4bd976792",
+      "status": "accepted",
+      "stderr": "HOL accept: line=143 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 3.418529,
+      "exit_code": 0,
+      "family": "sortelim-coherent",
+      "id": "baseline/sortelim-coherent",
+      "sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "status": "accepted",
+      "stderr": "HOL accept: line=124 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "elapsed_seconds": 16.452768,
+      "exit_code": 0,
+      "family": "rbtree-admission",
+      "id": "baseline/rbtree-admission",
+      "sha256": "107a0b84f19947a736f61694484f78d7237061bc0d506a4532496a5a240f98a8",
+      "status": "accepted",
+      "stderr": "HOL accept: line=294 checked=3 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    }
+  ],
+  "cases": [
+    {
+      "dimension": "large-elimination",
+      "elapsed_seconds": 3.470616,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/hidden-data-prop-only",
+      "sha256": "f44f1b4f68fd50fc7d6d80b417555768decb5ab661a7c50760753ff98417db21",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=127 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "dimension": "large-elimination",
+      "elapsed_seconds": 2.200762,
+      "exit_code": 2,
+      "expected": "reject",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/hidden-data-forged-large",
+      "sha256": "075d73313be6bc69cc1f300a6c9f5abf2336e8d38befa6c1fe4303791ed9e2a2",
+      "status": "declined",
+      "stderr": "HOL decline: line=127 checked=1 HOL proof construction: TAC_PROOF: Unsolved goals\n",
+      "stderr_bytes": 82,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    },
+    {
+      "dimension": "large-elimination",
+      "elapsed_seconds": 3.739243,
+      "exit_code": 0,
+      "expected": "accept",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/nested-index-prop-only",
+      "sha256": "63d3f34fae9b414b407e0182fb7f7ecfc95dec6f07e84446adffacd5b83c96d2",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=130 checked=2 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    },
+    {
+      "dimension": "large-elimination",
+      "elapsed_seconds": 2.259016,
+      "exit_code": 2,
+      "expected": "reject",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/nested-index-forged-large",
+      "sha256": "025339a3af375947e15af7a2cd9f41bbbd1a3e75256e0f513eb4d284a587012f",
+      "status": "declined",
+      "stderr": "HOL decline: line=130 checked=1 HOL proof construction: TAC_PROOF: Unsolved goals\n",
+      "stderr_bytes": 82,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    }
+  ],
+  "checker_identity": {
+    "after": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72061281,
+        "mtime_ns": 1790716035275334952,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/rb_fix/run.py",
+        "sha256": "9a0dc720ec800d2d1c9a78a5e5499fdbd5f96e5f4c95df135a8bd8d38b5dcb51",
+        "size": 8158
+      },
+      {
+        "device": 16777232,
+        "inode": 72000611,
+        "mtime_ns": 1790714980552336902,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_targeted.py",
+        "sha256": "cd92a9b261c843edb2d1c1d9d4a75e267b3766f01978c0c09942a90586f437d7",
+        "size": 8049
+      },
+      {
+        "device": 16777232,
+        "inode": 71408607,
+        "mtime_ns": 1790705331418851349,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_metadata_mutations.py",
+        "sha256": "4c691c7d201c0291a46e48542499d710fcdeab8e2371aac8457ec292de3f57db",
+        "size": 25235
+      },
+      {
+        "device": 16777232,
+        "inode": 71034823,
+        "mtime_ns": 1790705927311935720,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_arena.py",
+        "sha256": "a2b4e18804a0a8a522e6901770626e4633fcdd8f2b2c315a6a7c537279c58827",
+        "size": 14606
+      },
+      {
+        "device": 16777232,
+        "inode": 72060534,
+        "mtime_ns": 1790715931522289753,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed-runtime.json",
+        "sha256": "35cc318f9a50e66d2a7d7e058f040f9671fd2412e53cb697e9d69ec95141d3dd",
+        "size": 10293
+      },
+      {
+        "device": 16777232,
+        "inode": 72059666,
+        "mtime_ns": 1790715830535078631,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed/scripts/hol-check.py",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size": 24524
+      },
+      {
+        "device": 16777232,
+        "inode": 72059647,
+        "mtime_ns": 1790715876208637088,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed/hol/environment.ml",
+        "sha256": "91fa4b30e5a385dd4fb6ead82dc7c0cabaa9bac66341fa5b8bf90d623f87a3da",
+        "size": 36908
+      }
+    ],
+    "before": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72061281,
+        "mtime_ns": 1790716035275334952,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/rb_fix/run.py",
+        "sha256": "9a0dc720ec800d2d1c9a78a5e5499fdbd5f96e5f4c95df135a8bd8d38b5dcb51",
+        "size": 8158
+      },
+      {
+        "device": 16777232,
+        "inode": 72000611,
+        "mtime_ns": 1790714980552336902,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_targeted.py",
+        "sha256": "cd92a9b261c843edb2d1c1d9d4a75e267b3766f01978c0c09942a90586f437d7",
+        "size": 8049
+      },
+      {
+        "device": 16777232,
+        "inode": 71408607,
+        "mtime_ns": 1790705331418851349,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_metadata_mutations.py",
+        "sha256": "4c691c7d201c0291a46e48542499d710fcdeab8e2371aac8457ec292de3f57db",
+        "size": 25235
+      },
+      {
+        "device": 16777232,
+        "inode": 71034823,
+        "mtime_ns": 1790705927311935720,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_arena.py",
+        "sha256": "a2b4e18804a0a8a522e6901770626e4633fcdd8f2b2c315a6a7c537279c58827",
+        "size": 14606
+      },
+      {
+        "device": 16777232,
+        "inode": 72060534,
+        "mtime_ns": 1790715931522289753,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed-runtime.json",
+        "sha256": "35cc318f9a50e66d2a7d7e058f040f9671fd2412e53cb697e9d69ec95141d3dd",
+        "size": 10293
+      },
+      {
+        "device": 16777232,
+        "inode": 72059666,
+        "mtime_ns": 1790715830535078631,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed/scripts/hol-check.py",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size": 24524
+      },
+      {
+        "device": 16777232,
+        "inode": 72059647,
+        "mtime_ns": 1790715876208637088,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/rb-fixed/hol/environment.ml",
+        "sha256": "91fa4b30e5a385dd4fb6ead82dc7c0cabaa9bac66341fa5b8bf90d623f87a3da",
+        "size": 36908
+      }
+    ],
+    "snapshotted": false,
+    "unchanged": true
+  },
+  "finished_at": "2026-09-29T21:09:49.073689+00:00",
+  "fixed_environment_sha256": "91fa4b30e5a385dd4fb6ead82dc7c0cabaa9bac66341fa5b8bf90d623f87a3da",
+  "observation_note": "071/082 are diagnostic observations without expected-verdict or pass/fail labels; 077 is not run.",
+  "observations": [
+    {
+      "elapsed_seconds": 30.091215,
+      "exit_code": 2,
+      "id": "tutorial/071_rbTreeRef",
+      "name": "071_rbTreeRef.ndjson",
+      "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6",
+      "stderr": "HOL decline: case wall timeout; child killed and reaped\n",
+      "stderr_bytes": 56,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    },
+    {
+      "elapsed_seconds": 30.086961,
+      "exit_code": 2,
+      "id": "tutorial/082_RBTree.id_spec",
+      "name": "082_RBTree.id_spec.ndjson",
+      "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9",
+      "stderr": "HOL decline: case wall timeout; child killed and reaped\n",
+      "stderr_bytes": 56,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    }
+  ],
+  "observed_codes": {
+    "baselines": {
+      "0": 8
+    },
+    "cases": {
+      "0": 2,
+      "2": 2
+    },
+    "observations": {
+      "2": 2
+    }
+  },
+  "runtime_provenance_sha256": "35cc318f9a50e66d2a7d7e058f040f9671fd2412e53cb697e9d69ec95141d3dd",
+  "runtime_startup": {
+    "before_snapshot_sha256": "186cb3fff25349a0c49bcba094750b81d1a9bd2e5ddd61192a3002aec10ddbd3",
+    "case_timeout_seconds": 30.0,
+    "comparison": "before-launch-and-at-ready-identical",
+    "hol_pid": 72468,
+    "ready_at": "2026-09-29T21:05:31.521357+00:00",
+    "ready_snapshot_sha256": "186cb3fff25349a0c49bcba094750b81d1a9bd2e5ddd61192a3002aec10ddbd3",
+    "socket": "/private/tmp/hol-run-3sfa5sv_/s",
+    "started_at": "2026-09-29T21:04:39.892221+00:00",
+    "supervisor_pid": 72446
+  },
+  "summary": {
+    "baseline_gaps": 0,
+    "baselines_accepted": 8,
+    "complete": false,
+    "coverage_gaps": 2,
+    "covered": 2,
+    "executed": 4,
+    "failures": 0,
+    "statuses": {
+      "correct_accept": 2,
+      "declined": 2
+    },
+    "total": 4
+  },
+  "valid": true
+}

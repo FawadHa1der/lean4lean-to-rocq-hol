@@ -1,0 +1,33 @@
+Source relocation boundaries652
+==============================
+The packager does not import/evaluate target OCaml, HOL, Rocq, test or model
+code. Its Python activity is bounded source reading, hashing, mechanical import
+relocation, exclusive source writing and byte readback. It does not call probes,
+subprocesses or the network. Old artifacts and main/default integration remain.
+
+637's92 source pins are joined to archived639's exact source-graph rows.651's
+new .ml and serialized-fixture inputs are read from its preserved archive, not
+assumed to be whatever currently exists under their former temporary paths.
+610 and Wire/Replay use explicit source pins.653/655 manifests must be sealed
+before use. A separate bounded source-only inventory records existing package
+NOTICE/LICENSE files and the two candidate documents. Its sealed manifest pins
+their selection, exact sizes and hashes before the copy begins. The packager
+does not rediscover metadata while copying. These are provenance documents,
+not executable dependencies; empty package rows are explicitly retained.
+
+Literal needs recognition is a bounded lexical source transformation, not an
+OCaml/HOL parser. Final independent byte comparison must reconstruct every
+changed output from its pinned original and enumerated transformations and
+check all declared edges. The finite frozen stock/project/entry sources also
+require independent loader inventory: this regex does not establish absence
+of aliases, dynamic loading, directives or unrecognized call forms. It is not
+a general-purpose dependency or closure proof. Target loading remains
+genuinely unvalidated.
+Stock/held-entry sources require no import rewriting. The frontend .ml files
+are copied source, not compiled modules and not an accepted ABI claim.
+
+The candidate assumes parent-controlled quiescent source/destination ancestors.
+Stable per-file reads and hash checks do not create an atomic cross-file
+snapshot, protect against every same-user ancestor replacement or authenticate
+a later running binary. Existing fresh native selection/custody checks remain.
+Success of copying must never be reported as a passed proof or native test.

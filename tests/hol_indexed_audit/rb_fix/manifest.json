@@ -1,0 +1,135 @@
+{
+  "base_environment_sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+  "baselines": [
+    {
+      "derivation": "All original exported rows, JSON canonicalized only.",
+      "family": "eq",
+      "id": "baseline/eq",
+      "path": "baselines/eq.ndjson",
+      "sha256": "4611adfe17687d4672b4c458aea9a16f26e330591b924db3b1184aee9e173aae",
+      "size": 3328
+    },
+    {
+      "derivation": "Exported inductive blocks, projection definitions removed.",
+      "family": "psigma",
+      "id": "baseline/psigma",
+      "path": "baselines/psigma.ndjson",
+      "sha256": "da078412b5eeadb549a2ab4c7e252a16efce34e2cfc2f95ed27f1ee57acaf317",
+      "size": 4975
+    },
+    {
+      "derivation": "All original exported rows, JSON canonicalized only.",
+      "family": "sortelim",
+      "id": "baseline/sortelim",
+      "path": "baselines/sortelim.ndjson",
+      "sha256": "9b443e52e98b316eb0ee92484016986db4b7a62397de64d2ed1f8b6323905d3e",
+      "size": 5773
+    },
+    {
+      "derivation": "All original exported rows, JSON canonicalized only.",
+      "family": "proof-field",
+      "id": "baseline/proof-field",
+      "path": "baselines/proof-field.ndjson",
+      "sha256": "ac7867ab127119a680f62464f4cde3491cb4a5e73b496f2f13b8e3d650f99a5a",
+      "size": 6921
+    },
+    {
+      "derivation": "Exported blocks plus an independently written named-term iota witness.",
+      "family": "eq-iota",
+      "id": "baseline/eq-iota",
+      "path": "baselines/eq-iota.ndjson",
+      "sha256": "ddcb8dce44db20a6def0eb387c34d8344db471861c23ac0d8c1ca4d2f1c40a3e",
+      "size": 5028
+    },
+    {
+      "derivation": "Exported blocks plus an independently written named-term iota witness.",
+      "family": "psigma-iota",
+      "id": "baseline/psigma-iota",
+      "path": "baselines/psigma-iota.ndjson",
+      "sha256": "58a362ec7d50f5c9b292ce47b3dde1fc89e9bde0b0d08726ff250eb4bd976792",
+      "size": 7401
+    },
+    {
+      "derivation": "Named-term reconstruction, statically compared with exported metadata modulo binder names.",
+      "family": "sortelim-coherent",
+      "id": "baseline/sortelim-coherent",
+      "path": "baselines/sortelim-coherent.ndjson",
+      "sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "size": 7505
+    },
+    {
+      "derivation": "Identical first 294 lines of pinned 071 and 082, through the complete RBTree block.",
+      "family": "rbtree-admission",
+      "id": "baseline/rbtree-admission",
+      "path": "baselines/rbtree-admission.ndjson",
+      "sha256": "107a0b84f19947a736f61694484f78d7237061bc0d506a4532496a5a240f98a8",
+      "size": 15943
+    }
+  ],
+  "cases": [
+    {
+      "baseline_sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "coherent_claims": true,
+      "dimension": "large-elimination",
+      "expected": "accept",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/hidden-data-prop-only",
+      "path": "cases/sortelim-coherent/hidden-data-prop-only.ndjson",
+      "rationale": "One data field is hidden, so only Prop elimination is generated.",
+      "sha256": "f44f1b4f68fd50fc7d6d80b417555768decb5ab661a7c50760753ff98417db21",
+      "size": 7608
+    },
+    {
+      "baseline_sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "coherent_claims": true,
+      "dimension": "large-elimination",
+      "expected": "reject",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/hidden-data-forged-large",
+      "path": "cases/sortelim-coherent/hidden-data-forged-large.ndjson",
+      "rationale": "A hidden non-Prop field forbids large elimination even in a singleton Prop inductive.",
+      "sha256": "075d73313be6bc69cc1f300a6c9f5abf2336e8d38befa6c1fe4303791ed9e2a2",
+      "size": 7608
+    },
+    {
+      "baseline_sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "coherent_claims": true,
+      "dimension": "large-elimination",
+      "expected": "accept",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/nested-index-prop-only",
+      "path": "cases/sortelim-coherent/nested-index-prop-only.ndjson",
+      "rationale": "Upstream checks exact argument occurrence, not occurrences nested below applications or beta reduction.",
+      "sha256": "63d3f34fae9b414b407e0182fb7f7ecfc95dec6f07e84446adffacd5b83c96d2",
+      "size": 7749
+    },
+    {
+      "baseline_sha256": "25d3a7ea4d973d6401b0df04896580f582f0137b519fad587aa644070b02d067",
+      "coherent_claims": true,
+      "dimension": "large-elimination",
+      "expected": "reject",
+      "family": "sortelim-coherent",
+      "id": "sortelim-coherent/nested-index-forged-large",
+      "path": "cases/sortelim-coherent/nested-index-forged-large.ndjson",
+      "rationale": "A field only beneath a lambda application is not a direct result-index argument.",
+      "sha256": "025339a3af375947e15af7a2cd9f41bbbd1a3e75256e0f513eb4d284a587012f",
+      "size": 7749
+    }
+  ],
+  "environment_sha256": "91fa4b30e5a385dd4fb6ead82dc7c0cabaa9bac66341fa5b8bf90d623f87a3da",
+  "observations": [
+    {
+      "id": "tutorial/071_rbTreeRef",
+      "name": "071_rbTreeRef.ndjson",
+      "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6"
+    },
+    {
+      "id": "tutorial/082_RBTree.id_spec",
+      "name": "082_RBTree.id_spec.ndjson",
+      "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9"
+    }
+  ],
+  "review_manifest_sha256": "7677c7e691c7a42884b0ff7e97577960615396e6d8bfeddb62fba5988c2003fa",
+  "suite": "hol-rbtree-converter-private-v1",
+  "version": 1
+}

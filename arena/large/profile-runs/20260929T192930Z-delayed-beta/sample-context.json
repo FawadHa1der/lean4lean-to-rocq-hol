@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/usr/bin/sample",
+    "55564",
+    "5",
+    "1",
+    "-mayDie",
+    "-file",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/sample.txt"
+  ],
+  "ended_wall_seconds": 116.95772641700023,
+  "exit_code": 0,
+  "pid": 55564,
+  "progress_after": {
+    "checked": 1520,
+    "cpu_seconds": 95.93,
+    "line": 94434,
+    "observed_wall_seconds": 96.56770954199965,
+    "stage": "declaration"
+  },
+  "progress_before": {
+    "checked": 1520,
+    "cpu_seconds": 95.93,
+    "line": 94434,
+    "observed_wall_seconds": 96.56770954199965,
+    "stage": "declaration"
+  },
+  "started_wall_seconds": 111.71265083400067,
+  "trigger": "declaration_stall"
+}

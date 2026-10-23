@@ -1,0 +1,34 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of local rocq/Syntax.v subst_many/instantiate_many
+and rocq/Checker.v core_beta_collect/core_beta. The four actual operations
+use full447 syntax/lift and489 list-first application. INPUTS526.sha256 pins
+the exact immediate references and reused sources.
+
+The independent project adapts Lean4Lean by Mario Carneiro and contributors:
+https://github.com/digama0/lean4lean
+Project provenance revision8223d223ed98661882e95d9d6a7126df7097cd76.
+Local vendor files are pinned by content here; no assertion that the current
+vendored TypeChecker.lean is an unmodified tree at that historical revision.
+The upstream Apache-2.0 LICENSE is included byte-for-byte. Local rocq/NOTICE
+and447/489 notices are pinned and remain applicable.
+
+All13 full447 expression constructors are supported, including both literal
+variants,free locals,metavariables,binder information,let nonDep and metadata
+wrappers. Metadata payloads were already erased by the local representation;
+this package does not restore them or establish lossless Lean serialization.
+Universe/name/string payloads are preserved,not validated.
+
+The collector stops at the first non-lambda visible before substitution.
+It is not full WHNF,typing,admission or an independently verified kernel.
+Substitution values are innermost-first and live outside the removed block.
+No external checker,precomputed verdict,artificial fuel or acceptance stub
+implements these operations. New HOL source remains UNCOMPILED.
+
+model526.py is a bounded handwritten source model,not extracted target code.
+Its finite checks and scalar-substitution comparison are not a proof of
+equivalence or soundness and are not Lean Kernel Arena results.
+The22 canonical proposed proof scripts remain UNCOMPILED. Adverse originals
+record a repaired source quotation defect and must not be loaded or counted
+as extra tests. Native78 remains stopped; no runtime authority is granted.

@@ -1,0 +1,263 @@
+{
+  "production_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+  "observer_transform_sha256": "8c1e16a4888e5546de410c1f14fd3575a225018b18f77dfcf06efc2139a6e6b0",
+  "drivers": {
+    "tests/common.ml": "715db1037068d2702af96e15e242bfdc005d9a6ad13c764d2310175272a289d8",
+    "tests/controls.ml": "99d13d979fa553ad08023f8d2f93232846ddf174ffb979f1d895ba9a974ea7e2",
+    "tests/guard_controls.ml": "e01dfae8e53c404005ec10346a0e6103cd17af2eed78abc05297b64e64569468",
+    "tests/guard_literals.ml": "4e9430b11bc3064788d690a6af1b0d2b511564305fb47b8569ef2b6c8c0d4553",
+    "tests/observer.ml": "2d284f5bc919a75d2adc11bb02c5695bad82bff781e9d0f9bab4cefbecbc5edc",
+    "tests/scheduler_probe_controls.ml": "71e3d085382bd2930b8c725f1dae4e9da232e356f749577dbe0f26db2f779dfa",
+    "tests/typed.ml": "20d0959837c57ddc354c541610ef151c95c5442481dfecaeaff16a4c64070814"
+  },
+  "historical_cores": {
+    "baseline": {
+      "path": "early/baseline-core.ml",
+      "sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313"
+    },
+    "candidate-original": {
+      "path": "early/candidate-original-core.ml",
+      "sha256": "c8b0b07bdc1138833ca6eca71d327054ca1d9406e4a456f2bf24d18e657bcd9d"
+    }
+  },
+  "groups": {
+    "early-schedule-baseline": {
+      "job": {
+        "source": "needs \"tests/scheduler_probe_controls.ml\";;\nrun_scheduler_probe_controls \"baseline\";;\n",
+        "markers": [
+          "EARLY_PASS schedule-baseline 18"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "baseline",
+      "historical_core_control": true,
+      "observer_function": "schedule_observed",
+      "unmodified_core_sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313",
+      "private_tested_loaded_core_sha256": "24230a161e2f506b60987fd80d044117c4272be87b69f06775dab230e4c6e1bf",
+      "assertions": 18,
+      "input_sha256": "bd99f97aa3e5fefbf7905c6846de09d3193477d6c47a72dbd93bdb8a34ae2d01"
+    },
+    "early-schedule-original": {
+      "job": {
+        "source": "needs \"tests/scheduler_probe_controls.ml\";;\nrun_scheduler_probe_controls \"original\";;\n",
+        "markers": [
+          "EARLY_PASS schedule-original 18"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate-original",
+      "historical_core_control": true,
+      "observer_function": "schedule_observed",
+      "unmodified_core_sha256": "c8b0b07bdc1138833ca6eca71d327054ca1d9406e4a456f2bf24d18e657bcd9d",
+      "private_tested_loaded_core_sha256": "a07928c362fd99b7633d22373725241e5509d6b6754887fce768e07889c77503",
+      "assertions": 18,
+      "input_sha256": "193859d580fdab2f5a105ec27322ac2ecd3651ca63deedc9c6f1e725913205de"
+    },
+    "early-schedule-guarded": {
+      "job": {
+        "source": "needs \"tests/scheduler_probe_controls.ml\";;\nrun_scheduler_probe_controls \"guarded\";;\n",
+        "markers": [
+          "EARLY_PASS schedule-guarded 32"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": "schedule_observed",
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "7416f2573452b29f54b2809b69b6d414c4726cac69b280ebcbb63d71bbca5830",
+      "assertions": 32,
+      "input_sha256": "3214f1022811beae120804db8ccfa678f531083791d89574e5479254701f1ad7"
+    },
+    "early-typed": {
+      "job": {
+        "source": "needs \"tests/typed.ml\";;\nrun_early_typed ();;\n",
+        "markers": [
+          "EARLY_PASS typed 27"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 27,
+      "input_sha256": "f98b15199f99eca7ba414db69a32967ad51b831eca330417f0335ad301b9b57c"
+    },
+    "early-observer-baseline": {
+      "job": {
+        "source": "needs \"tests/observer.ml\";;\nrun_early_observer \"baseline\";;\n",
+        "markers": [
+          "EARLY_PASS observer-baseline 12"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "baseline",
+      "historical_core_control": true,
+      "observer_function": "observed",
+      "unmodified_core_sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313",
+      "private_tested_loaded_core_sha256": "c50365e2d8b193130292c7312a268fc83bfb19aac1f3ecefe8021a16f799c7e8",
+      "assertions": 12,
+      "input_sha256": "92d52fba3633988d53349af3a125c45451d2eb5177219041813c5a55d76c9d51"
+    },
+    "early-observer-candidate": {
+      "job": {
+        "source": "needs \"tests/observer.ml\";;\nrun_early_observer \"candidate\";;\n",
+        "markers": [
+          "EARLY_PASS observer-candidate 12"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": "observed",
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "05051a90fcda46d6b182c69020fac7537903b5d61bade0e3422f90f6eb20b864",
+      "assertions": 12,
+      "input_sha256": "0af4c6ed2cd93fc5f1ed76bf119e67f1eda605ef9b6594d80b39fd2da677c2f0"
+    },
+    "early-context": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"context\";;\n",
+        "markers": [
+          "EARLY_PASS context 12"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 12,
+      "input_sha256": "d16916b2844fa7dc4a136cc04273dfef6761150519c3082f0d98e5f5ece4563b"
+    },
+    "early-nonprop": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"nonprop\";;\n",
+        "markers": [
+          "EARLY_PASS nonprop 7"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 7,
+      "input_sha256": "373798836f16abecb829261b00e59097d03039c3b4b0ea0664409de6742f11fd"
+    },
+    "early-forged": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"forged\";;\n",
+        "markers": [
+          "EARLY_PASS forged 13"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 13,
+      "input_sha256": "d7770ac7bc6b6a4eabaf8f6e796a2a249ec1f2c780172e3917bb1f3aaa07360b"
+    },
+    "early-fuel-baseline": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"fuel-baseline\";;\n",
+        "markers": [
+          "EARLY_PASS fuel-baseline 13"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "baseline",
+      "historical_core_control": true,
+      "observer_function": null,
+      "unmodified_core_sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313",
+      "private_tested_loaded_core_sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313",
+      "assertions": 13,
+      "input_sha256": "836154394abe742631943bdebfd791dbc67f55c38462c2070092d9fbf179f3b6"
+    },
+    "early-fuel-candidate": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"fuel-candidate\";;\n",
+        "markers": [
+          "EARLY_PASS fuel-candidate 13"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 13,
+      "input_sha256": "67189500b22a3cf4b36a7dd8f41384a93e7921602c1919fedf3a1423e2180917"
+    },
+    "early-crossbackend": {
+      "job": {
+        "source": "needs \"tests/controls.ml\";;\nrun_early_controls \"crossbackend\";;\n",
+        "markers": [
+          "EARLY_PASS crossbackend 10"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 10,
+      "input_sha256": "502a10e2f21daa6b81e91aec1495104ee3bc5a05c847eb20ac7501bab5c914d8"
+    },
+    "early-guards": {
+      "job": {
+        "source": "needs \"tests/guard_controls.ml\";;\nrun_guard_controls ();;\n",
+        "markers": [
+          "EARLY_PASS guards 19"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": null,
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "assertions": 19,
+      "input_sha256": "878e311daea69e000abfcf2913f09b9c9bccbb4a033a2a99ff5be9aa47841143"
+    },
+    "early-guards-literals": {
+      "job": {
+        "source": "needs \"tests/guard_literals.ml\";;\nrun_guard_literals ();;\n",
+        "markers": [
+          "EARLY_PASS guards-literals 13"
+        ],
+        "limit": 180,
+        "options": {}
+      },
+      "variant": "candidate",
+      "historical_core_control": false,
+      "observer_function": "schedule_observed",
+      "unmodified_core_sha256": "4d22b9422fd7ab45493d9ad9a0ed4c028ee4f6cf5a54fae57df12a97326dbe02",
+      "private_tested_loaded_core_sha256": "7416f2573452b29f54b2809b69b6d414c4726cac69b280ebcbb63d71bbca5830",
+      "assertions": 13,
+      "input_sha256": "7592918efe0e3a3b29cb915fcc633c35c67b763cf7591ba0315df104b8f5fc03"
+    }
+  }
+}

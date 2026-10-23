@@ -1,0 +1,22 @@
+Core composition597: source under construction, UNCOMPILED
+========================================================
+Copyright2026 Fawad Haider, Apache-2.0. Changed port of rocq/Checker.v
+1238-1240,1288-1386,1410-1497. Lean4Lean algorithmic upstream: Mario Carneiro
+and contributors, commit8223d223ed98661882e95d9d6a7126df7097cd76.
+Local Rocq fuel/error behavior is the direct reference, not a blanket claim
+of equivalence for arbitrary raw upstream inputs. Preserve rocq/NOTICE.
+
+The kernel method builder takes only fuel, mode, environment and universe
+parameters. It constructs six callbacks and the mode field internally; no public
+caller-provided inference/normalization/equality callback. Fuel-first primitive
+recursion allows eager conversion to use the eager policy at smaller depth.
+Structural syntax recursion and WHNF/delta rounds are separate from this depth.
+No memoization, pointer equality, axiom, admission or unchecked cast is added.
+
+This is a core entry point, NOT completed file checking or verified environment
+admission. The environment and context still require well-formedness/admission
+preconditions. Decoder/representation refinement, declaration composition,
+formal soundness, extraction/runtime integration and Arena validation remain.
+Dependencies594/595/596 are frozen after disjoint implementation work;
+their final composition review and target validation are pending.
+All source/proof scripts here remain UNCOMPILED. No model/native result exists.

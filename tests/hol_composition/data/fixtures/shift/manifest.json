@@ -1,0 +1,17 @@
+[
+  {
+    "name": "admission-gate",
+    "expected": 0,
+    "sha256": "3937a411484116c8e461fcd39fbaa0028fe5e3db832c590c5613d0c827d38ddf"
+  },
+  {
+    "name": "compute-one",
+    "expected": 0,
+    "sha256": "676e45119e16bee852e8463d65d1e8bd50b2ca0e494385af65aedf83f9cd9f7d"
+  },
+  {
+    "name": "wrong-result",
+    "expected": 2,
+    "sha256": "6cb8f3a423c4a37d12b5c594e1a3cc340273962ae8c646c16f30fbf0b0b11aab"
+  }
+]

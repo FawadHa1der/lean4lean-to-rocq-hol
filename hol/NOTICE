@@ -1,0 +1,21 @@
+Copyright 2026 Fawad Haider
+
+This directory contains an original HOL Light adaptation of a bounded fragment
+of Lean4Lean, https://github.com/digama0/lean4lean, at commit
+8223d223ed98661882e95d9d6a7126df7097cd76.
+
+Upstream Lean4Lean is distributed under the Apache License, Version 2.0.
+The file vendor/lean4lean/LICENSE contains that license. This adaptation is
+distributed under the same terms. It retains the upstream mathematical rule structure but
+does not claim to port the full checker or its correctness proof.
+
+Relevant upstream files:
+  Lean4Lean/Theory/Typing/Basic.lean
+  Lean4Lean/Theory/VLevel.lean
+  Lean4Lean/TypeChecker.lean
+  Lean4Lean/Declaration.lean
+  Lean4Lean/Environment.lean
+  Lean4Lean/Environment/Basic.lean
+  Lean4Lean/Inductive/Add.lean
+  Lean4Lean/Inductive/Reduce.lean
+  Lean4Lean/Primitive.lean

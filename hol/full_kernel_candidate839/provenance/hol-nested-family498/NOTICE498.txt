@@ -1,0 +1,27 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Changed HOL Light port of local rocq/NestedTransform.v nested_used_names,
+nested_make_ctors and nested_expand_family; also Inductive.v all_ctor_names.
+Algorithmic ancestry: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Apache-2.0 LICENSE retained.
+
+These operations construct provisional syntax, not checked declarations.
+The caller must derive/admit the extended mutual group, restore names and
+compare all exported metadata. Old metadata fields deliberately replaced by
+zeros/false/empty lists are later recomputed; this is NOT proof they are zero.
+Unsafe role wrappers are not unwrapped. Exact constructor data's unsafe flag
+is not checked here; separate admission/caller obligations remain.
+
+Fuel and naming follow the local Rocq transformation, not an equivalence claim
+to all upstream Lean4Lean. Name generation inherits437's _rocq_nested policy,
+its constructor/recursor reservation and its bounded declines. Error categories
+come from491. Universe substitution is one-pass488; closure is489's dependent
+right fold. Rebase449 observes local identifiers only. Full metadata493 and
+work state494 retain fields. Inherited447 metadata payload erasure, unrestricted
+name/string num-lists and unproved encoding correspondence remain.
+
+All actual HOL definitions and9 proof scripts remain UNCOMPILED. Handwritten
+finite model assertions do not execute target code or prove its correctness.
+No compiler/prover/checker/exporter, process/memory/time probe, native recovery,
+default integration, evidence rewrite, guard change, Solidity edit, commit or
+push. Separate fresh native recovery authority remains pending.

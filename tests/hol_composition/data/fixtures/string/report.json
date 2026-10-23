@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "name": "interfaces",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.620881583003211,
+      "sha256": "031c6339c37363a928bbb870cc55c9eced0dc54fdfbeebb6124e33f7eb6f55e0",
+      "output": "HOL accept: line=95 checked=8 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "empty",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.881352374999551,
+      "sha256": "cecd58be0ffc2f949519bc8b87af66249d3763a9b022c6dbf3d3e3b5d7408c5b",
+      "output": "HOL accept: line=98 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "nul",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.878072332998272,
+      "sha256": "fbbb17db2553603506390cb3ddc12d485ea77ec8dc1006c22a046f35db813571",
+      "output": "HOL accept: line=98 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "ascii",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.9259434999985388,
+      "sha256": "afa3ab73023fe57393b0f8a4d5d499cb7acb01114f263534bb5c496b7f4534cb",
+      "output": "HOL accept: line=98 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "unicode",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.9048859999966226,
+      "sha256": "654996d6af0b2f7cea7f7c85ab835651d2ed4a69551536d24c18cce576ab7f75",
+      "output": "HOL accept: line=98 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "same-literal",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.963651291000133,
+      "sha256": "c20bef4341b8ae4424b80a671efd101233c8474c7b52bbdc39fc4b6b31fe9750",
+      "output": "HOL accept: line=107 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "different-literal",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 2.965694958002132,
+      "sha256": "df8f871362ff1aa710d6f234194c0dd93ea18972eedb85ddc87dd1a2bb42144f",
+      "output": "HOL decline: line=108 checked=8 typed conversion not established\n"
+    },
+    {
+      "name": "no-normalization",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 3.0072356249947916,
+      "sha256": "d4a7fd89f319779f6d67bb56d7b3c3fe36a93a5fbeba119f737f9c90b22c05e8",
+      "output": "HOL decline: line=108 checked=8 typed conversion not established\n"
+    },
+    {
+      "name": "reverse-dependencies",
+      "expected": 0,
+      "exit": 0,
+      "passed": true,
+      "elapsed": 2.877659958998265,
+      "sha256": "88c95bd1fab5e5638ef00fd80fa2da32b2ded5f14741a59c9aa7f981aaa7ca67",
+      "output": "HOL accept: line=90 checked=9 accept: closed HOL environment certificate relative to explicit object-axiom policy\n"
+    },
+    {
+      "name": "Char.ofNat-unsafe",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.3849177500014775,
+      "sha256": "62300a4a72de9ae852bf4df5b08195293dc0e0f4840cc81f7cba65e142220138",
+      "output": "HOL decline: line=96 checked=6 HOL unsafe/partial declarations not yet implemented\n"
+    },
+    {
+      "name": "Char.ofNat-partial",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.37374849999469,
+      "sha256": "7bdec8eb9cb688ef55d0aec396682f084ec4b5158dbef171933423b70ae19f2b",
+      "output": "HOL decline: line=96 checked=6 HOL unsafe/partial mutual declaration admission not yet implemented\n"
+    },
+    {
+      "name": "Char.ofNat-missing",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 2.1926223749978817,
+      "sha256": "57219a33543fce9679ca6892929972e90af3966c747c73f26c5c19b48e7606ce",
+      "output": "HOL decline: line=97 checked=7 constant not in the certified environment\n"
+    },
+    {
+      "name": "Char.ofNat-bad-body",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.5325656669956516,
+      "sha256": "436ea2fd0681fdceb38e993090a2f6b51a37829539a9dffe82034435ff077c90",
+      "output": "HOL decline: line=97 checked=6 typed conversion not established\n"
+    },
+    {
+      "name": "Char.ofNat-universe",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.393075250001857,
+      "sha256": "f93e07a218cc5cbf4b8f788f16e98dc037e6fb6d001af7d90f8ba409238372c4",
+      "output": "HOL decline: line=97 checked=6 HOL proof construction: TAC_PROOF: Unsolved goals\n"
+    },
+    {
+      "name": "String.ofList-unsafe",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.757857040996896,
+      "sha256": "0449861fcbfd18ca3f3c1c862b8e8f7649106cc713b8023c4257180013d0cef6",
+      "output": "HOL decline: line=97 checked=7 HOL unsafe/partial declarations not yet implemented\n"
+    },
+    {
+      "name": "String.ofList-partial",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.7409752909952658,
+      "sha256": "b8aea8c88ff10f59337c56035f99e5a5145a7bca06c67e23e7c9147e837f1289",
+      "output": "HOL decline: line=97 checked=7 HOL unsafe/partial mutual declaration admission not yet implemented\n"
+    },
+    {
+      "name": "String.ofList-missing",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.8592533330011065,
+      "sha256": "59d39ee7a95b953c60a9ede65b70fa163047c9b0bd7d22cbf3fb6cf0723abf1c",
+      "output": "HOL decline: line=97 checked=7 constant not in the certified environment\n"
+    },
+    {
+      "name": "String.ofList-bad-body",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.9960224999958882,
+      "sha256": "369face2ec2538e289bb591542493dbaadd57fd450750eb8fd250ab0120f6a54",
+      "output": "HOL decline: line=98 checked=7 typed conversion not established\n"
+    },
+    {
+      "name": "String.ofList-universe",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.786318291000498,
+      "sha256": "68dc7b0cfdc318764e8a16c3980ef65e26c1d95c260f9462a9d86c2a2583f6fe",
+      "output": "HOL decline: line=98 checked=7 HOL proof construction: TAC_PROOF: Unsolved goals\n"
+    },
+    {
+      "name": "nil-universe-arity",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.2983830829980434,
+      "sha256": "739637d4a29c45b210266e6827e6dc388ca98a4426808e6a955c826d16a095fe",
+      "output": "HOL decline: line=94 checked=4 HOL proof construction: TAC_PROOF: Unsolved goals\n"
+    },
+    {
+      "name": "cons-universe-arity",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 1.4000444580015028,
+      "sha256": "ddc08d9ad829d6b34022496edcffc16ecd458a8928627bbda0c78adb3f8dfbff",
+      "output": "HOL decline: line=95 checked=5 HOL proof construction: TAC_PROOF: Unsolved goals\n"
+    },
+    {
+      "name": "literal-not-proof",
+      "expected": 2,
+      "exit": 2,
+      "passed": true,
+      "elapsed": 2.8481577499987907,
+      "sha256": "fa2bb61a40a9ed8683401ec8496bfb1ce93310489e92b8bc76c058f0bc0bb49d",
+      "output": "HOL decline: line=99 checked=8 typed conversion not established\n"
+    }
+  ]
+}

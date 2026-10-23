@@ -1,0 +1,31 @@
+{
+  "schema": "source-pinned-supplemental-input-v1",
+  "name": "cedar-local-native-interpreted",
+  "classification": "SUPPLEMENTAL",
+  "official_arena": false,
+  "port_checker_verified": false,
+  "source_integrity_checked": true,
+  "native_interpreted_byte_equality_checked": true,
+  "source_lock": "lock.json",
+  "sha256": "a83b3527d758581559202a990870c8fb5a997d8f95bbde15e2485cd96fa4db65",
+  "size": 872400493,
+  "lines": 15316784,
+  "variants": [
+    {
+      "mode": "interpreted",
+      "file": "runs/1790709601417215000-38505/cedar.partial.ndjson",
+      "report": "runs/1790709601417215000-38505/report.json"
+    },
+    {
+      "mode": "native",
+      "file": "runs/1790710068323688000-52480/cedar.partial.ndjson",
+      "report": "runs/1790710068323688000-52480/report.json"
+    }
+  ],
+  "published_target": {
+    "sha256": "6b00afb2436da7d8c6e2a94cf70c8f6d41da28831c0ecae0541be9f6123fab82",
+    "size": 872400337,
+    "lines": 15316781
+  },
+  "note": "Complete exports retained under their original partial filenames. Three extra records and 156 extra bytes are preserved. Not official Arena coverage; no port-checker or independent semantic validation claimed."
+}

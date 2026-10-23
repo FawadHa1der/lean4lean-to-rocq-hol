@@ -1,0 +1,241 @@
+{
+  "checker_identity": {
+    "after": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72027465,
+        "mtime_ns": 1790715131039267106,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_diagnostics.py",
+        "sha256": "10fe051efbd0283554937296a753a498c5a7c7f8f469e440029cf7bb0edaf353",
+        "size": 3895
+      },
+      {
+        "device": 16777232,
+        "inode": 72000611,
+        "mtime_ns": 1790714980552336902,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_targeted.py",
+        "sha256": "cd92a9b261c843edb2d1c1d9d4a75e267b3766f01978c0c09942a90586f437d7",
+        "size": 8049
+      },
+      {
+        "device": 16777232,
+        "inode": 71034823,
+        "mtime_ns": 1790705927311935720,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_arena.py",
+        "sha256": "a2b4e18804a0a8a522e6901770626e4633fcdd8f2b2c315a6a7c537279c58827",
+        "size": 14606
+      },
+      {
+        "device": 16777232,
+        "inode": 71408607,
+        "mtime_ns": 1790705331418851349,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_metadata_mutations.py",
+        "sha256": "4c691c7d201c0291a46e48542499d710fcdeab8e2371aac8457ec292de3f57db",
+        "size": 25235
+      },
+      {
+        "device": 16777232,
+        "inode": 71987246,
+        "mtime_ns": 1790714908586203875,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed-runtime.json",
+        "sha256": "06d22525e8d7440ca455b21d1d4a246d68c052d3a4865533d39cd2a66f961d93",
+        "size": 10290
+      },
+      {
+        "device": 16777232,
+        "inode": 71984987,
+        "mtime_ns": 1790714737815759291,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed/scripts/hol-check.py",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size": 24524
+      },
+      {
+        "device": 16777232,
+        "inode": 71984968,
+        "mtime_ns": 1790714824857671679,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed/hol/environment.ml",
+        "sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+        "size": 36875
+      },
+      {
+        "device": 16777232,
+        "inode": 72027692,
+        "mtime_ns": 1790715135390292611,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/071_rbTreeRef.ndjson",
+        "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6",
+        "size": 16556
+      },
+      {
+        "device": 16777232,
+        "inode": 72027693,
+        "mtime_ns": 1790715135390459986,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/077_sortElimProp2Rec.ndjson",
+        "sha256": "eaaa3909ab1527239fa0373e392464e6941097162531033d9a7ad422e7cb9945",
+        "size": 6794
+      },
+      {
+        "device": 16777232,
+        "inode": 72027694,
+        "mtime_ns": 1790715135390624778,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/082_RBTree.id_spec.ndjson",
+        "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9",
+        "size": 49017
+      }
+    ],
+    "before": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72027465,
+        "mtime_ns": 1790715131039267106,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_diagnostics.py",
+        "sha256": "10fe051efbd0283554937296a753a498c5a7c7f8f469e440029cf7bb0edaf353",
+        "size": 3895
+      },
+      {
+        "device": 16777232,
+        "inode": 72000611,
+        "mtime_ns": 1790714980552336902,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/run_targeted.py",
+        "sha256": "cd92a9b261c843edb2d1c1d9d4a75e267b3766f01978c0c09942a90586f437d7",
+        "size": 8049
+      },
+      {
+        "device": 16777232,
+        "inode": 71034823,
+        "mtime_ns": 1790705927311935720,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_arena.py",
+        "sha256": "a2b4e18804a0a8a522e6901770626e4633fcdd8f2b2c315a6a7c537279c58827",
+        "size": 14606
+      },
+      {
+        "device": 16777232,
+        "inode": 71408607,
+        "mtime_ns": 1790705331418851349,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/test_metadata_mutations.py",
+        "sha256": "4c691c7d201c0291a46e48542499d710fcdeab8e2371aac8457ec292de3f57db",
+        "size": 25235
+      },
+      {
+        "device": 16777232,
+        "inode": 71987246,
+        "mtime_ns": 1790714908586203875,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed-runtime.json",
+        "sha256": "06d22525e8d7440ca455b21d1d4a246d68c052d3a4865533d39cd2a66f961d93",
+        "size": 10290
+      },
+      {
+        "device": 16777232,
+        "inode": 71984987,
+        "mtime_ns": 1790714737815759291,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed/scripts/hol-check.py",
+        "sha256": "b71273f60ae608b43294530702bf8f6d180deeee6c6916270890039f342f5d8d",
+        "size": 24524
+      },
+      {
+        "device": 16777232,
+        "inode": 71984968,
+        "mtime_ns": 1790714824857671679,
+        "path": "/private/tmp/hol-indexed-p2.BLzUH9/fixed/hol/environment.ml",
+        "sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+        "size": 36875
+      },
+      {
+        "device": 16777232,
+        "inode": 72027692,
+        "mtime_ns": 1790715135390292611,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/071_rbTreeRef.ndjson",
+        "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6",
+        "size": 16556
+      },
+      {
+        "device": 16777232,
+        "inode": 72027693,
+        "mtime_ns": 1790715135390459986,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/077_sortElimProp2Rec.ndjson",
+        "sha256": "eaaa3909ab1527239fa0373e392464e6941097162531033d9a7ad422e7cb9945",
+        "size": 6794
+      },
+      {
+        "device": 16777232,
+        "inode": 72027694,
+        "mtime_ns": 1790715135390624778,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_indexed_audit/p2_fix/diagnostics/082_RBTree.id_spec.ndjson",
+        "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9",
+        "size": 49017
+      }
+    ],
+    "snapshotted": false,
+    "unchanged": true
+  },
+  "finished_at": "2026-09-29T20:52:32.181927+00:00",
+  "fixed_environment_sha256": "6eb71198bbbe0bbda583aa5bfc9830e6fda1de95e1ea195c0f1f08e6444d22a8",
+  "note": "Observation only on the frozen indexed checkpoint plus flags fix; no later K or projection code, no expected verdicts, no pass/fail classification.",
+  "observations": [
+    {
+      "elapsed_seconds": 3.092589,
+      "exit_code": 2,
+      "id": "tutorial/071_rbTreeRef",
+      "path": "corpus/tutorial/071_rbTreeRef.ndjson",
+      "sha256": "2c88f371f5859df7de86e51fe52fc85d9be7fb242ad61ef0d4155b1263812ab6",
+      "size": 16556,
+      "stderr": "HOL decline: line=294 checked=2 HOL proof construction: TAC_PROOF: Unsolved goals\n",
+      "stderr_bytes": 82,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    },
+    {
+      "elapsed_seconds": 10.092655,
+      "exit_code": 2,
+      "id": "tutorial/077_sortElimProp2Rec",
+      "path": "corpus/tutorial/077_sortElimProp2Rec.ndjson",
+      "sha256": "eaaa3909ab1527239fa0373e392464e6941097162531033d9a7ad422e7cb9945",
+      "size": 6794,
+      "stderr": "HOL decline: case wall timeout; child killed and reaped\n",
+      "stderr_bytes": 56,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    },
+    {
+      "elapsed_seconds": 3.592612,
+      "exit_code": 2,
+      "id": "tutorial/082_RBTree.id_spec",
+      "path": "corpus/tutorial/082_RBTree.id_spec.ndjson",
+      "sha256": "88349328dd81100fb22396180bef9b5c2b0997275b7c3c672b19a7ac87ed72f9",
+      "size": 49017,
+      "stderr": "HOL decline: line=294 checked=2 HOL proof construction: TAC_PROOF: Unsolved goals\n",
+      "stderr_bytes": 82,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "decline"
+    }
+  ],
+  "runtime_provenance_sha256": "06d22525e8d7440ca455b21d1d4a246d68c052d3a4865533d39cd2a66f961d93",
+  "valid": true
+}

@@ -1,0 +1,42 @@
+Full447 natural-literal and binary-primitive source port544
+==========================================================
+Changed implementation: Copyright 2026 Fawad Haider.
+New files are licensed under Apache-2.0; complete LICENSE included unmodified.
+Installed HOL Light library licensing is separately preserved,unmodified,in
+HOL_LIGHT_LICENSE. Library implementations are referenced,not copied here.
+
+Immediate reference: local rocq/Checker.v270-323: core_nat_value,
+core_nat_constructor,core_shiftr,core_binary_nat. Exact bytes are pinned.
+Local rocq/NOTICE attributes the changed Gallina port to Lean4Lean, Mario
+Carneiro and Lean4Lean contributors, https://github.com/digama0/lean4lean,
+historical commit8223d223ed98661882e95d9d6a7126df7097cd76. This is provenance,
+not an assertion that the current local source equals that upstream revision.
+
+Full447 syntax/full491 results/full493 primitive tags and533 names/readiness
+are reused without replacing their types or copying a reduced representation.
+The four requested operations are actual HOL object-language definitions.
+Two supporting natural-number definitions implement a low-bit fold with
+input-derived width MAX(bitsize a)(bitsize b),not fixed-width words or caller
+resource fuel. This helper is used only for AND/OR/XOR,not the PNatBitwise tag.
+The latter retains Accept NONE,as do the three other non-binary cases.
+
+Installed Library/bitsize.ml,Library/binary.ml,Library/prime.ml and underlying
+arithmetic/int definitions were inspected. The implementation reuses bitsize,
+natural arithmetic and gcd(a,b). The binary-set theory is an independent
+mathematical specification candidate,not a runtime delegate or loaded module.
+Existing hol/nat_evaluation.ml proves a conditional recurrence theorem over
+legacy expressions,not a full447 primitive evaluator. The old shift_left_budget
+module is host allocation preflight; neither is imported or used as a verdict.
+
+Mathematical totality is not executable evaluation validation. bitsize is
+defined using minimal; natural gcd maps through integer gcd theory. Their
+proof-producing conversions are installed,but have not been integrated or
+executed in this task. The fold additionally needs checked width computation
+and arithmetic evaluation. The four supplementary proposed numeric regressions
+refer to these conversions but are ALL UNCOMPILED,not conversion-run evidence.
+
+The handwritten model uses finite integer arithmetic,Euclidean gcd and a
+division-based bit-length calculation. Those are not the executable HOL
+definitions and do not prove an encoding,extraction or implementation relation.
+No new axioms,admitted proofs,unchecked casts or evaluator/verdict oracle are
+introduced. Universal numeric/bitwise/Rocq correspondence remains unproved.

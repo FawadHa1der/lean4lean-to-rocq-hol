@@ -1,0 +1,21 @@
+{
+  "active_socket_clients": [],
+  "checked_at": "2026-09-29T22:09:51.205117+00:00",
+  "client_sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+  "evidence_sha256": {
+    "final-report.json": "6eb42bc198332177136454fc1f73bdd80dac98972e85ce34d2b8d1489c93193c",
+    "quotient-report.json": "3f5da567c17897233b470fbc97f81f481eccff774016c73a66a1b619d0819399",
+    "runtime-provenance.json": "9edacc5e005ad863c595eedfeb947b38fdf3debb7db05afdffaa2b6e71517c67",
+    "universe-control-report.json": "1ff4cae85420df286c64f186bd7a131b2dd7948fead5b4ac076a80fddb094e7e"
+  },
+  "hol_pid": 34103,
+  "parent_states": [
+    "34032  3149 Ss   17:09 /opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python scripts/hol-check.py --serve --case-timeout 30 --startup-timeout 180 --provenance-output build/reports/hol-quotient-structure-runtime.json",
+    "34103 34102 S    17:09 /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/bin/ocamlrun /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light/ocaml-hol -init /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light/hol.ml -I /private/tmp/lean4lean-501-e16fccc9822d/opam-root/lean4lean/lib/hol_light"
+  ],
+  "socket": "/private/tmp/hol-run-_63lkxxh/s",
+  "socket_exists": true,
+  "supervisor_left_alive": true,
+  "supervisor_pid": 34032,
+  "worker_children": []
+}

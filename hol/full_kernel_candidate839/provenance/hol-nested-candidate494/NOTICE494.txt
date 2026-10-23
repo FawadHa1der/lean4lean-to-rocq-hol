@@ -1,0 +1,26 @@
+SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
+Changed HOL Light port of local Rocq NestedTransform.v nested_work,
+nested_set_specs, nested_set_local and nested_candidate. Lean4Lean upstream:
+8223d223ed98661882e95d9d6a7126df7097cd76, https://github.com/digama0/lean4lean.
+Preserve the upstream license and attribution.
+
+All4 work fields and the complete493 declaration record are retained, including
+the original declaration/data/universe-list/full argument list in a candidate
+hit. HOL's result payload uses right-associated tuples; cross-language logical
+field correspondence is required, not a shared physical tuple encoding.
+
+Candidate detection requires a nonempty raw application with a constant head,
+first-match declaration, exact DInductive role and enough arguments. It examines
+only the parameter prefix for references to the current worklist's spec names.
+Fuel/short-circuit behavior is inherited from449 and errors map through491.
+Scope is checked across the parameter prefix only after a reference was found.
+Indices alone never trigger a hit. Empty/noncandidate paths may succeed with
+zero fuel; success None is not acceptance or rejection of the input declaration.
+No unsafe-wrapper unwrapping, weak-head normalization, payload erasure or extra
+hygiene/arity check is inserted. Such checks belong to the checked caller.
+
+Records/setters, firstn and candidate detector are SOURCE ONLY / UNCOMPILED.
+Ten theorem scripts remain uncompiled. No default loader/runtime integration,
+native proof/checker execution, source authority, gate or old evidence change,
+Solidity edit, commit or push. Full expansion, rewrite/restoration and admission
+remain unimplemented here; inherited447 metadata-payload and encoding gaps remain.

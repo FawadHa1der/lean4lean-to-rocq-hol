@@ -1,0 +1,28 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+Changed/new full447 file-quotation source over the pinned local frontend
+Wire/Replay types and Full_input610 term constructors. Behavioral references:
+frontend/replay.ml (row ownership, batching and dependency scheduling),
+frontend/wire.ml (transport records), frontend/rocq_adapter.ml (dispatch field
+order), and current source-only641 reader/642 full-file constructors.
+ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light.
+Exact source pins are in INPUTS643.sha256. No canonical dependency is modified.
+
+The local work adapts Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean, locally attributed revision
+8223d223ed98661882e95d9d6a7126df7097cd76, Apache License2.0.
+The upstream commit attribution is inherited from610/local notices; no network
+or new upstream verification occurred. Wire identifies leanprover/lean4export
+format_ndjson.md3.1.0 as its schema; this package does not independently certify
+that external schema. LICENSE is the exact vendored Apache-2.0 text from610.
+
+Changes: use full610 quotation for every original declaration field and wrap
+the result with actual642/607 constructors. Preserve original rows/source
+lines plus metadata/counts, bind Replay scheduling to original row identities,
+refuse missing/repeated/substituted ownership, and preserve all/safety values.
+Read wrappers exclusively use641; no reduced old hol_input representation,
+logical evaluator, proof constructor, verdict oracle or new HOL axiom is added.
+
+HOL Light pair.ml's mk_pair interface was inspected as a host term-builder
+reference, not copied as an implementation or certified as a runtime binding.
+All source and proposed fixtures remain UNCOMPILED / UNEXECUTED.

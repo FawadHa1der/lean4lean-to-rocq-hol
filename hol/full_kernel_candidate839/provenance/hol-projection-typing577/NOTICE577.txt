@@ -1,0 +1,45 @@
+Projection typing577: changed source-only HOL component
+======================================================
+Copyright 2026 Fawad Haider. Apache License, Version2.0; exact LICENSE included.
+Changed implementation of local rocq/Checker.v215-275, with existing sort_of,
+core_apply_type, syntax substitution, occurrence and universe helpers reused.
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76,
+Lean4Lean/TypeChecker.lean222-260,279,893-903. Source hashes are recorded locally.
+The pinned TypeChecker source has no individual copyright header. Its existing
+repository license and local Rocq attribution are retained here. The universe
+model is adapted from555, following the guarded-atom algorithm attributed to
+Yoan Geran in the upstream Level.lean and local NOTICE555.
+
+This is a changed HOL object-language reimplementation of the local Rocq
+algorithms, not a claim that every raw-input observation matches upstream Lean.
+Rocq checks owner/total argument arity before constructor cardinality and adds
+constructor-kind and field-count checks. Upstream checks constructor cardinality
+before arity and obtains constant metadata through its admitted environment.
+Rocq exposes ExpectedPi, ExpectedSort, TypeMismatch, UnknownConstant and
+MalformedDeclaration instead of upstream invalidProj/lookup exception details.
+Rocq uses core_occurs0, not upstream hasLooseBVars, and always substitutes skipped
+fields; the upstream no-loose-variable branch avoids substitution entirely.
+Equivalence under well-scoped admitted contexts is an open correspondence task.
+
+Full447 syntax,491 result tags,493 declarations,532 context and543 seven-field
+methods are unchanged canonical dependencies. The helper accepts that internal
+method record: the eventual recursive checker must supply its smaller methods.
+No user-supplied logical oracle is exposed as an admission API. No recursive
+method builder, public inference, environment admission or full kernel is added.
+The raw helper does not introduce a blanket expression-meta or universe-arity
+test absent in Rocq. Method results propagate unchanged. Only visited Prop-domain
+sorts invoke555 universe equivalence, whose meta rejection precedes its fuel test.
+Fuel is unchanged across fields and does not bound the telescope, callbacks or
+meta scan globally. The skip argument supplies the field recursion bound.
+
+Do not copy, edit or rebase frozen dependencies under existing basenames:
+HOL needs deduplicates by basename plus digest. Canonical needs are retained;
+the560 needs-only correction and562 proof correction remain separate originals.
+The proposed577 proofs load562 properties, never the unrepaired555 properties.
+No type declarations or copies of frozen dependencies are introduced in577.
+
+All proposed HOL scripts are UNCOMPILED. Handwritten callback fixtures and
+bounded Python models are not native HOL/Rocq, proof preservation, full kernel
+soundness, Lean equivalence, current binary evidence or Arena verdicts.

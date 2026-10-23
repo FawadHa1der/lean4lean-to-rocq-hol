@@ -1,0 +1,40 @@
+{
+  "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "definition": "tests/mathlib.yaml",
+  "definition_sha256": "d3850d4b0b19a9b55184e7a66a71d333a3fa8fff0027516ab1291d9679733566",
+  "module": "Mathlib",
+  "pre_build": "lake exe cache get",
+  "lean_version": "4.34.1",
+  "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+  "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "expected": {
+    "size": 6184415052,
+    "lines": 109790519,
+    "sha256": "22c5de83469408950005589a3bc5ef5157c65549b5a802f85d567c29151306a6"
+  },
+  "toolchain": {
+    "path": "arena/generation/toolchain/lean-4.34.1-darwin_aarch64",
+    "archive": "arena/downloads/lean-4.34.1-darwin_aarch64.tar.zst",
+    "url": "https://github.com/leanprover/lean4/releases/download/v4.34.1/lean-4.34.1-darwin_aarch64.tar.zst",
+    "release_asset_id": 586761729,
+    "size": 562038070,
+    "sha256": "65f22a4f047738ec742667b3247e836a86ebf06eabc12655c3dee00637e37866",
+    "lean_binary_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+    "lake_binary_sha256": "c8c24f1398162ab4004e2a869952d8469f54293651151feaad4526f2b8474c6e"
+  },
+  "dependency_pins": {
+    "lock": "arena/large/cslib/lock.json",
+    "lock_sha256": "db651d4ec80168986acc4d81718df2cebff79731201566de237ab52202d3954f",
+    "names": ["plausible", "LeanSearchClient", "importGraph", "proofwidgets", "aesop", "Qq", "batteries", "Cli"],
+    "archive_directory": "arena/large/cslib/downloads",
+    "policy": "Reuse only exact hash-verified source archives for these matching revisions; never reuse the CSLib Lean 4.34.0 build outputs or cache."
+  },
+  "source": {
+    "url": "https://codeload.github.com/leanprover-community/mathlib4/tar.gz/d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "revision": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "filename": "mathlib-d13f23b723b8a846827a245b89c10fc7d3f11612.tar.gz",
+    "directory": "mathlib4-d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "size": 23846080,
+    "sha256": "a8c019444a1edd6091d8416e492e218a311db340dafbea96c61c6dc358c28f05"
+  }
+}

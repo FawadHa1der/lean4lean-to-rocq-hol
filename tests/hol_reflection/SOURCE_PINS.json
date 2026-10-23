@@ -1,0 +1,147 @@
+{
+  "upstream_commit": "8223d223ed98661882e95d9d6a7126df7097cd76",
+  "upstream_primitive_sha256": "0bafbbd0fffd0e56034b205bfacb9985c908d56d3d4cee4379059777d5f83c2e",
+  "expected_native_rules": 29,
+  "expected_admission_rules": 11,
+  "fixture_files": {
+    "tests/hol_reflection/reflection_fixtures.ml": "32f52b8720c066084d33c16ca3a269e179530eb011165e0610026b18153a31f7",
+    "tests/hol_reflection/reflection_boolean_fixtures.ml": "b3841ab8b33dcf7c982999bd83a310beec6562eda853a1c8467ee27e2ac142ae",
+    "tests/hol_reflection/reflection_nat_fixtures.ml": "c1027cf9b06d6ee4c50b65b63cf43778ade3ce50bda83ae61ccb92218bfe86e6"
+  },
+  "main_required_sources": {
+    "hol/admission.ml": "381ace055f6f974ccfc6c48ccde1d06cb3dbdcd138a1628aa8b2f2e4ecb2bddd",
+    "hol/admission_tests.ml": "2411909fcfc888e84e4f49472f6bb33c027db5f48cd9aa4d4c5f47ed76f60869",
+    "hol/closed_syntax.ml": "2070fc2c7f7c4a3d405616a8b6ba01429381d3dad6ef4720154e26f2885a0775",
+    "hol/core.ml": "fa9f6795a1a6dcc730670fc9b7b1f5115fb72cc78f8454442f297bddae9f1939",
+    "hol/declarations.ml": "0b736d4742dd37456a98d2f86a938f15883b5afabf822d961595a7b1a71391e6",
+    "hol/environment.ml": "1f96cef61048796cbb8bd8e99608c91d3f029fb194d4427c73214ed4a4b94383",
+    "hol/environment_rules.ml": "c00d4479682b957b1f2b95e2de5753c64fcd0efe4a08d82449877ba4e7a63fb6",
+    "hol/environment_tests.ml": "9008f7ef586f17ba9413f2a2546faebe76e5ef0b9a9211818b54e5e759456ac0",
+    "hol/family_entries.ml": "93afdf1b6610180584b7187c28371dce28c4dc5055a2fed13045690afd369684",
+    "hol/family_syntax.ml": "04206f394af21e24fdf4688571e5ad94b10750d32c3d6b42056f56e85556f17e",
+    "hol/family_tests.ml": "871e07b34e88d4917470279d3216dbca9cc55d4a3e39f348c830e644c7707587",
+    "hol/indexed_entries.ml": "f6842b057865c1dbd528219e10135332f7bb87acfe05becdf4db6d0063698d7c",
+    "hol/indexed_syntax.ml": "1db1ebce4c63915625e1df935ba97294ab5492456c395b60689f9e79685604f8",
+    "hol/indexed_tests.ml": "aa796c57d28f2d3694a5bb83382e31553edbb06ffd81cb286e7dfa0b8abf14b3",
+    "hol/inductive_entries.ml": "d1b91bf60059c9064a039d1b4f9444eb76101447920cb0ba1ba69502e5216cc1",
+    "hol/inductive_model.ml": "c4bb409be4de17c630b8ad50a8532875ff0a42ec3b4d0a3ad5a0ace7b93d9e5e",
+    "hol/inductive_syntax.ml": "13bf3c89fed512825fad3d85cde2a9a6c20aec0c60a8c7dc0c64d5ceb367492c",
+    "hol/inductive_tests.ml": "d84eab3c9511d4280a7478229cc6ea63a07a816cc265298422a82cad0dff906f",
+    "hol/instantiation_certificates.ml": "299b427c05c0a552f93da0c3d02f9b4f48ceb6c0419b1ba2b0dec45f7544fb11",
+    "hol/judgments.ml": "2bfb3dab469e1fbdbc0fc3815405260a1a9ef8798c34ab340666bd8171442de9",
+    "hol/mutual_admission.ml": "138a4e18918725de859b870bed3d9b6a28f50a567bdd31fcdace137dbf144939",
+    "hol/mutual_boundary_tests.ml": "0a12529ce4e2d65f85cdde9c07266307e624c8bd11401c16a220e4f5de3cadaa",
+    "hol/mutual_certificates.ml": "74aa0cdc6929e55222877a0ca8a729c5ffcc5255714f96ad12846bb2befe67c0",
+    "hol/mutual_entries.ml": "38de3155e5e8817298b8420f8c3b29ebecf0a1adbe338a021c60b0a2305f846d",
+    "hol/mutual_syntax.ml": "c21f7634679ee7caa7b0127005f07a7441ad11d0f67ddb6868a3ba18787baa52",
+    "hol/mutual_tests.ml": "d957717dd823aa12d3bdf33fb21bf978d5917b106458092b45e412777e64430b",
+    "hol/nat_literal_tests.ml": "c39e2480859b287780942478e16b46bd1007ee5fb1e0771b435794781fd196fe",
+    "hol/nested_names.ml": "2dad09d04cf6ed894244e19e78f5c8ae9d00bcf714064991daefe4873e0d02da",
+    "hol/primitive_admission_tests.ml": "3e2f584d23d74c8939fef0d07d5af85bffda1634b2bb250b43f0a8da39c1ee47",
+    "hol/primitive_contract_tests.ml": "7243bd69f415ee112c1ba22e973d3e0c62fc0192cd434a4bc9cb7ec8dbc1d85d",
+    "hol/primitive_contracts.ml": "a58bcf52f227bb3af1b3737a9ed443b98c750cb6d77efd1b1dc3f5678b1db5e2",
+    "hol/primitive_names.ml": "d8c7b446b0dfcfc5b5de71579d80e6102bc89b7d10bb3be07ddba04b0ab8dc3f",
+    "hol/primitive_validation.ml": "a7e93ec86303d9d71c7095f490437720c13bc28323c817366068a94f65346765",
+    "hol/projection_core_tests.ml": "7acdce7e3cc596e2ef0babe93b7ed0d1152e4c7adc7ac7b1ac472f1aea7548aa",
+    "hol/projection_entries.ml": "c03a5bbda56e20e6bba5cad927ba473a7c0ecb6822575413560962ab17db99c5",
+    "hol/projection_syntax.ml": "b30de64e43ca71a4d93317d1346212fb5ade3daff874e3a99a9fc0165c46807c",
+    "hol/projection_tests.ml": "62a096be1a17a6a7a72f287b22a49a0c397dbd5f8dbcfb76897e31c98efffe17",
+    "hol/quotient_entries.ml": "8718f55592fd4062e4c98a463d9051ccec761dfc1928685da2e008e1ce08beda",
+    "hol/quotient_model.ml": "a885f08f047bcf5cae5d1579d27edb5d284acf404a8394c43651f8196124992c",
+    "hol/quotient_syntax.ml": "efe53e0a41fab434931d5ffc860ca38f5ed95d56e8c40653e797655826cde40e",
+    "hol/quotient_syntax_tests.ml": "117248d5e75e933b81ec5beeacad6132b6bda13540a94d46ba7d5e9d1575570e",
+    "hol/quotient_tests.ml": "d8b740fb4b6130ede9e96fb57c9a2e5f7e31c928395cf4aadff7d0d21ec9f1ca",
+    "hol/raw_ctor_admission.ml": "fd9ea4ceeeda0ccb718e022b2350adfd0c6adc0f875b9a6f3ee931e1c43a7688",
+    "hol/raw_ctor_syntax.ml": "f8d1d4d9004bf345402f329d45b7bdf71032d98180321bb9c2be423702bf47f1",
+    "hol/reducible_bridge.ml": "2bf99519f726fdcdfa7f4694b3995098e1d53753e31d9b3d227864d8ac78a6f6",
+    "hol/reflexive_certificates.ml": "8ff7f19fdd9fcc0af347009f82987adab0071f7aa5dd1c00bf3610bfb312d68c",
+    "hol/reflexive_tests.ml": "160eb0d8f7b112ca881cbdf1f9015ea2fe3e4ab889f2c047dc2bb7983338964d",
+    "hol/rule_specialization_tests.ml": "711eda3a3c6e8f0ea2637b4bfacd4367a34a09836b01ccf7daf58f76df371a6c",
+    "hol/string_literal_tests.ml": "1c6ae6ee49204ec374bb1fda82809c1c06bdcb48991246f330ff2bcd70011db4",
+    "hol/string_quotient_tests.ml": "18b6a35fc6a2e1b2ae908618eac21ce602a9b24be57992d4fad6c9ed24b4d398",
+    "hol/string_syntax.ml": "de5195b1bffbf9a1a378a908fb148a6fc6990777eb200df5632b4e381f10a908",
+    "hol/string_syntax_tests.ml": "e0da0a008902a85955a7b25f00f9c9730efff103fe1b453e44eb81a327c5b01a",
+    "hol/structure_major.ml": "dae1e179fda68b95271d81c725bafe438e561d70f9bd03232110b53fa06e27a3",
+    "hol/structure_major_tests.ml": "06d1a168059a984d7cfcb57dd887b0d1606448150ea7983072acbfe168a5f0bf",
+    "hol/structure_string_tests.ml": "0866ad802cbfda6524b99932950cee52f8f34e85ba5006ebd2f86ccc4f01f8aa",
+    "hol/structure_tests.ml": "33a31e651e37729de79b4ae9b7f9d7a61637a41245ad52d6dfd0d724c10ad677",
+    "hol/syntax.ml": "d3d6f321f370be060f5375c824fccf7fca8d79bf10795faabc23899eb0a3b102",
+    "hol/tests.ml": "53edceacce44952c242c443820a483ed050c81b123d05d2da997cd0215086d03",
+    "hol/text_contracts.ml": "3961973d27a1fce31b8adedd828519e24984eab267dc207803fde998f522f3af",
+    "hol/text_tests.ml": "c934ea9b490a9fdc917d91b26a729b2abea0a0a090127e4f47878832dc8547d1",
+    "hol/text_validation.ml": "7090b37dd716bd1e528417cec8d694fef1a6aaf996188a1c7157753f7daed7ae",
+    "hol/validation_tests.ml": "5692b15f84565d803825fac7336649d0c9628b2a2dd5fe589be1245d230096f3",
+    "hol/NOTICE": "71c0c9d8cc319e87397fd71ee8dee5d55d1edcf8a00293e5193e364472916755",
+    "scripts/toolchain-exec.sh": "191838b8ed370f22f78fa5d4fceb201d28bf9a70c8548221ba412d0a19e93a73",
+    "scripts/toolchain-env.sh": "c90d8435281a76aeb1cd10295dd3cd969365d700725a9fe136e87815d56fc903"
+  },
+  "reviewed_origins": {
+    "hol/condition_contracts.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "550ea91017f85f8a464ec4e96f8393994a36bf59247c6ef2751fea90d2324b3a"
+    },
+    "hol/condition_validation.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "de595a41e520bbd547d19959a4ca1395089534d5e70fcc9bda691b44145dfac3"
+    },
+    "hol/reflection_syntax.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "e5a5b17268c59208d9e961cc36a7dfcd4dee12d6f78a3d209f876028df772c52"
+    },
+    "hol/reflection_contracts.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "135d95959ff406a3d838568d7e6db7bdb43c60de53ea6b8a462befb327cd2c69"
+    },
+    "hol/reflection_validation.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "53b00b43fb3f684a47994d00e0871fdef9cc91b90b83d25ff482ce8012f22f21"
+    },
+    "hol/reflected_condition.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "4ad070e9c44c1ce088e0c7686c8c63a093596600cff2b93452da277e26d4ba1e"
+    },
+    "hol/nat_instantiation.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "6637d767c24dc9910f0371369e5a5e26a1ef4faa6d52d405eb9fc379922f3441"
+    },
+    "tests/hol_reflection/reflection_fixtures.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "32f52b8720c066084d33c16ca3a269e179530eb011165e0610026b18153a31f7"
+    },
+    "tests/hol_reflection/reflection_boolean_fixtures.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "1244114f88beb7e9358f1c0052e964e07b3509837c5cdf0a4240310e11fd1ac5"
+    },
+    "tests/hol_reflection/reflection_nat_fixtures.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "7bc54222bbcada259fcec4536fd4bec3909b355fedafc1c92d4c9ecf50f4b438"
+    },
+    "tests/hol_reflection/composed_tests.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "c1b89b19bb06db640b1d4c12836b538363d946b50f6481c73658350fbb401eea"
+    },
+    "tests/hol_reflection/nat_condition_tests.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "af18eacae3110f7799580456112fba2aa73583401046b4245b45f3ed94e87741"
+    },
+    "tests/hol_reflection/nat_instantiation_tests.ml": {
+      "checkpoint": "hol-nat-instantiated-20260930",
+      "sha256": "0d7b4220457d2f6fd5b2d378d80e3a8707ed05df7c003ea6d81c9a9fff4c2cd9"
+    }
+  },
+  "allowed_transformations": {
+    "hol/condition_contracts.ml": "byte-identical reviewed library",
+    "hol/condition_validation.ml": "byte-identical reviewed library",
+    "hol/reflection_syntax.ml": "byte-identical reviewed library",
+    "hol/reflection_contracts.ml": "byte-identical reviewed library",
+    "hol/reflection_validation.ml": "byte-identical reviewed library",
+    "hol/reflected_condition.ml": "byte-identical reviewed library",
+    "hol/nat_instantiation.ml": "fixture-free import/alias and copyright header only",
+    "tests/hol_reflection/reflection_fixtures.ml": "needs paths and exact 27/9 -> 28/10 test counters only",
+    "tests/hol_reflection/reflection_boolean_fixtures.ml": "needs paths and exact 27/9 -> 28/10 test counters only",
+    "tests/hol_reflection/reflection_nat_fixtures.ml": "needs paths and exact 27/9 -> 28/10 test counters only",
+    "tests/hol_reflection/composed_tests.ml": "needs paths and exact 27/9 -> 28/10 test counters only",
+    "tests/hol_reflection/nat_condition_tests.ml": "needs paths and exact 27/9 -> 28/10 test counters only",
+    "tests/hol_reflection/nat_instantiation_tests.ml": "needs paths and exact 27/9 -> 28/10 test counters only"
+  }
+}

@@ -1,0 +1,24 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+Changed reader-only adaptation of the local frontend/wire.ml143-271 from
+ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light. Exact bytes are pinned in
+INPUTS641.sha256. New source retains genuine Wire datatypes/helper identities;
+only the reader validation hook is replaced with Full_input610.preflight_record
+on the same parsed Yojson value, plus a sealed module wrapper and lexer bracket.
+The fixture drafts and contract are new local source-only work.
+
+The local project adapts Lean4Lean by Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean, reference revision
+8223d223ed98661882e95d9d6a7126df7097cd76, distributed under Apache License2.0.
+These upstream references are preserved from the existing local610 provenance;
+641 does not claim a new upstream fetch, audit or compatibility proof.
+Wire's header identifies leanprover/lean4export format_ndjson.md version3.1.0.
+Only pinned local sources were inspected; no independent upstream schema
+verification was performed in this task.
+
+Full_input610 is imported, not copied into the reader. Its NOTICE610.txt is
+preserved verbatim as DEPENDENCY_NOTICE610.txt. The included LICENSE is the
+byte-identical local vendor/lean4lean/LICENSE and610/LICENSE (Apache2.0).
+No ROOT source or prior package is modified. No duplicate Wire datatypes,
+logical verdict oracle, new axiom, native/ABI admission or runtime limit change.
+All implementation/fixture source is UNCOMPILED / UNEXECUTED.

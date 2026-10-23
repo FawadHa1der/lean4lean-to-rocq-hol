@@ -1,0 +1,2626 @@
+{
+  "baselines": [
+    {
+      "derivation": "exact pinned bytes",
+      "family": "empty",
+      "id": "tutorial/036_empty",
+      "path": "baselines/empty.ndjson",
+      "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "size": 1228,
+      "source_id": "tutorial/036_empty",
+      "source_path": "corpus/tutorial/036_empty.ndjson",
+      "source_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+    },
+    {
+      "derivation": "exact pinned bytes",
+      "family": "singleton",
+      "id": "tutorial/042_pUnitType",
+      "path": "baselines/singleton.ndjson",
+      "sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "size": 1843,
+      "source_id": "tutorial/042_pUnitType",
+      "source_path": "corpus/tutorial/042_pUnitType.ndjson",
+      "source_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248"
+    },
+    {
+      "derivation": "exact pinned bytes",
+      "family": "enum",
+      "id": "tutorial/037_boolType",
+      "path": "baselines/enum.ndjson",
+      "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "size": 2377,
+      "source_id": "tutorial/037_boolType",
+      "source_path": "corpus/tutorial/037_boolType.ndjson",
+      "source_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"
+    },
+    {
+      "derivation": "Empty plus Box.mk : Empty -> Box, dependent recursor; v1",
+      "family": "field",
+      "id": "derived/closed-field",
+      "path": "baselines/field.ndjson",
+      "sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "size": 3014,
+      "source_id": "tutorial/036_empty",
+      "source_path": "corpus/tutorial/036_empty.ndjson",
+      "source_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+    }
+  ],
+  "cases": [
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Nat",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/type-as-nat",
+      "path": "cases/empty/type-as-nat.ndjson",
+      "rationale": "A coherent rename does not make this constructor/universe shape canonical for Nat.",
+      "renames": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "ee7cfba6fae5cd618db2b3e9a62778e4d049a3b153045d65f99dc3b2cac817fc",
+      "size": 1226,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Bool"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Bool",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/type-as-bool",
+      "path": "cases/empty/type-as-bool.ndjson",
+      "rationale": "A coherent rename does not make this constructor/universe shape canonical for Bool.",
+      "renames": [
+        {
+          "after": [
+            "Bool"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "2bc8f5d4f43958552b01ccd9fccfb1fd6d86e5dc29a6dbab589ee661af634bb8",
+      "size": 1227,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "Empty"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "Empty",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "ordinary-renaming",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-ordinary-type",
+      "path": "cases/empty/control-ordinary-type.ndjson",
+      "rationale": "Consistently rename the entire family to an ordinary fresh structural name.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "Empty"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "c692941b370cacbd4454bb4f7aeae6546679216fb3e41dfb112a394a8ed7636c",
+      "size": 1270,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:142",
+        "Lean4Lean/Inductive/Add.lean:237"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat",
+            "add"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Nat",
+            "add",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/type-as-nat-add",
+      "path": "cases/empty/type-as-nat-add.ndjson",
+      "rationale": "An empty datatype cannot occupy the reserved primitive operation name Nat.add.",
+      "renames": [
+        {
+          "after": [
+            "Nat",
+            "add"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "f95c41b6908f7482ab481d3decef34ec010d85c8ebbf2d58ad945d710ce6abe6",
+      "size": 1263,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-empty-nested-root",
+      "path": "cases/empty/control-empty-nested-root.ndjson",
+      "rationale": "There are no constructors, so the upstream constructor-expression prefix check is vacuous.",
+      "renames": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "bcad1595a689f1db4cf9f2a5381457afb87cc4f7527fdb75154c769899a1e0f5",
+      "size": 1230,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-empty-nested-child",
+      "path": "cases/empty/control-empty-nested-child.ndjson",
+      "rationale": "There are no constructors, so the upstream constructor-expression prefix check is vacuous.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "f24c70e7bb263e148a3e4f5de9a9f95146bea5a3f65bb8e0f022cfb201e51cc3",
+      "size": 1265,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-empty-nested-deep",
+      "path": "cases/empty/control-empty-nested-deep.ndjson",
+      "rationale": "There are no constructors, so the upstream constructor-expression prefix check is vacuous.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "ded02b2625c3a2d44c623a16b740eb78ebb34ed566cae3f53e5f3b421b20d3df",
+      "size": 1303,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested.T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-dotted-nested",
+      "path": "cases/empty/control-dotted-nested.ndjson",
+      "rationale": "One string component containing a dot is not the corresponding hierarchical name.",
+      "renames": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "c501b6e334be90cc6077e9c4f2ad04f43896b2f3e62cd0c4a6a88ee12c7806a8",
+      "size": 1232,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat.add"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Nat.add",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "tutorial/036_empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-dotted-primitive",
+      "path": "cases/empty/control-dotted-primitive.ndjson",
+      "rationale": "One string component containing a dot is not the corresponding hierarchical name.",
+      "renames": [
+        {
+          "after": [
+            "Nat.add"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "5ad314d6fa2158a3aacef70ed0b7d7c0514460868b7ca5a2ee8284a67b853cde",
+      "size": 1230,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Nat",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Nat",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/type-as-nat",
+      "path": "cases/singleton/type-as-nat.ndjson",
+      "rationale": "A coherent rename does not make this constructor/universe shape canonical for Nat.",
+      "renames": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "40d3cc8796ca6f0442c6ecfdda0ff34ef2ee001fa3b003012fd0dcf16b843356",
+      "size": 1841,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Bool"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Bool",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Bool",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/type-as-bool",
+      "path": "cases/singleton/type-as-bool.ndjson",
+      "rationale": "A coherent rename does not make this constructor/universe shape canonical for Bool.",
+      "renames": [
+        {
+          "after": [
+            "Bool"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "204dcdcf1967843e0dad0ac2240973d2d5ae5ff968413b3fe6ec64ac0b65d312",
+      "size": 1842,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "Singleton"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "Singleton",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Coherent",
+            "Singleton",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "ordinary-renaming",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ordinary-type",
+      "path": "cases/singleton/control-ordinary-type.ndjson",
+      "rationale": "Consistently rename the entire family to an ordinary fresh structural name.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "Singleton"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "0ee4d9ca1c119310c367aa6dcad71234d6879843825f6423f77326f4708114af",
+      "size": 1891,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:142",
+        "Lean4Lean/Inductive/Add.lean:237"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/nested-root",
+      "path": "cases/singleton/nested-root.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "ac1bf6072f3aa43365c2bbd9517b64dcab10d300bbb54618dd53c4be5f9bde67",
+      "size": 1845,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/nested-child",
+      "path": "cases/singleton/nested-child.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "fbab87e53c96c5513f034dc645fedf07e3117ac799ddd21035df8ae28d4e3782",
+      "size": 1882,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/nested-deep",
+      "path": "cases/singleton/nested-deep.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "313397af4c38acabd76b4ded5b6feea86dd7ce4aa71a92e362214dec563b091d",
+      "size": 1922,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested.T",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested.T",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-nested-dotted",
+      "path": "cases/singleton/control-nested-dotted.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "d2e3d3e92029ff368740a377d2e4a0b9ab2a0b26e89e11e55f510ae8c8dd8394",
+      "size": 1847,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-nested-nonroot",
+      "path": "cases/singleton/control-nested-nonroot.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "d1bc55d4aabd601e80c605963b8f63a708034510c3f5ceeca124017c8bf4fce5",
+      "size": 1926,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "unit"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "PUnit",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-nested-near-prefix",
+      "path": "cases/singleton/control-nested-near-prefix.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "PUnit"
+          ]
+        }
+      ],
+      "sha256": "cd898601f318d7d3fe90bbd196f6484385dfdf844ddd31ad12816c2dae483514",
+      "size": 1888,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat",
+            "add"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-nat-add",
+      "path": "cases/singleton/ctor-as-nat-add.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Nat",
+            "add"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "cbccd53c4d98cc34357988f055de2e34b056699c381ffe087558285c73eae34f",
+      "size": 1881,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat",
+            "zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-nat-zero",
+      "path": "cases/singleton/ctor-as-nat-zero.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Nat",
+            "zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "78299019535ecd1c48725fa81a37e3fc9ed59f06c505058be60b0fc41bbfe5d7",
+      "size": 1882,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat",
+            "succ"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-nat-succ",
+      "path": "cases/singleton/ctor-as-nat-succ.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Nat",
+            "succ"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "50a289b90b2212edf898bbde599f4bd6f1dba5521fc56f50866d09d90ee100d2",
+      "size": 1882,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Bool",
+            "false"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-bool-false",
+      "path": "cases/singleton/ctor-as-bool-false.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Bool",
+            "false"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "8d4426ac888a6a73a39fa344ad7df79b756384837ff773cf88829083718972d2",
+      "size": 1884,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Bool",
+            "true"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-bool-true",
+      "path": "cases/singleton/ctor-as-bool-true.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Bool",
+            "true"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "c4234b88a80ff295c233be5d5a1dc657a58288c79255444a7563cc02ea01ff43",
+      "size": 1883,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "String",
+            "ofList"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-string-oflist",
+      "path": "cases/singleton/ctor-as-string-oflist.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "String",
+            "ofList"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "69fd70db40cd76da708cb26457df4ce34388fb503e542d58e2a82e379e6b4404",
+      "size": 1887,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Char",
+            "ofNat"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "reject",
+      "family": "singleton",
+      "id": "singleton/ctor-as-char-ofnat",
+      "path": "cases/singleton/ctor-as-char-ofnat.ndjson",
+      "rationale": "All references and rules follow this constructor rename, but an unrelated constructor cannot use an upstream reserved primitive name.",
+      "renames": [
+        {
+          "after": [
+            "Char",
+            "ofNat"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "748db12ad2ba305279ca7851b4625f87d0a46b4fc280625443767589b9868225",
+      "size": 1884,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat.add"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ctor-dotted-add",
+      "path": "cases/singleton/control-ctor-dotted-add.ndjson",
+      "rationale": "This constructor name is not a protected primitive. The _nested guard traverses constructor types, not the constructor name or generated recursor expressions.",
+      "renames": [
+        {
+          "after": [
+            "Nat.add"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "e36a741afa86f35cfd3e8d2b9a466cff49426839538a26dcf28e63cd2a868c2b",
+      "size": 1846,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat.zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ctor-dotted-zero",
+      "path": "cases/singleton/control-ctor-dotted-zero.ndjson",
+      "rationale": "This constructor name is not a protected primitive. The _nested guard traverses constructor types, not the constructor name or generated recursor expressions.",
+      "renames": [
+        {
+          "after": [
+            "Nat.zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "5b5f91f8dcabd1dbbf493ccdac4d76c50a552b08e71c9b96c20f665bff56ec52",
+      "size": 1847,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat",
+            "custom"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ctor-nat-child",
+      "path": "cases/singleton/control-ctor-nat-child.ndjson",
+      "rationale": "This constructor name is not a protected primitive. The _nested guard traverses constructor types, not the constructor name or generated recursor expressions.",
+      "renames": [
+        {
+          "after": [
+            "Nat",
+            "custom"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "ba5f3826c5055d4b816bf9c7106b35491a5b3f8d8cfd76bb8eff71f39e67b627",
+      "size": 1884,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "mk"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ctor-nested",
+      "path": "cases/singleton/control-ctor-nested.ndjson",
+      "rationale": "This constructor name is not a protected primitive. The _nested guard traverses constructor types, not the constructor name or generated recursor expressions.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "mk"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "082c096180dedfb28b2c7dddbb5664e7b27151cbce4674e440a654e3f0804b36",
+      "size": 1884,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "User",
+            "Nat",
+            "zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/042_pUnitType",
+      "baseline_sha256": "29f904a27e80054d1667118acdfc3595d238a45376062117d5e9eee136608248",
+      "dimension": "reserved-name",
+      "expected": "accept",
+      "family": "singleton",
+      "id": "singleton/control-ctor-nonroot-primitive",
+      "path": "cases/singleton/control-ctor-nonroot-primitive.ndjson",
+      "rationale": "This constructor name is not a protected primitive. The _nested guard traverses constructor types, not the constructor name or generated recursor expressions.",
+      "renames": [
+        {
+          "after": [
+            "User",
+            "Nat",
+            "zero"
+          ],
+          "before": [
+            "PUnit",
+            "unit"
+          ]
+        }
+      ],
+      "sha256": "854460f4638f92aa5a92ede63fe69f922e0dcb75b075f442387aa9ef9e72eb9f",
+      "size": 1922,
+      "upstream_evidence": [
+        "Lean4Lean/Environment/Basic.lean:34",
+        "Lean4Lean/Inductive/Add.lean:246"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Nat",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "Nat",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Nat",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "enum",
+      "id": "enum/type-as-nat",
+      "path": "cases/enum/type-as-nat.ndjson",
+      "rationale": "A coherent rename does not make this constructor/universe shape canonical for Nat.",
+      "renames": [
+        {
+          "after": [
+            "Nat"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "2d68ce3d7012573d334ce5d8e046bd563cc5c3f8ae61961e65c1e62d49e4ec7c",
+      "size": 2376,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "Enum"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "Enum",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "Coherent",
+            "Enum",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Coherent",
+            "Enum",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "ordinary-renaming",
+      "expected": "accept",
+      "family": "enum",
+      "id": "enum/control-ordinary-type",
+      "path": "cases/enum/control-ordinary-type.ndjson",
+      "rationale": "Consistently rename the entire family to an ordinary fresh structural name.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "Enum"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "749b3cc34a045ed4386e8b4db04b6d7b260b51e32b4de64e85985611e603f927",
+      "size": 2421,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:142",
+        "Lean4Lean/Inductive/Add.lean:237"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "_nested",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "enum",
+      "id": "enum/nested-root",
+      "path": "cases/enum/nested-root.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "02229c82340cb027090a8868709e034339c5346f00ab525f2a9c90eec40f5c96",
+      "size": 2380,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "enum",
+      "id": "enum/nested-child",
+      "path": "cases/enum/nested-child.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "463d0a125227a5a48fbfa3d15cf60d748b12bee1775361439b95043756ea6e27",
+      "size": 2417,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "enum",
+      "id": "enum/nested-deep",
+      "path": "cases/enum/nested-deep.ndjson",
+      "rationale": "Constructor result types now contain a constant with the structural _nested prefix.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "5ba8830e4f86d5e5a4525067ceb934d3b9b747eb40ed95fc9853e2e4a0c6bbba",
+      "size": 2457,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested.T",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "_nested.T",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nested.T",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "enum",
+      "id": "enum/control-nested-dotted",
+      "path": "cases/enum/control-nested-dotted.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "826e8043dbfcd5e8847c6f4f3632bf9590bab983d1d2980fab32fbf9d2aede3d",
+      "size": 2382,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "enum",
+      "id": "enum/control-nested-nonroot",
+      "path": "cases/enum/control-nested-nonroot.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "26e93372fb4e58ab176daac053a6bf25f8f089be3f2f4cfb2931e629eeb41f3a",
+      "size": 2461,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Bool",
+            "rec"
+          ],
+          "name_id": 4
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "enum",
+      "id": "enum/control-nested-near-prefix",
+      "path": "cases/enum/control-nested-near-prefix.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "Bool"
+          ]
+        }
+      ],
+      "sha256": "ccb4f8942f23de97ec740c382b69760e52f460e6b26550ac0c15840b623563fc",
+      "size": 2423,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Bool",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ],
+          "name_id": 2
+        },
+        {
+          "after": [
+            "Bool",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ],
+          "name_id": 3
+        }
+      ],
+      "baseline_id": "tutorial/037_boolType",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "primitive-shape",
+      "expected": "reject",
+      "family": "enum",
+      "id": "enum/swap-bool-constructor-names",
+      "path": "cases/enum/swap-bool-constructor-names.ndjson",
+      "rationale": "Swap names and all shared references coherently; Bool still requires false then true.",
+      "renames": [
+        {
+          "after": [
+            "Bool",
+            "true"
+          ],
+          "before": [
+            "Bool",
+            "false"
+          ]
+        },
+        {
+          "after": [
+            "Bool",
+            "false"
+          ],
+          "before": [
+            "Bool",
+            "true"
+          ]
+        }
+      ],
+      "sha256": "cb229ffaf2dc0fcca4582e96d9851e5bb538d97b6a00d072b08d762ec8954752",
+      "size": 2457,
+      "upstream_evidence": [
+        "Lean4Lean/Primitive.lean:584",
+        "Lean4Lean/Environment.lean:127"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "field",
+      "id": "field/nested-root",
+      "path": "cases/field/nested-root.ndjson",
+      "rationale": "Only the empty dependency is renamed; the later Box constructor field now refers to a reserved-prefix constant. The dependency itself has no constructors.",
+      "renames": [
+        {
+          "after": [
+            "_nested"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "4ab482db517e9cfdd4342fe80cc56de0cc21208fcda5aae79605c037368c65d3",
+      "size": 3016,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "field",
+      "id": "field/nested-child",
+      "path": "cases/field/nested-child.ndjson",
+      "rationale": "Only the empty dependency is renamed; the later Box constructor field now refers to a reserved-prefix constant. The dependency itself has no constructors.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "4407f3e1c0b59da244ff7ff20fcd727169b33ec4e1e30d0ccdb6588f0db4b246",
+      "size": 3053,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "reject",
+      "family": "field",
+      "id": "field/nested-deep",
+      "path": "cases/field/nested-deep.ndjson",
+      "rationale": "Only the empty dependency is renamed; the later Box constructor field now refers to a reserved-prefix constant. The dependency itself has no constructors.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "Deep",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "c095a5092b0f7c7e61e57c9265cba8c974904b2b947f290f817b9771a94d89fa",
+      "size": 3093,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nested.T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "field",
+      "id": "field/control-nested-dotted",
+      "path": "cases/field/control-nested-dotted.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nested.T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "deff25649f562a3b560604145cc12233a78754e012b1668c3a1affe5f43cba86",
+      "size": 3018,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "field",
+      "id": "field/control-nested-nonroot",
+      "path": "cases/field/control-nested-nonroot.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "_nested",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "5878f5892fd05d9e032d95bed098c1af2696fb466a9d9b77662f795e6b4a71d3",
+      "size": 3097,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "_nestedSuffix",
+            "T",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "field",
+      "id": "field/control-nested-near-prefix",
+      "path": "cases/field/control-nested-near-prefix.ndjson",
+      "rationale": "The structural name does not have root component _nested; textual matching would be wrong.",
+      "renames": [
+        {
+          "after": [
+            "_nestedSuffix",
+            "T"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "068d1e257be8cd8ba6680af397dc1cfb7393b5dd6e4c42615d7fb015e3119e74",
+      "size": 3059,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "Coherent",
+            "Payload"
+          ],
+          "before": [
+            "Empty"
+          ],
+          "name_id": 1
+        },
+        {
+          "after": [
+            "Coherent",
+            "Payload",
+            "rec"
+          ],
+          "before": [
+            "Empty",
+            "rec"
+          ],
+          "name_id": 2
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "ordinary-renaming",
+      "expected": "accept",
+      "family": "field",
+      "id": "field/control-field-ordinary",
+      "path": "cases/field/control-field-ordinary.ndjson",
+      "rationale": "Rename the empty dependency consistently through the later constructor field and recursor.",
+      "renames": [
+        {
+          "after": [
+            "Coherent",
+            "Payload"
+          ],
+          "before": [
+            "Empty"
+          ]
+        }
+      ],
+      "sha256": "5a478f583b75ef9c9d4fd8c046b2074272f2590c25eff9d5a162fa2eb884bb9a",
+      "size": 3060,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:142",
+        "Lean4Lean/Inductive/Add.lean:237"
+      ]
+    },
+    {
+      "affected_names": [
+        {
+          "after": [
+            "_nested",
+            "mk"
+          ],
+          "before": [
+            "Coherent",
+            "Box",
+            "mk"
+          ],
+          "name_id": 9
+        }
+      ],
+      "baseline_id": "derived/closed-field",
+      "baseline_sha256": "6b9c939b0eb8521d5e49fde63dafe038eed6d600f46eddeb7ee334222d5f7414",
+      "dimension": "nested-expression",
+      "expected": "accept",
+      "family": "field",
+      "id": "field/control-ctor-name-only",
+      "path": "cases/field/control-ctor-name-only.ndjson",
+      "rationale": "A prefixed constructor name is allowed when its type has no prefixed Const or Proj owner.",
+      "renames": [
+        {
+          "after": [
+            "_nested",
+            "mk"
+          ],
+          "before": [
+            "Coherent",
+            "Box",
+            "mk"
+          ]
+        }
+      ],
+      "sha256": "3ccdb95d29f6a0c8a9193885c074ea7c852f404a88d80e4ab10c0eb03528e0a1",
+      "size": 3057,
+      "upstream_evidence": [
+        "Lean4Lean/Inductive/Add.lean:726",
+        "Lean4Lean/Inductive/Add.lean:736"
+      ]
+    }
+  ],
+  "source_manifest_sha256_at_pinning": "985cadef081276d8796bc7ee113a47b1f0b2de994f0892dd6027b1f821a52f30",
+  "source_pins_sha256": "6ea612b2862c2f4b783cdb5753f6e745aef6d877fc57736b8f33e3a45b623745",
+  "suite": "coherent-declaration-names-v1",
+  "suite_version": 1,
+  "upstream_files": [
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Environment/Basic.lean",
+      "sha256": "549c16d924d7840858935da71e60169ea3990cf484187e11a2382c39d89e7620"
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Primitive.lean",
+      "sha256": "0bafbbd0fffd0e56034b205bfacb9985c908d56d3d4cee4379059777d5f83c2e"
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean",
+      "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382"
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Environment.lean",
+      "sha256": "201783fa73cf40ef5959da18554fe9fe22f1ee65bbf5c3e181ae5ca71c92d331"
+    }
+  ],
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76"
+}

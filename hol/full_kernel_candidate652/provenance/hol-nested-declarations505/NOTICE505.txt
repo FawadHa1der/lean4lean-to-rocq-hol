@@ -1,0 +1,46 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light implementation of six local Rocq nested declaration helpers:
+rocq/NestedAdmission.v:160-224, using full493 declaration/metadata records and
+499 expression/type restoration. The immediate semantic reference is pinned
+local Rocq source, not a claimed formal equivalence with upstream Lean4Lean.
+The repository Apache-2.0 LICENSE is included unmodified.
+
+All definitions and 22 proof/regression scripts are SOURCE ONLY / UNCOMPILED.
+These helpers rebuild declarations; they do not implement checked admission,
+decimal-indexed recursor naming, a complete kernel, or an external oracle.
+The finite handwritten Python model is not HOL execution or Rocq extraction.
+It explicitly reuses the inspected, pinned handwritten model499.py for existing
+restoration behavior, so it is not an independent equivalence implementation.
+
+Name components use num lists in HOL and text in the handwritten model.
+The inherited447 syntax erases metadata payloads while retaining wrappers.
+Wire/encoding fidelity, caller invariants, runtime loading, proof checking and
+full Lean compatibility remain separate obligations. Held temporary needs
+paths are not a selected/default integration or a complete runtime manifest.
+
+----- Unmodified local source attribution: ROOT/rocq/NOTICE -----
+Lean4Lean Gallina dependent-function core port
+
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Commit 8223d223ed98661882e95d9d6a7126df7097cd76
+  Author: Mario Carneiro and Lean4Lean contributors
+  Lean4Lean/Level.lean, TypeChecker.lean, LocalContext.lean,
+  Instantiate.lean, Expr.lean, Declaration.lean, Inductive/Reduce.lean,
+  Quot.lean and Primitive.lean (operation/signature reference).
+These files have no individual copyright header in the pinned snapshot;
+the repository's Apache-2.0 LICENSE is included here unmodified.
+
+This is a changed Gallina reimplementation: structural syntax, list-backed
+guarded universe sublevels, de Bruijn local contexts, fuel-explicit pure
+checking, no pointer caches or native substitutions, explicit declines.
+The upstream verification assumptions and unfinished proofs are not imported.
+
+The universe algorithm follows Yoan Geran, "A Canonical Form for Universe
+Levels in Impredicative Type Theory", as implemented and attributed in
+Lean4Lean/Level.lean. No claim of complete formal verification is made.

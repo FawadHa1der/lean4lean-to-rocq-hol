@@ -1,0 +1,13 @@
+needs "hol/private_boot.ml";;
+let compose_history_axioms_before = private_axioms;;
+let compose_mp = MP;;
+let compose_specl = SPECL;;
+let compose_spec = SPEC;;
+let compose_eq_mp = EQ_MP;;
+let compose_conjunct1 = CONJUNCT1;;
+let compose_conjuncts = CONJUNCTS;;
+unset_jrh_lexer;;
+needs "frontend/hol_check.ml";;
+needs "indexed_history_tests.ml";;
+Compose_history.run (Sys.getenv "HOL_HISTORY_GROUP");;
+exit 0;;

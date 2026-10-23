@@ -1,0 +1,107 @@
+{
+  "artifacts": [
+    {
+      "directory": "cslib-990e65a685bed413f43b139db900a36ad5322a10",
+      "filename": "cslib-990e65a685bed413f43b139db900a36ad5322a10.tar.gz",
+      "name": "cslib",
+      "revision": "990e65a685bed413f43b139db900a36ad5322a10",
+      "sha256": "7684eb8862773926eba8deebf1f62118ed50c273a31ea0213cb9e5d962defff6",
+      "size": 407567,
+      "url": "https://codeload.github.com/leanprover/cslib/tar.gz/990e65a685bed413f43b139db900a36ad5322a10"
+    },
+    {
+      "directory": "mathlib4-5ed2965256430c3649e86755f9576b54eca72435",
+      "filename": "mathlib-5ed2965256430c3649e86755f9576b54eca72435.tar.gz",
+      "name": "mathlib",
+      "revision": "5ed2965256430c3649e86755f9576b54eca72435",
+      "sha256": "bc6a431203374e261223926aaacf7443a5567abd7181dbc35bea9de2acf598f5",
+      "size": 23846870,
+      "url": "https://codeload.github.com/leanprover-community/mathlib4/tar.gz/5ed2965256430c3649e86755f9576b54eca72435"
+    },
+    {
+      "directory": "plausible-118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "filename": "plausible-118aa17ee84656b8bd727fef7c458ee8c833385c.tar.gz",
+      "name": "plausible",
+      "revision": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "sha256": "e5ed8b63ae57811987cc68e89b87fdd9932ed8ec4bda187abd4db5d9321a8f48",
+      "size": 42943,
+      "url": "https://codeload.github.com/leanprover-community/plausible/tar.gz/118aa17ee84656b8bd727fef7c458ee8c833385c"
+    },
+    {
+      "directory": "LeanSearchClient-ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "filename": "LeanSearchClient-ddf04cf3949fa556442341e87d47f9f6e6074707.tar.gz",
+      "name": "LeanSearchClient",
+      "revision": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "sha256": "55f9b52a8134dd4e14176999cda127af2c1190241048864b546ae7c802ae6e37",
+      "size": 13134,
+      "url": "https://codeload.github.com/leanprover-community/LeanSearchClient/tar.gz/ddf04cf3949fa556442341e87d47f9f6e6074707"
+    },
+    {
+      "directory": "import-graph-e928b72544873815af278d38681b31c0293588e3",
+      "filename": "importGraph-e928b72544873815af278d38681b31c0293588e3.tar.gz",
+      "name": "importGraph",
+      "revision": "e928b72544873815af278d38681b31c0293588e3",
+      "sha256": "5daec3b3889d425440a93f4a47de29a41836266359e29472abbc767ed2188eed",
+      "size": 149550,
+      "url": "https://codeload.github.com/leanprover-community/import-graph/tar.gz/e928b72544873815af278d38681b31c0293588e3"
+    },
+    {
+      "directory": "ProofWidgets4-106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+      "filename": "proofwidgets-106ff4fafc74ef4ac99d81dbf3ab399118f497a5.tar.gz",
+      "name": "proofwidgets",
+      "revision": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+      "sha256": "c6cf369f63a997035e36c5f6f76afdba77c2e047988cb6abdec362a1098552de",
+      "size": 3895061,
+      "url": "https://codeload.github.com/leanprover-community/ProofWidgets4/tar.gz/106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+    },
+    {
+      "directory": "aesop-355695d523e41d0554926416cba2a2b3544fbbc9",
+      "filename": "aesop-355695d523e41d0554926416cba2a2b3544fbbc9.tar.gz",
+      "name": "aesop",
+      "revision": "355695d523e41d0554926416cba2a2b3544fbbc9",
+      "sha256": "80792fbdc4f7a12a9783c32ee5eba7387d450bc26ababf5ff6f16c4dc59b633a",
+      "size": 208005,
+      "url": "https://codeload.github.com/leanprover-community/aesop/tar.gz/355695d523e41d0554926416cba2a2b3544fbbc9"
+    },
+    {
+      "directory": "quote4-6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "filename": "Qq-6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259.tar.gz",
+      "name": "Qq",
+      "revision": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "sha256": "c61940f3fe63e39db9b25b8ac4ce1bc9a9466801055b9218804556d85e9a6e29",
+      "size": 33006,
+      "url": "https://codeload.github.com/leanprover-community/quote4/tar.gz/6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259"
+    },
+    {
+      "directory": "batteries-f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "filename": "batteries-f2effa3d803fda822b1f97b806c47cf2adfbcbc2.tar.gz",
+      "name": "batteries",
+      "revision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "sha256": "1987093d3e0af3c75084f48095a8eb0fac0751b11712c51fb05b31e71d64220b",
+      "size": 363638,
+      "url": "https://codeload.github.com/leanprover-community/batteries/tar.gz/f2effa3d803fda822b1f97b806c47cf2adfbcbc2"
+    },
+    {
+      "directory": "lean4-cli-e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "filename": "Cli-e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204.tar.gz",
+      "name": "Cli",
+      "revision": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "sha256": "1ccb3440fc468e393b064a446368c4b317b7c57ffe78cee3b2b932333834e007",
+      "size": 23864,
+      "url": "https://codeload.github.com/leanprover/lean4-cli/tar.gz/e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204"
+    },
+    {
+      "directory": "lean-4.34.0-darwin_aarch64",
+      "filename": "lean-4.34.0-darwin_aarch64.tar.zst",
+      "name": "toolchain",
+      "release_asset_id": 563514500,
+      "sha256": "69f263fa6e21bbc2466bbfb1affcd92479ee2714c883a07de548e099a5922932",
+      "size": 561666156,
+      "url": "https://github.com/leanprover/lean4/releases/download/v4.34.0/lean-4.34.0-darwin_aarch64.tar.zst"
+    }
+  ],
+  "finished_at": "2026-09-29T20:02:11.954413+00:00",
+  "lock_sha256": "db651d4ec80168986acc4d81718df2cebff79731201566de237ab52202d3954f",
+  "source_files_verified": 10419,
+  "started_at": "2026-09-29T20:00:39.884453+00:00"
+}

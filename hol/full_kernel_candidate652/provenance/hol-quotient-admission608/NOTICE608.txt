@@ -1,0 +1,31 @@
+Quotient admission608: changed source-only HOL component
+=======================================================
+Copyright 2026 Fawad Haider. Apache License, Version 2.0; exact LICENSE included.
+Changed full447 implementation of local rocq/Quotient.v8-97, using canonical
+Syntax.v/InductiveUtils.v operations and Declarations.v32-43 through607.
+Algorithmic upstream: Lean4Lean, Mario Carneiro and contributors,
+https://github.com/digama0/lean4lean,
+commit8223d223ed98661882e95d9d6a7126df7097cd76, Lean4Lean/Quot.lean.
+The pinned upstream source has no individual copyright header. Its repository
+Apache2.0 license is included unmodified; local attribution is in pinned
+rocq/NOTICE. Exact input hashes are in INPUTS608.sha256.
+
+This preserves local Rocq behavior, not arbitrary-input equivalence to upstream.
+Local quotient initialization admits one row per call rather than installing
+all four and marking quotInit. It checks Eq's type before the singleton ctor
+list and explicitly checks the constructor kind and owner. Local user labels
+are ASCII alpha/beta, and the QInd proof arrow is anonymous. Missing constants,
+malformed shapes and header Reject/Decline use the local491 result vocabulary.
+Type comparison uses exact480 Syntax.expr_eqb, ignoring binder names/info and
+let nonDep but preserving metadata wrappers and structural universe syntax.
+It is neither semantic universe equivalence nor bounded alpha/defeq.
+
+The actual generated declarations are opaque, valueless493 quotient records.
+All state, locals, abstraction, lifting, equality, universe substitution and
+declaration types are canonical and unmodified. Header607 uses concrete597;
+no caller-supplied checker/admission oracle or raw-kind admission helper is used.
+
+All28 proposed proof/regression scripts are UNCOMPILED and NOT RUN. No model,
+native evaluation, new HOL axiom, cast, proof admission, Arena verdict or
+soundness/admission certificate is claimed. A valid prior environment and
+proved preservation remain obligations, not consequences of raw Eq metadata.

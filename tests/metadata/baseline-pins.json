@@ -1,0 +1,11 @@
+{
+  "pin_version": 1,
+  "source_manifest_sha256": "007fbef161abb973fb52fa6ab8513ef42e26938cd9ded614f082c967b2cbf81a",
+  "baselines": [
+    {"family": "bool", "id": "tutorial/037_boolType", "path": "corpus/tutorial/037_boolType.ndjson", "size": 2377, "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"},
+    {"family": "nat", "id": "tutorial/102_aNatLit", "path": "corpus/tutorial/102_aNatLit.ndjson", "size": 3101, "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"},
+    {"family": "eq", "id": "tutorial/043_eqType", "path": "corpus/tutorial/043_eqType.ndjson", "size": 3324, "sha256": "17e2890610e6c4f97c9f8d62919736f27928d058aa6df4f769e285418b9eba2e"},
+    {"family": "prod", "id": "tutorial/040_prodType", "path": "corpus/tutorial/040_prodType.ndjson", "size": 3919, "sha256": "2f82e7d70c3c170a7fb5b9d081c328a0075c8109f4979862cf5666355b94fd7d"},
+    {"family": "empty", "id": "tutorial/036_empty", "path": "corpus/tutorial/036_empty.ndjson", "size": 1228, "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"}
+  ]
+}

@@ -1,0 +1,900 @@
+{
+  "exclusive": [
+    {
+      "percent": 53.37783711615487,
+      "samples": 1999,
+      "symbol": "camlLean_arena__name_eqb_909"
+    },
+    {
+      "percent": 28.811748998664886,
+      "samples": 1079,
+      "symbol": "camlLean_arena__eqb1_852"
+    },
+    {
+      "percent": 9.158878504672897,
+      "samples": 343,
+      "symbol": "camlLean_arena__eqb2_893"
+    },
+    {
+      "percent": 7.770360480640854,
+      "samples": 291,
+      "symbol": "camlLean_arena__find_decl_1283"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "do_some_marking"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "camlLean_arena__core_spine_1432"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__subst_1090"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__lift_1066"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__subst_levels_1147"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__infer_step_1843"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__core_alpha_2085"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__subst_many_1118"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_8211"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__core_compare_args_2144"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_8574"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__level_eqb_943"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__leb_378"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_oldify_local_roots"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_page_table_lookup"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_10717"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__eqb_373"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_oldify_mopup"
+    }
+  ],
+  "exclusive_accounted_samples": 3745,
+  "inclusive_without_recursive_double_count": [
+    {
+      "percent": 100.0,
+      "samples": 3745,
+      "symbol": "Thread_3123764   DispatchQueue_1: com.apple.main-thread  (serial)"
+    },
+    {
+      "percent": 100.0,
+      "samples": 3745,
+      "symbol": "???"
+    },
+    {
+      "percent": 99.59946595460615,
+      "samples": 3730,
+      "symbol": "camlStdlib__List__iter_507"
+    },
+    {
+      "percent": 99.59946595460615,
+      "samples": 3730,
+      "symbol": "camlRocq_main__fun_1523"
+    },
+    {
+      "percent": 98.61148197596796,
+      "samples": 3693,
+      "symbol": "camlLean_arena__find_decl_1283"
+    },
+    {
+      "percent": 95.56742323097463,
+      "samples": 3579,
+      "symbol": "camlLean_arena__fun_8211"
+    },
+    {
+      "percent": 94.5260347129506,
+      "samples": 3540,
+      "symbol": "camlLean_arena__infer_step_1843"
+    },
+    {
+      "percent": 89.77303070761015,
+      "samples": 3362,
+      "symbol": "camlLean_arena__fun_8263"
+    },
+    {
+      "percent": 89.66622162883846,
+      "samples": 3358,
+      "symbol": "camlLean_arena__fun_10759"
+    },
+    {
+      "percent": 88.17089452603471,
+      "samples": 3302,
+      "symbol": "camlLean_arena__fun_22765"
+    },
+    {
+      "percent": 78.42456608811749,
+      "samples": 2937,
+      "symbol": "camlLean_arena__name_eqb_909"
+    },
+    {
+      "percent": 72.44325767690253,
+      "samples": 2713,
+      "symbol": "camlLean_arena__core_reduce_nat_1644"
+    },
+    {
+      "percent": 66.72897196261682,
+      "samples": 2499,
+      "symbol": "camlLean_arena__fun_8786"
+    },
+    {
+      "percent": 61.44192256341789,
+      "samples": 2301,
+      "symbol": "camlLean_arena__core_ctor_shape_1480"
+    },
+    {
+      "percent": 51.6154873164219,
+      "samples": 1933,
+      "symbol": "camlLean_arena__fun_8242"
+    },
+    {
+      "percent": 44.75300400534045,
+      "samples": 1676,
+      "symbol": "camlLean_arena__fun_8163"
+    },
+    {
+      "percent": 42.29639519359146,
+      "samples": 1584,
+      "symbol": "camlLean_arena__core_nat_ready_1490"
+    },
+    {
+      "percent": 39.8931909212283,
+      "samples": 1494,
+      "symbol": "camlLean_arena__fun_10614"
+    },
+    {
+      "percent": 37.99732977303071,
+      "samples": 1423,
+      "symbol": "camlLean_arena__core_compare_args_2144"
+    },
+    {
+      "percent": 37.97062750333778,
+      "samples": 1422,
+      "symbol": "camlLean_arena__eqb2_893"
+    },
+    {
+      "percent": 30.8411214953271,
+      "samples": 1155,
+      "symbol": "camlLean_arena__core_compare_fallback_2289"
+    },
+    {
+      "percent": 28.811748998664886,
+      "samples": 1079,
+      "symbol": "camlLean_arena__eqb1_852"
+    },
+    {
+      "percent": 23.84512683578104,
+      "samples": 893,
+      "symbol": "camlLean_arena__fun_10308"
+    },
+    {
+      "percent": 20.96128170894526,
+      "samples": 785,
+      "symbol": "camlLean_arena__fun_8713"
+    },
+    {
+      "percent": 20.907877169559413,
+      "samples": 783,
+      "symbol": "camlLean_arena__core_reduce_recursor_1774"
+    },
+    {
+      "percent": 19.439252336448597,
+      "samples": 728,
+      "symbol": "camlLean_arena__whnf_step_2018"
+    },
+    {
+      "percent": 18.90520694259012,
+      "samples": 708,
+      "symbol": "camlLean_arena__core_to_constructor_1730"
+    },
+    {
+      "percent": 15.193591455273697,
+      "samples": 569,
+      "symbol": "camlLean_arena__fun_8384"
+    },
+    {
+      "percent": 13.538050734312417,
+      "samples": 507,
+      "symbol": "camlLean_arena__get_constant_1533"
+    },
+    {
+      "percent": 11.5086782376502,
+      "samples": 431,
+      "symbol": "camlLean_arena__whnf_core_step_1929"
+    },
+    {
+      "percent": 10.921228304405874,
+      "samples": 409,
+      "symbol": "camlLean_arena__fun_10509"
+    },
+    {
+      "percent": 10.54739652870494,
+      "samples": 395,
+      "symbol": "camlLean_arena__core_reduce_projection_with_1797"
+    },
+    {
+      "percent": 7.556742323097463,
+      "samples": 283,
+      "symbol": "camlLean_arena__fun_10433"
+    },
+    {
+      "percent": 6.488651535380507,
+      "samples": 243,
+      "symbol": "camlLean_arena__defeq_step_2545"
+    },
+    {
+      "percent": 6.275033377837116,
+      "samples": 235,
+      "symbol": "camlLean_arena__core_proof_irrel_2450"
+    },
+    {
+      "percent": 6.0347129506008015,
+      "samples": 226,
+      "symbol": "camlLean_arena__fun_10431"
+    },
+    {
+      "percent": 5.68758344459279,
+      "samples": 213,
+      "symbol": "camlLean_arena__fun_10386"
+    },
+    {
+      "percent": 5.260347129506008,
+      "samples": 197,
+      "symbol": "camlLean_arena__fun_22797"
+    },
+    {
+      "percent": 5.2069425901201605,
+      "samples": 195,
+      "symbol": "camlLean_arena__sort_of_1551"
+    },
+    {
+      "percent": 4.566088117489986,
+      "samples": 171,
+      "symbol": "camlLean_arena__fun_7597"
+    },
+    {
+      "percent": 4.539385847797063,
+      "samples": 170,
+      "symbol": "camlLean_arena__fun_10569"
+    },
+    {
+      "percent": 4.539385847797063,
+      "samples": 170,
+      "symbol": "camlLean_arena__check_header_3668"
+    },
+    {
+      "percent": 4.2456608811749,
+      "samples": 159,
+      "symbol": "camlLean_arena__fun_10152"
+    },
+    {
+      "percent": 4.2456608811749,
+      "samples": 159,
+      "symbol": "camlLean_arena__core_offset_2465"
+    },
+    {
+      "percent": 4.165554072096128,
+      "samples": 156,
+      "symbol": "camlLean_arena__fun_9901"
+    },
+    {
+      "percent": 3.7917222963951938,
+      "samples": 142,
+      "symbol": "camlLean_arena__fun_10425"
+    },
+    {
+      "percent": 3.7650200267022695,
+      "samples": 141,
+      "symbol": "camlLean_arena__fun_9911"
+    },
+    {
+      "percent": 3.684913217623498,
+      "samples": 138,
+      "symbol": "camlLean_arena__fun_8574"
+    },
+    {
+      "percent": 3.5781041388518022,
+      "samples": 134,
+      "symbol": "camlLean_arena__core_reduce_quotient_1818"
+    },
+    {
+      "percent": 3.4712950600801067,
+      "samples": 130,
+      "symbol": "camlLean_arena__fun_7173"
+    },
+    {
+      "percent": 3.417890520694259,
+      "samples": 128,
+      "symbol": "camlLean_arena__project_2530"
+    },
+    {
+      "percent": 3.364485981308411,
+      "samples": 126,
+      "symbol": "camlLean_arena__core_infer_projection_1589"
+    },
+    {
+      "percent": 3.230974632843792,
+      "samples": 121,
+      "symbol": "camlLean_arena__admit_3699"
+    },
+    {
+      "percent": 3.1241655540720963,
+      "samples": 117,
+      "symbol": "camlLean_arena__check_2621"
+    },
+    {
+      "percent": 2.643524699599466,
+      "samples": 99,
+      "symbol": "camlLean_arena__core_unfold_1916"
+    },
+    {
+      "percent": 2.2162883845126835,
+      "samples": 83,
+      "symbol": "camlLean_arena__core_quick_2423"
+    },
+    {
+      "percent": 2.05607476635514,
+      "samples": 77,
+      "symbol": "camlLean_arena__compare_after_whnf_2300"
+    },
+    {
+      "percent": 1.9225634178905207,
+      "samples": 72,
+      "symbol": "camlLean_arena__compare_heads_2204"
+    },
+    {
+      "percent": 1.842456608811749,
+      "samples": 69,
+      "symbol": "camlLean_arena__fun_8288"
+    },
+    {
+      "percent": 1.842456608811749,
+      "samples": 69,
+      "symbol": "camlLean_arena__core_finish_conversion_2522"
+    },
+    {
+      "percent": 1.6021361815754338,
+      "samples": 60,
+      "symbol": "camlLean_arena__fun_8930"
+    },
+    {
+      "percent": 1.57543391188251,
+      "samples": 59,
+      "symbol": "camlLean_arena__fun_10495"
+    },
+    {
+      "percent": 1.4953271028037383,
+      "samples": 56,
+      "symbol": "camlLean_arena__fun_10599"
+    },
+    {
+      "percent": 1.4419225634178905,
+      "samples": 54,
+      "symbol": "camlLean_arena__checked_constant_3687"
+    },
+    {
+      "percent": 1.308411214953271,
+      "samples": 49,
+      "symbol": "camlLean_arena__fun_22814"
+    },
+    {
+      "percent": 1.308411214953271,
+      "samples": 49,
+      "symbol": "camlLean_arena__check_proposition_3677"
+    },
+    {
+      "percent": 1.2550066755674232,
+      "samples": 47,
+      "symbol": "camlLean_arena__fun_9894"
+    },
+    {
+      "percent": 1.2283044058744994,
+      "samples": 46,
+      "symbol": "camlLean_arena__fun_9960"
+    },
+    {
+      "percent": 1.2283044058744994,
+      "samples": 46,
+      "symbol": "camlLean_arena__core_lazy_delta_2491"
+    },
+    {
+      "percent": 1.1748998664886516,
+      "samples": 44,
+      "symbol": "camlLean_arena__fun_8407"
+    },
+    {
+      "percent": 1.041388518024032,
+      "samples": 39,
+      "symbol": "camlLean_arena__fun_7644"
+    },
+    {
+      "percent": 0.9879839786381842,
+      "samples": 37,
+      "symbol": "camlLean_arena__core_constructor_1469"
+    },
+    {
+      "percent": 0.8811748998664887,
+      "samples": 33,
+      "symbol": "camlLean_arena__core_delta_congruent_2196"
+    },
+    {
+      "percent": 0.8277703604806409,
+      "samples": 31,
+      "symbol": "camlLean_arena__fun_9416"
+    },
+    {
+      "percent": 0.8277703604806409,
+      "samples": 31,
+      "symbol": "camlLean_arena__fun_8497"
+    },
+    {
+      "percent": 0.7476635514018691,
+      "samples": 28,
+      "symbol": "camlLean_arena__core_delta_head_2179"
+    },
+    {
+      "percent": 0.6675567423230975,
+      "samples": 25,
+      "symbol": "camlLean_arena__fun_8522"
+    },
+    {
+      "percent": 0.6408544726301736,
+      "samples": 24,
+      "symbol": "camlLean_arena__fun_10781"
+    },
+    {
+      "percent": 0.6141522029372497,
+      "samples": 23,
+      "symbol": "camlLean_arena__fun_10429"
+    },
+    {
+      "percent": 0.48064085447263016,
+      "samples": 18,
+      "symbol": "camlLean_arena__fun_10427"
+    },
+    {
+      "percent": 0.4539385847797063,
+      "samples": 17,
+      "symbol": "camlLean_arena__fun_9339"
+    },
+    {
+      "percent": 0.4539385847797063,
+      "samples": 17,
+      "symbol": "camlLean_arena__fun_7896"
+    },
+    {
+      "percent": 0.4539385847797063,
+      "samples": 17,
+      "symbol": "camlLean_arena__fun_8256"
+    },
+    {
+      "percent": 0.40053404539385845,
+      "samples": 15,
+      "symbol": "camlLean_arena__fun_9211"
+    },
+    {
+      "percent": 0.3471295060080107,
+      "samples": 13,
+      "symbol": "camlLean_arena__core_compare_fields_2250"
+    },
+    {
+      "percent": 0.2937249666221629,
+      "samples": 11,
+      "symbol": "camlLean_arena__core_alpha_2085"
+    },
+    {
+      "percent": 0.26702269692923897,
+      "samples": 10,
+      "symbol": "camlLean_arena__fun_10445"
+    },
+    {
+      "percent": 0.26702269692923897,
+      "samples": 10,
+      "symbol": "camlLean_arena__fun_7564"
+    },
+    {
+      "percent": 0.24032042723631508,
+      "samples": 9,
+      "symbol": "camlLean_arena__fun_22738"
+    },
+    {
+      "percent": 0.24032042723631508,
+      "samples": 9,
+      "symbol": "camlLean_arena__fun_7361"
+    },
+    {
+      "percent": 0.24032042723631508,
+      "samples": 9,
+      "symbol": "camlLean_arena__fun_7874"
+    },
+    {
+      "percent": 0.24032042723631508,
+      "samples": 9,
+      "symbol": "camlLean_arena__fun_9699"
+    },
+    {
+      "percent": 0.2136181575433912,
+      "samples": 8,
+      "symbol": "camlLean_arena__list_eqb_920"
+    },
+    {
+      "percent": 0.2136181575433912,
+      "samples": 8,
+      "symbol": "camlLean_arena__core_inductive_1463"
+    },
+    {
+      "percent": 0.18691588785046728,
+      "samples": 7,
+      "symbol": "caml_call_gc"
+    },
+    {
+      "percent": 0.18691588785046728,
+      "samples": 7,
+      "symbol": "caml_alloc_small_dispatch"
+    },
+    {
+      "percent": 0.1602136181575434,
+      "samples": 6,
+      "symbol": "camlLean_arena__subst_1090"
+    },
+    {
+      "percent": 0.1602136181575434,
+      "samples": 6,
+      "symbol": "camlLean_arena__core_structure_1475"
+    },
+    {
+      "percent": 0.1602136181575434,
+      "samples": 6,
+      "symbol": "camlLean_arena__subst_levels_1147"
+    },
+    {
+      "percent": 0.1602136181575434,
+      "samples": 6,
+      "symbol": "camlLean_arena__fun_28408"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "camlLean_arena__fun_8249"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "caml_major_collection_slice"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "mark_slice"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "do_some_marking"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "camlLean_arena__core_erasing_delta_2186"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "camlLean_arena__defeq_2613"
+    },
+    {
+      "percent": 0.13351134846461948,
+      "samples": 5,
+      "symbol": "camlLean_arena__core_supported_1507"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "camlLean_arena__lift_1066"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "camlLean_arena__core_spine_1432"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "camlLean_arena__fun_7557"
+    },
+    {
+      "percent": 0.1068090787716956,
+      "samples": 4,
+      "symbol": "camlLean_arena__core_apply_type_1559"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__expr_eqb_1023"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__fun_8558"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__subst_many_1118"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__fun_9953"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__core_projection_field_1568"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__fun_25435"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__check_all_ctors_3931"
+    },
+    {
+      "percent": 0.0801068090787717,
+      "samples": 3,
+      "symbol": "camlLean_arena__fun_23808"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__fun_8722"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "caml_empty_minor_heap"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__core_structure_eta_2260"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__fun_25453"
+    },
+    {
+      "percent": 0.0534045393858478,
+      "samples": 2,
+      "symbol": "camlLean_arena__build_all_minors_4063"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__level_eqb_943"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__checker_2565"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_7264"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__verify_prop_1581"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_7471"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__leb_378"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_oldify_local_roots"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_page_table_lookup"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_10717"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__core_unit_like_2274"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__eqb_373"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_7118"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "caml_oldify_mopup"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_8518"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_24148"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__build_minors_4032"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__apply_parameters_2827"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_28274"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_27630"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__nested_worklist_4640"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_27487"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_27329"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_27265"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_27068"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__nested_rewrite_4542"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__nested_replace_root_4518"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__nested_candidate_4376"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_25427"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_23041"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__fun_24660"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__build_recursive_args_4001"
+    },
+    {
+      "percent": 0.0267022696929239,
+      "samples": 1,
+      "symbol": "camlLean_arena__open_telescope_2785"
+    }
+  ],
+  "note": "Inclusive rows overlap across different functions; do not add their percentages.",
+  "source_sha256": "240e52a6385cad4722a762adf3784b389c0b260320195d8efd3dce0562e89b92",
+  "stack_samples": 3745
+}

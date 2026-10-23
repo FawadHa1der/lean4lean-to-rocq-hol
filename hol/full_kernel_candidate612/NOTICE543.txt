@@ -1,0 +1,18 @@
+Source543 reduction policies and internal method combinators
+===========================================================
+Copyright 2026 Fawad Haider. Apache License 2.0; unmodified license in LICENSE.
+Changed port of local rocq/EagerPolicy.v,WhnfPolicy.v,NatProbeDispatch.v and
+rocq/Checker.v methods/inference_only/application_type_defeq/sort_of/
+core_apply_type. Closed nat-probe resolver follows Checker.v1302-1304.
+Original attribution is retained in pinned rocq/NOTICE.
+Algorithmic upstream Lean4Lean, Mario Carneiro and contributors, commit
+8223d223ed98661882e95d9d6a7126df7097cd76. Local fuel/error policy is not a
+blanket equivalence claim about upstream Lean.
+
+Twenty-one operations (including seven method getters),three constants,
+three datatypes. Thirty-eight proposed HOL proof scripts remain UNCOMPILED.
+The Python model tests finite control flow; its scripted callbacks are NOT
+an inference engine or checker. No caller-supplied method oracle is exposed
+as a public checker. A complete internal fuel-recursive builder is pending.
+No default runtime integration, extraction refinement, complete source
+equivalence or soundness theorem is claimed. Existing guards are unchanged.

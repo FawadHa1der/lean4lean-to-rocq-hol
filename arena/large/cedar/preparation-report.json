@@ -1,0 +1,25 @@
+{
+  "archives": [
+    {
+      "directory": "cedar-spec-017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+      "filename": "cedar.tar.gz",
+      "name": "cedar",
+      "revision": "017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+      "sha256": "a2ccf74282941a07dcd2381400a86ab676572014595517c0d2972e70af10f7f4",
+      "size": 1069420,
+      "url": "https://codeload.github.com/cedar-policy/cedar-spec/tar.gz/017c35c3d1f856a0f8b62a66660ee6628870bbcf"
+    },
+    {
+      "directory": "batteries-f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "filename": "batteries.tar.gz",
+      "name": "batteries",
+      "revision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "sha256": "1987093d3e0af3c75084f48095a8eb0fac0751b11712c51fb05b31e71d64220b",
+      "size": 363638,
+      "url": "https://codeload.github.com/leanprover-community/batteries/tar.gz/f2effa3d803fda822b1f97b806c47cf2adfbcbc2"
+    }
+  ],
+  "finished_at": "2026-09-29T19:18:03.353826+00:00",
+  "lock_sha256": "8f5965593d9f7f7d020d0c81c9f9f3e05355b6e4a48648a77228b0e3a30f670d",
+  "started_at": "2026-09-29T19:18:03.149557+00:00"
+}

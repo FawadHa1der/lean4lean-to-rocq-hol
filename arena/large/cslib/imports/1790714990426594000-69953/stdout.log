@@ -1,0 +1,22 @@
+{
+  "cases": 220,
+  "definitions": 80,
+  "archive_cases": 193,
+  "availability": {
+    "available": 216,
+    "missing_download": 4
+  },
+  "source_kinds": {
+    "static": 16,
+    "leanfile_export": 55,
+    "module_export": 8,
+    "generated_multiple": 141
+  },
+  "expected": {
+    "reject": 71,
+    "accept": 131,
+    "either": 18
+  },
+  "available_bytes": 3425364332,
+  "published_bytes": 12593277972
+}

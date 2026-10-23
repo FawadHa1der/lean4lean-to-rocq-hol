@@ -1,0 +1,19 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+New source-only explicit theorem registry for canonical full-file642.
+The registry refers to existing canonical theorem bindings; it does not copy
+their checker algorithms or change any logical definition.
+Project provenance is preserved from local642 and its prior dependencies:
+Lean4Lean, Mario Carneiro and contributors, reference revision
+8223d223ed98661882e95d9d6a7126df7097cd76,
+https://github.com/digama0/lean4lean. No upstream fetch or new upstream audit
+was performed. LICENSE is the exact local Apache2.0 license preserved in641.
+
+Stock HOL Light support is referenced at the exact INPUTS647 pins.
+HOL_LIGHT_LICENSE is preserved byte-for-byte from that local source tree.
+compute.ml credits Alexey Solovyev2018 and Bruno Barras2000.
+pair.ml/ind_types.ml/lists.ml contain John Harrison/University of Cambridge
+and other contributor notices; no complete stock module is repackaged here.
+The local theorem-clause splitting and constructor fact adaptation use the
+inspected stock inference/conversion conventions. No stock tactic theorem
+is mislabeled a project definition. No fixture expected theorem is imported.
+This is UNCOMPILED source, not proved full-file correctness or ABI admission.

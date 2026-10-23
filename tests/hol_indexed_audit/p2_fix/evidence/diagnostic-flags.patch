@@ -1,0 +1,23 @@
+--- a/hol/environment.ml
++++ b/hol/environment.ml
+@@ -558,10 +558,16 @@
+       let hn=level_truth st l4_level_nonzero (node "l4_level_nonzero" [qu]) result_nonzero 0 in
+       let zeros=List.map (fun v -> level_truth st l4_level_equiv
+         (node "l4_level_equiv" [quote_level v;`L4Zero`]) (level_sample st 1 v=0) 1) (u::List.concat vss) in
+-      let flags j=prove(List.nth conditions j,
+-        REWRITE_TAC ([l4_index_large;l4_index_large_fields;l4_index_k;ALL;ALL2;LENGTH;
+-          l4_index_fields;l4_index_result;distinctness "list";injectivity "list";hn] @ zeros) THEN
+-        CONV_TAC generator_calc) in
++      let flags j=
++        Printf.eprintf "P2_FLAG_BEGIN %d\n%!" j;
++        let h=prove(List.nth conditions j,
++          REWRITE_TAC ([l4_index_large;l4_index_large_fields;l4_index_k;ALL;ALL2;LENGTH;
++            l4_index_fields;l4_index_result;distinctness "list";injectivity "list";hn] @ zeros) THEN
++          CONV_TAC generator_calc THEN
++          (fun ((_,w) as g) ->
++            Printf.eprintf "P2_UNSOLVED_FLAG %d %s\n%!" j (string_of_term w);
++            ALL_TAC g)) in
++        Printf.eprintf "P2_FLAG_CLOSED %d\n%!" j; h in
+       let context=EQ_MP (SYM(generator_calc (List.nth conditions 3))) hctx in
+       let allfields=prove(List.nth conditions 5,
+         REWRITE_TAC ([ALL2;l4_index_fields;REVERSE;MAP;SND;APPEND] @ hfields)) in

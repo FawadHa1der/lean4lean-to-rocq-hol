@@ -1,0 +1,73 @@
+{
+  "arena_manifest_sha256": "d0ef9bd650fa4256cca4e4256ef45eda096e8ad3505945dad9c41a3f3d063b19",
+  "baselines": [
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/declarations",
+      "path": "baselines/078_boolRecEqns-declarations.ndjson",
+      "rationale": "All original rows except the final theorem; complete exported declaration blocks must first accept.",
+      "seed_sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d",
+      "sha256": "d377134466059ac7e75ad492d897386bb34d4475f5c62d4e017cfe9704856224",
+      "size": 10990
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/declarations",
+      "path": "baselines/079_prodRecEqns-declarations.ndjson",
+      "rationale": "All original rows except the final theorem; complete exported declaration blocks must first accept.",
+      "seed_sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6",
+      "sha256": "645d6f2f59e965b0995d9a46d1351201a27f461c7c160366a705957fb85410bd",
+      "size": 10241
+    }
+  ],
+  "cases": [
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "expected": "accept",
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/original",
+      "path": "cases/078_boolRecEqns-original.ndjson",
+      "rationale": "Complete SHA-pinned actual Arena export, unchanged.",
+      "seed_sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d",
+      "sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d",
+      "size": 11058
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "expected": "accept",
+      "family": "078_boolRecEqns",
+      "id": "078_boolRecEqns/universe-zero",
+      "path": "cases/078_boolRecEqns-universe-zero.ndjson",
+      "rationale": "Only the final theorem is coherently specialized at universe zero; inductive and recursor declarations are byte-structurally unchanged.",
+      "seed_sha256": "4fc92c213242a1fadda56ef895988f4407df5fbb495805eb565e76c794ebe92d",
+      "sha256": "a3cc3de449c4a39b4c14dfe136afd527d233bd425210bfdcd8fc7d139e4727f7",
+      "size": 12946
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "expected": "accept",
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/original",
+      "path": "cases/079_prodRecEqns-original.ndjson",
+      "rationale": "Complete SHA-pinned actual Arena export, unchanged.",
+      "seed_sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6",
+      "sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6",
+      "size": 10305
+    },
+    {
+      "dimension": "valid-recursor-diagnostic",
+      "expected": "accept",
+      "family": "079_prodRecEqns",
+      "id": "079_prodRecEqns/universe-zero",
+      "path": "cases/079_prodRecEqns-universe-zero.ndjson",
+      "rationale": "Only the final theorem is coherently specialized at universe zero; inductive and recursor declarations are byte-structurally unchanged.",
+      "seed_sha256": "f6d9afec199974f6658dfd9609b5eb6256ef562d6ab9ee1c8899620314d233a6",
+      "sha256": "d6dcadf0556a8f0abc57309124f9cf1289c72941d2a8066ed50852caa5f094c0",
+      "size": 11785
+    }
+  ],
+  "kind": "projection-adjacent-valid-recursor-probes",
+  "version": 1
+}

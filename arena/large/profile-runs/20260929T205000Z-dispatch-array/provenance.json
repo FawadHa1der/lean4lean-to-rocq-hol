@@ -1,0 +1,115 @@
+{
+  "authorized_max_seconds": 150,
+  "command": [
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T205000Z-dispatch-array/rocq-check",
+    "--fuel",
+    "512",
+    "--progress",
+    "1",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T205000Z-dispatch-array/init-through-line-120590.ndjson"
+  ],
+  "created_utc": "2026-09-29T20:50:05.901473+00:00",
+  "enforced_timeout_seconds": 149.0,
+  "fuel": 512,
+  "helpers": [
+    {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_array_dispatch.py",
+      "sha256": "00f64fd530b699409cca38eb67a59fdd11c57bb6ecb29c3bff0866ce8afb3518",
+      "size": 13391
+    },
+    {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_init.py",
+      "sha256": "050237f9673efed870fba2c8af693ac1cfe58ff23cbd1f66b3fe56cb68289174",
+      "size": 12755
+    },
+    {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_prefixes.py",
+      "sha256": "41771ff1684b12638538d7af1507429b1d5c8366f8ccbd9f3dd5db3cd7e2adc9",
+      "size": 14095
+    }
+  ],
+  "maximum_sample_invocations": 1,
+  "observed_sources_before": {
+    "frontend/replay.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/replay.ml",
+      "sha256": "4be904adc035610223b13f71479da21969729f40a4142b80374d4b5e50ddb228",
+      "size": 8556
+    },
+    "frontend/rocq_adapter.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/rocq_adapter.ml",
+      "sha256": "a497380a7ac2b4ffd0bfa6fd2e234c97d1d99a778e9d8c7213fc1e5ad59e0ac5",
+      "size": 7489
+    },
+    "frontend/rocq_main.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/rocq_main.ml",
+      "sha256": "743b134c257c43a67dcdac768baa0f792cc854139fd524d34179858f0b25b53b",
+      "size": 2264
+    },
+    "frontend/wire.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/wire.ml",
+      "sha256": "4e204f626e9dd61a049c5d1bc60b2aaaddab597e7770e0922c68fa017d82d802",
+      "size": 12634
+    },
+    "rocq/Checker.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Checker.v",
+      "sha256": "bdd3d477db4d16796e48f9e57067cebcf8b2cfd49449888d28e70d8f7780d745",
+      "size": 55246
+    },
+    "rocq/Syntax.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Syntax.v",
+      "sha256": "e8ae6fe46f8ab2581f97e9f7f505e59e26796f41091700ec91936fdd5a352be9",
+      "size": 16876
+    },
+    "rocq/lean_arena.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/lean_arena.ml",
+      "sha256": "ce9a1985c21cba076e60e6aca53a9b843d6c76f57771cba5ebcaf5e7cd366ef1",
+      "size": 414112
+    }
+  },
+  "originals_after_copy": {
+    "binary": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/rocq-check-dispatch-checkpoint",
+      "sha256": "3ef3328088cc6f91a4113947ffb6d97196e840bcb4f6d9445512fa9e5ef86be3",
+      "size": 2182736
+    },
+    "input": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.ndjson",
+      "sha256": "dce08f76af5892eda7110dc6b5d382d2a1a8cc07bcd8a0116b7e4b5d50a23877",
+      "size": 6253436
+    }
+  },
+  "originals_before": {
+    "binary": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/rocq-check-dispatch-checkpoint",
+      "sha256": "3ef3328088cc6f91a4113947ffb6d97196e840bcb4f6d9445512fa9e5ef86be3",
+      "size": 2182736
+    },
+    "input": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.ndjson",
+      "sha256": "dce08f76af5892eda7110dc6b5d382d2a1a8cc07bcd8a0116b7e4b5d50a23877",
+      "size": 6253436
+    }
+  },
+  "prefix_audit": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/init-through-line-120590.json",
+    "sha256": "9fbdc45a1b1327b71e1b19697cb8f286a25ca617f0ba62b9a224821e9441ed0a",
+    "size": 1890
+  },
+  "sample_duration_seconds": 5,
+  "sample_quiet_seconds": 10.0,
+  "sample_target_line": 120590,
+  "sample_target_name": "Array.foldlM_toList.aux._unary",
+  "snapshots_before": {
+    "binary": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T205000Z-dispatch-array/rocq-check",
+      "sha256": "3ef3328088cc6f91a4113947ffb6d97196e840bcb4f6d9445512fa9e5ef86be3",
+      "size": 2182736
+    },
+    "input": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T205000Z-dispatch-array/init-through-line-120590.ndjson",
+      "sha256": "dce08f76af5892eda7110dc6b5d382d2a1a8cc07bcd8a0116b7e4b5d50a23877",
+      "size": 6253436
+    }
+  },
+  "source_caveat": "Observed shared source hashes are context only, not build provenance for the checkpoint. No frontend equivalence to the private 82a binary is assumed."
+}

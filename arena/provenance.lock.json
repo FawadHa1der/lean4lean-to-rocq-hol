@@ -1,0 +1,35 @@
+{
+  "lock_version": 1,
+  "retrieved_date_utc": "2026-09-29",
+  "upstream": {
+    "url": "https://github.com/leanprover/lean-kernel-arena.git",
+    "source_head": "893a129cfa670a1bed3dddecd1e7f6d9262cd55d",
+    "published_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+    "published_timestamp": "2026-09-29 11:34:41 UTC",
+    "published_workflow": "https://github.com/leanprover/lean-kernel-arena/actions/runs/36543121707",
+    "test_definition_trees_identical": true
+  },
+  "definitions_sha256": "73204fb6593e9876373d7e96d4b41a7ec45e29b79378e51a129ad3dfecdd260c",
+  "format_document_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "tutorial_exporter_revision": "777c921eba89aac5f14cc388717935b5fa2cb739",
+  "downloads": [
+    {
+      "name": "lean-arena-tests.tar.gz",
+      "url": "https://arena.lean-lang.org/lean-arena-tests.tar.gz",
+      "size": 3577155,
+      "sha256": "77c5e99d12e154a7e140999bb7dc8eaedc0fcdd35108f0288654f990ec257860"
+    },
+    {
+      "name": "results.json",
+      "url": "https://arena.lean-lang.org/results.json",
+      "size": 4421096,
+      "sha256": "2f1c2561908250e220bcae7ae359364802483fc889c56fd35698149ec3b46de5"
+    },
+    {
+      "name": "format_ndjson.md",
+      "url": "https://raw.githubusercontent.com/leanprover/lean4export/66f1fb4bc256072069767fce52d39480e4524869/format_ndjson.md",
+      "size": 6098,
+      "sha256": "f82a21e17e4258a1043895d0653ea4333bef8cb07aad2e3d6c1fc4be52b138e3"
+    }
+  ]
+}

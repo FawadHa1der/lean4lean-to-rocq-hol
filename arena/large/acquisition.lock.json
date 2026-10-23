@@ -1,0 +1,29 @@
+{
+  "lock_version": 1,
+  "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "lean_version": "4.34.1",
+  "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+  "cases": {
+    "init": {
+      "size": 347555345,
+      "sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+      "lines": 6487065,
+      "source": "tests/init_module.lean",
+      "source_sha256": "89512109e4dcd6d67cf85d24d91591ba2f07bbea42cea6886322f25e54ce71e7",
+      "definition": "tests/init.yaml",
+      "definition_sha256": "4f87d223ffb3d2ec7bf436fc94d0a81415d13424a81405d1419559275d18e7c3",
+      "upstream_timeout_seconds": 500
+    },
+    "std": {
+      "size": 596655086,
+      "sha256": "289ed65a367abdc7388a855d2acf59cc1f401f5e06295acbb8a420682d9f00bd",
+      "lines": 10826639,
+      "source": "tests/std_module.lean",
+      "source_sha256": "482ee84b04266c15df76bcbae1d3f8da72fc68a636835341110758e114461aaa",
+      "definition": "tests/std.yaml",
+      "definition_sha256": "d3fc5b27bd54699e693d814afd5fc22e73648386cb0f27221f64f2379ad2abd5",
+      "upstream_timeout_seconds": 590
+    }
+  }
+}

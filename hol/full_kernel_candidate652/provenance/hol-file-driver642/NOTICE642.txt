@@ -1,0 +1,15 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+Changed integration of the independent project's frontend/replay.ml,
+frontend/rocq_adapter.ml and checked Rocq declaration admission, implemented
+with existing full447/493/607 HOL representations and actual624/633/608 calls.
+Algorithmic reference: Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean commit
+8223d223ed98661882e95d9d6a7126df7097cd76. The original Apache-2.0 license and
+source notices remain in the enclosing project.
+
+This file is SOURCE ONLY / UNCOMPILED. A theorem of its computation would not
+by itself establish Lean semantic soundness, source parser correctness or an
+external axiom policy. It accepts a complete source input plus a scheduling
+plan; rejection of a bad plan is not proof that the source lacks a valid plan.
+The frontend must supply and bind the genuine scheduler output. No new HOL
+axiom, foreign checker or caller-provided verdict is introduced.

@@ -1,0 +1,170 @@
+{
+  "baselines": [
+    {
+      "elapsed_seconds": 3.137017,
+      "exit_code": 0,
+      "family": "126",
+      "id": "126",
+      "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "status": "accepted",
+      "stderr": "HOL accept: line=123 checked=6 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    }
+  ],
+  "cases": [
+    {
+      "dimension": "control",
+      "elapsed_seconds": 3.252265,
+      "exit_code": 0,
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/universe-alpha-renamed",
+      "requires": [
+        "126"
+      ],
+      "sha256": "952cecca018b49ad82cef8040e97fa6d54978aa1bbfdcd4544392fd6201efb2d",
+      "status": "correct_accept",
+      "stderr": "HOL accept: line=123 checked=6 accept: closed HOL environment certificate relative to explicit object-axiom policy\n",
+      "stderr_bytes": 115,
+      "stderr_truncated": false,
+      "stdout": "",
+      "stdout_bytes": 0,
+      "stdout_truncated": false,
+      "timed_out": false,
+      "verdict": "accept"
+    }
+  ],
+  "checker": {
+    "after": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72265442,
+        "mtime_ns": 1790719654312041176,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_quotient_audit/quotient_audit.py",
+        "sha256": "ce2cbf058460a92df12803f77f42dab25aead7f403e4ab5be88b3820ed1d197f",
+        "size": 25090
+      },
+      {
+        "device": 16777232,
+        "inode": 72263886,
+        "mtime_ns": 1790718872214294298,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_quotient_audit/snapshot/manifest.json",
+        "sha256": "eb4dfadc04f3b5dfa79ddad8f6a218cb5aacd22a3a349a9756d113a4ae607964",
+        "size": 28211
+      },
+      {
+        "device": 16777232,
+        "inode": 72263785,
+        "mtime_ns": 1790718817190279751,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/reports/hol-quotient-structure-runtime.json",
+        "sha256": "9edacc5e005ad863c595eedfeb947b38fdf3debb7db05afdffaa2b6e71517c67",
+        "size": 13011
+      },
+      {
+        "device": 16777232,
+        "inode": 71332412,
+        "mtime_ns": 1790716290920781973,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/hol-check.py",
+        "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+        "size": 24612
+      }
+    ],
+    "before": [
+      {
+        "device": 16777232,
+        "inode": 1220778,
+        "mtime_ns": 1741706912814369375,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "42f792544842512d02eb8a95a6009062591476558f09f07553c138661a0bca8e",
+        "size": 52640
+      },
+      {
+        "device": 16777232,
+        "inode": 72265442,
+        "mtime_ns": 1790719654312041176,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_quotient_audit/quotient_audit.py",
+        "sha256": "ce2cbf058460a92df12803f77f42dab25aead7f403e4ab5be88b3820ed1d197f",
+        "size": 25090
+      },
+      {
+        "device": 16777232,
+        "inode": 72263886,
+        "mtime_ns": 1790718872214294298,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/tests/hol_quotient_audit/snapshot/manifest.json",
+        "sha256": "eb4dfadc04f3b5dfa79ddad8f6a218cb5aacd22a3a349a9756d113a4ae607964",
+        "size": 28211
+      },
+      {
+        "device": 16777232,
+        "inode": 72263785,
+        "mtime_ns": 1790718817190279751,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/reports/hol-quotient-structure-runtime.json",
+        "sha256": "9edacc5e005ad863c595eedfeb947b38fdf3debb7db05afdffaa2b6e71517c67",
+        "size": 13011
+      },
+      {
+        "device": 16777232,
+        "inode": 71332412,
+        "mtime_ns": 1790716290920781973,
+        "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/scripts/hol-check.py",
+        "sha256": "71739e9c587f18b9aa3e02a11ae8237ed5deb8ef233d21c0895b9f256f257767",
+        "size": 24612
+      }
+    ],
+    "snapshotted": false,
+    "unchanged": true
+  },
+  "finished_at": "2026-09-29T22:08:05.471507+00:00",
+  "limitations": [
+    "Declines are coverage gaps, not refutations.",
+    "Upstream Replay regenerates quotDecl without comparing every quotInfo payload; forged-header expectations concern the explicit local exported-claim integrity contract.",
+    "Acceptance of 129 is relative to its explicit Quot.sound object-axiom policy."
+  ],
+  "manifest_sha256": "832ba237840d394bafa40cf05d44d7910cd95bf6d7f281775fff63cbda106e23",
+  "review_snapshot_sha256": "eb4dfadc04f3b5dfa79ddad8f6a218cb5aacd22a3a349a9756d113a4ae607964",
+  "runtime": {
+    "bootstrap_matches": true,
+    "differences": [],
+    "limitations": [
+      "Two matching filesystem snapshots, not an attestation of executed bytes or runtime state.",
+      "No HOL toolchain, external OCaml libraries, dynamic libraries, OS, or semantic attestation.",
+      "Literal-needs closure under the project loader contract; not analysis of arbitrary OCaml.",
+      "Bytecode and interfaces are hashed; correspondence to build sources is not established.",
+      "Edits after READY and transient changes restored between observations may go undetected."
+    ],
+    "manifest_sha256": "9edacc5e005ad863c595eedfeb947b38fdf3debb7db05afdffaa2b6e71517c67",
+    "matches_review": true,
+    "socket": "/private/tmp/hol-run-_63lkxxh/s"
+  },
+  "selected_case_ids": [
+    "126/universe-alpha-renamed"
+  ],
+  "summary": {
+    "baseline_gaps": 0,
+    "baselines_accepted": 1,
+    "complete": true,
+    "coverage_gaps": 0,
+    "covered": 1,
+    "executed": 1,
+    "failures": 0,
+    "statuses": {
+      "correct_accept": 1
+    },
+    "total": 1
+  }
+}

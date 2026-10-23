@@ -1,0 +1,1299 @@
+{
+  "baseline_policy": "All listed prerequisite gates must return 0 before a case runs; 2 is a gap, never refutation.",
+  "baselines": [
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "126",
+      "id": "126",
+      "path": "baselines/126.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "size": 6450,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "eq-any-constructor",
+      "id": "eq-any-constructor",
+      "path": "baselines/eq-any-constructor.ndjson",
+      "rationale": "Independently well-formed indexed family named Eq: one constructor for every index, with generated one-field recursor. Must itself accept before testing the quotient prerequisite.",
+      "requires": [
+        "eq-any-constructor"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "bc8decb3755c8af2399712e3d70e1191db4e40dbb3a215951be1db6446b2f6a0",
+      "size": 7875,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "eq-type-valued",
+      "id": "eq-type-valued",
+      "path": "baselines/eq-type-valued.ndjson",
+      "rationale": "Independently well-formed indexed family named Eq: reflexive equality-shaped family in Type, not Prop, with K=false. Must itself accept before testing the quotient prerequisite.",
+      "requires": [
+        "eq-type-valued"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "1052d0552574167a597eb2556e58f1e0962efab988bde7873db43ce3047b8c73",
+      "size": 7430,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "127",
+      "id": "127",
+      "path": "baselines/127.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "127"
+      ],
+      "seed": "tutorial/127_quotIndType",
+      "seed_sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "size": 6490,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "128",
+      "id": "128",
+      "path": "baselines/128.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "128"
+      ],
+      "seed": "tutorial/128_quotLiftType",
+      "seed_sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "size": 6496,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "129",
+      "id": "129",
+      "path": "baselines/129.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "129"
+      ],
+      "seed": "tutorial/129_quotSoundType",
+      "seed_sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "size": 7332,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "130",
+      "id": "130",
+      "path": "baselines/130.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "size": 7957,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "gate",
+      "expectation_basis": "typing",
+      "family": "131",
+      "id": "131",
+      "path": "baselines/131.ndjson",
+      "rationale": "Complete byte-identical actual Arena export. 129 retains its explicit Quot.sound object-axiom assumption.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "size": 7817,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    }
+  ],
+  "cases": [
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/unchanged",
+      "path": "cases/126/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "size": 6450,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/anonymous-binders",
+      "path": "cases/126/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "915ebcd9b99a1162a2b1ce2426f107288f9d41825978603333177dbe9c8146ea",
+      "size": 6442,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/forward-declarations",
+      "path": "cases/126/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "8ddd1b7c89f8c96a2bf80f1d26bdcc578c532e75e6819a766bc0c856ee3c613a",
+      "size": 6458,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-fresh-name",
+      "path": "cases/126/type-fresh-name.ndjson",
+      "rationale": "Claimed primitive name differs from the canonical structural name for this kind. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "acf19f9cec63603eda31e6a66479fea5db0290103d5a74e3f3d950133b20a25d",
+      "size": 6594,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-wrong-kind",
+      "path": "cases/126/type-wrong-kind.ndjson",
+      "rationale": "Name/signature are unchanged but the known quotient-kind tag is inconsistent. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "da16e1a4f82f550f83f0e08612d950c71b49877688173fd005271c4c99f3ca0f",
+      "size": 6458,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-missing-universe",
+      "path": "cases/126/type-missing-universe.ndjson",
+      "rationale": "One required formal universe is missing from the kind-specific header. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "f5396aa08bbefb208e93c6a667735be4db85a7c550d70adcef1c078e66d4ad19",
+      "size": 6456,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-extra-universe",
+      "path": "cases/126/type-extra-universe.ndjson",
+      "rationale": "A fresh extra formal universe changes the canonical arity. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "3176bd55dd19d54264e9e6e763ad49b77e5c25025099a5742bb546b9bc6aec69",
+      "size": 6516,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-signature-sort",
+      "path": "cases/126/type-signature-sort.ndjson",
+      "rationale": "A closed Sort replaces the entire canonical function signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "308503f5dbb8e399b502e47b34eec68e5abc138bef1427d0ef1d69e159a040d1",
+      "size": 6457,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-first-domain-prop",
+      "path": "cases/126/type-first-domain-prop.ndjson",
+      "rationale": "Only the first domain becomes Prop instead of Sort u; this is not the canonical universe-polymorphic signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "45bb5c0eeb7375151b10ad6b839d3d5447179bc0a2249e3399de1524d9b7bcef",
+      "size": 6532,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-fresh-name",
+      "path": "cases/126/ctor-fresh-name.ndjson",
+      "rationale": "Claimed primitive name differs from the canonical structural name for this kind. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "c838ebb10afea7b399f5709e42d7b513d43226f67720b309bbac2b1189e61b7a",
+      "size": 6594,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-wrong-kind",
+      "path": "cases/126/ctor-wrong-kind.ndjson",
+      "rationale": "Name/signature are unchanged but the known quotient-kind tag is inconsistent. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "4a0a6fbb709296a3a1be68840695ec74ac86f59f7ddfd6ebd87d580ba145faca",
+      "size": 6458,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-missing-universe",
+      "path": "cases/126/ctor-missing-universe.ndjson",
+      "rationale": "One required formal universe is missing from the kind-specific header. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "632e9e9da0259651faf16d6eac5c56ffa2d6a066100705fa23d976d4fafed3c3",
+      "size": 6456,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-extra-universe",
+      "path": "cases/126/ctor-extra-universe.ndjson",
+      "rationale": "A fresh extra formal universe changes the canonical arity. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "97a1699ec258363dc51f8f7ec814ef8eddf04ca44a9d268641fb330f6a49e16b",
+      "size": 6516,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-signature-sort",
+      "path": "cases/126/ctor-signature-sort.ndjson",
+      "rationale": "A closed Sort replaces the entire canonical function signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "1cf6fc66f24524f77b924b325030c2aa01e5a7c72f47552ce685183365d5dd36",
+      "size": 6457,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-first-domain-prop",
+      "path": "cases/126/ctor-first-domain-prop.ndjson",
+      "rationale": "Only the first domain becomes Prop instead of Sort u; this is not the canonical universe-polymorphic signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "c282ce1bede4e088df1004bdd67837d4fa61c0eb5b846a0f1fe8a98e055201fd",
+      "size": 6532,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-fresh-name",
+      "path": "cases/126/lift-fresh-name.ndjson",
+      "rationale": "Claimed primitive name differs from the canonical structural name for this kind. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "422785e447b7022557d933e47358d0d4cffe6702f37eeedf841cbc42a81d3330",
+      "size": 6594,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-wrong-kind",
+      "path": "cases/126/lift-wrong-kind.ndjson",
+      "rationale": "Name/signature are unchanged but the known quotient-kind tag is inconsistent. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "8e6ed8f925997ab2682938f3b5cc463c1e8ccf115ca45524806844bf3b3bf5bf",
+      "size": 6457,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-missing-universe",
+      "path": "cases/126/lift-missing-universe.ndjson",
+      "rationale": "One required formal universe is missing from the kind-specific header. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "371d35a92766c56eba1c8f1c7ac05bf86c9730966d9d3ef5fab4c1cd582fe56f",
+      "size": 6455,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-extra-universe",
+      "path": "cases/126/lift-extra-universe.ndjson",
+      "rationale": "A fresh extra formal universe changes the canonical arity. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "2c9a58b181ac838fa51547bc98af07d385bafb3e8fec8e855b773aa03fe8aaf4",
+      "size": 6516,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-signature-sort",
+      "path": "cases/126/lift-signature-sort.ndjson",
+      "rationale": "A closed Sort replaces the entire canonical function signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "92170aabe59836ec192907ce8e144b2ecd4b508d9735c9d1aa1540070ce1e2cf",
+      "size": 6457,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-first-domain-prop",
+      "path": "cases/126/lift-first-domain-prop.ndjson",
+      "rationale": "Only the first domain becomes Prop instead of Sort u; this is not the canonical universe-polymorphic signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "cf791a8c48f8c3f44f36b5d8329b3f7afa23d45c081a6b0b435e54bdebff7888",
+      "size": 6532,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-fresh-name",
+      "path": "cases/126/ind-fresh-name.ndjson",
+      "rationale": "Claimed primitive name differs from the canonical structural name for this kind. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "f2c98fa50d1b3b6f2420e6155c57261038d2c7189f07bdccd767323890b45cd4",
+      "size": 6593,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-wrong-kind",
+      "path": "cases/126/ind-wrong-kind.ndjson",
+      "rationale": "Name/signature are unchanged but the known quotient-kind tag is inconsistent. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "56f41f10dd6f983d87f8a8b0a10b00724e66d33d1c5d691c22e67ac59737aa8b",
+      "size": 6459,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-missing-universe",
+      "path": "cases/126/ind-missing-universe.ndjson",
+      "rationale": "One required formal universe is missing from the kind-specific header. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "6acc5d20c92be2150753d4dee42342819e5c2983c5cefafc18696644627234b1",
+      "size": 6456,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-extra-universe",
+      "path": "cases/126/ind-extra-universe.ndjson",
+      "rationale": "A fresh extra formal universe changes the canonical arity. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "78e730306fd43e2c77e7f3f46a9f45d5963a005293464bc3f5b1c5b308b960fc",
+      "size": 6516,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-signature-sort",
+      "path": "cases/126/ind-signature-sort.ndjson",
+      "rationale": "A closed Sort replaces the entire canonical function signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "126a895559932cf3506f1a05bbac7a0510863340979925a21abb2b7e8f74f082",
+      "size": 6457,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ind-first-domain-prop",
+      "path": "cases/126/ind-first-domain-prop.ndjson",
+      "rationale": "Only the first domain becomes Prop instead of Sort u; this is not the canonical universe-polymorphic signature. This is a forged export claim, not an assertion that upstream Replay rejects the ignored payload.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "a6012c0a2353e1428515bdb227d738c67354ad48e6f13bf4f8d57d920451064c",
+      "size": 6532,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/ctor-dotted-single-name",
+      "path": "cases/126/ctor-dotted-single-name.ndjson",
+      "rationale": "One root string Quot.mk is not the structural name Quot/mk.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "6e3f374cc5de297146cdb21f0af975a962f538487593a4209afb962439e285b5",
+      "size": 6500,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-duplicate-universes",
+      "path": "cases/126/lift-duplicate-universes.ndjson",
+      "rationale": "Two formal universe slots must be distinct; duplicated u cannot bind independent input and output levels.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "ab15dca7f54325fe01f01c83fd49d30926af1bc26469ee17094b999f0eb8fb8f",
+      "size": 6458,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "claim-integrity",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/lift-swapped-universes",
+      "path": "cases/126/lift-swapped-universes.ndjson",
+      "rationale": "Only the formal list order is reversed; the signature still uses the previous input/output roles.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "01af6bcc94422549d8cea40b3534016356450cdbca78958df99fcf9be0234b55",
+      "size": 6458,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "header",
+      "expectation_basis": "malformed",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/type-unknown-kind",
+      "path": "cases/126/type-unknown-kind.ndjson",
+      "rationale": "Unknown discriminator is malformed quotient metadata, not a new logical kind.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "dc14ee2e432e00cd6fc8127674808d4f84993054095e43949bb852e61a61d4e8",
+      "size": 6473,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "eq-prerequisite",
+      "expectation_basis": "typing",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/eq-missing",
+      "path": "cases/126/eq-missing.ndjson",
+      "rationale": "No Eq declaration remains. Upstream checkEqType requires an authenticated inductive Eq before quotient initialization.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "6a8c1dd3df015b72c5b57c95f443f40498e3e7c96a1ceae30b14998924dd51d7",
+      "size": 5976,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "eq-prerequisite",
+      "expectation_basis": "typing",
+      "expected": "reject",
+      "family": "126",
+      "id": "126/eq-coherently-renamed",
+      "path": "cases/126/eq-coherently-renamed.ndjson",
+      "rationale": "The complete equality family and references are coherently renamed; exact reserved Eq is absent.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "3d1c94cf1e93846014201fcad3f32b34129dd92a523ced3876a12ec00db433d0",
+      "size": 6469,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "eq-prerequisite",
+      "expectation_basis": "typing",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/eq-constructor-renamed",
+      "path": "cases/126/eq-constructor-renamed.ndjson",
+      "rationale": "The listed reflexivity constructor is coherently renamed. Upstream checkEqType follows the sole constructor entry and checks its type, not the spelling Eq.refl.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "d536a333921c470e1c7aa56b384e67c24083d89c1e4aa8254d8c1210b3b885e4",
+      "size": 6466,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "126",
+      "id": "126/universe-alpha-renamed",
+      "path": "cases/126/universe-alpha-renamed.ndjson",
+      "rationale": "Only quotient-specific universe parameters and their references are renamed; generated Eq/recursor parameters and canonical fresh names remain unchanged.",
+      "requires": [
+        "126"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "952cecca018b49ad82cef8040e97fa6d54978aa1bbfdcd4544392fd6201efb2d",
+      "size": 6474,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "eq-prerequisite",
+      "expectation_basis": "typing",
+      "expected": "reject",
+      "family": "eq-any-constructor",
+      "id": "eq-any-constructor/quotient-prerequisite",
+      "path": "cases/eq-any-constructor/quotient-prerequisite.ndjson",
+      "rationale": "The sole constructor has an extra index field; it is not forall A a, Eq A a a. Both the genuine quotient gate and this altered dependency gate are required.",
+      "requires": [
+        "126",
+        "eq-any-constructor"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "13e8c56c81688e7657e005a90da76e4feb4225f379ee7ae65c63b36e47714d73",
+      "size": 8133,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "eq-prerequisite",
+      "expectation_basis": "typing",
+      "expected": "reject",
+      "family": "eq-type-valued",
+      "id": "eq-type-valued/quotient-prerequisite",
+      "path": "cases/eq-type-valued/quotient-prerequisite.ndjson",
+      "rationale": "The inductive returns Sort 1 instead of Prop; it is not the Eq type required by checkEqType. Both the genuine quotient gate and this altered dependency gate are required.",
+      "requires": [
+        "126",
+        "eq-type-valued"
+      ],
+      "seed": "tutorial/126_quotMkType",
+      "seed_sha256": "98824b3b879da8e81d1801ced0b42430fcec33e686014f36b69ac908b1da19c8",
+      "sha256": "d7bf966c1be019cf183d48200bd157778d0b3a9a06396588a2bf690a8b60cfb5",
+      "size": 7688,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "127",
+      "id": "127/unchanged",
+      "path": "cases/127/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "127"
+      ],
+      "seed": "tutorial/127_quotIndType",
+      "seed_sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "size": 6490,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "127",
+      "id": "127/anonymous-binders",
+      "path": "cases/127/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "127"
+      ],
+      "seed": "tutorial/127_quotIndType",
+      "seed_sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "sha256": "6d97f5b99241ae1cd93189a035ace9446dab3f90d6b8f548f13a8e1193937088",
+      "size": 6482,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "127",
+      "id": "127/forward-declarations",
+      "path": "cases/127/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "127"
+      ],
+      "seed": "tutorial/127_quotIndType",
+      "seed_sha256": "312dc3ffc10c664b544a22df7c4a19a5b843bdf5f44ee56e99cb3a2faaf13da7",
+      "sha256": "b7a62fed7f8e0af5dc1cdad51962114506e7b709a1dc0cdcb8fa187ccb1edadc",
+      "size": 6498,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "128",
+      "id": "128/unchanged",
+      "path": "cases/128/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "128"
+      ],
+      "seed": "tutorial/128_quotLiftType",
+      "seed_sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "size": 6496,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "128",
+      "id": "128/anonymous-binders",
+      "path": "cases/128/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "128"
+      ],
+      "seed": "tutorial/128_quotLiftType",
+      "seed_sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "sha256": "d536308b07502b7fb5b3a43572c6d58685bae882f8ade30ef921356381b710d3",
+      "size": 6488,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "128",
+      "id": "128/forward-declarations",
+      "path": "cases/128/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "128"
+      ],
+      "seed": "tutorial/128_quotLiftType",
+      "seed_sha256": "3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3",
+      "sha256": "017e41c855cdb3097a56059b109018fd44d626bfbc70e7b73112729a255fc2cc",
+      "size": 6504,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "129",
+      "id": "129/unchanged",
+      "path": "cases/129/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "129"
+      ],
+      "seed": "tutorial/129_quotSoundType",
+      "seed_sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "size": 7332,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "129",
+      "id": "129/anonymous-binders",
+      "path": "cases/129/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "129"
+      ],
+      "seed": "tutorial/129_quotSoundType",
+      "seed_sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "sha256": "7e0fe87c390bca035f3a48812b6c3f8463aa0af8a045f2e886d59bd53887d106",
+      "size": 7322,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "129",
+      "id": "129/forward-declarations",
+      "path": "cases/129/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "129"
+      ],
+      "seed": "tutorial/129_quotSoundType",
+      "seed_sha256": "eb746a91c6b322e9db9e6db05c23a534afd377055246e1e317a15794bdceece8",
+      "sha256": "90105d4ffcb09bace823f51cc943656aa684d291f5437159d9c892de1a9ef1c0",
+      "size": 7340,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "130",
+      "id": "130/unchanged",
+      "path": "cases/130/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "size": 7957,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "130",
+      "id": "130/anonymous-binders",
+      "path": "cases/130/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "d058cc1708cf7480245f1cf06ec9659a3f191fa83b91d30414f8c36060643769",
+      "size": 7941,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "130",
+      "id": "130/forward-declarations",
+      "path": "cases/130/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "8652c411b4299c63f29e892cb1c20ed26b1f057cf6713e9a3839f142d500f4cb",
+      "size": 7965,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "accept",
+      "family": "130",
+      "id": "130/canonical",
+      "path": "cases/130/canonical.ndjson",
+      "rationale": "Named-variable reconstruction canonically matches the genuine exported theorem.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "47e83c26db9ed0e38b6dc9cb72b7d3076cc0ba20a53aacac5273bd5f4246e5b5",
+      "size": 9434,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "accept",
+      "family": "130",
+      "id": "130/beta-major",
+      "path": "cases/130/beta-major.ndjson",
+      "rationale": "An identity beta-redex wraps the constructor major; weak-head reduction exposes the same constructor.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "f82ecb01a0912957d213041eb96d247562e8dac9bf49a9112d7db3da1bf70b99",
+      "size": 9765,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/wrong-relation",
+      "path": "cases/130/wrong-relation.ndjson",
+      "rationale": "Major has type Quot A s, while the eliminator requires Quot A r; r and s are independent variables.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "12e454218effd067838095695c1e0888bbd7a9db5596fc608ff1b8794603870b",
+      "size": 10275,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/wrong-constructor",
+      "path": "cases/130/wrong-constructor.ndjson",
+      "rationale": "Eq.refl A x is an equality proof, not a Quot A r major.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "e7a8f6ba7315e08eda0363fc2e7fef11a9f350892d3fe033d6c39d886c9618b7",
+      "size": 9695,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/wrong-universe",
+      "path": "cases/130/wrong-universe.ndjson",
+      "rationale": "Constructor is instantiated at an incompatible universe while the carrier remains Sort u.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "ea091bbd07edabbc727957d3aae0dcb935d51320af7fc48b0cf7cf0b648cf486",
+      "size": 9733,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/wrong-result",
+      "path": "cases/130/wrong-result.ndjson",
+      "rationale": "An unrelated representative changes the claimed result; lift has no equality premise between representatives, and ind has a different dependent proposition.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "c1d845274451847348ba887105a71a36539d65ddbd9179cafbf53ab3baf26f44",
+      "size": 10162,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/wrong-representative",
+      "path": "cases/130/wrong-representative.ndjson",
+      "rationale": "A B-valued variable is supplied as the A-valued constructor representative; A and B are arbitrary independent types.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "1338e82662abd13bb2598175f641c77cfb7d2894d377caf89bd61e301a516633",
+      "size": 10124,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "130",
+      "id": "130/overapplied-constructor",
+      "path": "cases/130/overapplied-constructor.ndjson",
+      "rationale": "A quotient value is applied as a function; its type is Quot A r, not a function type.",
+      "requires": [
+        "130"
+      ],
+      "seed": "tutorial/130_quotLiftReduction",
+      "seed_sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "sha256": "94b3bd6689f38679c9ddeaf126bd55f5affdc19c6ec49ff1a0c4e55e043fd768",
+      "size": 9618,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/unchanged",
+      "path": "cases/131/unchanged.ndjson",
+      "rationale": "Exact baseline bytes.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "size": 7817,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/anonymous-binders",
+      "path": "cases/131/anonymous-binders.ndjson",
+      "rationale": "Only binder display names change; de Bruijn indices, universe identities and declaration claims are unchanged.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "eee69b3dbaf32b16217eb7e56bf0feae589743d1c028ea872163afc53e9878b1",
+      "size": 7803,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "control",
+      "expectation_basis": "transport",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/forward-declarations",
+      "path": "cases/131/forward-declarations.ndjson",
+      "rationale": "Identical expression DAG and declarations in reverse order; implicit Eq prerequisite must still be scheduled.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "2857165ac9fc43080b3089c25ba38f82771907fd24c19d16676f455b36ced480",
+      "size": 7825,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/canonical",
+      "path": "cases/131/canonical.ndjson",
+      "rationale": "Named-variable reconstruction canonically matches the genuine exported theorem.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "3e0e530bb2b2b791ef28f9ba7068968ef1a4bcac441e5f63b7fea3fcd56664d8",
+      "size": 8911,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/beta-major",
+      "path": "cases/131/beta-major.ndjson",
+      "rationale": "An identity beta-redex wraps the constructor major; weak-head reduction exposes the same constructor.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "9985758b5c75dca52aaa81488c0856841ceb2a5be41fab31bf809ef9b240a011",
+      "size": 9169,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "131",
+      "id": "131/wrong-relation",
+      "path": "cases/131/wrong-relation.ndjson",
+      "rationale": "Major has type Quot A s, while the eliminator requires Quot A r; r and s are independent variables.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "c7478eb01edea21bdf818139290af885ed43c13f5b557d379a4a70d2a385f669",
+      "size": 9900,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "131",
+      "id": "131/wrong-constructor",
+      "path": "cases/131/wrong-constructor.ndjson",
+      "rationale": "Eq.refl A x is an equality proof, not a Quot A r major.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "09643687e55564df4eb8aceb9202c0340c45d15e6d324376a2b256ca0570da44",
+      "size": 9173,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "131",
+      "id": "131/wrong-universe",
+      "path": "cases/131/wrong-universe.ndjson",
+      "rationale": "Constructor is instantiated at an incompatible universe while the carrier remains Sort u.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "a1f801000174a74fe215c8db1760e3658348d7a2083f5309a30871444aafd331",
+      "size": 9229,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "131",
+      "id": "131/wrong-result",
+      "path": "cases/131/wrong-result.ndjson",
+      "rationale": "An unrelated representative changes the claimed result; lift has no equality premise between representatives, and ind has a different dependent proposition.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "bc6f63d429617ca9bf67c85c90a51a74645a044af3f6ee5693ae889eb7bffb22",
+      "size": 9642,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "typing-reduction",
+      "expected": "reject",
+      "family": "131",
+      "id": "131/missing-constructor-argument",
+      "path": "cases/131/missing-constructor-argument.ndjson",
+      "rationale": "Partial Quot.mk A r has function type, not the required quotient-major type.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "f28b3df6bdf20193a9416748dffe80a0043f10e7cf69f2eae75d902cd2381d34",
+      "size": 9060,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    },
+    {
+      "dimension": "reduction",
+      "expectation_basis": "proof-irrelevance",
+      "expected": "accept",
+      "family": "131",
+      "id": "131/neutral-major-proof-control",
+      "path": "cases/131/neutral-major-proof-control.ndjson",
+      "rationale": "A neutral q and hq : B q are used; both endpoints are proofs of the same proposition, so proof irrelevance permits equality without quotient computation.",
+      "requires": [
+        "131"
+      ],
+      "seed": "tutorial/131_quotIndReduction",
+      "seed_sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "sha256": "58bc288e2731d4500862124878f9f53b85450111a08ae1f83ba1e459cbb3a1de",
+      "size": 9695,
+      "upstream": "vendor/lean4lean/Lean4Lean/Quot.lean"
+    }
+  ],
+  "header_contract_note": "Upstream Replay regenerates quotDecl without comparing every quotInfo payload; forged-header expectations concern the explicit local exported-claim integrity contract.",
+  "review_snapshot_sha256": "eb4dfadc04f3b5dfa79ddad8f6a218cb5aacd22a3a349a9756d113a4ae607964",
+  "scope": "Export-claim integrity and typing/reduction witnesses; not a soundness/completeness proof.",
+  "suite": "hol-quotient-audit",
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76",
+  "version": 2
+}

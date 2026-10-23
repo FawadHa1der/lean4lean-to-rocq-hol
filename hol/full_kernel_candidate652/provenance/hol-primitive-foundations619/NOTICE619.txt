@@ -1,0 +1,21 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of local rocq/Primitives.v13-140, itself a Gallina
+adaptation of Lean4Lean/Primitive.lean by Mario Carneiro and Lean4Lean
+contributors, Apache-2.0, commit8223d223ed98661882e95d9d6a7126df7097cd76.
+Reuse canonical full447 syntax,493 declarations,491 results,532 contexts,
+480 structural comparison and533/539 literal names. Preserve existing notices.
+
+Reference files under /Users/fawadhaider/code/lean4 in rocq:hol light:
+rocq/Primitives.v SHA256
+8e7d66e507f7851fe8a32f07927abcaa419fc6c76159bd5cc32a00d4653e1aee
+rocq/Checker.v SHA256
+446c9079a36d833451495f0f4aa5f9811fd11c87726f82f9c77f6397a0d176b0
+docs/PRIMITIVES.md SHA256
+38e86d8948ce498890f1a7f499bf14f8c2c0c3f4bfab95ed9542b42c778c5770
+
+SOURCE ONLY / UNCOMPILED. No HOL process or test has run for these files.
+Proposed theorems are scripts, not proof evidence. This is not an independent
+proof of Lean equivalence, primitive soundness, admitted-environment invariants
+or end-to-end file checking. No new axiom, unchecked cast or oracle is used.

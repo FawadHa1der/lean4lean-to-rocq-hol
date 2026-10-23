@@ -1,0 +1,531 @@
+{
+  "baselines": [
+    {
+      "family": "wrap",
+      "id": "baseline/wrap",
+      "path": "baselines/wrap.ndjson",
+      "sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "size": 2491
+    },
+    {
+      "family": "chain",
+      "id": "baseline/chain",
+      "path": "baselines/chain.ndjson",
+      "sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "size": 5060
+    },
+    {
+      "family": "dependent",
+      "id": "baseline/dependent",
+      "path": "baselines/dependent.ndjson",
+      "sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "size": 2913
+    },
+    {
+      "family": "data-prop",
+      "id": "baseline/data-prop",
+      "path": "baselines/data-prop.ndjson",
+      "sha256": "15a8c43cb7a7bbd4f8fed56cf03263dd7fc3c6506aab3959635ca31f979e8d9b",
+      "size": 2373
+    },
+    {
+      "family": "proof-prop",
+      "id": "baseline/proof-prop",
+      "path": "baselines/proof-prop.ndjson",
+      "sha256": "b5d0e072de236feca5fd6edc36553725741e2350f71d47f8c6d54989da9bcb3e",
+      "size": 2413
+    },
+    {
+      "family": "choice-prop",
+      "id": "baseline/choice-prop",
+      "path": "baselines/choice-prop.ndjson",
+      "sha256": "f731306caf26ee138e1f403939db2f6474195ff2967c30dbe36c234e8feee80b",
+      "size": 3320
+    },
+    {
+      "family": "parameter-prop",
+      "id": "baseline/parameter-prop",
+      "path": "baselines/parameter-prop.ndjson",
+      "sha256": "ba7694d39d2225869d196e7d8a5149876362a0ab540cd42052a0d60c4e878a5d",
+      "size": 2507
+    },
+    {
+      "family": "varying",
+      "id": "baseline/varying",
+      "path": "baselines/varying.ndjson",
+      "sha256": "2d62f4fcbe9905c85725f36ddf010ad51cc2e1c74396e02d4203f853446ea1f6",
+      "size": 2415
+    },
+    {
+      "family": "empty-varying",
+      "id": "baseline/empty-varying",
+      "path": "baselines/empty-varying.ndjson",
+      "sha256": "b6c1dd414fec1bafd230695369957e21be508d50cfccb15936fbd7c7968f2054",
+      "size": 1430
+    },
+    {
+      "family": "iota",
+      "id": "baseline/iota",
+      "path": "baselines/iota.ndjson",
+      "sha256": "8705e2826e250bcb258391522fb4bcb5523ba1c72a27410dfb1528bcd9df2dce",
+      "size": 4421
+    }
+  ],
+  "cases": [
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "wrap",
+      "id": "wrap/binder-control",
+      "path": "cases/wrap/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "ef8aaacc7ea0465fafbf3c7bc8ade7b837aae26b5acb7a67bfb8053d2c7f203e",
+      "size": 2489
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/forged-elimination",
+      "path": "cases/wrap/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "386de5174d0ae6f6f5dffc68b79e24358772e4d110145065136d19f7030a3e8d",
+      "size": 2430
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/forged-k",
+      "path": "cases/wrap/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "01b2a03228225929a843bb390f2dcb4dded3ad1df408ff8f47c64511561c0803",
+      "size": 2490
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "chain",
+      "id": "chain/binder-control",
+      "path": "cases/chain/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "010588acf8fb5a045d6867f47a9c241baa2d0dc7314ae307b847bd1f2c74884f",
+      "size": 5047
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/forged-elimination",
+      "path": "cases/chain/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "918b130fff82552f6fc663fbedf5fa4e3fa587d17e128973d83370468d1bde77",
+      "size": 4997
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/forged-k",
+      "path": "cases/chain/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "be4e59f044c353a18e167b379e842c33fa2b85712eb59be4f1eee65d157ff0f1",
+      "size": 5059
+    },
+    {
+      "baseline_sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "dependent",
+      "id": "dependent/binder-control",
+      "path": "cases/dependent/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "1084a7909ea08993b00b408e317d18cdc3c4416d476ff9a8bd1fbf1155eadd7c",
+      "size": 2911
+    },
+    {
+      "baseline_sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "dependent",
+      "id": "dependent/forged-elimination",
+      "path": "cases/dependent/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "288902806f44035ae8275ccadaa167a39cc45319dce6f796422cca07c2d753fc",
+      "size": 2855
+    },
+    {
+      "baseline_sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "dependent",
+      "id": "dependent/forged-k",
+      "path": "cases/dependent/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "1616ddad2677ae660fb256849499577c62c8103bef5e79d9c34af5a2c0209371",
+      "size": 2912
+    },
+    {
+      "baseline_sha256": "15a8c43cb7a7bbd4f8fed56cf03263dd7fc3c6506aab3959635ca31f979e8d9b",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "data-prop",
+      "id": "data-prop/binder-control",
+      "path": "cases/data-prop/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "7714c5ce704301715cbcf844a152e2bd39ec4c80aabcc1c0c3bf809e961ef9d4",
+      "size": 2373
+    },
+    {
+      "baseline_sha256": "15a8c43cb7a7bbd4f8fed56cf03263dd7fc3c6506aab3959635ca31f979e8d9b",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "data-prop",
+      "id": "data-prop/forged-elimination",
+      "path": "cases/data-prop/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "36f73d7d5cd489060370f88249f71210b04b93dc72162f83897958191e9c4ca3",
+      "size": 2450
+    },
+    {
+      "baseline_sha256": "15a8c43cb7a7bbd4f8fed56cf03263dd7fc3c6506aab3959635ca31f979e8d9b",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "data-prop",
+      "id": "data-prop/forged-k",
+      "path": "cases/data-prop/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "781b3a49f9c740a32b4ecff3474bbf7dde72a008dbcd85bc0c4849ea785aaee0",
+      "size": 2372
+    },
+    {
+      "baseline_sha256": "b5d0e072de236feca5fd6edc36553725741e2350f71d47f8c6d54989da9bcb3e",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "proof-prop",
+      "id": "proof-prop/binder-control",
+      "path": "cases/proof-prop/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "bd5c15f81c6e4296f8f2936274b399a8aa65b52cb37af8640634aaa749a168ad",
+      "size": 2413
+    },
+    {
+      "baseline_sha256": "b5d0e072de236feca5fd6edc36553725741e2350f71d47f8c6d54989da9bcb3e",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "proof-prop",
+      "id": "proof-prop/forged-elimination",
+      "path": "cases/proof-prop/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "043772991cde8c19e259bbd209ef7d86b9093c9c062e933d310383688d22b5ef",
+      "size": 2336
+    },
+    {
+      "baseline_sha256": "b5d0e072de236feca5fd6edc36553725741e2350f71d47f8c6d54989da9bcb3e",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "proof-prop",
+      "id": "proof-prop/forged-k",
+      "path": "cases/proof-prop/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "aad0e0b34c8ff9a983b451b36c8a2dad977cb5a6d4f4fcf1f5a6395dcc8c636e",
+      "size": 2412
+    },
+    {
+      "baseline_sha256": "f731306caf26ee138e1f403939db2f6474195ff2967c30dbe36c234e8feee80b",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "choice-prop",
+      "id": "choice-prop/binder-control",
+      "path": "cases/choice-prop/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "0374a513fe310fff9b256ea18292e3027e890bea7c18bbebc3627e13e6c557d4",
+      "size": 3317
+    },
+    {
+      "baseline_sha256": "f731306caf26ee138e1f403939db2f6474195ff2967c30dbe36c234e8feee80b",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "choice-prop",
+      "id": "choice-prop/forged-elimination",
+      "path": "cases/choice-prop/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "86e50aaab090dd14355adcad958cb36b033111aadb313b055f60b33d174e4485",
+      "size": 3399
+    },
+    {
+      "baseline_sha256": "f731306caf26ee138e1f403939db2f6474195ff2967c30dbe36c234e8feee80b",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "choice-prop",
+      "id": "choice-prop/forged-k",
+      "path": "cases/choice-prop/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "d837183a4f3d3696e7813bfa4e5611a8741eaec59fc9ebf74b6d7123de55ee12",
+      "size": 3319
+    },
+    {
+      "baseline_sha256": "ba7694d39d2225869d196e7d8a5149876362a0ab540cd42052a0d60c4e878a5d",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "parameter-prop",
+      "id": "parameter-prop/binder-control",
+      "path": "cases/parameter-prop/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "2d3225122180274df74edd889ea2eada2fa8345ce324b711b2f2bf0d600cb396",
+      "size": 2507
+    },
+    {
+      "baseline_sha256": "ba7694d39d2225869d196e7d8a5149876362a0ab540cd42052a0d60c4e878a5d",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "parameter-prop",
+      "id": "parameter-prop/forged-elimination",
+      "path": "cases/parameter-prop/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "afb66cb3839a6cc0b20b7e80f4eabf9e0e2da5deb8bbb83eacb1ae4da99bf515",
+      "size": 2430
+    },
+    {
+      "baseline_sha256": "ba7694d39d2225869d196e7d8a5149876362a0ab540cd42052a0d60c4e878a5d",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "parameter-prop",
+      "id": "parameter-prop/forged-k",
+      "path": "cases/parameter-prop/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "7b3989f9956c35e9f4c5037fd872d5f840558997826e7b0f1585eb30c712abcd",
+      "size": 2508
+    },
+    {
+      "baseline_sha256": "2d62f4fcbe9905c85725f36ddf010ad51cc2e1c74396e02d4203f853446ea1f6",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "varying",
+      "id": "varying/binder-control",
+      "path": "cases/varying/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "bcbac23a312ca3ce3f2a25ef205c5c45f78fb2f12dd7a6d23da7ab71abd02ca1",
+      "size": 2415
+    },
+    {
+      "baseline_sha256": "2d62f4fcbe9905c85725f36ddf010ad51cc2e1c74396e02d4203f853446ea1f6",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "varying",
+      "id": "varying/forged-elimination",
+      "path": "cases/varying/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "373f5dc9aacb93f05978be31177d7dc0066feb923adc9a06e6de033784c6a51e",
+      "size": 2476
+    },
+    {
+      "baseline_sha256": "2d62f4fcbe9905c85725f36ddf010ad51cc2e1c74396e02d4203f853446ea1f6",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "varying",
+      "id": "varying/forged-k",
+      "path": "cases/varying/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "6ec68b331d943b38de84ad0494e3256a47253c859a5d251250271e9d3cab70a7",
+      "size": 2414
+    },
+    {
+      "baseline_sha256": "b6c1dd414fec1bafd230695369957e21be508d50cfccb15936fbd7c7968f2054",
+      "dimension": "transport",
+      "expected": "accept",
+      "family": "empty-varying",
+      "id": "empty-varying/binder-control",
+      "path": "cases/empty-varying/binder-control.ndjson",
+      "rationale": "Binder display names are not semantic.",
+      "sha256": "7aac38341690f8a49f09cfd9b591ef1e828f58d202601c4e8ef419428765a9c7",
+      "size": 1430
+    },
+    {
+      "baseline_sha256": "b6c1dd414fec1bafd230695369957e21be508d50cfccb15936fbd7c7968f2054",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "empty-varying",
+      "id": "empty-varying/forged-elimination",
+      "path": "cases/empty-varying/forged-elimination.ndjson",
+      "rationale": "Coherently change recursor universe, type, and RHS contrary to upstream isLargeEliminator.",
+      "sha256": "e719ecb4e5a7a2ceeb76d31845c926dd27620d479cf8cd56a98258bb95e0204c",
+      "size": 1372
+    },
+    {
+      "baseline_sha256": "b6c1dd414fec1bafd230695369957e21be508d50cfccb15936fbd7c7968f2054",
+      "dimension": "elimination",
+      "expected": "reject",
+      "family": "empty-varying",
+      "id": "empty-varying/forged-k",
+      "path": "cases/empty-varying/forged-k.ndjson",
+      "rationale": "K requires a universally Prop-valued singleton with no constructor fields beyond parameters.",
+      "sha256": "4130b8ad89498b2b87febecae748ac8b4a8fadc1bbb546cfc667b8862da88c6e",
+      "size": 1429
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "metadata-order",
+      "expected": "accept",
+      "family": "chain",
+      "id": "chain/ctor-permutation",
+      "path": "cases/chain/ctor-permutation.ndjson",
+      "rationale": "Presentation order changes, not logical constructor list, indices, or rules.",
+      "sha256": "2e97f5fd264a2294adfb77641cefb3360839e265cc3fa8c488cd0d6598b09e36",
+      "size": 5060
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "metadata-order",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/duplicate-claim",
+      "path": "cases/chain/duplicate-claim.ndjson",
+      "rationale": "Same total claim count cannot hide a missing distinct constructor.",
+      "sha256": "ae1aaf908aee6c9f5962dae5fec0f3e7a02dda14b1be9ccfa348b2daf97bf458",
+      "size": 5059
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "metadata-order",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/rule-permutation",
+      "path": "cases/chain/rule-permutation.ndjson",
+      "rationale": "Recursor rules are ordered generated metadata, unlike the outer claim table.",
+      "sha256": "b8322338336c662c2162dba45ee916d2d63c5be266f58820314280f2dd6a27ce",
+      "size": 5060
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "metadata-order",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/missing-claim",
+      "path": "cases/chain/missing-claim.ndjson",
+      "rationale": "All generated constructor claims are required.",
+      "sha256": "53be70ea9a5b60750fc1c0d8828ec4019347ed88f4c3fe4bf20fe11a64962435",
+      "size": 4956
+    },
+    {
+      "baseline_sha256": "c46747105cf28fddda449d85c7b939bf2326a55318008326693f5efa6e99f2f9",
+      "dimension": "metadata-order",
+      "expected": "reject",
+      "family": "chain",
+      "id": "chain/extra-claim",
+      "path": "cases/chain/extra-claim.ndjson",
+      "rationale": "Extra duplicate claims fail both length and uniqueness.",
+      "sha256": "5e7d1d43cc20c2a83c49321ac76fcacb305b7cfeef6e465c83a4ca3f200111e2",
+      "size": 5163
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "universes",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/cross-universe-bound",
+      "path": "cases/wrap/cross-universe-bound.ndjson",
+      "rationale": "Field level succ u is not universally at most result level succ v; equal sample valuations are insufficient.",
+      "sha256": "34c467d6d91fc9d21bc1af355b8a42724c70b83fadd5a45a40b7724078a96a21",
+      "size": 2596
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "universes",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/oversized-field",
+      "path": "cases/wrap/oversized-field.ndjson",
+      "rationale": "A field whose type has universe succ(succ(succ u)) exceeds result succ u.",
+      "sha256": "146d196464868874cbd8c79207f5cfc29a7963936524d5be719aba3fd20f77ca",
+      "size": 2529
+    },
+    {
+      "baseline_sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "dimension": "parameter-context",
+      "expected": "reject",
+      "family": "dependent",
+      "id": "dependent/mismatched-constructor-prefix",
+      "path": "cases/dependent/mismatched-constructor-prefix.ndjson",
+      "rationale": "Removing constructor parameter binders in ML must not discard their incompatible supplied types.",
+      "sha256": "c66145215bc0455c356ba24c3ab8570bf55e1bd088ff359bed1e338855413a64",
+      "size": 3058
+    },
+    {
+      "baseline_sha256": "345d257eb4cd88e8dcbf39d97d4afeca958d4f74cf028735a1aa1d76bc0fa8ea",
+      "dimension": "parameter-context",
+      "expected": "reject",
+      "family": "dependent",
+      "id": "dependent/out-of-scope-parameter",
+      "path": "cases/dependent/out-of-scope-parameter.ndjson",
+      "rationale": "The second parameter type refers outside its preceding context, even though later full binders exist.",
+      "sha256": "ddac6db2a107ba19a6acdd727463fc2c7a1d70bb1787466406a63b3a5df2c0dc",
+      "size": 2916
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "prior-environment",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/negative-recursion",
+      "path": "cases/wrap/negative-recursion.ndjson",
+      "rationale": "A function domain contains the new family negatively and is unavailable in the prior environment.",
+      "sha256": "70e1ddd245483c007222c044df89987b2544039069b7cd79d41573078c753be7",
+      "size": 2772
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "prior-environment",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/nonuniform-recursion",
+      "path": "cases/wrap/nonuniform-recursion.ndjson",
+      "rationale": "Recursive occurrence changes uniform parameter A into Wrap A.",
+      "sha256": "95174b494d73f1c919c19b2b5849bbe57f9b400a69fe934efc2c3e07832f887f",
+      "size": 2594
+    },
+    {
+      "baseline_sha256": "3435251bfba06921cb1be56dccb82d8d5bd0efa9ecdea40d9b97c84faa2b7433",
+      "dimension": "prior-environment",
+      "expected": "reject",
+      "family": "wrap",
+      "id": "wrap/self-ctor-field",
+      "path": "cases/wrap/self-ctor-field.ndjson",
+      "rationale": "A current-block constructor cannot be used as a prior-environment data-field type.",
+      "sha256": "2338280983f60151f46eb5e89b8d3450d5081c16f7df3da39f60801597271476",
+      "size": 2491
+    },
+    {
+      "baseline_sha256": "8705e2826e250bcb258391522fb4bcb5523ba1c72a27410dfb1528bcd9df2dce",
+      "dimension": "iota",
+      "expected": "reject",
+      "family": "iota",
+      "id": "iota/wrong-parameter",
+      "path": "cases/iota/wrong-parameter.ndjson",
+      "rationale": "A major of Wrap B must not reduce as though it had the recursor prefix parameter A.",
+      "sha256": "8a786e0a6eb6a084e8067cdc542b654eaa4091b4c882d440b11fdac7c3cb9bd0",
+      "size": 3795
+    },
+    {
+      "baseline_sha256": "8705e2826e250bcb258391522fb4bcb5523ba1c72a27410dfb1528bcd9df2dce",
+      "dimension": "iota",
+      "expected": "reject",
+      "family": "iota",
+      "id": "iota/wrong-result",
+      "path": "cases/iota/wrong-result.ndjson",
+      "rationale": "The correct reduction returns a; an independent arbitrary a2 cannot supply P(a).",
+      "sha256": "9746cf91fe63619a59065f0475a122b6e17ca84228cd89d513ebf306c345e2af",
+      "size": 4606
+    }
+  ],
+  "runtime_status": "not-run-until-server-release",
+  "snapshot_manifest_sha256": "777f23467bee30d5563f2510a2efb6f340168bea4e67d632e68a83e41af5dade",
+  "suite": "hol-family-audit-v1",
+  "version": 1
+}

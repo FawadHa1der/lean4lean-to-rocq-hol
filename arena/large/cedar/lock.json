@@ -1,0 +1,38 @@
+{
+  "lock_version": 1,
+  "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "definition": "tests/cedar.yaml",
+  "definition_sha256": "669f17754c8db6aa7febc6c8be6ef2da38f6f2b25cbc78e5700574eda9fd4eb1",
+  "reviewed_pre_build_sha256": "e40e6aa255368f5c815e04ea808fae1f7e88a6cd6f43823ee6be26731e2de501",
+  "pre_build_policy": "Do not execute the destructive flattening command; use the unchanged cedar-lean subdirectory as the Lake working directory.",
+  "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "lean_version": "4.34.1",
+  "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+  "lean_binary_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+  "lake_binary_sha256": "c8c24f1398162ab4004e2a869952d8469f54293651151feaad4526f2b8474c6e",
+  "module": "Cedar",
+  "source_subdirectory": "cedar-lean",
+  "sources": {
+    "cedar": {
+      "revision": "017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+      "url": "https://codeload.github.com/cedar-policy/cedar-spec/tar.gz/017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+      "filename": "cedar.tar.gz",
+      "directory": "cedar-spec-017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+      "size": 1069420,
+      "sha256": "a2ccf74282941a07dcd2381400a86ab676572014595517c0d2972e70af10f7f4"
+    },
+    "batteries": {
+      "revision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "url": "https://codeload.github.com/leanprover-community/batteries/tar.gz/f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "filename": "batteries.tar.gz",
+      "directory": "batteries-f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "size": 363638,
+      "sha256": "1987093d3e0af3c75084f48095a8eb0fac0751b11712c51fb05b31e71d64220b"
+    }
+  },
+  "expected": {
+    "size": 872400337,
+    "lines": 15316781,
+    "sha256": "6b00afb2436da7d8c6e2a94cf70c8f6d41da28831c0ecae0541be9f6123fab82"
+  }
+}

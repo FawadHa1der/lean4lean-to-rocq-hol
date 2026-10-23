@@ -1,0 +1,2403 @@
+{
+  "baselines": [
+    {
+      "derivation": "deterministic fixture construction v1",
+      "family": "nat",
+      "id": "hol-exports/nat",
+      "path": "baselines/nat.ndjson",
+      "sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "size": 3151,
+      "source_id": "tutorial/102_aNatLit",
+      "source_sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+    },
+    {
+      "derivation": "exact bytes",
+      "family": "bool",
+      "id": "hol-exports/bool",
+      "path": "baselines/bool.ndjson",
+      "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "size": 2377,
+      "source_id": "tutorial/037_boolType",
+      "source_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07"
+    },
+    {
+      "derivation": "exact bytes",
+      "family": "empty",
+      "id": "hol-exports/empty",
+      "path": "baselines/empty.ndjson",
+      "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "size": 1228,
+      "source_id": "tutorial/036_empty",
+      "source_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+    },
+    {
+      "derivation": "deterministic fixture construction v1",
+      "family": "tree",
+      "id": "hol-exports/tree",
+      "path": "baselines/tree.ndjson",
+      "sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "size": 5833,
+      "source_id": "tutorial/036_empty",
+      "source_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb"
+    },
+    {
+      "derivation": "deterministic fixture construction v1",
+      "family": "literal53",
+      "id": "hol-exports/literal53",
+      "path": "baselines/literal53.ndjson",
+      "sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "size": 3868,
+      "source_id": "tutorial/102_aNatLit",
+      "source_sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+    },
+    {
+      "derivation": "deterministic fixture construction v1",
+      "family": "literal63",
+      "id": "hol-exports/literal63",
+      "path": "baselines/literal63.ndjson",
+      "sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "size": 3871,
+      "source_id": "tutorial/102_aNatLit",
+      "source_sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+    },
+    {
+      "derivation": "deterministic fixture construction v1",
+      "family": "literal256",
+      "id": "hol-exports/literal256",
+      "path": "baselines/literal256.ndjson",
+      "sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "size": 3930,
+      "source_id": "tutorial/102_aNatLit",
+      "source_sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930"
+    }
+  ],
+  "cases": [
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-definition-name",
+      "path": "cases/nat/control-definition-name.ndjson",
+      "rationale": "Only the ordinary declaration name changes coherently.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "renamedDefinition"
+            ],
+            "before": [
+              "HolExports",
+              "natType"
+            ],
+            "name_id": 12
+          }
+        ]
+      },
+      "sha256": "5a86735c6dca8c466034582e29a424e2a360096d8c09a4236730d9c633e2623f",
+      "size": 3206
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-binder-name",
+      "path": "cases/nat/control-binder-name.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "cba12fad127cb9236676b12700bf7d9053cbaffb902d731a8f38d526b6382872",
+      "size": 3147
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-binder-info",
+      "path": "cases/nat/control-binder-info.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "87c0503ec433aac4a206f9cf7aa1a2fc476fdbd2c2e830d657b31fb520004a12",
+      "size": 3225
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-table-ids",
+      "path": "cases/nat/control-table-ids.ndjson",
+      "rationale": "Bijective name/level/expression ID renumbering preserves references and logical syntax.",
+      "recipe": {},
+      "sha256": "b6072915aace594ab8e9c53f7b679b5d8fdb6215e02c39fac6515a06aaf516bb",
+      "size": 3387
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-grouped-tables",
+      "path": "cases/nat/control-grouped-tables.ndjson",
+      "rationale": "Group the backward-defined name, level, and expression tables without changing declarations.",
+      "recipe": {},
+      "sha256": "08d663557d2a497b51280d38bb48475f88108773fb31918ff78dd1641f5ae5a8",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-forward-declarations",
+      "path": "cases/nat/control-forward-declarations.ndjson",
+      "rationale": "Reverse complete declaration records while keeping every wire reference defined before use.",
+      "recipe": {},
+      "sha256": "5d19fcb54c161ac0b5faa16f01d1d41fc6a88341ac63944a9d1b3d0073d3254c",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-family-name",
+      "path": "cases/nat/control-family-name.ndjson",
+      "rationale": "Consistently rename the family and generated names; the literal-free Nat baseline has no implicit Nat dependency.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "RenamedNat"
+            ],
+            "before": [
+              "Nat"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedNat",
+              "zero"
+            ],
+            "before": [
+              "Nat",
+              "zero"
+            ],
+            "name_id": 2
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedNat",
+              "succ"
+            ],
+            "before": [
+              "Nat",
+              "succ"
+            ],
+            "name_id": 3
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedNat",
+              "rec"
+            ],
+            "before": [
+              "Nat",
+              "rec"
+            ],
+            "name_id": 5
+          }
+        ]
+      },
+      "sha256": "1d18b75e67ff545b94d4af798b71ae72ca8242b976bc47e09d4a048b470a23c5",
+      "size": 3204
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "claim-transport",
+      "expected": "accept",
+      "family": "nat",
+      "id": "nat/control-constructor-table-order",
+      "path": "cases/nat/control-constructor-table-order.ndjson",
+      "rationale": "Constructor table presentation changes, but logical ctor order, indices, and ordered rules do not.",
+      "recipe": {},
+      "sha256": "37336f764483bb656a80256fdaa34b6698b748ecd6c57f9f2b42558c509d5697",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-indices",
+      "path": "cases/nat/metadata-indices.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "types",
+          0,
+          "numIndices"
+        ],
+        "value": 1
+      },
+      "sha256": "486854fd091637ac2c0f38668c283e57702e33022ffd02e285723cb7721a6daf",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-recursive-flag",
+      "path": "cases/nat/metadata-recursive-flag.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "types",
+          0,
+          "isRec"
+        ],
+        "value": false
+      },
+      "sha256": "b343bcbf556915ed3368bb3063bc0ff5dabdfda644a79fe75630e6546aba0222",
+      "size": 3152
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-minors",
+      "path": "cases/nat/metadata-minors.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "recs",
+          0,
+          "numMinors"
+        ],
+        "value": 3
+      },
+      "sha256": "d2f53f0f941c20608b5a6baf7895fec428b3e9cf413060fe9740e69e1173e873",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-k",
+      "path": "cases/nat/metadata-k.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "recs",
+          0,
+          "k"
+        ],
+        "value": true
+      },
+      "sha256": "3cc1936c5582df84f3e35fd822dc4723b01b77abcaeef7027fbe4fc0ebd97a34",
+      "size": 3150
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-ctor-index",
+      "path": "cases/nat/metadata-ctor-index.ndjson",
+      "rationale": "Change one constructor index without changing logical constructor order.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "ctors",
+          0,
+          "cidx"
+        ],
+        "value": 1
+      },
+      "sha256": "b7e84aabd50259fc8020ea6193af28f51bf6e3116bc35f2b7a709650b3e88cc7",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-rule-missing",
+      "path": "cases/nat/metadata-rule-missing.ndjson",
+      "rationale": "A supplied recursor is missing a generated reduction rule.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 3,
+            "nfields": 1,
+            "rhs": 35
+          }
+        ]
+      },
+      "sha256": "2d9dc45068cd5c42b0a14073bed212c34b34d8425b9c6f6a6376a7b460c5b698",
+      "size": 3119
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-rule-rhs",
+      "path": "cases/nat/metadata-rule-rhs.ndjson",
+      "rationale": "An existing sort expression is not the generated lambda rule body; references remain defined.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "recs",
+          0,
+          "rules",
+          0,
+          "rhs"
+        ],
+        "value": 0
+      },
+      "sha256": "f748b07999ef854c31fa7d77cd52676d6df73f180f1f595eccff87e0dc8abb82",
+      "size": 3150
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/metadata-rule-order",
+      "path": "cases/nat/metadata-rule-order.ndjson",
+      "rationale": "Replay metadata authenticates ordered rules even though reduction looks them up by constructor.",
+      "recipe": {
+        "path": [
+          50,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 3,
+            "nfields": 1,
+            "rhs": 35
+          },
+          {
+            "ctor": 2,
+            "nfields": 0,
+            "rhs": 24
+          }
+        ]
+      },
+      "sha256": "b72e1dcfb292e2487d5886de78dc07fbbf128fd90fd8edbf220bf6a058b1ba49",
+      "size": 3151
+    },
+    {
+      "baseline_id": "hol-exports/nat",
+      "baseline_sha256": "a80286e840a8c3faab75f2ffa71e4d2651ed207288ce4114f593b73feb3d8a43",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "nat",
+      "id": "nat/false-other-primitive",
+      "path": "cases/nat/false-other-primitive.ndjson",
+      "rationale": "A coherent family rename cannot authorize the wrong primitive shape.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Bool"
+            ],
+            "before": [
+              "Nat"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "Bool",
+              "zero"
+            ],
+            "before": [
+              "Nat",
+              "zero"
+            ],
+            "name_id": 2
+          },
+          {
+            "after": [
+              "Bool",
+              "succ"
+            ],
+            "before": [
+              "Nat",
+              "succ"
+            ],
+            "name_id": 3
+          },
+          {
+            "after": [
+              "Bool",
+              "rec"
+            ],
+            "before": [
+              "Nat",
+              "rec"
+            ],
+            "name_id": 5
+          }
+        ]
+      },
+      "sha256": "75b8b99c4ac87e065b6ada6a1acaab12f461526540b4c2d4c87670f317831fe5",
+      "size": 3152
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-definition-name",
+      "path": "cases/bool/control-definition-name.ndjson",
+      "rationale": "Only the ordinary declaration name changes coherently.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "renamedDefinition"
+            ],
+            "before": [
+              "boolType"
+            ],
+            "name_id": 10
+          }
+        ]
+      },
+      "sha256": "37f1e175d31dd95978a1c0715839e39983996063f3b4ec2d5cb0d427fa1899bd",
+      "size": 2432
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-binder-name",
+      "path": "cases/bool/control-binder-name.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "40a6368bf91d2dd21b61a55e5357d50aa9aebff5522d1a1ac2445ceaa8b16b67",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-binder-info",
+      "path": "cases/bool/control-binder-info.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "783f716777906fd294d945174dedeb867e03164b07c29976b1a1d7614b0b5e12",
+      "size": 2431
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-table-ids",
+      "path": "cases/bool/control-table-ids.ndjson",
+      "rationale": "Bijective name/level/expression ID renumbering preserves references and logical syntax.",
+      "recipe": {},
+      "sha256": "2650821d864536e9cbadadf62aa9a8a267ae7d8b27e888b2496ae43baae8c151",
+      "size": 2560
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-grouped-tables",
+      "path": "cases/bool/control-grouped-tables.ndjson",
+      "rationale": "Group the backward-defined name, level, and expression tables without changing declarations.",
+      "recipe": {},
+      "sha256": "c70fd5b60e814f207db5ecf743e0329845f6d17d53fe6a7535779c9e5134bb43",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-forward-declarations",
+      "path": "cases/bool/control-forward-declarations.ndjson",
+      "rationale": "Reverse complete declaration records while keeping every wire reference defined before use.",
+      "recipe": {},
+      "sha256": "5f46a8baf41826650f2ac6437041cef4b1c22ff43e1ebe7eb22fa2dfc1bf781a",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-family-name",
+      "path": "cases/bool/control-family-name.ndjson",
+      "rationale": "Consistently rename the family and generated names; the literal-free Nat baseline has no implicit Nat dependency.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "RenamedBool"
+            ],
+            "before": [
+              "Bool"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedBool",
+              "false"
+            ],
+            "before": [
+              "Bool",
+              "false"
+            ],
+            "name_id": 2
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedBool",
+              "true"
+            ],
+            "before": [
+              "Bool",
+              "true"
+            ],
+            "name_id": 3
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedBool",
+              "rec"
+            ],
+            "before": [
+              "Bool",
+              "rec"
+            ],
+            "name_id": 4
+          }
+        ]
+      },
+      "sha256": "603a74c229431c7515cc3681569de9dd37be7078ebe1a29066812302a4329a42",
+      "size": 2430
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "claim-transport",
+      "expected": "accept",
+      "family": "bool",
+      "id": "bool/control-constructor-table-order",
+      "path": "cases/bool/control-constructor-table-order.ndjson",
+      "rationale": "Constructor table presentation changes, but logical ctor order, indices, and ordered rules do not.",
+      "recipe": {},
+      "sha256": "7c56a7264769656256abb25b56a39fc4b897ef41d564dd62251ef642f9768dfc",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-indices",
+      "path": "cases/bool/metadata-indices.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "types",
+          0,
+          "numIndices"
+        ],
+        "value": 1
+      },
+      "sha256": "cfd0dd1aa503ccedcb74333ce5781ef7b185956818b75082692d7da79fdb4cee",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-recursive-flag",
+      "path": "cases/bool/metadata-recursive-flag.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "types",
+          0,
+          "isRec"
+        ],
+        "value": true
+      },
+      "sha256": "9236654883cdff23c0dfd129518e934595181f7dc5e3aa5783c7910971a49193",
+      "size": 2376
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-minors",
+      "path": "cases/bool/metadata-minors.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "recs",
+          0,
+          "numMinors"
+        ],
+        "value": 3
+      },
+      "sha256": "5c62acff88c3c2062c41538387a64175c6b6cfad33971e31d63ad726a845f051",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-k",
+      "path": "cases/bool/metadata-k.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "recs",
+          0,
+          "k"
+        ],
+        "value": true
+      },
+      "sha256": "eefef89ebb99dde098f79aa8f090b8562238c1ba87dddf33d9fcbc2525171478",
+      "size": 2376
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-ctor-index",
+      "path": "cases/bool/metadata-ctor-index.ndjson",
+      "rationale": "Change one constructor index without changing logical constructor order.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "ctors",
+          0,
+          "cidx"
+        ],
+        "value": 1
+      },
+      "sha256": "f26b38f3101d329908ce6253e6752af24c8ecf509c5f376d3d45da92d8c0e03c",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-rule-missing",
+      "path": "cases/bool/metadata-rule-missing.ndjson",
+      "rationale": "A supplied recursor is missing a generated reduction rule.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 3,
+            "nfields": 0,
+            "rhs": 21
+          }
+        ]
+      },
+      "sha256": "6b16f07e1857a48ea78c616d9f6bf7e81bc5a4a99f01dc94029df1baae68fb8e",
+      "size": 2345
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-rule-rhs",
+      "path": "cases/bool/metadata-rule-rhs.ndjson",
+      "rationale": "An existing sort expression is not the generated lambda rule body; references remain defined.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "recs",
+          0,
+          "rules",
+          0,
+          "rhs"
+        ],
+        "value": 0
+      },
+      "sha256": "3b7998e0aa62705951ab45c760a6a961fff0e8550e3bcd920a9a3ab08c8baa33",
+      "size": 2376
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/metadata-rule-order",
+      "path": "cases/bool/metadata-rule-order.ndjson",
+      "rationale": "Replay metadata authenticates ordered rules even though reduction looks them up by constructor.",
+      "recipe": {
+        "path": [
+          34,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 3,
+            "nfields": 0,
+            "rhs": 21
+          },
+          {
+            "ctor": 2,
+            "nfields": 0,
+            "rhs": 18
+          }
+        ]
+      },
+      "sha256": "e918a39d31845df1862b09be0db0dc92f4cca113bc857d50b50fb9b888018811",
+      "size": 2377
+    },
+    {
+      "baseline_id": "hol-exports/bool",
+      "baseline_sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "bool",
+      "id": "bool/false-other-primitive",
+      "path": "cases/bool/false-other-primitive.ndjson",
+      "rationale": "A coherent family rename cannot authorize the wrong primitive shape.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Nat"
+            ],
+            "before": [
+              "Bool"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "Nat",
+              "false"
+            ],
+            "before": [
+              "Bool",
+              "false"
+            ],
+            "name_id": 2
+          },
+          {
+            "after": [
+              "Nat",
+              "true"
+            ],
+            "before": [
+              "Bool",
+              "true"
+            ],
+            "name_id": 3
+          },
+          {
+            "after": [
+              "Nat",
+              "rec"
+            ],
+            "before": [
+              "Bool",
+              "rec"
+            ],
+            "name_id": 4
+          }
+        ]
+      },
+      "sha256": "2d68ce3d7012573d334ce5d8e046bd563cc5c3f8ae61961e65c1e62d49e4ec7c",
+      "size": 2376
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-definition-name",
+      "path": "cases/empty/control-definition-name.ndjson",
+      "rationale": "Only the ordinary declaration name changes coherently.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "renamedDefinition"
+            ],
+            "before": [
+              "empty"
+            ],
+            "name_id": 6
+          }
+        ]
+      },
+      "sha256": "4f0c3ee64fb3e7e1314a38fc5746e2b4b1bb3eaca36f5d9057801862bafbb509",
+      "size": 1284
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-binder-name",
+      "path": "cases/empty/control-binder-name.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "21d323e402b8b348578483a037c0d64b45eb0867ab9e28c8a18148d155467401",
+      "size": 1228
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-binder-info",
+      "path": "cases/empty/control-binder-info.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "7a235bd22df4e264bb407210bb2ac503b7f9267e0d72643e83d04189bc45213a",
+      "size": 1243
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-table-ids",
+      "path": "cases/empty/control-table-ids.ndjson",
+      "rationale": "Bijective name/level/expression ID renumbering preserves references and logical syntax.",
+      "recipe": {},
+      "sha256": "7291bb2826c89fc4ea988a738d180c9b958b19afbc79ba810f43e91e7b24d6fc",
+      "size": 1316
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-grouped-tables",
+      "path": "cases/empty/control-grouped-tables.ndjson",
+      "rationale": "Group the backward-defined name, level, and expression tables without changing declarations.",
+      "recipe": {},
+      "sha256": "5931709a2ff34b36689a68c21218021ada76986b579e4e57a6e8e46ea0dbc071",
+      "size": 1228
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-forward-declarations",
+      "path": "cases/empty/control-forward-declarations.ndjson",
+      "rationale": "Reverse complete declaration records while keeping every wire reference defined before use.",
+      "recipe": {},
+      "sha256": "844adf2d31ab189f67f06b01311f82a65e6747ffe5320eb4a6dc4381d4b0a7cf",
+      "size": 1228
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-family-name",
+      "path": "cases/empty/control-family-name.ndjson",
+      "rationale": "Consistently rename the family and generated names; the literal-free Nat baseline has no implicit Nat dependency.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "RenamedEmpty"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedEmpty",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "ad91f2e29e898212a19ac5b14a907a478052387334cade6adac8c0d1f3aef54e",
+      "size": 1279
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/metadata-indices",
+      "path": "cases/empty/metadata-indices.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          17,
+          "inductive",
+          "types",
+          0,
+          "numIndices"
+        ],
+        "value": 1
+      },
+      "sha256": "41d06a92683adce13857e4354be8268178eb6e4a1e5769f82c9b135a8feb84ab",
+      "size": 1228
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/metadata-recursive-flag",
+      "path": "cases/empty/metadata-recursive-flag.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          17,
+          "inductive",
+          "types",
+          0,
+          "isRec"
+        ],
+        "value": true
+      },
+      "sha256": "4d860cc4599c8082b5016396e10d6b13fb35918ff32889e99612c2b66081baa9",
+      "size": 1227
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/metadata-minors",
+      "path": "cases/empty/metadata-minors.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          17,
+          "inductive",
+          "recs",
+          0,
+          "numMinors"
+        ],
+        "value": 1
+      },
+      "sha256": "f477e0f213a8fdaa442fdd63178aa2dc1135710b3b426efd63d9e4e21b22e0e3",
+      "size": 1228
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/metadata-k",
+      "path": "cases/empty/metadata-k.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          17,
+          "inductive",
+          "recs",
+          0,
+          "k"
+        ],
+        "value": true
+      },
+      "sha256": "98b08ccdfe9ece0867d93585bf1afe7b2c099e67afa84d39f0003edf8c72c94b",
+      "size": 1227
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/false-empty-nat",
+      "path": "cases/empty/false-empty-nat.ndjson",
+      "rationale": "Exact empty claims still do not have the required primitive constructor shape.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Nat"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "Nat",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "ee7cfba6fae5cd618db2b3e9a62778e4d049a3b153045d65f99dc3b2cac817fc",
+      "size": 1226
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "empty",
+      "id": "empty/false-empty-bool",
+      "path": "cases/empty/false-empty-bool.ndjson",
+      "rationale": "Exact empty claims still do not have the required primitive constructor shape.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Bool"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "Bool",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "2bc8f5d4f43958552b01ccd9fccfb1fd6d86e5dc29a6dbab589ee661af634bb8",
+      "size": 1227
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-empty-nested-structural",
+      "path": "cases/empty/control-empty-nested-structural.ndjson",
+      "rationale": "Without constructors the upstream constructor-expression prefix restriction is vacuous.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested",
+              "T"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "_nested",
+              "T",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "f24c70e7bb263e148a3e4f5de9a9f95146bea5a3f65bb8e0f022cfb201e51cc3",
+      "size": 1265
+    },
+    {
+      "baseline_id": "hol-exports/empty",
+      "baseline_sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "empty",
+      "id": "empty/control-empty-nested-dotted",
+      "path": "cases/empty/control-empty-nested-dotted.ndjson",
+      "rationale": "Without constructors the upstream constructor-expression prefix restriction is vacuous.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested.T"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "_nested.T",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "c501b6e334be90cc6077e9c4f2ad04f43896b2f3e62cd0c4a6a88ee12c7806a8",
+      "size": 1232
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-definition-name",
+      "path": "cases/tree/control-definition-name.ndjson",
+      "rationale": "Only the ordinary declaration name changes coherently.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "renamedDefinition"
+            ],
+            "before": [
+              "HolExports",
+              "treeType"
+            ],
+            "name_id": 13
+          }
+        ]
+      },
+      "sha256": "b3380437c59d76685409c0f221512e14179fe99002e817a76f8d6b3cdff13a8c",
+      "size": 5888
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-binder-name",
+      "path": "cases/tree/control-binder-name.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "5044ca6b57db047cf463918fb889acaabaed591b290cb9d38d569b9520e3d2e1",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "binding",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-binder-info",
+      "path": "cases/tree/control-binder-info.ndjson",
+      "rationale": "Bound expressions use de Bruijn indices, not binder display metadata.",
+      "recipe": {},
+      "sha256": "426660801126640667e8c49dcfd45e57507b97e3d1e030a8b09820f9f05869d9",
+      "size": 5993
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-table-ids",
+      "path": "cases/tree/control-table-ids.ndjson",
+      "rationale": "Bijective name/level/expression ID renumbering preserves references and logical syntax.",
+      "recipe": {},
+      "sha256": "59b2300b2926fcf8224ec0d67f81b5efc812614f920e7a1c7533d3c39647647b",
+      "size": 6186
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "wire",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-grouped-tables",
+      "path": "cases/tree/control-grouped-tables.ndjson",
+      "rationale": "Group the backward-defined name, level, and expression tables without changing declarations.",
+      "recipe": {},
+      "sha256": "79862616722f7977797d56e5b161f41d4b457bfe7ec31cc5bd5736a462bef64d",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-forward-declarations",
+      "path": "cases/tree/control-forward-declarations.ndjson",
+      "rationale": "Reverse complete declaration records while keeping every wire reference defined before use.",
+      "recipe": {},
+      "sha256": "ad9d91b570238e155ffdb5d16ceb5f22e89bb7132dd88086abd7cbe0fe942685",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-family-name",
+      "path": "cases/tree/control-family-name.ndjson",
+      "rationale": "Consistently rename the family and generated names; the literal-free Nat baseline has no implicit Nat dependency.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "HolExports",
+              "RenamedTree"
+            ],
+            "before": [
+              "HolExports",
+              "Tree"
+            ],
+            "name_id": 8
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedTree",
+              "tip"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedTree",
+              "label"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "label"
+            ],
+            "name_id": 10
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedTree",
+              "node"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "node"
+            ],
+            "name_id": 11
+          },
+          {
+            "after": [
+              "HolExports",
+              "RenamedTree",
+              "rec"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "rec"
+            ],
+            "name_id": 12
+          }
+        ]
+      },
+      "sha256": "292ee4439e8a53c78484e5a04413ada39e00e3715c80de06a34b98da75ab0566",
+      "size": 5886
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "claim-transport",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-constructor-table-order",
+      "path": "cases/tree/control-constructor-table-order.ndjson",
+      "rationale": "Constructor table presentation changes, but logical ctor order, indices, and ordered rules do not.",
+      "recipe": {},
+      "sha256": "394e9340ba928baf538b5873062fdc1be587a53066654b5a8b2cfa141c28353d",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-indices",
+      "path": "cases/tree/metadata-indices.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "types",
+          0,
+          "numIndices"
+        ],
+        "value": 1
+      },
+      "sha256": "89da897eba695f05ef63dfdcf2b4ed9696a4b0f06409ee1c527a1987b2493c75",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-recursive-flag",
+      "path": "cases/tree/metadata-recursive-flag.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "types",
+          0,
+          "isRec"
+        ],
+        "value": false
+      },
+      "sha256": "684686e2c5204ec9867c57665eadceb82558a1db7c4a1cf9cd1a626845aed4be",
+      "size": 5834
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-minors",
+      "path": "cases/tree/metadata-minors.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "recs",
+          0,
+          "numMinors"
+        ],
+        "value": 4
+      },
+      "sha256": "2bd4bc4e9f93177f4b2cff6ecf34f7c283dab8810aa512515f0b40af15a7c23e",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-k",
+      "path": "cases/tree/metadata-k.ndjson",
+      "rationale": "This one metadata claim is not justified by the unchanged declaration. Proof-search decline is not a rejection certificate.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "recs",
+          0,
+          "k"
+        ],
+        "value": true
+      },
+      "sha256": "f60473867ab7f90537c40e958ac081c80fc56a0ec0d84a368c1fc618f1f7714e",
+      "size": 5832
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-ctor-index",
+      "path": "cases/tree/metadata-ctor-index.ndjson",
+      "rationale": "Change one constructor index without changing logical constructor order.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "ctors",
+          0,
+          "cidx"
+        ],
+        "value": 1
+      },
+      "sha256": "2a57abdc0b8d76b81c707dd9688107c721859a992ca6c7b576ebb0a3c7530238",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-rule-missing",
+      "path": "cases/tree/metadata-rule-missing.ndjson",
+      "rationale": "A supplied recursor is missing a generated reduction rule.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 10,
+            "nfields": 1,
+            "rhs": 60
+          },
+          {
+            "ctor": 11,
+            "nfields": 2,
+            "rhs": 77
+          }
+        ]
+      },
+      "sha256": "5a115c0e59492a0940b6dfe00c0da016ac84df34b2229203dcaf4dc9f1d14e86",
+      "size": 5801
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-rule-rhs",
+      "path": "cases/tree/metadata-rule-rhs.ndjson",
+      "rationale": "An existing sort expression is not the generated lambda rule body; references remain defined.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "recs",
+          0,
+          "rules",
+          0,
+          "rhs"
+        ],
+        "value": 0
+      },
+      "sha256": "26a030ac7968f91ea178dc10c3d9fe3f064ca716a98d72871f64ea8c48fe5d88",
+      "size": 5832
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "metadata",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/metadata-rule-order",
+      "path": "cases/tree/metadata-rule-order.ndjson",
+      "rationale": "Replay metadata authenticates ordered rules even though reduction looks them up by constructor.",
+      "recipe": {
+        "path": [
+          97,
+          "inductive",
+          "recs",
+          0,
+          "rules"
+        ],
+        "value": [
+          {
+            "ctor": 11,
+            "nfields": 2,
+            "rhs": 77
+          },
+          {
+            "ctor": 10,
+            "nfields": 1,
+            "rhs": 60
+          },
+          {
+            "ctor": 9,
+            "nfields": 0,
+            "rhs": 50
+          }
+        ]
+      },
+      "sha256": "679905c5190971f39c1884d39a7e9925779c63dfcd5938f6daf61f151b8e351f",
+      "size": 5833
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "iota-conversion",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-iota-dependent-index",
+      "path": "cases/tree/control-iota-dependent-index.ndjson",
+      "rationale": "An identity from P(tip) to P(fold(node tip tip)) requires the generated recursive iota rule.",
+      "recipe": {},
+      "sha256": "3d683ae5a8074e269e9b2b7193d6e096e0334921e4f277ae5a8ac1b24bfe9683",
+      "size": 7347
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/nested-result",
+      "path": "cases/tree/nested-result.ndjson",
+      "rationale": "Constructor result constants have the structural reserved prefix.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested",
+              "T"
+            ],
+            "before": [
+              "HolExports",
+              "Tree"
+            ],
+            "name_id": 8
+          },
+          {
+            "after": [
+              "_nested",
+              "T",
+              "tip"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          },
+          {
+            "after": [
+              "_nested",
+              "T",
+              "label"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "label"
+            ],
+            "name_id": 10
+          },
+          {
+            "after": [
+              "_nested",
+              "T",
+              "node"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "node"
+            ],
+            "name_id": 11
+          },
+          {
+            "after": [
+              "_nested",
+              "T",
+              "rec"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "rec"
+            ],
+            "name_id": 12
+          }
+        ]
+      },
+      "sha256": "a64345473272a95cd144f721e9fe352d815709d558727ed0a81a4f74b0d93e53",
+      "size": 5873
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/nested-field",
+      "path": "cases/tree/nested-field.ndjson",
+      "rationale": "The empty dependency is legal, but Tree.label now has a prefixed constant in its domain.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested",
+              "Payload"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "_nested",
+              "Payload",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "0abe22b83ebcb5b631ae5f3fcb173c42395ef2cb6f61477776cd235bd837f4f2",
+      "size": 5878
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-dotted-result",
+      "path": "cases/tree/control-dotted-result.ndjson",
+      "rationale": "One dotted component is not the structural reserved namespace.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested.T"
+            ],
+            "before": [
+              "HolExports",
+              "Tree"
+            ],
+            "name_id": 8
+          },
+          {
+            "after": [
+              "_nested.T",
+              "tip"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          },
+          {
+            "after": [
+              "_nested.T",
+              "label"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "label"
+            ],
+            "name_id": 10
+          },
+          {
+            "after": [
+              "_nested.T",
+              "node"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "node"
+            ],
+            "name_id": 11
+          },
+          {
+            "after": [
+              "_nested.T",
+              "rec"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "rec"
+            ],
+            "name_id": 12
+          }
+        ]
+      },
+      "sha256": "c6b11d6597bf119d1adfcb1c8879676f78544b3c7ab431352540d1b8614f30fe",
+      "size": 5838
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-dotted-field",
+      "path": "cases/tree/control-dotted-field.ndjson",
+      "rationale": "A dotted single string does not have the reserved root prefix.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "_nested.Payload"
+            ],
+            "before": [
+              "Empty"
+            ],
+            "name_id": 1
+          },
+          {
+            "after": [
+              "_nested.Payload",
+              "rec"
+            ],
+            "before": [
+              "Empty",
+              "rec"
+            ],
+            "name_id": 2
+          }
+        ]
+      },
+      "sha256": "bb598d1f002d98bb8dd68f171a00b63ba46b1477ff635be8bcc8b31fc8901a10",
+      "size": 5843
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/false-ctor-nat-add",
+      "path": "cases/tree/false-ctor-nat-add.ndjson",
+      "rationale": "An unrelated constructor cannot occupy a protected primitive name.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Nat",
+              "add"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          }
+        ]
+      },
+      "sha256": "26e829007fc8b598f10c6fd6cb6f27696863f9a584f4d5119aee7016cc027f12",
+      "size": 5872
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "reject",
+      "family": "tree",
+      "id": "tree/false-ctor-nat-zero",
+      "path": "cases/tree/false-ctor-nat-zero.ndjson",
+      "rationale": "An unrelated constructor cannot occupy a protected primitive name.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Nat",
+              "zero"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          }
+        ]
+      },
+      "sha256": "800c474485be94f63089132eff7fc62c6d174c5192219117462bede341eb565d",
+      "size": 5873
+    },
+    {
+      "baseline_id": "hol-exports/tree",
+      "baseline_sha256": "39bf59779b4e89705e082c64c1bde191af67d54a55c7fa36a3f1ab47974ddef2",
+      "dimension": "names",
+      "expected": "accept",
+      "family": "tree",
+      "id": "tree/control-dotted-ctor",
+      "path": "cases/tree/control-dotted-ctor.ndjson",
+      "rationale": "The single string Nat.add is not the protected hierarchical name.",
+      "recipe": {
+        "affected_names": [
+          {
+            "after": [
+              "Nat.add"
+            ],
+            "before": [
+              "HolExports",
+              "Tree",
+              "tip"
+            ],
+            "name_id": 9
+          }
+        ]
+      },
+      "sha256": "0f8386c0b09c65f1dec8e0e6f79049eed7d27a7cf4c54fda0e826f24f0df0b05",
+      "size": 5837
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "literal-conversion",
+      "expected": "accept",
+      "family": "literal53",
+      "id": "literal53/control-next-exact",
+      "path": "cases/literal53/control-next-exact.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9007199254740993",
+        "right_decimal": "9007199254740993"
+      },
+      "sha256": "dfe9c2db904ba1fa5cf5614f658614e9600571fb1f424ed7d159704e46a98edf",
+      "size": 3868
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal53",
+      "id": "literal53/unequal-next",
+      "path": "cases/literal53/unequal-next.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9007199254740992",
+        "right_decimal": "9007199254740993"
+      },
+      "sha256": "698691d24c751331d99d11dc5e781e1975a72113e3ab367f5587f7b901eb62e1",
+      "size": 3906
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal53",
+      "id": "literal53/unequal-previous",
+      "path": "cases/literal53/unequal-previous.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9007199254740992",
+        "right_decimal": "9007199254740991"
+      },
+      "sha256": "9314146a7ddea6304ef4bc463d1b7d9b416ba453144ea11916f4981a8c1cd594",
+      "size": 3906
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal53",
+      "id": "literal53/unequal-word-wrap",
+      "path": "cases/literal53/unequal-word-wrap.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9007199254740992",
+        "right_decimal": "18455751272964292608"
+      },
+      "sha256": "2ee51164b41744fb39df328b2af135560a5e086cf621a7705933a19e077f47bd",
+      "size": 3910
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "literal-transport",
+      "expected": "accept",
+      "family": "literal53",
+      "id": "literal53/control-leading-zero",
+      "path": "cases/literal53/control-leading-zero.ndjson",
+      "rationale": "Decimal leading zeros denote the same exact natural.",
+      "recipe": {
+        "value": "9007199254740992"
+      },
+      "sha256": "41f9d497698f4cf66558dd123b0f26fed1edd72b2ad2d02d8753ea0346d1dfc3",
+      "size": 3909
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "literal53",
+      "id": "literal53/control-forward-declarations",
+      "path": "cases/literal53/control-forward-declarations.ndjson",
+      "rationale": "Replay must schedule Nat before a dependent literal definition despite serialized order.",
+      "recipe": {},
+      "sha256": "7f18ad97a606c7a956dcb2ab78f07e240454d2f57aaff855683cdcccea37f165",
+      "size": 3868
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal53",
+      "id": "literal53/malformed-json-number",
+      "path": "cases/literal53/malformed-json-number.ndjson",
+      "rationale": "Export natVal requires decimal text, not a JSON number.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": 9007199254740992
+      },
+      "sha256": "418ee1d8603a65a00367bb824636f5604ab167205fc2839e01000b5a32e35f9b",
+      "size": 3866
+    },
+    {
+      "baseline_id": "hol-exports/literal53",
+      "baseline_sha256": "45620bac7f65a754e0ce5c39d7bd887d295740235c2400aba4efa8e88bf80940",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal53",
+      "id": "literal53/malformed-exponent",
+      "path": "cases/literal53/malformed-exponent.ndjson",
+      "rationale": "Scientific notation is not decimal natural-literal text in the wire contract.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": "1e80"
+      },
+      "sha256": "41b1e2df19d0b9539b2ff0ff5dca79b162a9b2e9994738d405a39187d45b3ca3",
+      "size": 3856
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "literal-conversion",
+      "expected": "accept",
+      "family": "literal63",
+      "id": "literal63/control-next-exact",
+      "path": "cases/literal63/control-next-exact.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9223372036854775809",
+        "right_decimal": "9223372036854775809"
+      },
+      "sha256": "233dd9631c28dde1b2d9fbc0bc21fd50a8abd3faa2111481f7b8b74dbb2b3327",
+      "size": 3871
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal63",
+      "id": "literal63/unequal-next",
+      "path": "cases/literal63/unequal-next.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9223372036854775808",
+        "right_decimal": "9223372036854775809"
+      },
+      "sha256": "2bab180b0b3cca940f54d4ff2afe05f283282e5734d132089140725f61b251ef",
+      "size": 3912
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal63",
+      "id": "literal63/unequal-previous",
+      "path": "cases/literal63/unequal-previous.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9223372036854775808",
+        "right_decimal": "9223372036854775807"
+      },
+      "sha256": "6ed068afc33bf0435454bf7d7c9ec0b12131bbff394566d264f3187f9e4b2466",
+      "size": 3912
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal63",
+      "id": "literal63/unequal-word-wrap",
+      "path": "cases/literal63/unequal-word-wrap.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "9223372036854775808",
+        "right_decimal": "27670116110564327424"
+      },
+      "sha256": "f5267ced1dfb13a56b43586a148a232b59d90fa2ec0c3fe3f72098a193c75188",
+      "size": 3913
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "literal-transport",
+      "expected": "accept",
+      "family": "literal63",
+      "id": "literal63/control-leading-zero",
+      "path": "cases/literal63/control-leading-zero.ndjson",
+      "rationale": "Decimal leading zeros denote the same exact natural.",
+      "recipe": {
+        "value": "9223372036854775808"
+      },
+      "sha256": "9454176db4d9af4dcc48fdcda2bc2bf053cce0c6967a382fe9afce2ed0100aab",
+      "size": 3915
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "literal63",
+      "id": "literal63/control-forward-declarations",
+      "path": "cases/literal63/control-forward-declarations.ndjson",
+      "rationale": "Replay must schedule Nat before a dependent literal definition despite serialized order.",
+      "recipe": {},
+      "sha256": "83f556ee9cd1efe753feea5c11313920603009979a599024e41e2d2f3680029a",
+      "size": 3871
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal63",
+      "id": "literal63/malformed-json-number",
+      "path": "cases/literal63/malformed-json-number.ndjson",
+      "rationale": "Export natVal requires decimal text, not a JSON number.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": 9223372036854775808
+      },
+      "sha256": "b97e5d6755d70b0b9b2ea09d27f71f9350a6f71ab553eb3b93fc6140f442dda9",
+      "size": 3869
+    },
+    {
+      "baseline_id": "hol-exports/literal63",
+      "baseline_sha256": "eb16931be4fed1c1974e71a7b2d215bf4c4d8e4f230389ab657f10c473dcf647",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal63",
+      "id": "literal63/malformed-exponent",
+      "path": "cases/literal63/malformed-exponent.ndjson",
+      "rationale": "Scientific notation is not decimal natural-literal text in the wire contract.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": "1e80"
+      },
+      "sha256": "41b1e2df19d0b9539b2ff0ff5dca79b162a9b2e9994738d405a39187d45b3ca3",
+      "size": 3856
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "literal-conversion",
+      "expected": "accept",
+      "family": "literal256",
+      "id": "literal256/control-next-exact",
+      "path": "cases/literal256/control-next-exact.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639937",
+        "right_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639937"
+      },
+      "sha256": "7341d865db5a4f461e5046ccb663a59a66c4b6d31cdd41ae7f13c9f51fb33a8b",
+      "size": 3930
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal256",
+      "id": "literal256/unequal-next",
+      "path": "cases/literal256/unequal-next.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+        "right_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639937"
+      },
+      "sha256": "cc1df37393cd5d7d195fac58e4b21c7c63392131dbb039511c7096f5c8cc7200",
+      "size": 4030
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal256",
+      "id": "literal256/unequal-previous",
+      "path": "cases/literal256/unequal-previous.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+        "right_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+      },
+      "sha256": "b54c51d4197722a72172bf212cd7ea2f8139b3df39854f458be3c70836c0c747",
+      "size": 4030
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "literal-conversion",
+      "expected": "reject",
+      "family": "literal256",
+      "id": "literal256/unequal-word-wrap",
+      "path": "cases/literal256/unequal-word-wrap.ndjson",
+      "rationale": "The identity requires P(left) and P(right) to convert; exact distinct naturals must not merge.",
+      "recipe": {
+        "left_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+        "right_decimal": "115792089237316195423570985008687907853269984665640564039476030751986839191552"
+      },
+      "sha256": "05c741f5eaacc30550a9e2902ed5c9826844204dbe9fec429ebca2a65302aef6",
+      "size": 4030
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "literal-transport",
+      "expected": "accept",
+      "family": "literal256",
+      "id": "literal256/control-leading-zero",
+      "path": "cases/literal256/control-leading-zero.ndjson",
+      "rationale": "Decimal leading zeros denote the same exact natural.",
+      "recipe": {
+        "value": "115792089237316195423570985008687907853269984665640564039457584007913129639936"
+      },
+      "sha256": "255ccb437c81110b8a03284c1ea90734459fdf7a02b8ca759ba6642efb325ccb",
+      "size": 4033
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "replay",
+      "expected": "accept",
+      "family": "literal256",
+      "id": "literal256/control-forward-declarations",
+      "path": "cases/literal256/control-forward-declarations.ndjson",
+      "rationale": "Replay must schedule Nat before a dependent literal definition despite serialized order.",
+      "recipe": {},
+      "sha256": "8edeaf5f7a986c9424ed081e855703a5f0491f865f059579c474e1a39deb8aaa",
+      "size": 3930
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal256",
+      "id": "literal256/malformed-json-number",
+      "path": "cases/literal256/malformed-json-number.ndjson",
+      "rationale": "Export natVal requires decimal text, not a JSON number.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": 115792089237316195423570985008687907853269984665640564039457584007913129639936
+      },
+      "sha256": "e12a181450966f50897b2594ce37891158f127f1c61c4a34b8db19a5146be381",
+      "size": 3928
+    },
+    {
+      "baseline_id": "hol-exports/literal256",
+      "baseline_sha256": "ed7da98f9826f22753d15a3962c8b7e47bb4d026a943c0ac428854d611d8d9fc",
+      "dimension": "wire",
+      "expected": "reject",
+      "family": "literal256",
+      "id": "literal256/malformed-exponent",
+      "path": "cases/literal256/malformed-exponent.ndjson",
+      "rationale": "Scientific notation is not decimal natural-literal text in the wire contract.",
+      "recipe": {
+        "path": [
+          55,
+          "natVal"
+        ],
+        "value": "1e80"
+      },
+      "sha256": "41b1e2df19d0b9539b2ff0ff5dca79b162a9b2e9994738d405a39187d45b3ca3",
+      "size": 3856
+    }
+  ],
+  "reference_sources": [
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Environment/Basic.lean",
+      "sha256": "549c16d924d7840858935da71e60169ea3990cf484187e11a2382c39d89e7620"
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Primitive.lean",
+      "sha256": "0bafbbd0fffd0e56034b205bfacb9985c908d56d3d4cee4379059777d5f83c2e"
+    },
+    {
+      "path": "vendor/lean4lean/Lean4Lean/Inductive/Add.lean",
+      "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382"
+    },
+    {
+      "path": "arena/exporter-source/Export/Parse.lean",
+      "sha256": "1f943b5cc776eece6d528937b976509c8bd57d10bc69a39b1c119bfb6d664286"
+    }
+  ],
+  "source_manifest_sha256_at_pinning": "985cadef081276d8796bc7ee113a47b1f0b2de994f0892dd6027b1f821a52f30",
+  "source_pins_sha256": "332555da5c37facf07582363ebdd13e3e42993edccce03289659cd74933d85f0",
+  "suite": "hol-export-regressions-v1",
+  "suite_version": 1,
+  "upstream_revision": "8223d223ed98661882e95d9d6a7126df7097cd76"
+}

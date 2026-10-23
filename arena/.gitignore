@@ -1,0 +1,8 @@
+upstream/
+downloads/
+corpus/
+reports/
+__pycache__/
+adversarial/inputs/
+exporter-source/
+generation/

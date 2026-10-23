@@ -1,0 +1,36 @@
+{
+  "lock_version": 1,
+  "arena_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "definition": "tests/con-leche.yaml",
+  "definition_sha256": "53c835e1011d94b4f97a9f331b91cde3ace3f9f7adb53b97b2dff32b2f5a838e",
+  "exporter_revision": "66f1fb4bc256072069767fce52d39480e4524869",
+  "lean_version": "4.33.0",
+  "lean_githash": "d8b18978322de05a8f3dba51ef03cf5461676c17",
+  "source_revision": "78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+  "source": {
+    "url": "https://codeload.github.com/leanprover/con-leche/tar.gz/78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+    "filename": "source.tar.gz",
+    "directory": "con-leche-78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+    "size": 10836546,
+    "sha256": "d89ec491c3fab19d7c07da0dd45c76f2f7ad18ee8fac405d5080319917e97c22"
+  },
+  "toolchain": {
+    "url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-darwin_aarch64.tar.zst",
+    "filename": "lean-4.33.0-darwin_aarch64.tar.zst",
+    "directory": "lean-4.33.0-darwin_aarch64",
+    "release_asset_id": 508371048,
+    "size": 556168134,
+    "sha256": "db5274b669be270af048b5e4f1e0ce571df6750e411956b3e1e6fcc2012410c2"
+  },
+  "module": "ConLecheTests",
+  "export_declarations": [
+    "ConLeche.model_exists",
+    "ConLeche.no_proof_of_False",
+    "ConLeche.Frontend.scanLineSpec_eq_scanLineFwd"
+  ],
+  "expected": {
+    "size": 551412545,
+    "lines": 10043114,
+    "sha256": "b9ad1d958705760c6eb1c5cf3974ec0a4a3eb9dd765ff0648782fa49dee94a7f"
+  }
+}

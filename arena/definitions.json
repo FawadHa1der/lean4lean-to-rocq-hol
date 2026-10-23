@@ -1,0 +1,1002 @@
+{
+  "source_revision": "03b21e119045304d38249f426fcd86171fc253c5",
+  "definitions": [
+    {
+      "path": "tests/bugs/constlevels.yaml",
+      "sha256": "56878f9e7d1a8ee40360c04ca6d7d679d7b0c3539f4ce10eb3d5da3e0321a75f",
+      "configuration": {
+        "description": "Regression test for undefined behavior in `lazy_delta_reduction_step` in the official kernel\n\nIn the function `lazy_delta_reduction_step`, the official kernel expects `unfold_definition`\nto always succeed. However, if the constant has an incorrect number of level parameters, it\nactually fails, which leads to memory corruption in `lazy_delta_reduction_step`.\n\nThis test is to check that the official kernel and also other kernels that closely follow the\nlogic of the official kernel correctly handle this unfolding failure.\n\nThe issue in the official kernel was originally reported as <https://github.com/leanprover/lean4/issues/10577>.\n",
+        "file": "tests/bugs/constlevels.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/ctor-num-fields.yaml",
+      "sha256": "7a28d1312ad56b46e0c697c6bf814ef7503ecf5e7291602955d69f4e8b5ccf8d",
+      "configuration": {
+        "description": "Proof of False via trusted `numFields` on a constructor.\n\nDefine a wrapper structure `S` with one field, and lie by saying it has 0 fields, making\nit look unit-like. Then definitional eta means all inhabitants are equal.\n\nDerive a contradiction from `S.mk false = S.mk true`.\n\nNanoda and its descendants accepted this until it was\n[fixed](https://github.com/ammkrn/nanoda_lib/pull/22).\n",
+        "leanfile": "tests/bugs/ctor-num-fields.lean",
+        "export-decls": [
+          "bad"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/k-rec-conv.yaml",
+      "sha256": "8d826cea7a4196492cd0c7ab57986c0ed245289d49dddf6d3bfa4c1aa572aedb",
+      "configuration": {
+        "description": "Bogus proof that tests for incorrectly implemented K-like reduction.\n\n`fun x => x` and `fun _ => y` are not convertible, but a checker that does treat them\nas convertible would accept the resulting theorem `bad`, which is true propositionally, but not definitionally.\n\nRegression test for sokonanoda.\n",
+        "leanfile": "tests/bugs/k-rec-conv.lean",
+        "export-decls": [
+          "bad"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/large-elim-param.yaml",
+      "sha256": "a59c6786a4611ffdec24360defa6f5916f5e2f70c2a1a01961630348ff077aea",
+      "configuration": {
+        "description": "Proof of False via incorrect large elimination restriction.\n\nIf the check for whether a level is surely not zero is implemented wrong, in\nparticular if it incorrectly returns true for params, we can create a\nuniverse-polymorphic\n```\ninductive MyBool.{u} : Sort u | tt | ff\n```\nwhere the recursor `MyBool.rec.{1,0}` can do large elimination of a `Prop`.\nBecause of proof irrelevance we have `tt = ff`, so we can derive a\ncontradiction.\n\nFound by Anthony Wang using Aristotle, breaking the `mini` checker for the\n[T-shirt bounty](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/T-Shirt.20bounty.20for.20breaking.20the.20.E2.80.9Cmini-kernel.E2.80.9D/near/597318744); it was\n[fixed](https://github.com/nomeata/lean-mini-kernel/commit/d548ebc4) the same day.\n",
+        "file": "tests/bugs/large-elim-param.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/large-elim-prop-bool.yaml",
+      "sha256": "26eb896f60d733432440ece29755b136c2710ee3218ba47115be6042cfe78f0b",
+      "configuration": {
+        "description": "Proof of `False` by allowing a `Prop` inductive to have the same recursor\nthat the corresponding `Type` inductive would have.\n\nProof irrelevance makes .tt = .ff, but `pick` distinguishes between them.\n\nKiota accepted this until it was [fixed](https://github.com/sankalpsthakur/kiota/pull/8).\n",
+        "leanfile": "tests/bugs/large-elim-prop-bool.lean",
+        "export-decls": [
+          "boom"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/level-imax-leq.yaml",
+      "sha256": "67e7eb7ce27cf73f9db9e80d30173669f06b3dc547bb72b7febb0194cefe5210",
+      "configuration": {
+        "description": "Proof of False via incorrect universe level comparison for `imax`.\n\nA correct kernel must reject `leq(imax(u,v)+1, imax(u,v))`, since at `u=0, v=0` this becomes\n`leq(1, 0)` which is false. However, a checker that only compares the `imax` arguments\nstructurally (without accounting for an accumulated successor offset) will incorrectly accept it.\n\nThis allows defining a universe-collapsing identity function\n`down.{u,v} : Sort (succ (imax u v)) → Sort (imax u v)`, which is used to cast between\n`True` and `False` via `Bool.rec` at `Sort (imax 0 0) = Prop`.\n\nNanoda incorrectly accepted this proof until it was [fixed](https://github.com/ammkrn/nanoda_lib/commit/12838995ca232ced05cd5218e4975d03c5c44316).\n",
+        "file": "tests/bugs/level-imax-leq.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/level-imax-normalization.yaml",
+      "sha256": "7595bb80c6ba465b05259758d7bf8fc27615fed0b05456725fb5419056dfb7f0",
+      "configuration": {
+        "description": "Proof of False via incorrect universe level normalization for `imax`.\n\nA correct kernel must distinguish `imax 0 v` from `succ(imax 0 v)`, since at `v=0` these\nevaluate to `0` and `1` respectively. However, a level normalization algorithm that drops an\naccumulated successor offset when decomposing `imax u (param v)` will produce identical normal\nforms for both, causing the equivalence check to incorrectly return true.\n\nThis allows defining a universe-collapsing identity function\n`down.{v} : Sort (succ (imax 0 v)) → Sort (imax 0 v)`, and then\n`myProp : Prop := down.{0} Bool` (a Prop that is computationally Bool). Proof irrelevance on\n`myProp` equates `Bool.true` and `Bool.false`, and `Bool.rec` maps this into `False`.\n",
+        "file": "tests/bugs/level-imax-normalization.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/nat-rec-k-lie.yaml",
+      "sha256": "8f240252b044e8e526124f3205831b506751ab11f34a8ea56da356177c72b99b",
+      "configuration": {
+        "description": "Proof of False via trusted `k` on `Nat.rec`.\n\nLie by claiming `Nat.rec` is K-like. Then replace the major premise by `Nat.zero`,\nbut nat literals bypasses K-like reduction, so two reduction rules disagree.\n\n`∀ n, g n` holds by the first, and `g 1` is `False` by the second.\n\nA variant of `bugs/rec-k-lie`, which nanoda and its descendants accepted until it\nwas [fixed](https://github.com/ammkrn/nanoda_lib/pull/22); at that time, nanoda\nitself rejected this variant, as it had no literal path for `Nat.rec`.\n",
+        "file": "tests/bugs/nat-rec-k-lie.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/nat-rec-rules.yaml",
+      "sha256": "fc0e59b1cb9fc53dd9e347ddb373ab51b7507e48a2e91718fecf86c56c66226b",
+      "configuration": {
+        "description": "Proof of False via incorrect recursor rule validation.\n\nWhen processing an inductive type declaration, a correct kernel must verify that the generated\nrecursor rules match the ones provided in the export data. A checker that accidentally compares\nthe imported rules against themselves (instead of against independently constructed rules) will\naccept arbitrary recursor reduction behavior.\n\nThis test defines `Nat` with a wrong `Nat.rec` succ rule that always returns `hzero` (ignoring\nthe induction hypothesis). Combined with a nat literal extension that hardcodes correct\narithmetic for concrete nat literals but falls back to the wrong `Nat.rec` rules for symbolic\narguments, this creates an inconsistency that yields a proof of False.\n\nNanoda incorrectly accepted this proof until it was [fixed](https://github.com/ammkrn/nanoda_lib/commit/12838995ca232ced05cd5218e4975d03c5c44316).\n",
+        "file": "tests/bugs/nat-rec-rules.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/nested-unused-param.yaml",
+      "sha256": "7305c1e90fd682c03a67650d77018f996ae3f776965fe37c75f13f37b878f569",
+      "configuration": {
+        "description": "Checks that the parameters of a nested inductive application are type-checked\neven when they do not appear in the auxiliary type generated during\nnested-inductive compilation.\n\nWhen an inductive `E` has a constructor whose type contains a nested\napplication `L (E w) b`, the elaboration of nested inductives replaces that\noccurrence with an auxiliary type. The argument `b` does not occur in the\nauxiliary declaration, so a checker that only checks the auxiliary type never\nsees `b`. A correct checker must still ensure `b` is well-typed; this test\nrejects if it is not.\n\nHere `b` is a malformed projection `C.0 (C.0 w)` (applying a `C` projection to\na value of the unrelated structure `W`), disguised by a hash collision. If the\nparameter is not checked, the bogus projection slips through and the resulting\n`E` can be used to build an axiom-free proof of `False` (`boom`). The\nprojection is merely the payload; the property under test is that the\nnested-inductive parameter is checked.\n\nOrigin: reported as leanprover/lean4#14576 by @kiranandcode, with the original\nsource recorded by @xrchz (https://github.com/xrchz/collatzlean); fixed in\nleanprover/lean4#14577.\n",
+        "dir": "tutorial",
+        "module": "Bugs.NestedUnusedParam",
+        "export-decls": [
+          "boom"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/orphan-rec.yaml",
+      "sha256": "b71ad7c757e225f8ecf655d39252bc1729973d3a3ebefde45666217d2415f8c1",
+      "configuration": {
+        "description": "Proof of `False` from a recursor that claims not to belong to any inductive\ntype.\n\nThe export contains `False` exactly as the prelude has it — an empty\n`Prop`-valued inductive with no constructors — together with its ordinary\n`False.rec`.  Smuggled into the same inductive block is a second recursor,\nnamed `rogue`, whose type is `False` itself, which has no motives, no minor\npremises and no rules, and whose `all` field is the *empty* list.  The theorem\n`inconsistent : False` is then simply `rogue`.\n\nThis is the sibling of `other/extra-rec`, and it defeats the obvious fix for it.  A\nchecker that associates each exported recursor with the inductive type named\nin its `all` field, and then requires the recursors so associated with an\ninductive type to be exactly the ones it derives from that declaration, still\naccepts `rogue`: `False` is associated with `False.rec` and nothing else, and\n`rogue` is associated with nothing at all, so no comparison ever looks at it —\nyet it is added to the environment and inhabits the genuine empty type.\n\nA checker must therefore reject any recursor it did not itself derive from an\ninductive declaration, rather than only checking the recursors that point at\none.  The same hole is reachable by pointing `all` at a name that has no\ndeclaration in the export (that variant is what `other/orphan-ctor` does on the\nconstructor side).\n\nNanoda accepted this export until it was\n[fixed](https://github.com/ammkrn/nanoda_lib/commit/8a327a18c3a1401d6ccc1d64053b1397861136e8).\n",
+        "file": "tests/bugs/orphan-rec.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/proj-non-structure.yaml",
+      "sha256": "9e26481ea47d7b750a76a13c3ebb7f53922a0c18f8042609e919afadbcee30bb",
+      "configuration": {
+        "description": "`Bad` has two constructors, so projections should not be allowed.\nProve false by using the second constructor, then projecting, hoping that the\nfirst constructor is used when inferring the type of the projection.\n\nNanoda and its descendants accepted this until it was\n[fixed](https://github.com/ammkrn/nanoda_lib/pull/22).\n",
+        "leanfile": "tests/bugs/proj-non-structure.lean",
+        "export-decls": [
+          "bad"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/proj-of-imax-prop.yaml",
+      "sha256": "20ce9e7806dc255fd686f6b101e9b578e850a50a0a0f30270850fb63a4d3e12c",
+      "configuration": {
+        "description": "A closed proof of `False`, with no axioms, via a data projection out of a\nproposition whose sort is `Prop` only up to universe level normalization.\n\n`ImaxProp : Sort (imax 1 0)` is a proposition, since `imax 1 0` normalizes to `0`.\nThe exploit uses two definitionally equal spellings of that type. Proof\nirrelevance is stated through `ImaxAsProp : Prop := ImaxProp`, whose type is the\nliteral `Sort 0`, so it is accepted; the data projection `imaxProjBool` is stated\non `ImaxProp`, whose type is the literal `Sort (imax 1 0)`. A kernel that tests\nsorts for `Prop` syntactically does not recognize the latter as a proposition and\nwrongly allows projecting its `Bool` field out of a proof. Congruence on the\nproof-irrelevance equation then equates `false` and `true`, giving `False`.\n\nThis is <https://github.com/leanprover/lean4/pull/14613>, a bug in the official\nkernel.\n",
+        "leanfile": "tests/bugs/proj-of-imax-prop.lean",
+        "export-decls": [
+          "badFalse"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/proj-of-stuck-prop.yaml",
+      "sha256": "ce6c31f66b71a4ced6d832b5c24ab2973f0b35394e8b97c81d558b6fcfcd3c47",
+      "configuration": {
+        "description": "Proof of `False` by projecting the `Bool` field out of a proposition, exploiting\nthat a kernel can disagree with itself about whether the structure lives in\n`Prop`.\n\nSame underlying defect as `bugs/rec-missing-ih`, but with a different consequence.\n\n### Mechanism\n\n1.  *Definitional equality is not transitive here.*  Three functions\n    `Bool → Bool` are built from `Acc.rec` such that a kernel reports\n    `rcA ≡ rcB` and `rcB ≡ rcC` — both by proof irrelevance on the `Acc`\n    argument — while `rcA ≢ rcC`, because there the two `Acc` proofs have\n    different types.\n\n2.  *In the affected kernels, the defeq cache closes that relation\n    transitively, but only for hash-equal terms.*  Established equalities are\n    kept in a union-find structure, and the comparison returns early, without\n    consulting it, when the hashes differ:\n\n    ~~~cpp\n    if (is_eqp(a, b))                      return true;\n    if (m_use_hash && hash(a) != hash(b))  return false;   // skips the union-find\n    ...\n    node_ref r1 = find(to_node(a));\n    node_ref r2 = find(to_node(b));\n    if (r1 == r2) return true;\n    ~~~\n\n    So whether `rcA ≡ rcC` holds depends on the hash of the surrounding term.\n    The constants and paddings are chosen so that the hashes collide exactly\n    when the argument is the free variable `_kernel_fresh.0`, and not for the\n    closed instantiation used later.\n\n3.  *That comparison decides a result sort.*  `Native64ResultSortGate` is a\n    K-like inductive predicate, and its recursor is used as the result sort of\n    the inductive family `Native64ResultSortOwner`: the sort\n    `Gate.rec x … Prop requested h` reduces to `Prop` only if the requested\n    indices are definitionally equal to the ones of `Gate.intro`.  Hence\n    `Owner x h` is a proposition in one context and a stuck sort in another:\n\n    * `Native64ResultSort.asProp` is checked against a *constant* standing for\n      `∀ x h, Prop`, so the kernel introduces `_kernel_fresh.0` for `x`, the\n      hashes collide, `Owner x h : Prop` is accepted, and\n      `Native64ResultSortLeak.proposition` is a `Prop` for every later\n      declaration — including for proof irrelevance.\n    * `Native64ResultSortLeak.observe` projects field 0 out of that\n      proposition.  There the sort of the closed term `Owner false closedGate`\n      is needed, and that one is stuck — the affected kernels answer `false`\n      when asked whether it is definitionally equal to `Prop` — so they do not\n      see a proposition and permit projecting out the `Bool` field.\n\nProof irrelevance then identifies two `Owner.mk` applications carrying\ndifferent `Bool` fields, and observing them yields `False`.  The affected\nkernels rejected `Native64ResultSortOwner` with `type expected` as soon as the\nhashes no longer collided.\n\nThis was accepted by the official kernel at v4.28.0, v4.29.1, v4.33.0 and\nnightly-2026-08-01.  Other kernels reject the export in one of two places:\neither they refuse `Native64ResultSortOwner` because its result type does not\nreduce to a sort, or they accept the type but refuse the projection of a data\nfield out of a proposition.\n\nBoth steps are ruled out now: the projection by\n[leanprover/lean4#14807](https://github.com/leanprover/lean4/pull/14807), which\nmakes the kernel's `is_prop` check require the inferred type to reduce to a\nsort, and the hash-gated transitivity of step 2 by\n[leanprover/lean4#14806](https://github.com/leanprover/lean4/pull/14806), which\nreplaces the union-find defeq cache with an order-independent one.  The same\nprojection, reached without any help from that cache, is `bugs/proj-of-subst-prop`.\n",
+        "dir": "tutorial",
+        "module": "Bugs.ProjOfStuckProp",
+        "export-decls": [
+          "inconsistent"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/proj-of-subst-prop.yaml",
+      "sha256": "f91fd66cb75cd9b4859452613f3c633891af9d81cc374cd74bd4a784d56f059f",
+      "configuration": {
+        "description": "Proof of `False` by projecting the `Bool` field out of a proposition, reached by\nsubstituting a proof of one proposition for a proof of a definitionally equal\none.\n\n### Mechanism\n\n1.  *Definitional equality is not transitive here.*  `a`, `b` and `c` are three\n    `Bool`s built from `Acc.rec` such that a kernel reports `a ≡ b` and\n    `b ≡ c` — both by proof irrelevance on the `Acc` argument, the latter after\n    some iota steps — while `a ≢ c`, because there the two `Acc` proofs have\n    different types (`Acc (· < ·) 1` vs. `Acc (· < ·) 0`).\n\n2.  *So `P := a = b` and `Q := a = c` are definitionally equal types whose\n    proofs behave differently.*  `gate h := Eq.rec (motive := fun _ _ => Type)\n    Prop h` K-reduces to `Prop` for `h : P`, because that reduction only needs\n    the type of `h` to be definitionally equal to the type `a = a` of\n    `Eq.refl a`, i.e. `b ≡ a`.  For the closed `witness : Q` it stays stuck,\n    since that would need `c ≡ a`.\n\n3.  *An inductive family is declared over the reducing side and used on the\n    stuck one.*  `Owner : ∀ (h : P), gate h` is accepted as a family of\n    propositions — its recursor only eliminates into `Prop`.  `Owner witness`\n    is well-typed, since `Q ≡ P`, but its sort does not reduce to `Prop`, so\n    the projection `observe` is permitted to extract the `Bool` field from an\n    inhabitant.\n\nProof irrelevance then identifies two `Owner.mk` applications carrying\ndifferent `Bool` fields, and observing them yields `False`, with no axioms\ninvolved.\n\nUnlike `bugs/rec-missing-ih` and `bugs/proj-of-stuck-prop`, this needs no interference\nfrom the definitional-equality cache: every comparison above comes out the same\nway in a fresh type-checker session, so it is independent of whether, and how,\nsuch a cache is keyed.  What it does need is that the sort of an inductive\nfamily is re-examined after a substitution that definitional equality permits.\n\nThe projection in the last step is ruled out by\n[leanprover/lean4#14807](https://github.com/leanprover/lean4/pull/14807), which\nmakes the kernel's `is_prop` check require the inferred type to reduce to a\nsort: a stuck sort then raises `(kernel) type expected` instead of answering\nthat the type is not a proposition.\n",
+        "leanfile": "tests/bugs/proj-of-subst-prop.lean",
+        "export-decls": [
+          "inconsistent"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/rec-k-lie.yaml",
+      "sha256": "4012a915526d6f2e5f9d6cfe3df882a7ad87ec4f41addc440a614431a256fc9c",
+      "configuration": {
+        "description": "False theorem via trusted `k` on a recursor.\n\nDefine `MyBool` with two constructors, and lie by claiming its recursor is K-like,\nso the major premise is replaced by the first constructor without being examined.\n\n`disc MyBool.true` is then `True` rather than `False`.\n\n`MyBool` rather than `Bool` because a module that overwrites an imported constant\ncannot be re-imported by the exporter.\n\nNanoda and its descendants accepted this until it was\n[fixed](https://github.com/ammkrn/nanoda_lib/pull/22).\n",
+        "leanfile": "tests/bugs/rec-k-lie.lean",
+        "export-decls": [
+          "bad"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/rec-missing-ih.yaml",
+      "sha256": "1cfb9e7b228f2b84ff7fa31f96953e026fa10d12feab8a9b3ffe429aef30f77e",
+      "configuration": {
+        "description": "Proof of `False` from a generated recursor whose reduction rule drops the\ninduction hypothesis.\n\n### Mechanism\n\n1.  *Definitional equality is not transitive here.*  The test builds three\n    functions `Bool → Bool` from `Acc.rec` for which a kernel reports\n    `rcA ≡ rcB` and `rcB ≡ rcC` — both by proof irrelevance on the `Acc`\n    argument, the latter after some iota steps — but `rcA ≢ rcC`, because\n    there the two `Acc` proofs have different types (`Acc (· < ·) 1` vs.\n    `Acc (· < ·) 0`).\n\n2.  *In the affected kernels, the defeq cache closes that relation\n    transitively, but only for hash-equal terms.*  Established equalities are\n    kept in a union-find structure, and the comparison returns early, without\n    consulting it, when the hashes differ:\n\n    ~~~cpp\n    if (is_eqp(a, b))                      return true;\n    if (m_use_hash && hash(a) != hash(b))  return false;   // skips the union-find\n    ...\n    node_ref r1 = find(to_node(a));\n    node_ref r2 = find(to_node(b));\n    if (r1 == r2) return true;\n    ~~~\n\n    So whether `rcA ≡ rcC` holds depends on the hash of the surrounding term.\n    The three constants and the two paddings are picked so that the hashes\n    collide for the free variables that the affected implementations create\n    while building the minor premises of the recursor (`_ind_fresh.3`,\n    `_ind_fresh.9`), but not for the pass that builds the recursor rules\n    (`_ind_fresh.14`).\n\n3.  *A K-like reduction is made to depend on that comparison.*\n    `Native64TwoHashGate` is a K-like inductive predicate (one parameter, four\n    `Bool` indices, one field-less constructor pinning the indices), so\n    reducing `Gate.rec … h` requires the indices of `h`'s type to be\n    definitionally equal to the ones of `Gate.intro`'s result type.\n    `Native64TwoHashOwner.step` has a recursive argument whose type is such a\n    `Gate.rec` application, which therefore reduces to `Owner` in one pass but\n    not in the other.\n\nThe resulting `Native64TwoHashOwner.rec` has a `step` minor premise expecting\nfour arguments (including the induction hypothesis) but a rule that applies it\nto only three, so the `ih` binder swallows the next argument.  That makes the\n`Prop`-valued `badProp` reduce to `Bool`, and a `Prop` with two\ndistinguishable inhabitants gives `False`.\n\nAffected kernels not only accept these declarations, they also re-derive the\nsame broken recursor when replaying the export data.  This was the case for\nthe official kernel at v4.28.0, v4.29.1, v4.33.0 and nightly-2026-08-01.\nKernels that construct the recursor independently reject the export, mostly\nwith an error about `Native64TwoHashOwner.step` having an invalid occurrence of\nthe datatype being declared — which is also what the affected kernels reported\nas soon as one of the hashes no longer collided.\n\nFixed by\n[leanprover/lean4#14806](https://github.com/leanprover/lean4/pull/14806), which\nreplaces the union-find defeq cache with an order-independent one, so that a\nhash collision can no longer make a comparison succeed that fails on its own.\n",
+        "file": "tests/bugs/rec-missing-ih.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/bugs/rec-of-subst-prop.yaml",
+      "sha256": "e04c61eb3dcb32f54c9c5bf43aadac221afad6488406c685c4757d637cda8ddc",
+      "configuration": {
+        "description": "Proof of `False` from a `Prop` that carries a `Type` field, recovered through\nthe recursor instead of a projection.\n\nA second variant of `bugs/proj-of-subst-prop`, sharing its first two steps:\n\n1.  Definitional equality is not transitive on three `Bool`s built from\n    `Acc.rec` — `gateA ≡ gateB` and `gateB ≡ gateC` by proof irrelevance on the\n    `Acc` argument, but `gateA ≢ gateC` — so `GateP := gateA = gateB` and\n    `GateQ := gateA = gateC` are definitionally equal types whose proofs behave\n    differently under `Eq.rec`.  `resultSort h` K-reduces to `Prop` for a\n    variable `h : GateP` and stays stuck for the closed `gateWitness : GateQ`.\n\n2.  `Issue.Owner : ∀ (h : GateP), resultSort h` is therefore accepted as a\n    family of propositions whose constructor carries a field `A : Type`, while\n    `Owner gateWitness` — well-typed, since `GateQ ≡ GateP` — has a sort that\n    does not reduce to `Prop`.\n\nWhere `bugs/proj-of-subst-prop` then projects the field out, this variant eliminates\n`Owner` with its own `Prop`-only recursor into `Fiber X := Acc emptyTypeRel X`,\nwhich is a proposition, and recovers the data from there: `Acc.rec` eliminates\n`Acc` into `Type`, and `propext` transports an `Acc` proof between two `Fiber`\ntypes.  Proof irrelevance identifies `Owner.mk gateWitness Empty` with\n`Owner.mk gateWitness Unit`, so the identity function of one type is applied to\na value of the other, and `Empty` becomes inhabited.  The proof of `False` uses\n`propext` and no other axiom.\n\nBecause no projection is involved, the guard that stops `bugs/proj-of-subst-prop` —\nrefusing to project a data field out of a proposition — never fires here.  A\nchecker has to refuse the substitution, or the stuck result sort of\n`Issue.Owner`, instead.\n\nBoth variants are ruled out by\n[leanprover/lean4#14807](https://github.com/leanprover/lean4/pull/14807), which\nmakes the kernel's `is_prop` check require the inferred type to reduce to a\nsort: `Issue.Owner` is then rejected with `(kernel) type expected`.\n\nThe exploit is by Daniel Selsam (OpenAI), generated with OpenAI's internal\nmodels, and is the regression test added in\n[leanprover/lean4#14847](https://github.com/leanprover/lean4/pull/14847).\n",
+        "leanfile": "tests/bugs/rec-of-subst-prop.lean",
+        "export-decls": [
+          "Issue.contradiction"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/cedar.yaml",
+      "sha256": "669f17754c8db6aa7febc6c8be6ef2da38f6f2b25cbc78e5700574eda9fd4eb1",
+      "configuration": {
+        "description": "Lean formalization of, and proofs about, [Cedar](https://www.cedarpolicy.com/).\n\nAuto-generated documentation is available at https://cedar-policy.github.io/cedar-spec/docs/.\n\nThis test case exports the whole `Cedar` module and as such contains even unused parts `Init` and\n`Batteries.`\n",
+        "url": "https://github.com/cedar-policy/cedar-spec/",
+        "ref": "main",
+        "rev": "017c35c3d1f856a0f8b62a66660ee6628870bbcf",
+        "pre-build": "shopt -s dotglob && find . -mindepth 1 -maxdepth 1 ! -name cedar-lean -exec rm -rf {} + && mv cedar-lean/* . && rmdir cedar-lean\n",
+        "module": "Cedar",
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 940
+      }
+    },
+    {
+      "path": "tests/con-leche.yaml",
+      "sha256": "53c835e1011d94b4f97a9f331b91cde3ace3f9f7adb53b97b2dff32b2f5a838e",
+      "configuration": {
+        "description": "The [con-leche](https://github.com/leanprover/con-leche) development's\nthree theorems: the consistency proof of its verified checker —\n`model_exists`, every environment the checker accepts has a\nset-theoretic model, and its corollary `no_proof_of_False`, no proof of\n`False` is accepted — and the equivalence of its byte-level parser with\na naive reference (`scanLineSpec_eq_scanLineFwd`), each with its\ndependency cone.\n",
+        "url": "https://github.com/leanprover/con-leche",
+        "ref": "master",
+        "rev": "78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+        "module": "ConLecheTests",
+        "export-decls": [
+          "ConLeche.model_exists",
+          "ConLeche.no_proof_of_False",
+          "ConLeche.Frontend.scanLineSpec_eq_scanLineFwd"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 720
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-acc-left.yaml",
+      "sha256": "b5841a35b02c00e07b7188f481e7d5df4c96f66ffc204efa37082e742bd00462",
+      "configuration": {
+        "description": "The creative half of `corner-cases/alg-conv-trans-acc`. `Acc.rec` is stuck\non the variable `a`, and proof irrelevance admits any other proof of\n`Acc (· < ·) 1` in its place, including one with a constructor at the head.\nGiven both sides, a checker verifies this immediately; producing the\nright-hand side unprompted is the step no algorithm takes.\n",
+        "leanfile": "tests/corner-cases/alg-conv.lean",
+        "export-decls": [
+          "left"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-acc-right.yaml",
+      "sha256": "d6eba048f92d998050127945d632960943ecd1ef9f4aa8615a08e86000a38a9e",
+      "configuration": {
+        "description": "The mechanical half of `corner-cases/alg-conv-trans-acc`. With a\nconstructor in the major premise, `Acc.rec` fires and `step` descends to the\npredecessor `0`.\n",
+        "leanfile": "tests/corner-cases/alg-conv.lean",
+        "export-decls": [
+          "right"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-acc.yaml",
+      "sha256": "c5650b314abbc78c39766ff0b0ab249f93af5fe531235b7888ebd2129d6f7725",
+      "configuration": {
+        "description": "As Lean's type theory has undecidable conversion (a.k.a. definitional equality),\nthere are bound to be gaps between so called \"algorithmic\" conversion (that which is\nimplemented by a typechecker), and the \"declarative\" conversion.\n\nIn the official kernel, algorithmic conversion fails to be transitive. `f 1 a`\nis a normal form: `a` is a variable, so `Acc.rec` cannot fire on it. Proof\nirrelevance admits any other proof of `Acc (· < ·) 1` in its place, and\n`Acc.intro 1 fun _ => Acc.inv a` carries a constructor at the head, so it\nreduces. `left` is that substitution, `right` the reduction it unblocks, and\n`trans` chains the two.\n\n`acc` asks for the endpoints on their own, which means inventing the middle\nterm: choosing, among the proofs of a proposition, the one that happens to\nreduce the right way. The kernel has no reason to go looking, the left side\nbeing normal already, and unfolding regardless does not terminate here, as\neach step makes the term larger.\n\nReferences:\n\n- Mario Carneiro, *The Type Theory of Lean*, MSc thesis\n",
+        "leanfile": "tests/corner-cases/alg-conv.lean",
+        "export-decls": [
+          "trans"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-quot-left-def.yaml",
+      "sha256": "60eb9567bdaf58ab40e6fb542f68372896c235ed6c0b1af13c87c7c5e6ed9438",
+      "configuration": {
+        "description": "`left` with `Quot.lift` behind a definition. WHNF does not unfold `lift`, so\nthe arguments are compared and proof irrelevance applies.\n",
+        "leanfile": "tests/corner-cases/alg-conv-trans-quot.lean",
+        "export-decls": [
+          "left'"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-quot-left.yaml",
+      "sha256": "fcad0eb7fa3bb6ab5684cae0cf16c4b846e6460db27236792c59c869e954a0b7",
+      "configuration": {
+        "description": "`Quot r` is a `Prop`, so proof irrelevance relates `q` and `Quot.mk r z`.\nHowever the official kernel does WHNF first, reducing the right side to `f z`,\nso congruence never compares the arguments.\n",
+        "leanfile": "tests/corner-cases/alg-conv-trans-quot.lean",
+        "export-decls": [
+          "left"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-quot-right.yaml",
+      "sha256": "c8bebba9eac843dc544a3d8f6469c912c9dbfa9c9bbb188234e32a66ce12d411",
+      "configuration": {
+        "description": "Quotient computation rule.\n",
+        "leanfile": "tests/corner-cases/alg-conv-trans-quot.lean",
+        "export-decls": [
+          "right"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/alg-conv-trans-quot.yaml",
+      "sha256": "9c10d05203af9be0c6ab08f4be42ff9dcca44dc36746e0d30c5bbd99e2e2c0f0",
+      "configuration": {
+        "description": "`left` composed with `right`. Quotients of propositions cause\nalgorithmic conversion transitivity to fail because the typechecker must\ncreatively synthesise the representative of the quotient, and\nproof irrelevance is definitional.\n\nReferences:\n\n- Mario Carneiro, *The Type Theory of Lean*, MSc thesis\n",
+        "leanfile": "tests/corner-cases/alg-conv-trans-quot.lean",
+        "export-decls": [
+          "trans"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/eta-ctor.yaml",
+      "sha256": "e92b30ecc8889d0042ec1aaabdeb5d465c55c1617abf99ba08c92092d0cdac8a",
+      "configuration": {
+        "description": "Function eta between a partially applied constructor and a free variable.\nThe official kernel does not trigger eta expansion here, but a checker may\naccept the equality by expanding the functions.\nSee https://github.com/leanprover/lean4/issues/12520 for a discussion.\n",
+        "leanfile": "tests/corner-cases/eta-ctor.lean",
+        "export-decls": [
+          "etaCtor"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/eta-rule-k.yaml",
+      "sha256": "976909e7b5cc9c21151fb4d9347a00323e584f1796f04453993e4d500572301c",
+      "configuration": {
+        "description": "Function eta between a partially applied recursor with rule K and a free\nvariable. The official kernel does not trigger eta expansion here, but a\nchecker may accept the equality by expanding the functions.\nSee https://github.com/leanprover/lean4/issues/12520 for a discussion.\n",
+        "leanfile": "tests/corner-cases/eta-rule-k.lean",
+        "export-decls": [
+          "etaRuleK"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/imax-right-successor.yaml",
+      "sha256": "bafb990093354bd3d87eb11a118700140ee2cc0d33d34686af91625376894b25",
+      "configuration": {
+        "description": "Universe-level normalization corner cases. The declarations use `imax u 1`\nand `imax u (v + 1)` where their declared types use the corresponding\n`max` levels. A checker may reject these hand-crafted exports using a more\nconservative normalization, or accept them by recognizing that the right\noperand is nonzero.\n",
+        "leanfile": "tests/corner-cases/imax-right-successor.lean",
+        "export-decls": [
+          "imaxRightOne",
+          "imaxRightSucc"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/let-value-type-mismatch.yaml",
+      "sha256": "a6dc2b4acc2f363f72812f16a5f6be5b424f2ce212b5617bdadb7958f5bb9e2b",
+      "configuration": {
+        "description": "A let has a mismatched annotation, but substitution removes the mismatch.\n\nIn readable notation, the exported declaration is:\n\n```text\ndef EcosystemCase : Sort 2 := let u : Sort 1 := Sort 1; u\n```\n\nThe value `Sort 1` has type `Sort 2`, rather than the annotated `Sort 1`.\nChecking the supplied let can therefore reject it. Substituting its value\nfor `u` gives `def EcosystemCase : Sort 2 := Sort 1`, whose types match.\n\nThis records the choice to check the supplied annotation or first simplify\nthe let. The [discussion of this exact example](https://github.com/leanprover/lean4export/issues/48#issuecomment-5654286873)\nsupports allowing either outcome as practical checker policy, while leaving\na completely authoritative answer open. This is not a false-theorem example.\n",
+        "file": "tests/corner-cases/let-value-type-mismatch.ndjson",
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/nested-nonuniform-param.yaml",
+      "sha256": "2670036758ec076c15faa7b98e8aa757607e25baba6a6d666b45579b1d72885f",
+      "configuration": {
+        "description": "Checks that a parameter supplied to a nested inductive occurrence really acts\nas the datatype's parameter, i.e. that it is the parameter itself and does not\nchange between recursive occurrences (as is already enforced for non-nested\noccurrences).\n\nThe inductive `E : W → Type` has constructor\n`E.mk : (w : W) → L (E ⟨false⟩) → E w`, where `L (α : Type)` is nested. The\noccurrence `E ⟨false⟩` inside the nested `L` uses the constant `⟨false⟩` in\nthe position of `E`'s parameter, instead of the actual parameter `w`. That\nargument is type-correct, so it is not caught by merely type-checking the\nnested application (leanprover/lean4#14577); a correct checker must also\nverify that it is the expected parameter.\n\nThis particular declaration is not known to yield a proof of `False`: here `L`\nstores no value of type `α`, so the nested occurrence is phantom and `E w` is\nisomorphic to `Unit` for every `w`. The variant where `L` actually stores an\n`α` (so recursion would descend into an `E ⟨false⟩` while the motive is fixed\nat `E w`) is already rejected by the kernel's positivity check (\"non valid\noccurrence\"). Since it is not a demonstrated unsoundness, it is not settled\nwhether a checker should accept or reject it, so the expected outcome is\n`either` and the test does not count towards completeness or soundness.\n\nOrigin: raised by @arthur-adjedj on leanprover/lean4#14577\n(https://github.com/leanprover/lean4/pull/14577#issuecomment-5101819377) as a\ncase not covered by that PR's fix; related to leanprover/lean4#14576.\n",
+        "dir": "tutorial",
+        "module": "CornerCases.NestedNonuniformParam",
+        "export-decls": [
+          "E"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/positivity-whnf.yaml",
+      "sha256": "960c092ce24c5d7a45f7d455df3c6eec17adbfa6de45459b23a9a43d82d220ad",
+      "configuration": {
+        "description": "A recursive occurrence appears in an unused argument of a reducible\ndefinition in a constructor field.\n\nThe declaration has the following shape:\n\n```lean\ndef Ignore (A B : Type) : Type := A\n\ninductive T : Type where\n  | mk (f : Ignore Unit T -> T) : T\n```\n\n`Ignore` takes a second type argument but does not use it, so `Ignore Unit T` reduces to `Unit`. A checker that inspects the unreduced constructor field may reject the syntactic occurrence of `T` in the domain of the arrow. A checker that first weak-head-normalizes the field type may instead see `(Unit -> T) -> T` and accept it. The test therefore has outcome `eithe r`.\n\nA checker may reject it syntactically or accept it after reducing the field type.\n",
+        "file": "tests/corner-cases/positivity-whnf.ndjson",
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/proj-maybe-prop-past.yaml",
+      "sha256": "7622bfb395e89ec0c7beb656598a52d595fab8e2e6d5e738554fab70d9334872",
+      "configuration": {
+        "description": "The same as `corner-cases/proj-maybe-prop`, for a projection that only has\nto step over such a field.\n\n`MaybeProp.tail` is a proof for every `u`, so the field asked for here is\nunobjectionable even under the restrictive reading. But reaching it means\nwalking past `field`, which `proof` depends on, and that is where the check\non a genuine proposition (the tutorial's `projProp6`) fires. A checker that\nrejects `corner-cases/proj-maybe-prop` therefore rejects this one as well,\nat field 0 rather than at field 2, and that remains a reasonable choice for\nthe same reason. See <https://github.com/leanprover/lean4/issues/7637> for\ndiscussion.\n",
+        "leanfile": "tests/corner-cases/proj-maybe-prop.lean",
+        "export-decls": [
+          "projMaybePropPast"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/proj-maybe-prop.yaml",
+      "sha256": "9bf99869048db19c153de1db4e060eb936b5f29863e909537cb93b19684cf52d",
+      "configuration": {
+        "description": "Projecting out of a structure that may or may not be a proposition.\n\n`MaybeProp` is a structure whose sort is a bare level parameter: a\nproposition for `u := 0` and a data type for every other `u`. Lean's\n`inductive` command refuses to declare one (\"the resulting universe is not\n`Prop`, but it may be `Prop` for some parameter values\"), but the kernel\naccepts it. The exported definition projects out its first field,\n`field : PUnit.{u}`.\n\nThe official kernel accepts this. The field is not a proof for every `u`,\nbut the projection is sound at every instantiation: `MaybeProp.{u}` is a\nproposition only for `u := 0`, and there the field's type `PUnit.{0}` is a\nproposition too. That is no coincidence. A structure that is not a `Prop`\nhad every constructor field's universe checked against its resulting\nuniverse (see the tutorial's `typeWithTooHighTypeField`), here `u ≤ u`, and\nsuch an inequality survives instantiation — so wherever the structure does\nturn out to be a proposition, so do all of its fields.\n\nAt the same time, the official kernel here allows more projections than the\nrecursor allows: `MaybeProp.rec` eliminates into `Prop` only, so this\nprojection cannot be expressed through the recursor. The elaborator does not\ncurrently rely on this extra power, so for now it is reasonable for a\nchecker to be more restrictive here and reject the projection — for example\nby asking \"could this be a proposition?\" and then demanding that the field\nbe definitely a proof. See\n<https://github.com/leanprover/lean4/issues/7637> for discussion.\n",
+        "leanfile": "tests/corner-cases/proj-maybe-prop.lean",
+        "export-decls": [
+          "projMaybeProp"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/proof-param-ok.yaml",
+      "sha256": "53ff164d5881a504c6792b5a5573f4c83abdf8bfc7dadcd39cbbccf8e0a01554",
+      "configuration": {
+        "description": "Keeps two proof parameters in their declared order in an inductive\nconstructor result.\n",
+        "file": "tests/corner-cases/proof-param-ok.ndjson",
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/corner-cases/proof-param-swap.yaml",
+      "sha256": "aa56ff72b3aa37c931d3bc788ae83b890ea89587315afc41c42e390cd11f0b43",
+      "configuration": {
+        "description": "Swaps two proof parameters in an inductive constructor result. Checkers may\neither reject the swap or accept it using proof irrelevance.\n",
+        "file": "tests/corner-cases/proof-param-swap.ndjson",
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/subject-reduction-redex.yaml",
+      "sha256": "09b67c2ac9b5674a25b90ad58c5a3c8d418bef773affef621340188253ea3fbf",
+      "configuration": {
+        "description": "Test for subject reduction, as in Carneiro's thesis.\n\nThe annotation on the lambda writes the middle term of\n`corner-cases/alg-conv-trans-acc` down by hand, sparing the kernel from\nhaving to invent it. The body checks against `right`, the argument against\n`left`, and the two endpoints are never compared.\n\nReferences:\n\n- Mario Carneiro, *The Type Theory of Lean*, MSc thesis\n",
+        "leanfile": "tests/corner-cases/alg-conv.lean",
+        "export-decls": [
+          "redex"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/corner-cases/subject-reduction-reduct.yaml",
+      "sha256": "8e296fc526f09ca2b6403894eda1f14cc9c32c56f00dc96882e9f17328810425",
+      "configuration": {
+        "description": "Beta erases the annotation of `corner-cases/subject-reduction-redex`, and\nwith it the middle term, leaving the two endpoints to compare: the conversion\nof `corner-cases/alg-conv-trans-acc`. A term the kernel accepts thus\nreduces to one it rejects.\n\nReferences:\n\n- Mario Carneiro, *The Type Theory of Lean*, MSc thesis\n",
+        "leanfile": "tests/corner-cases/alg-conv.lean",
+        "export-decls": [
+          "reduct"
+        ],
+        "outcome": "either"
+      }
+    },
+    {
+      "path": "tests/cslib.yaml",
+      "sha256": "6e90fdd4588d8f9d45dc028805ecb740773e2692abaf86b4f4c6fd2bc5997a1b",
+      "configuration": {
+        "description": "The Lean Computer Science Library (CSLib). \n",
+        "url": "https://github.com/leanprover/cslib",
+        "ref": "main",
+        "rev": "990e65a685bed413f43b139db900a36ad5322a10",
+        "pre-build": "lake exe cache get",
+        "module": "Cslib",
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 1800
+      }
+    },
+    {
+      "path": "tests/init-prelude.yaml",
+      "sha256": "ea0af719fccabd2bf033ca891c3858ca28bcd899f83268a114fdba06db8a58ef",
+      "configuration": {
+        "description": "The `Init.Prelude` module export.\n",
+        "leanfile": "tests/init_prelude_module.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/init.yaml",
+      "sha256": "4f87d223ffb3d2ec7bf436fc94d0a81415d13424a81405d1419559275d18e7c3",
+      "configuration": {
+        "description": "The `Init` module export from Lean 4 core.\n\nThis test contains the fundamental building blocks of Lean 4, including:\n\n- Basic data types (Nat, List, Array, String, etc.)\n- Core tactics and syntax\n- Foundational mathematical structures\n- Essential metaprogramming infrastructure\n\nThis is one of the smallest meaningful test cases, making it ideal for \ninitial checker validation and debugging.\n",
+        "leanfile": "tests/init_module.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 500
+      }
+    },
+    {
+      "path": "tests/mathlib.yaml",
+      "sha256": "d3850d4b0b19a9b55184e7a66a71d333a3fa8fff0027516ab1291d9679733566",
+      "configuration": {
+        "description": "The complete [Mathlib](https://github.com/leanprover-community/mathlib4) library export.\n\nThis test contains all the mathematical definitions, theorems, and proofs\nfrom Mathlib, representing the largest and most comprehensive test case\nin the Lean kernel arena.\n",
+        "url": "https://github.com/leanprover-community/mathlib4",
+        "ref": "v4.34.1",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "pre-build": "lake exe cache get",
+        "module": "Mathlib",
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 5680
+      }
+    },
+    {
+      "path": "tests/navier-stokes-euler.yaml",
+      "sha256": "ebadf5ccc17ca76f090c03ea1d072905e201376f6fff766fc4c4d9fa58f69796",
+      "configuration": {
+        "description": "OpenAI's Lean formalization of finite-time blowup for the three-dimensional\nincompressible Navier–Stokes equations with smooth forcing (on Euclidean space\nand on the periodic torus), and of unforced Euler blowup.\nSee <https://github.com/openai/NavierStokesAndEuler/>.\n\nThis test exports the main results listed in the project's `formalization.yaml`,\ntogether with their dependencies.\n",
+        "url": "https://github.com/openai/NavierStokesAndEuler/",
+        "ref": "main",
+        "rev": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd",
+        "pre-build": "lake exe cache get\n# The declarations of interest live in two separate modules, so we join them\n# into one module (below the `NavierStokes.+` library glob) to export.\nprintf 'import NavierStokes.ComparatorSolution\\nimport Euler.Solution\\n' > NavierStokes/Arena.lean\n",
+        "module": "NavierStokes.Arena",
+        "export-decls": [
+          "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+          "NavierStokes.Comparator.navier_stokes_breakdown_periodic",
+          "Euler.euler_breakdown_R3",
+          "Euler.exists_compact_smooth_euler_singularity"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 2400
+      }
+    },
+    {
+      "path": "tests/other/extra-rec.yaml",
+      "sha256": "2d69674c97f6a6ad81b3f729de382870300ac0899aeceabbb58052e71089fd52",
+      "configuration": {
+        "description": "Proof of `False` from an extra recursor that no inductive declaration could\nproduce.\n\nThe export contains `False` exactly as the prelude has it — an empty\n`Prop`-valued inductive with no constructors — together with its ordinary\n`False.rec`.  Smuggled into the same inductive group is a second recursor,\nnamed `rogue`, whose type is `False` itself and which has no motives, no minor\npremises and no rules.  The theorem `inconsistent : False` is then simply\n`rogue`.\n\nA checker must derive the recursors of an inductive group from the inductive\ndeclaration and reject any exported recursor that is not one of them; here that\nfails on the name (`rogue` is not `False.rec`) as well as on the type.  A\nchecker that instead registers exported recursors as given ends up with an\ninhabitant of the genuine empty type.\n\nThis is a different gap from `bugs/nat-rec-rules`, which perturbs the *rules* of a\nlegitimate recursor: here an entire recursor constant is fabricated, so\nvalidating only the rules of the recursors one expects does not catch it.\n",
+        "file": "tests/other/extra-rec.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/other/level-index-out-of-order.yaml",
+      "sha256": "23f87f399826a770986825937771fa430b1ddb3b3699a69b080f9896932404a7",
+      "configuration": {
+        "description": "Lean4export will create internalization-table references contiguously in\norder: `in` references for names, `il` references for levels, and `ie`\nreferences for expressions all work this way.\n\nHowever, the spec merely requires that these are integers. It's reasonable\nfor an implementation to assume these are approximately dense (and to treat\nthem as array indices instead of hashtable entries), but a kernel should\nhandle skipped indices or out-of-order indices.\n\nThis test checks that the kernel doesn't require internaliation-table\nreferences to be presented in ascending order. If the level referenes 2 and\n1 were swapped, this would be the expected encoding of `axiom foo : Sort 2`.\nThis encoding should be equivalent.\n",
+        "file": "tests/other/level-index-out-of-order.ndjson",
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/other/nat-lit-add-bad.yaml",
+      "sha256": "8c662880f026e955dd35b51d131bc0add8db06b989c93943ac418584f02b29f5",
+      "configuration": {
+        "description": "The claimed result of `Nat.add` on two literals does not match the\nkernel's literal arithmetic:\n\n    natAddLitBad : Nat.add 123456789 987654321 = 1111111111\n      := Eq.refl (Nat.add 123456789 987654321)\n\nThe value is well-typed as `@Eq Nat (Nat.add …) (Nat.add …)` and is\ninjected with `debug.skipKernelTC`. A sound checker must reject the\ndeclaration type mismatch against the claimed `= 1111111111`.\n",
+        "leanfile": "tests/other/nat-lit-add-bad.lean",
+        "export-decls": [
+          "natAddLitBad"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/other/nat-lit-add.yaml",
+      "sha256": "aed283de9b6a6d4d09a4818623f4d223ae8c71427f7a469da3d5590c69b5dc97",
+      "configuration": {
+        "description": "The kernel's Nat extension reduces `Nat.add` applied to two literals to a\nliteral, instead of unfolding the numerals to `Nat.succ` chains. The\narguments here are large enough that unfolding is not a practical\nalternative, so a checker that only implements `natLitEq`-style\nliteral↔succ conversion will not get this for free.\n\nExported as `natAddLit : Nat.add 123456789 987654321 = 1111111110 := rfl`.\nThe application is `Nat.add` on `.lit`s (not `HAdd`/`OfNat`).\n",
+        "leanfile": "tests/other/nat-lit-arith.lean",
+        "export-decls": [
+          "natAddLit"
+        ],
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/other/nat-lit-ble.yaml",
+      "sha256": "3d2f6508b438f8b2d8f5a992e77a0198a11b8aee16793c3c37edb5436e21c505",
+      "configuration": {
+        "description": "`Nat.ble` on two literals reduces to a `Bool` constructor:\n`Nat.ble 1000000 1000001 = true`. Same Nat-literal extension as\n`nat-lit-add`; the result is `Bool` rather than `Nat`.\n",
+        "leanfile": "tests/other/nat-lit-arith.lean",
+        "export-decls": [
+          "natBleLit"
+        ],
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/other/nat-lit-sub.yaml",
+      "sha256": "0c9be5bb829a5fdbb294d99bd2a8d3e28b454c88442420a92b28fa77e604b59e",
+      "configuration": {
+        "description": "`Nat.sub` on two literals truncates at zero: `Nat.sub 1000000 1000001 = 0`.\nSame Nat-literal extension as `nat-lit-add`; the numerals are large enough\nthat unfolding `Nat.sub` to a `Nat.succ` recursor is not a practical path.\n",
+        "leanfile": "tests/other/nat-lit-arith.lean",
+        "export-decls": [
+          "natSubLit"
+        ],
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/other/orphan-ctor.yaml",
+      "sha256": "7a95e5d70f0fb6dd4b9c123bc0f94c4dc004e6a8fcb65c6122bc272f59fd9353",
+      "configuration": {
+        "description": "Proof of `False` from a constructor of an inductive type that does not exist.\n\nThe export contains `False` exactly as the prelude has it — an empty\n`Prop`-valued inductive with no constructors, its `ctors` field is the empty\nlist — together with its ordinary `False.rec`.  Smuggled into the same\ninductive block is a constructor named `rogue`, of type `False`, with no\nparameters and no fields, whose `induct` field names `Orphan`, a name for\nwhich the export has no declaration at all.  The theorem `inconsistent : False`\nis then simply `rogue`.\n\nA checker must derive the constructors of an inductive group from the\ninductive declarations and reject any exported constructor that is not one of\nthem; here that fails because `False` has no constructors, and the inductive\ntype `rogue` claims to come from does not exist.  A checker that instead\nregisters exported constructors as given — or that only checks constructors\nwhose `induct` field points at a declaration it knows — ends up with an\ninhabitant of the genuine empty type.\n\nThis is the constructor-side counterpart of `bugs/orphan-rec`: in both cases the\nbogus declaration escapes by not being attached to any inductive declaration\nthat the checker verifies, rather than by disagreeing with one.\n",
+        "file": "tests/other/orphan-ctor.ndjson",
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/other/proj-of-prop.yaml",
+      "sha256": "2dd490884b883b8f2f483a58f903bda6bebe42ae6e009284e47da7af553d7535",
+      "configuration": {
+        "description": "A proof of `False` via a projection from a `Prop`-typed structure whose\nconstructor was applied to an ill-typed argument. The exported term is\n\n    badFalse : False := (Wrapper.mk True.intro).p\n\nwhere `Wrapper : Prop` has a single field `p : False`, so `Wrapper.mk`\nexpects a proof of `False` but is given `True.intro : True`.\n\nA sound checker must reject this. A checker that types a projection by\ninferring (rather than checking) its structure argument — i.e. that\ntrusts the structure to be well-typed instead of verifying the\nconstructor's argument types against its binders — will accept it,\nbecause `Wrapper.mk True.intro` still formally inhabits `Wrapper` at\nthe structural level, and the `p` projection is then read back out at\nthe declared field type `False`.\n",
+        "leanfile": "tests/other/proj-of-prop.lean",
+        "export-decls": [
+          "badFalse"
+        ],
+        "outcome": "reject"
+      }
+    },
+    {
+      "path": "tests/other/sparse-name-index.yaml",
+      "sha256": "7013468ab6d3eb3dc19035b391e3e9296e48957abe1870ac34a3e68748eec711",
+      "configuration": {
+        "description": "Lean4export will create internalization-table references contiguously in\norder: `in` references for names, `il` references for levels, and `ie`\nreferences for expressions all work this way.\n\nHowever, the spec merely requires that these are integers. It's reasonable\nfor an implementation to assume these are approximately dense (and to treat\nthem as array indices instead of hashtable entries), but a kernel should\nhandle skipped indices or out-of-order indices.\n\nThis test checks that a kernel doesn't require internalization-table\nreferences to be assigned sequentially starting from 1. If the \"2\" and \"4\" \nwere replaced by \"1\" and \"0\", respectively, this would be the expected \nencoding of `axiom foo : Prop`. This encoding should be equivalent.\n",
+        "file": "tests/other/sparse-name-index.ndjson",
+        "outcome": "accept"
+      }
+    },
+    {
+      "path": "tests/perf/app-lam.yaml",
+      "sha256": "d6fc32092a24ac6067dccbe70740dae575511c6b85082816b7b9854f32c71d62",
+      "configuration": {
+        "description": "A synthetically generated term with **n levels of alternating applications\nand lambdas**, with **DAG sharing**.\n\nAt each level, a constant is applied to two identical lambda arguments. The\nexport format records these as a single shared expression (DAG). Each lambda\nbody grows with the nesting depth, referencing all enclosing binders.\n\nThis tests two aspects of checker performance:\n\n**Infer cache**: Since both arguments at each level are the same expression,\na checker without an infer cache re-infers the type of each shared subterm,\ndoubling work at every level — **O(2ⁿ) total**.\n\n**Substitution cost**: Even with a cache, type-inferring each lambda requires\nsubstituting into its body (size O(n)) at each of the n levels, giving\n**O(n²) total**. Whether this cost arises depends on the checker's binder\nrepresentation.\n",
+        "leanfile": "tests/perf/app-lam.lean",
+        "export-decls": [
+          "dag_app_binder"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 100
+      }
+    },
+    {
+      "path": "tests/perf/args-before-unfold.yaml",
+      "sha256": "bca48a22222fb26f20d8b834630d9cd90ea0c2330a346f1ae3907b884e0a293b",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    count #n      and      count (N.add #(n-1) #1)\n\nwhere `#k` is the numeral with k successors, and `count #k` evaluates to `#k`\nin Θ(k²) reductions.\n\n`N.add #(n-1) #1` reduces to `#n` in n steps, so the two arguments agree for\n**Θ(n)**, and the applications agree with them without `count` ever being\nunfolded. Evaluating both applications costs **Θ(n²)**. The test asks whether\na checker tries the arguments of a shared head constant before unfolding it.\n\nN=1000 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/args-before-unfold.lean",
+        "export-decls": [
+          "kernel_args_before_unfold"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/beta-ladder.yaml",
+      "sha256": "d19a1f2bfd51cbd78003895cc3bc2b24f004593b50d985f24fb91aa98c76e10d",
+      "configuration": {
+        "description": "The declaration to check reduces\n\n    (fun x₁ => … (fun xₙ => x₁ + (x₂ + (… + (xₙ + 0)))) 0 …) 0\n\nto `0`, through n beta redexes over a body that reads every binder.\n\nReducing the ladder takes n beta steps whatever a checker does, so the test\nis what one step costs. Substituting into the body on entry to binder k\ncopies the n − k redexes still below it, and those copies sum to **Θ(n²)**.\nCarrying the substitution in an environment leaves the body untouched, for\n**Θ(n)**.\n\nN=2000 in the Lean source.\n",
+        "leanfile": "tests/perf/beta-ladder.lean",
+        "export-decls": [
+          "beta_ladder"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/church-numerals.yaml",
+      "sha256": "33cf896bab25c7137b1709ad89a3d316a4997e6b80b093964f91015d35455b13",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    cmul (cnum n) (cnum (n+1))      and      cmul (cnum (n+1)) (cnum n)\n\nwhere `cnum k` is the Church numeral `fun X s z => s (s (... z))` and\n`cmul a b` iterates `b` as many times as `a` counts.\n\nBoth sides have the normal form with n(n+1) applications of the bound `s`.\nUnfolding `cmul` on the left leaves `cnum n X (cnum (n+1) X s)`, where each of\nthe n occurrences of the bound function copies the redex `cnum (n+1) X s`, so\nthe normal form takes n(n+1) beta steps and shares nothing. No other delta\nstep is available, so the **Θ(n²)** measured is beta reduction under binders\nand little else.\n\nN=120 in the Lean source, giving a reduction depth of 14520. From the\n`conv_eval` benchmark of András Kovács' smalltt.\n",
+        "leanfile": "tests/perf/church-numerals.lean",
+        "export-decls": [
+          "kernel_church_numerals"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/discarded-argument-match.yaml",
+      "sha256": "8025e12debb5cd78601f94896f1c89fc4525d021d64f70e5478f1695b7c3f485",
+      "configuration": {
+        "description": "`discarded-argument.lean` with `count` and `N.add` written by structural\nrecursion, so the declaration to check is the same\n\n    dropArg (count #n)      and      dropArg (count #(n+1))\n\nover definitions that unfold through `brecOn` rather than through `N.rec`.\n\n`brecOn` reduces via the course-of-values table\n`N.below #k = m #(k-1) ×' (m #(k-2) ×' (… ×' PUnit))`, a k-deep tuple holding\nthe result at every predecessor. The compiled `count` reads only `x.1`, so\nthe rest of the table is built and never read, and typing each projection\nforces `N.below` to the depth of that projection.\n\nN=200 in the Lean source, matching its pair.\n",
+        "leanfile": "tests/perf/discarded-argument-match.lean",
+        "export-decls": [
+          "kernel_discarded_argument_match"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/discarded-argument.yaml",
+      "sha256": "4d443df65ede392837d8a1870d0679e728475507c9fe704df06e13ed787d5fef",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    dropArg (count #n)      and      dropArg (count #(n+1))\n\nwhere `count #k` evaluates to the numeral `#k` in Θ(k²) reductions, and\n`dropArg` maps every numeral to `N.O`.\n\nUnfolding `dropArg` leaves `N.O` against `N.O`, for **Θ(1)**. Comparing the\narguments first evaluates two numerals of different value, for **Θ(n²)**, and\nthen throws that answer away. The test asks whether a checker unfolds a\nconstant before looking at an argument the constant never uses.\n\nN=200 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/discarded-argument.lean",
+        "export-decls": [
+          "kernel_discarded_argument"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/folded-constant-first.yaml",
+      "sha256": "61f7af1a5bffd0827d9ecdc3ac45a1503718526c075994dd61c93c4877dac27b",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    tagged (count #n)      and      (false, count #n)\n\nwhere `tagged m = (isZero m, m)`, so unfolding the left side leaves the same\napplication `count #n` in both components, forced by `isZero` in one and\nplain in the other.\n\nThe plain occurrences are identical, for **Θ(1)**; the forced one evaluates\n`count #n` once. The order matters for a checker that leaves a constant\nunfolded once it reduces it: reducing the forced component first replaces\n`count #n` by its value on one side, and the plain comparison then faces a\nfolded application against an evaluated one. Here the forcing component\ncomes first; `folded-constant-last.lean` swaps them, and the ratio between\nthe two files is what that costs.\n\nN=1000 in the Lean source. From Courant and Leroy, POPL 2026, §10, where\nthe two orders cost Rocq 3 × 10⁻⁵ s and 0.078 s.\n",
+        "leanfile": "tests/perf/folded-constant-first.lean",
+        "export-decls": [
+          "kernel_folded_constant_first"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/folded-constant-last.yaml",
+      "sha256": "6eec124e4288baf13c7a756faa83d57efe7a89f26e24b9d790b5ceda9578e45e",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    tagged (count #n)      and      (count #n, false)\n\nwhere `tagged m = (m, isZero m)`: `folded-constant-first.lean` with the\ncomponents swapped, so the plain occurrences of `count #n` are compared\nbefore anything forces the application.\n\nN=1000 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/folded-constant-last.lean",
+        "export-decls": [
+          "kernel_folded_constant_last"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/fueled-chain.yaml",
+      "sha256": "b89c494c43aa0f315265101da23b678176cbe1941bbdab1947d8a0938b832857",
+      "configuration": {
+        "description": "Distilled from con-leche's fuel-bridge (`_datF`) lemmas, the declarations on\nwhich nanobruijn times out on the `con-leche` test.\n\n`Fueled α` packages a fuel-indexed family `p : Nat → Except Unit α` with a\nproof whose type mentions `p` twice under binders. A `_datF` lemma states that\nrunning a monadic function in `Fueled` and extracting at fuel `F` equals\nrunning it in `Except Unit`, proved by unfolding and rewriting with the `atF`\nlemmas for `bind`/`pure`/`throw`/`ite`. What is left for the kernel is a\ndefinitional equality between two monadic programs that differ only in the\nmonad instance, under one binder per `bind` and a `do`-notation join point\nper `unless … throw` guard.\n\n`chainN` (N = 6, 9, 12) has N binds, each followed by a guard. A checker\nthat recognises the unfolded and the literal program as equal outright is\nfast (nanoda: 2 ms, 18 ms, 32 ms); one that compares them structurally\nunfolds `bind` to `Subtype.mk p h` and, through proof irrelevance on the\n`h`s, re-compares the rest of the program twice per guard\n(nanobruijn: 19 ms, 4.1 s, 256 s). Without the guards it is cheap for both.\n",
+        "leanfile": "tests/perf/fueled-chain.lean",
+        "export-decls": [
+          "chain6_datF",
+          "chain9_datF",
+          "chain12_datF"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/grind-ring-5.yaml",
+      "sha256": "a9356d3e4537d8ce00f05d2c7a451bc6442a26c9971cea0bd2622e6ce3db80a9",
+      "configuration": {
+        "description": "A **grind tactic test** from the Lean 4 test suite.\n\nThis produces a theorem with a rather large proof term that needs fast reduction.\n",
+        "leanfile": "tests/perf/grind-ring-5.lean",
+        "export-decls": [
+          "thm",
+          "String.ofList",
+          "Char.ofNat"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 60
+      }
+    },
+    {
+      "path": "tests/perf/identical-nesting.yaml",
+      "sha256": "c9c7bc912ecab601df41de46cc952e10606630e0b1de1edf757496dca1e3bb96",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    f4 (f4 (... (f4 N.O) ...))      and      f4 (f4 (... (f4 N.O) ...))\n\nn applications of `f4` on each side, the same term twice, where `f0` is the\nidentity on `N` and each of `f1`, `f2`, `f3`, `f4` applies its predecessor\ntwice, so the nesting expands into 16n applications of `f0`.\n\nThe test asks whether a checker compares the two sides before it starts\nunfolding, which answers in **Θ(n)**. Unfolding one side at a time offers 16n\napplications to choose from per side, and the reachable pairs of partially\nunfolded sides grow exponentially in n.\n\nN=30 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/identical-nesting.lean",
+        "export-decls": [
+          "kernel_identical_nesting"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/irrelevance-before-evaluation.yaml",
+      "sha256": "26a6e654b859fa71a8214d17f10ae7e0fc56fe4cf22bd9f56d46aceb99455474",
+      "configuration": {
+        "description": "The declaration to check is\n\n    slowTriv (count #n) = True.intro\n\nproved by `Eq.refl`, where `slowTriv m : True` recurses over `m`, so forcing\nit to a constructor evaluates the numeral in Θ(n²) reductions.\n\nChecking compares the two proofs as arguments of `Eq`, whose head is rigid:\nnothing can be unfolded instead. Proof irrelevance settles the proofs by\ntheir type for **Θ(1)**; evaluating the left one to a constructor costs\n**Θ(n²)** and yields the answer irrelevance already gave. The test asks\nwhether a checker consults proof irrelevance before it reduces.\n\nN=200 in the Lean source.\n",
+        "leanfile": "tests/perf/irrelevance-before-evaluation.lean",
+        "export-decls": [
+          "kernel_irrelevance_before_evaluation"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/let-ladder.yaml",
+      "sha256": "d4e2856ea326ec30f5d76fb9c9c5d61d592555cf4eb4f3d25a300ef43632f641",
+      "configuration": {
+        "description": "The declaration to check has type `Nat` and value\n\n    let x₃ := 0; x₃ + (let x₂ := 0; x₂ + (let x₁ := 0; x₁ + (x₃ + (x₂ + (x₁ + 0)))))\n\nshown at n=3: n `let` bindings, each separated from the next by an addition,\nover an innermost sum that names every binding.\n\nSubstituting a binding into the body before checking it traverses O(n) nodes\nat each of the n bindings, for **Θ(n²)** in time and in allocated nodes.\nRecording the binding and reading it where the body names it costs O(1) per\nbinding, for **Θ(n)**.\n\nThe additions are what keep the bindings apart: a run of adjacent `let`s could\nbe opened by a single substitution; not so here. \n`Nat.add` is the only application head, so no beta reduction is involved.\n\nN=2000 in the Lean source.\n",
+        "leanfile": "tests/perf/let-ladder.lean",
+        "export-decls": [
+          "kernel_quadratic_let_ladder"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/magma-list-deep-n21.yaml",
+      "sha256": "529261163568656670ec129d5ff308eeb93051e4c3be0baec8c2de2eac8b95af",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 21` with an inline `List` operation table satisfies\n`x = (x ◇ x) ◇ (x ◇ (y ◇ y))` but not `x = x ◇ (x ◇ x)`. The search space is\nonly 21^2 tuples, but each equation nests the operation several deep, so\nevery tuple expands into a chain of linear list lookups.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). The small end of the deep-nesting\nfamily; `magma-list-deep-n36` is the same workload at a larger scale.\n",
+        "leanfile": "tests/perf/magma-list-deep-n21.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 80
+      }
+    },
+    {
+      "path": "tests/perf/magma-list-deep-n36.yaml",
+      "sha256": "22d2d4dd2ffa8cc4c5019c71aaddba49abf04547468d5ef19d926cb194f3942b",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 36` with an inline `List` operation table satisfies\n`x = y ◇ (y ◇ (x ◇ (y ◇ x)))` but not `x = x ◇ (x ◇ x)`. The search space is\nonly 36^2 tuples, but each side of the equation nests the operation five\ndeep, so every tuple expands into a long chain of linear list lookups. The\nheaviest test of the magma family.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). `magma-list-deep-n21` is the same\nworkload at a smaller scale.\n",
+        "leanfile": "tests/perf/magma-list-deep-n36.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 390
+      }
+    },
+    {
+      "path": "tests/perf/magma-list-pair-n21.yaml",
+      "sha256": "4b87d16488c04cfc06827b87ca89c20a2aada79c05786464d5b02d04cfe71b94",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 21` with an inline `List` operation table satisfies\n`x ◇ y = z ◇ w` but not `x = x ◇ x`. Checking the certificate evaluates the\ndecidable instance over all 21^4 ≈ 195k four-tuples; every `◇` unfolds to a\nlinear lookup into the list. The widest search space of the magma family.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). `magma-list-pair-n7` is the same\nworkload at a smaller scale.\n",
+        "leanfile": "tests/perf/magma-list-pair-n21.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 260
+      }
+    },
+    {
+      "path": "tests/perf/magma-list-pair-n7.yaml",
+      "sha256": "f8da2330bccd7398af46e3e9ad5b2550a5a017bf68eabb84b29e013de94f3685",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 7` with an inline `List` operation table satisfies\n`x ◇ y = z ◇ (w ◇ u)` but not `x = x ◇ x`. Checking the certificate evaluates\nthe decidable instance over all 7^5 ≈ 17k five-tuples; every `◇` unfolds to\na linear lookup into the list.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). The small end of the list-table\nfamily; `magma-list-pair-n21` is the same workload at a larger scale.\n",
+        "leanfile": "tests/perf/magma-list-pair-n7.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 60
+      }
+    },
+    {
+      "path": "tests/perf/magma-string-n4.yaml",
+      "sha256": "8edd32cc727ad09e989548be44b0993540d957c025928a4b59ebb4c36a8f55ca",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 4` with the operation table encoded as a `String`\nsatisfies `x ◇ x = y ◇ ((x ◇ (y ◇ z)) ◇ z)` but not\n`x ◇ x = x ◇ (((y ◇ x) ◇ y) ◇ z)`. The smallest magma of the family (4^3\ntuples); the cost is dominated by decoding each table entry out of the\nstring on every lookup.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). The small end of the string-table\nfamily; `magma-string-pair-n9` is the same workload at a larger scale.\n",
+        "leanfile": "tests/perf/magma-string-n4.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 70
+      }
+    },
+    {
+      "path": "tests/perf/magma-string-pair-n9.yaml",
+      "sha256": "5d2c056fd6ee451406e04b03da334a924551a6b61d9b523df03354733a8d9352",
+      "configuration": {
+        "description": "Countermodel certificate for an equational-theories implication, closed by\n`decide`. A magma on `Fin 9` with the operation table encoded as a `String`\nsatisfies `x ◇ y = (((z ◇ w) ◇ y) ◇ x) ◇ y` but not\n`x ◇ y = ((z ◇ (z ◇ y)) ◇ x) ◇ y`. Checking the certificate evaluates the\ndecidable instance over all 9^4 ≈ 6.5k four-tuples, decoding each table\nentry out of the string on every lookup. The heaviest of the string-table\ntests.\n\nFrom a corpus of certificates generated for the SAIR math distillation\nchallenge (equational theories track). `magma-string-n4` is the same\nworkload at a smaller scale.\n",
+        "leanfile": "tests/perf/magma-string-pair-n9.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "export-decls": [
+          "countermodel"
+        ],
+        "timeout": 130
+      }
+    },
+    {
+      "path": "tests/perf/refute-cheap-first.yaml",
+      "sha256": "0e57d8cd5e1f16fbad216adea34ddb95e4d7b43253c66acb0887d8e07c1b68bb",
+      "configuration": {
+        "description": "The declaration to check claims\n\n    (false, count #n) = (true, count #(n+1))\n\nand must be rejected. Both sides are constructor applications, so comparing\ncomponents is the only route, and either component refutes on its own:\n`false` against `true` for **Θ(1)**, the numerals for **Θ(n²)** (`count #k`\nevaluates to `#k` in Θ(k²) reductions). The test asks in which order a\nchecker visits the components. `refute-cheap-last.lean` swaps them, and the\nratio between the two files is what that order costs.\n\nN=200 in the Lean source. From Courant and Leroy, POPL 2026, §10, where the\ntwo orders cost Rocq 4 × 10⁻⁶ s and 0.61 s.\n",
+        "leanfile": "tests/perf/refute-cheap-first.lean",
+        "export-decls": [
+          "kernel_refute_cheap_first"
+        ],
+        "outcome": "reject",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/refute-cheap-last.yaml",
+      "sha256": "75a88b03e2bd976de37d53296a069d19ef73741465542f9827fe30267ac355ac",
+      "configuration": {
+        "description": "The declaration to check claims\n\n    (count #n, false) = (count #(n+1), true)\n\nand must be rejected: `refute-cheap-first.lean` with the components swapped,\nso the cheap refutation sits behind the expensive one for a checker that\nvisits components left to right.\n\nN=200 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/refute-cheap-last.lean",
+        "export-decls": [
+          "kernel_refute_cheap_last"
+        ],
+        "outcome": "reject",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/repeated-subproblem.yaml",
+      "sha256": "ab2eac797fa423b5bbb4bffc3d97768e03966368cee90681cfb949e38620c002",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    perfect #n leaf      and      perfect #(n-1) (node leaf leaf)\n\nwhere `perfect #k t` builds the perfect binary tree of depth k with leaves\n`t`, in k steps that each duplicate the tree so far into both arguments of\n`Tr.node`.\n\nBoth sides reduce to the perfect tree of depth n. Descending them meets\n`Tr.node u u` against `Tr.node v v` at every level, where both argument\npositions pose the same subproblem, so the recursion reaches 2^n pairs of\nnodes of which n are distinct. The test asks whether a checker records the\npairs it has proved convertible: **Θ(n)** if it does, **Θ(2ⁿ)** if not.\n\nN=20 in the Lean source, stepped up by one rather than doubled. From Courant\nand Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/repeated-subproblem.lean",
+        "export-decls": [
+          "kernel_repeated_subproblem"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/shared-subterm.yaml",
+      "sha256": "f226aba54006583df3e70359ac83a2323a3db4c2053d922c824cbc66defbabf9",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    ldepth (perfect #n leaf)      and      ldepth2 (perfect #n leaf)\n\nwhere `perfect #n leaf` builds the perfect binary tree of depth n in n steps\nthat each duplicate the tree so far, and `ldepth` and `ldepth2` both return\nthe length of the leftmost path.\n\nThe head constants differ, so both sides are evaluated, and neither traversal\nlooks beyond the leftmost path: `ldepth` walks n nodes for Θ(n), `ldepth2`\nfolds n additions over growing numerals for Θ(n²). The test asks whether a\nchecker consumes the tree through its representation, for **Θ(n²)**, or\nexpands it into the **2ⁿ** nodes of its normal form.\n\nN=1000 in the Lean source. From Courant and Leroy, POPL 2026, §10.\n",
+        "leanfile": "tests/perf/shared-subterm.lean",
+        "export-decls": [
+          "kernel_shared_subterm"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/shift-cascade.yaml",
+      "sha256": "99adb5eeed5a2f9728fdec3280f5577c532bf8d20791c4c04b00ffcfff51be2f",
+      "configuration": {
+        "description": "Stress test for cascading substitution overhead in kernel `let` processing.\n\nN nested `let` bindings inside a lambda, where each value references the\nouter lambda parameter and the previous binding:\n\n  fun (a : Nat → Nat) =>\n    let f₁ := fun x => a x\n    let f₂ := fun x => a (f₁ x)\n    ...\n    let fₙ := fun x => a (fₙ₋₁ x)\n    fₙ 0\n\nThe kernel processes each `let` by substituting the value into the body.\nEach value has a free bvar (references `a`), so substitution under inner\nbinders creates shifted copies. In a de Bruijn kernel with deferred shifts,\nthese `Shift(val, offset)` wrappers accumulate: step k must traverse\nthrough O(k) wrappers from previous steps, giving **O(N²) total** work.\n\nA locally-nameless kernel substitutes fvars that need no shifting,\ngiving **O(N) total**.\n\nN=1000 in the Lean source. Increase to stress further.\n",
+        "leanfile": "tests/perf/shift-cascade.lean",
+        "export-decls": [
+          "shift_cascade"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/perf/unroll-versus-evaluate.yaml",
+      "sha256": "c75b22e4f7b5e0e222ca4cbe9ffcd90ec5b094ff9a940639ec3206c7c8bb6eba",
+      "configuration": {
+        "description": "The declaration to check compares\n\n    count #(n+1)      and      N.add (count #n) #1\n\nwhere `#k` is the numeral with k successors, and `count #k` evaluates to `#k`\nin Θ(k²) reductions.\n\nThe head constants differ. Unrolling `count` once turns the left side into the\nright side, leaving a traversal of the shared numeral `#n`, for **Θ(n)**;\nevaluating both sides costs **Θ(n²)**. The test asks which of two differing\nhead constants a checker chooses to unfold.\n\nN=1000 in the Lean source. From Courant and Leroy, POPL 2026, §2.\n",
+        "leanfile": "tests/perf/unroll-versus-evaluate.lean",
+        "export-decls": [
+          "kernel_unroll_versus_evaluate"
+        ],
+        "outcome": "accept",
+        "compare-perf": true,
+        "timeout": 50
+      }
+    },
+    {
+      "path": "tests/std.yaml",
+      "sha256": "d3fc5b27bd54699e693d814afd5fc22e73648386cb0f27221f64f2379ad2abd5",
+      "configuration": {
+        "description": "The complete `Std` library export from Lean 4.\n\nThis test contains the standard library extensions beyond core Lean 4,\nincluding:\n\n- Enhanced data structures (HashMap, RBTree, etc.)\n- Additional mathematical operations\n- Extended list and array operations\n- Utility functions and theorems\n\nThis represents a medium-sized test case, larger than core modules\nbut smaller than Mathlib, making it useful for performance testing.\n",
+        "leanfile": "tests/std_module.lean",
+        "outcome": "accept",
+        "compare-perf": true,
+        "skip-on-ci": true,
+        "timeout": 590
+      }
+    },
+    {
+      "path": "tests/tutorial.yaml",
+      "sha256": "edc6f111ce52d64939619e5b6cc5a606c362e68be743c6b3bd8819b6f8b1574a",
+      "configuration": {
+        "description": "Multiple tutorial tests generated from a Lean project in the tutorial directory.",
+        "dir": "tutorial",
+        "multiple": true,
+        "run": "lake build Tutorial.Meta\nLEAN_ABORT_ON_PANIC=1 lake env lean Tutorial.lean"
+      }
+    }
+  ]
+}

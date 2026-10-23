@@ -1,0 +1,19 @@
+Original review and proposed fixtures: Copyright 2026 Fawad Haider.
+SPDX-License-Identifier: Apache-2.0. See LICENSE.
+
+This package reviews, but does not redistribute implementations of, stock HOL
+Light Compute, numeral conversions, conversion combinators, matching and lexer.
+Compute credits Alexey Solovyev (2018), translated from HOL4 computeLib, and
+Bruno Barras (2000), under the HOL Light license. HOL Light credits University
+of Cambridge (1998), John Harrison and others (1998-2012); its exact local
+license source is pinned in INPUTS648.sha256. These sources were read locally;
+no upstream/network fetch or unobserved version assertion was made.
+
+The test definitions/clauses are independent small regression examples using
+the documented stock theorem APIs. They do not copy a production kernel, prove
+Lean refinement, or act as replacement syntax/metadata/checker implementations.
+Parent646 is Apache-2.0, credited in its source; initial and revised pins and
+source-only findings are retained in the reports. No collaborator source edited.
+
+The full Apache text is reproduced from frozen643/LICENSE, pinned as a document
+input. No source parsing, prover load or fixture execution occurred in648.

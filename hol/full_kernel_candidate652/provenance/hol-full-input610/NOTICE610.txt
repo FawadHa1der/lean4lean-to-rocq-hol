@@ -1,0 +1,27 @@
+Copyright 2026 Fawad Haider. SPDX-License-Identifier: Apache-2.0.
+
+Changed/new source adaptation of local frontend/wire.ml, frontend/hol_input.ml,
+frontend/rocq_adapter.ml and the term-building conventions of hol/core.ml at
+ROOT=/Users/fawadhaider/code/lean4 in rocq:hol light. Exact inspected inputs are
+in INPUTS610.sha256. The source uses genuine canonical447/493 constructors;
+kernel_strings539.ml establishes the byte-list string expansion convention.
+No ROOT source or canonical dependency is modified or repackaged.
+
+The local work adapts Lean4Lean, https://github.com/digama0/lean4lean, revision
+8223d223ed98661882e95d9d6a7126df7097cd76, Mario Carneiro and contributors,
+distributed under Apache License2.0. Relevant rule/representation references
+include Lean4Lean/TypeChecker.lean, Lean4Lean/Declaration.lean,
+Lean4Lean/Environment.lean and Lean4Lean/Inductive/Add.lean. No upstream proof
+or full checker compatibility is claimed. The Wire source identifies the export
+schema as leanprover/lean4export format_ndjson.md version3.1.0;610 does not claim
+an independently verified upstream schema and used only pinned local sources.
+
+Changes: direct full447 term quotation rather than the old lossy expression
+bridge; unbounded numeral construction; retained binders/nonDep/MData wrappers,
+safety/hints/all/inductive metadata; explicit non-decoder FVar/MVar constructors;
+pre-decode refusal of unknown fields and unrepresentable metadata payloads;
+uncompiled independent-expected-term proposed fixtures. No logical admission,
+oracle dispatch, new HOL axiom or completed-file verdict is added.
+
+The included LICENSE is the byte-identical local vendor/lean4lean/LICENSE.
+This entire successor remains SOURCE ONLY / UNCOMPILED / UNEXECUTED.

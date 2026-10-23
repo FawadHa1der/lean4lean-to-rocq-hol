@@ -1,0 +1,50 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light port of local rocq/Inductive.v:10-41 (five full records),
+75-101 (primitive shape recognition),171-185 (metadata construction),198-207
+(metadata verification), and InductiveUtils.v:60-82 (occurrence/constructor
+flags). Declarations.v supplies exact Nat/Bool names. The local source is
+the implementation contract; upstream equivalence is not claimed.
+The unmodified upstream Apache-2.0 LICENSE accompanies this package.
+
+New code retains full447 expressions,493 declarations/specs,489 locals,491
+state/results and509 inductive equality; primitive types use480 expr_eqb.
+It defines five records,22 getters,three structural helpers,three requested
+pure operations and one explicit polymorphic flatten helper. No inference,
+derivation callback, admission wrapper or unchecked proof axiom is introduced.
+All HOL definitions and28 proof scripts are SOURCE ONLY / UNCOMPILED.
+The bounded Python model imports only json. It is handwritten, not an
+extraction, formal proof, native comparison, wire parser or Arena checker.
+
+All-block raw flags are not positivity checks. Local projection-owner
+occurrence differs from the inspected upstream const-only predicate; complete
+upstream traversal/correspondence and whole-declaration impact remain open.
+Pure derived_inductive cannot replace the checked derive_inductive call chain.
+No existing package, runtime selector or default integration is modified.
+Exact input and output manifests accompany this handoff.
+
+----- Unmodified local source attribution: ROOT/rocq/NOTICE -----
+Lean4Lean Gallina dependent-function core port
+
+Modified implementation: Copyright 2026 Fawad Haider.
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Algorithmic reference and adapted behavior:
+  Lean4Lean, https://github.com/digama0/lean4lean
+  Commit 8223d223ed98661882e95d9d6a7126df7097cd76
+  Author: Mario Carneiro and Lean4Lean contributors
+  Lean4Lean/Level.lean, TypeChecker.lean, LocalContext.lean,
+  Instantiate.lean, Expr.lean, Declaration.lean, Inductive/Reduce.lean,
+  Quot.lean and Primitive.lean (operation/signature reference).
+These files have no individual copyright header in the pinned snapshot;
+the repository's Apache-2.0 LICENSE is included here unmodified.
+
+This is a changed Gallina reimplementation: structural syntax, list-backed
+guarded universe sublevels, de Bruijn local contexts, fuel-explicit pure
+checking, no pointer caches or native substitutions, explicit declines.
+The upstream verification assumptions and unfinished proofs are not imported.
+
+The universe algorithm follows Yoan Geran, "A Canonical Form for Universe
+Levels in Impredicative Type Theory", as implemented and attributed in
+Lean4Lean/Level.lean. No claim of complete formal verification is made.

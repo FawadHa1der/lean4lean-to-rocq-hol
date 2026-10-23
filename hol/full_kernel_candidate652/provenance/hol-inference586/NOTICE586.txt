@@ -1,0 +1,20 @@
+Inference step586, source only
+=============================
+Copyright 2026 Fawad Haider. Licensed under Apache-2.0.
+Changed port of local rocq/Checker.v714-785, with expression-first recursion.
+Algorithmic upstream Lean4Lean, Mario Carneiro and contributors, pinned
+commit8223d223ed98661882e95d9d6a7126df7097cd76. Preserve rocq/NOTICE and LICENSE.
+The local fuel, errors and supported-expression policy are not a claim of
+unconditional equivalence to the upstream Lean kernel.
+
+One actual HOL recursive definition covers all13 full447 constructors.
+Literal payloads are naturals and lists of byte-valued naturals. The existing
+string decoder enforces its supported byte and UTF-8 policy.
+Structural calls retain fuel; method callbacks still require an internally
+constructed well-founded kernel. The checking=false branch omits selected
+well-typing checks and is NOT a public proof acceptance API. Environment
+admission, recursive methods and wrapper checks remain mandatory.
+
+Nothing here is compiled or executed. Proposed proof scripts are conditional
+operational statements, not a typing-preservation or full correctness proof.
+No extraction/native/Arena success, fresh authority or guard change is implied.

@@ -1,0 +1,121 @@
+{
+  "binary_before": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "case": {
+    "availability": "available",
+    "expected": "accept",
+    "id": "init",
+    "lines": 6487065,
+    "origin": "generated_local",
+    "path": "exports/init.ndjson",
+    "sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+    "size": 347555345,
+    "source_kind": "leanfile_export",
+    "timeout_seconds": 500
+  },
+  "command": [
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/20260929T192930Z-delayed-beta/rocq-check",
+    "--progress",
+    "1",
+    "--fuel",
+    "512",
+    "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/exports/init.ndjson"
+  ],
+  "driver": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/profile-runs/profile_init.py",
+    "sha256": "050237f9673efed870fba2c8af693ac1cfe58ff23cbd1f66b3fe56cb68289174",
+    "size": 12755
+  },
+  "fuel": 512,
+  "input_before": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/exports/init.ndjson",
+    "sha256": "620502ac9e63ba4a2dea9d46386c2f6aebc49faf8848ea3aaa18a77a09491a6a",
+    "size": 347555345
+  },
+  "manifest_before": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/manifest.json",
+    "sha256": "998cf84342463ad1d218b9857dcf3560d3823831773133d2f334d642abb879fd",
+    "size": 2121
+  },
+  "original_binary_after_copy": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "original_binary_before_copy": {
+    "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/build/rocq-check",
+    "sha256": "b88c4a832285060dc6a41cc0ccacf4f175b3e0a6f02b6014943575abfc0fb209",
+    "size": 2182736
+  },
+  "provenance_note": "Source hashes are observed build inputs, not a reproducible-build attestation.",
+  "sample_policy": {
+    "declaration_stall_seconds": 15,
+    "duration_seconds": 5,
+    "fallback_seconds_before_deadline": 30,
+    "interval_ms": 1,
+    "maximum_invocations": 1,
+    "sampler_timeout_seconds": 20
+  },
+  "snapshot_utc": "2026-09-29T19:29:41.365520+00:00",
+  "sources_before": {
+    "frontend/replay.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/replay.ml",
+      "sha256": "4be904adc035610223b13f71479da21969729f40a4142b80374d4b5e50ddb228",
+      "size": 8556
+    },
+    "frontend/rocq_adapter.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/rocq_adapter.ml",
+      "sha256": "a497380a7ac2b4ffd0bfa6fd2e234c97d1d99a778e9d8c7213fc1e5ad59e0ac5",
+      "size": 7489
+    },
+    "frontend/rocq_main.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/rocq_main.ml",
+      "sha256": "743b134c257c43a67dcdac768baa0f792cc854139fd524d34179858f0b25b53b",
+      "size": 2264
+    },
+    "frontend/wire.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/frontend/wire.ml",
+      "sha256": "4e204f626e9dd61a049c5d1bc60b2aaaddab597e7770e0922c68fa017d82d802",
+      "size": 12634
+    },
+    "rocq/Checker.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Checker.v",
+      "sha256": "7b69bb52074755ccc6fe1fe9a446373d152d12536497c9b76718948b8fc38324",
+      "size": 53030
+    },
+    "rocq/Inductive.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Inductive.v",
+      "sha256": "ca3147584469dd893faf3f8492543787d424af0091ed34f63fc326db4f9425a0",
+      "size": 27283
+    },
+    "rocq/InductiveUtils.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/InductiveUtils.v",
+      "sha256": "d2fc8ff2134dc9cbc977e22669445d2cb150cdbfb35c5896fa5e41d95b46cfbb",
+      "size": 6888
+    },
+    "rocq/NestedAdmission.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/NestedAdmission.v",
+      "sha256": "7e8d580472d8b955b154f0f720015ee7488d2c87ecc6d5aafadd8e976c3a0ae9",
+      "size": 12215
+    },
+    "rocq/Primitives.v": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/Primitives.v",
+      "sha256": "8e7d66e507f7851fe8a32f07927abcaa419fc6c76159bd5cc32a00d4653e1aee",
+      "size": 41889
+    },
+    "rocq/lean_arena.ml": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/lean_arena.ml",
+      "sha256": "210792184c15b3bb79f9a63b5bb615e6c82e79e72a98f58c88ce96328d60c80a",
+      "size": 413978
+    },
+    "rocq/lean_arena.mli": {
+      "path": "/Users/fawadhaider/code/lean4 in rocq:hol light/rocq/lean_arena.mli",
+      "sha256": "77e0d5da23e74fa0a37d3b9a5c1b2f3b38635beb3a2a0e41a8e8d19ebfff1a41",
+      "size": 36276
+    }
+  },
+  "timeout_seconds": 500
+}

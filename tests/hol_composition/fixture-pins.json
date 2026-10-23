@@ -1,0 +1,574 @@
+{
+  "arena_manifest_sha256": "d0ef9bd650fa4256cca4e4256ef45eda096e8ad3505945dad9c41a3f3d063b19",
+  "conleche_commit": "78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff",
+  "entries": [
+    {
+      "path": "data/arena/corpus/tutorial/055_reduceCtorParam.mk.ndjson",
+      "sha256": "7927f942d5f7c496d93352e55955110fb22e0195707b73e6f3897b5cd88a8894",
+      "bytes": 4179,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/075_typeSingletonRecReduction.ndjson",
+      "sha256": "055d92f0c45196c33862eeca4610d988a9be97375009725ca51e3ef64a10b832",
+      "bytes": 8095,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/102_aNatLit.ndjson",
+      "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930",
+      "bytes": 3101,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/119_reduceCtorParamRefl.mk.ndjson",
+      "sha256": "dfc7393cbdc2b2de3d98494acaef6d91d258fd7b3f5f5aa3ddc4ef8b9bfe072f",
+      "bytes": 4642,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/120_reduceCtorParamRefl2.mk.ndjson",
+      "sha256": "755bcadfde765454067ad543e81f61cef5ee0e50a724cb0c838d4078a62fad97",
+      "bytes": 4642,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/121_rTreeRec.ndjson",
+      "sha256": "c6a0ad6e173b048457b5b768ba6f8e257d949df3b65c3c6982cdb18d69e031dd",
+      "bytes": 5639,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/122_rtreeRecReduction.ndjson",
+      "sha256": "a191e8bf9036a3bae39b6095ac535eb23ee2ecffc7d80f1560eb3625358492a6",
+      "bytes": 10986,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/124_accRecReduction.ndjson",
+      "sha256": "8cfbf2d3768db33e875e6b5a00856a257146a508bc5a11c63eecdaed9a78cca9",
+      "bytes": 13363,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/130_quotLiftReduction.ndjson",
+      "sha256": "24ddef406335a38ac813223668785b6bfc456f0125aa5f54559c1d7fbacc9113",
+      "bytes": 7957,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/arena/corpus/tutorial/131_quotIndReduction.ndjson",
+      "sha256": "1afa34bb26783ac3305dca53b2d205efab560dbf38ca3dd84962115f5bab3198",
+      "bytes": 7817,
+      "origin": "byte-exact current pinned Arena corpus"
+    },
+    {
+      "path": "data/build/raw-fixtures/beta-param.ndjson",
+      "sha256": "810c9df90406e41e211a58b26d590cf8ddead76fb15cd58a44fdfe03212d2864",
+      "bytes": 5003,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/build/raw-fixtures/nonuniform-beta.ndjson",
+      "sha256": "ce4abac1c308305edc9d1083d7f6ec2a63620c2c0b3839d622907a34fb420fa1",
+      "bytes": 5128,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/build/raw-fixtures/opaque-alias.ndjson",
+      "sha256": "0598713698b09594cfc26c4fd629770ba004fdbd4673dd6128e8d1f454702660",
+      "bytes": 4785,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/build/raw-fixtures/wrong-field-count.ndjson",
+      "sha256": "ae7e474e0456f0109dbd9f2babd242a149434a0b06a946c6604b231d1e549e1f",
+      "bytes": 4800,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/build/raw-fixtures/zeta-param.ndjson",
+      "sha256": "4bd367221656b87b54343c0a9ad4570e0defc6c0b2389f885e0f88641726c2db",
+      "bytes": 4968,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/compose_policy_resume_tests.ml",
+      "sha256": "030c89acbf6b6fb6b5493fae6b01b8e679775ef7322251714cb04f942840d726",
+      "bytes": 2325,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/Char.ofNat-invalid-safe-tag.ndjson",
+      "sha256": "35cc5bd83b0b4bfb817cdcedf4e80da918cf2053dd8886df0569a0d171feb022",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/String.ofList-invalid-safe-tag.ndjson",
+      "sha256": "1e749f94cfe9772c07cff928afeb71880404b39480de698bae4747d0a1f2ce05",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/literal-partial.ndjson",
+      "sha256": "29ffff37605f6a34772de0873924a3b527c866fe437a2bd53c9c38ed422801cd",
+      "bytes": 5664,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/literal-unsafe.ndjson",
+      "sha256": "d2aea701a76baf33631efcc3b133aa0ed1ae2b1c5dbc1875e01549685e71a1c9",
+      "bytes": 5663,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/manifest.json",
+      "sha256": "d592d1e61ba72240395f44b8b13580f111a8fb62739686b9aae44bed42437b82",
+      "bytes": 1146,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/utf-continuation.ndjson",
+      "sha256": "f2dd43864cfae2ebef7e97ab7fc01fc5ed6bfba703d81f7bb2e1a4935daf674a",
+      "bytes": 5659,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/utf-out-of-range.ndjson",
+      "sha256": "b4fbe04ed71ec7019c0ab9b88e5db8ce2984a0c36a06b1aa153a9a5c1c359cee",
+      "bytes": 5662,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/utf-overlong.ndjson",
+      "sha256": "da826add56b5f0675b7cc5378ddcf45176a843c88c4639d524b413037b6e6245",
+      "bytes": 5660,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/extra/utf-surrogate.ndjson",
+      "sha256": "968b24522e9259d1f70ce61f9665087aaf7ec6492ccbbfbf5cad0fadd5352b6b",
+      "bytes": 5664,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/hadd-first132.ndjson",
+      "sha256": "408d9203f5e50bfff71a94feab3f56fb9ebad177c02d28e4d4e06cd5a1fbee27",
+      "bytes": 7278,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/mutual/ind_mutual_zero_ctor.ndjson",
+      "sha256": "4b5d14bdbc9b91b9d8b0e29b363361bc8d7e029e7d3f246be5bace5413c9a8f5",
+      "bytes": 9208,
+      "origin": "ConLeche 78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff; see sources and README"
+    },
+    {
+      "path": "data/fixtures/mutual/inmodel-first-block.ndjson",
+      "sha256": "bfcdf31539164f42ff8f1d4dc6f2392fea3bd3297bd68c85b46415c95853c469",
+      "bytes": 11265,
+      "origin": "ConLeche 78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff; see sources and README"
+    },
+    {
+      "path": "data/fixtures/mutual/inmodel-forged-motives.ndjson",
+      "sha256": "439a31ae4b4a3dc12d94d7fde694000462b9ba7378cb209940cb083fcd963567",
+      "bytes": 11265,
+      "origin": "ConLeche 78ded4b6fc9a4d9ab809e8ca2c75c56537c41bff; see sources and README"
+    },
+    {
+      "path": "data/fixtures/shift/admission-gate.ndjson",
+      "sha256": "3937a411484116c8e461fcd39fbaa0028fe5e3db832c590c5613d0c827d38ddf",
+      "bytes": 5835,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/shift/compute-one.ndjson",
+      "sha256": "676e45119e16bee852e8463d65d1e8bd50b2ca0e494385af65aedf83f9cd9f7d",
+      "bytes": 6600,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/shift/manifest.json",
+      "sha256": "45ba61b3f8e09254087cda6524efd511619b486f401ca6490142a3bae047ba95",
+      "bytes": 415,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/shift/wrong-result.ndjson",
+      "sha256": "6cb8f3a423c4a37d12b5c594e1a3cc340273962ae8c646c16f30fbf0b0b11aab",
+      "bytes": 6635,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/Char.ofNat-bad-body.ndjson",
+      "sha256": "436ea2fd0681fdceb38e993090a2f6b51a37829539a9dffe82034435ff077c90",
+      "bytes": 5678,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/Char.ofNat-missing.ndjson",
+      "sha256": "57219a33543fce9679ca6892929972e90af3966c747c73f26c5c19b48e7606ce",
+      "bytes": 5557,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/Char.ofNat-partial.ndjson",
+      "sha256": "7bdec8eb9cb688ef55d0aec396682f084ec4b5158dbef171933423b70ae19f2b",
+      "bytes": 5662,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/Char.ofNat-universe.ndjson",
+      "sha256": "f93e07a218cc5cbf4b8f788f16e98dc037e6fb6d001af7d90f8ba409238372c4",
+      "bytes": 5702,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/Char.ofNat-unsafe.ndjson",
+      "sha256": "62300a4a72de9ae852bf4df5b08195293dc0e0f4840cc81f7cba65e142220138",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/String.ofList-bad-body.ndjson",
+      "sha256": "369face2ec2538e289bb591542493dbaadd57fd450750eb8fd250ab0120f6a54",
+      "bytes": 5678,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/String.ofList-missing.ndjson",
+      "sha256": "59d39ee7a95b953c60a9ede65b70fa163047c9b0bd7d22cbf3fb6cf0723abf1c",
+      "bytes": 5557,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/String.ofList-partial.ndjson",
+      "sha256": "b8aea8c88ff10f59337c56035f99e5a5145a7bca06c67e23e7c9147e837f1289",
+      "bytes": 5662,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/String.ofList-universe.ndjson",
+      "sha256": "68dc7b0cfdc318764e8a16c3980ef65e26c1d95c260f9462a9d86c2a2583f6fe",
+      "bytes": 5702,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/String.ofList-unsafe.ndjson",
+      "sha256": "0449861fcbfd18ca3f3c1c862b8e8f7649106cc713b8023c4257180013d0cef6",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/ascii.ndjson",
+      "sha256": "afa3ab73023fe57393b0f8a4d5d499cb7acb01114f263534bb5c496b7f4534cb",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/cons-universe-arity.ndjson",
+      "sha256": "ddc08d9ad829d6b34022496edcffc16ecd458a8928627bbda0c78adb3f8dfbff",
+      "bytes": 5658,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/different-literal.ndjson",
+      "sha256": "df8f871362ff1aa710d6f234194c0dd93ea18972eedb85ddc87dd1a2bb42144f",
+      "bytes": 6182,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/empty.ndjson",
+      "sha256": "cecd58be0ffc2f949519bc8b87af66249d3763a9b022c6dbf3d3e3b5d7408c5b",
+      "bytes": 5658,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/interfaces.ndjson",
+      "sha256": "031c6339c37363a928bbb870cc55c9eced0dc54fdfbeebb6124e33f7eb6f55e0",
+      "bytes": 5486,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/literal-not-proof.ndjson",
+      "sha256": "fa2bb61a40a9ed8683401ec8496bfb1ce93310489e92b8bc76c058f0bc0bb49d",
+      "bytes": 5678,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/nil-universe-arity.ndjson",
+      "sha256": "739637d4a29c45b210266e6827e6dc388ca98a4426808e6a955c826d16a095fe",
+      "bytes": 5658,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/no-normalization.ndjson",
+      "sha256": "d4a7fd89f319779f6d67bb56d7b3c3fe36a93a5fbeba119f737f9c90b22c05e8",
+      "bytes": 6193,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/nul.ndjson",
+      "sha256": "fbbb17db2553603506390cb3ddc12d485ea77ec8dc1006c22a046f35db813571",
+      "bytes": 5664,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/report.json",
+      "sha256": "dcff045e8f29a219e09c224440ba638f2aa862b6a1f57189e953c754f4bb82a8",
+      "bytes": 7434,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/reverse-dependencies.ndjson",
+      "sha256": "88c95bd1fab5e5638ef00fd80fa2da32b2ded5f14741a59c9aa7f981aaa7ca67",
+      "bytes": 5661,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/same-literal.ndjson",
+      "sha256": "c20bef4341b8ae4424b80a671efd101233c8474c7b52bbdc39fc4b6b31fe9750",
+      "bytes": 6159,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/string/unicode.ndjson",
+      "sha256": "654996d6af0b2f7cea7f7c85ab835651d2ed4a69551536d24c18cce576ab7f75",
+      "bytes": 5682,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/001_basicDef.ndjson",
+      "sha256": "66160bdc748c91306eddc888fe8a268dd336c385979902022c2902da0680efd5",
+      "bytes": 367,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/003_arrowType.ndjson",
+      "sha256": "aa2c0aa79d56f1ad43b41df7bd9a5e1876eafcba560a39845f5a9a5c290a72a2",
+      "bytes": 622,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/004_dependentType.ndjson",
+      "sha256": "74d890dafbd178c44ef0d1b8b5ef339f628efcd5c2a84d33307330b512ee8a08",
+      "bytes": 460,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/006_betaReduction.ndjson",
+      "sha256": "e20bf2f42a95fc8edf901b00f1c99d3f8d2f4293abebe50d835269a1187283dd",
+      "bytes": 1363,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/013_thmProof.ndjson",
+      "sha256": "3bdd74e5e5c4b6413961de59db89ec750ac301dd86c6f8cfedf91e8f01a5ee2c",
+      "bytes": 1345,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/018_levelParams.ndjson",
+      "sha256": "67f5ee4d9bebc000d57f0bbf08b84481634209b78844f31409bc737c82625a20",
+      "bytes": 1429,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/030_peano1.ndjson",
+      "sha256": "c0bfe06648cd6fc49ca8b9488a88ab79cc4d518613e7eb5b81db4508389716fb",
+      "bytes": 3692,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/035_letRed.ndjson",
+      "sha256": "648dcc1d99fb02a44fcb00bccdfeb7221bff807cd1f184239c9f4aa8749677e3",
+      "bytes": 627,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/036_empty.ndjson",
+      "sha256": "18b97de6ae61b368ae7eb7fbe34c768590ba2a9e06249edb40a1e53fd932ffdb",
+      "bytes": 1228,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/037_boolType.ndjson",
+      "sha256": "60f0170efef96a411a34d9fed5b53f421d04537fdb4fbf3129c2733991c4af07",
+      "bytes": 2377,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/040_prodType.ndjson",
+      "sha256": "2f82e7d70c3c170a7fb5b9d081c328a0075c8109f4979862cf5666355b94fd7d",
+      "bytes": 3919,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/044_natDef.ndjson",
+      "sha256": "e1ea8ce5e5814320ec6f9c1d10bfe7fa0955432595627a40f629e56366bf49be",
+      "bytes": 3392,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/063_boolRec.ndjson",
+      "sha256": "3da418a44a96a39dcbf70cd482c6ef8320d8cbb2593de2c21f163dd862551afd",
+      "bytes": 3092,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/084_Prod.snd.ndjson",
+      "sha256": "8cdc1c4b40f2ae776fc7bc898b01d9a9c4efb9f7bf0099162dbd7d2aff705464",
+      "bytes": 4646,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial/102_aNatLit.ndjson",
+      "sha256": "46963fdc4eab7dca74ccaaaa9986f28bbf15fef7f3ba2055681f7b10ee83f930",
+      "bytes": 3101,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/tutorial-manifest.json",
+      "sha256": "f98aa5cdc2f1f975f8009a0a7b95a2fe9f9f3c31bd705437222cd3341408f737",
+      "bytes": 2057,
+      "origin": "private regression fixture"
+    },
+    {
+      "path": "data/fixtures/indexed/joint-forged-motive-119.ndjson",
+      "sha256": "da93a0009de66db8501aedec5e1e101c258357fd2d8e05683707f8c630030177",
+      "bytes": 150189,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/indexed/joint-rs-119.ndjson",
+      "sha256": "783049a15e9c8cda5b1d954524ab39e984e02d385a2fce0801ae0965b7d7c48f",
+      "bytes": 150189,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/indexed/ma-mb-slice.ndjson",
+      "sha256": "6139ca20357ca0a211446d09dcc563ff47f14d4adaf4fbe6b44c69450f8e2f95",
+      "bytes": 97690,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/indexed/rs-forged-index.ndjson",
+      "sha256": "ee80e28b38cccc10ca2a95d82d95be16b839779741a915f36ff501588db169c6",
+      "bytes": 144382,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/indexed/rs-forged-motive.ndjson",
+      "sha256": "a3f3257a9cf4a8e2a37a79be07e78bb501b1b5b88cf805214ca15d8f6760fa30",
+      "bytes": 144382,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/indexed/rs-slice.ndjson",
+      "sha256": "1cc464b975b178dc10cc63453336dbe9cdf210c440e914d1a8391b6b1e69a0bf",
+      "bytes": 144382,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/Add.lean",
+      "sha256": "cdf936aa1d2629b68d5338f0b13cad8bc51d30d8bb00d14463433685c1c1d382",
+      "bytes": 32477,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/ConLeche-LICENSE",
+      "sha256": "8b28515ffffc5c0fe2807d8ae3735b00b324d9b7ce807dd63ff6ac8922fbce7e",
+      "bytes": 9160,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/Lean4Lean-LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/ind_mutual_idxsort.lean",
+      "sha256": "7cd14554c2b2ba2bd6fa1e24a7cd831e0d0575c5d406f521caa461746558f754",
+      "bytes": 5425,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/ind_mutual_idxsort.ndjson",
+      "sha256": "05f343821ec0af5241ca3c47426a8f4f948e1cc9eb62f5e7046a24e974a741f2",
+      "bytes": 108366,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/inmodel_mutual_idx.lean",
+      "sha256": "a5a8df7935482ed94261276d4df97146cc9d0ec80184453cd28eac42d9438585",
+      "bytes": 3061,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/inmodel_mutual_idx.ndjson",
+      "sha256": "711c4cdc1184366ce908396c0936b402ecaac39406f8e8223abf0d1a12e730ab",
+      "bytes": 160052,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/ma-mb-slice.ndjson.lines",
+      "sha256": "e33e6feb7849adf33903149894954cbdbc4325b2d17cb1a2c50ca3980e1b0166",
+      "bytes": 66,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/sources/indexed/rs-slice.ndjson.lines",
+      "sha256": "08ef251813b6d26744254cfc39cccef4615b3ebeb7a146c60f04deae48e9dc9b",
+      "bytes": 20,
+      "origin": "sealed indexed composition: authentic ConLeche sources/slices or labeled count forgery; joint files are table-ID-only composition with authentic raw119"
+    },
+    {
+      "path": "data/fixtures/hadd-132.ndjson",
+      "sha256": "408d9203f5e50bfff71a94feab3f56fb9ebad177c02d28e4d4e06cd5a1fbee27",
+      "bytes": 7278,
+      "origin": "Exact verified Volta HAdd-on-Boyle portable fixture; no verdict payload"
+    },
+    {
+      "path": "data/fixtures/mixed-119-hadd.ndjson",
+      "sha256": "12ee2c25815e9f229e8167e4c0b497c863cdfe7bfa30da28bc8178c55d22fd51",
+      "bytes": 11991,
+      "origin": "Exact verified Volta HAdd-on-Boyle portable fixture; no verdict payload"
+    },
+    {
+      "path": "data/sources/hadd/app-lam.ndjson",
+      "sha256": "552d6e8398f579fcf59ab9abd8187fc7a8a037697da66c129aacb4cc1b9dd414",
+      "bytes": 1276862,
+      "origin": "Full pinned Arena source retained only to verify the first132-record slice; not executed"
+    },
+    {
+      "path": "data/early/baseline-core.ml",
+      "sha256": "de43e00d6eda046da4029638bbddf70f809fb73608707805391c8a8e5b382313",
+      "bytes": 31528,
+      "origin": "Exact historical early-irrelevance core, test control only; never production dispatch."
+    },
+    {
+      "path": "data/early/candidate-original-core.ml",
+      "sha256": "c8b0b07bdc1138833ca6eca71d327054ca1d9406e4a456f2bf24d18e657bcd9d",
+      "bytes": 32428,
+      "origin": "Exact historical early-irrelevance core, test control only; never production dispatch."
+    },
+    {
+      "path": "data/arena/corpus/perf/irrelevance-before-evaluation.ndjson",
+      "sha256": "8cc3996fb088522e56c3670b0bd3b2397ee7b5a81c7fdc634c69a5f052e02e7f",
+      "bytes": 17877
+    }
+  ],
+  "hadd_composition": {
+    "lean_export_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+    "app_lam_sha256": "552d6e8398f579fcf59ab9abd8187fc7a8a037697da66c129aacb4cc1b9dd414",
+    "prefix_records": 132,
+    "prefix_declaration_records": [
+      51,
+      56,
+      132
+    ],
+    "mixed_transform": "Original119 then HAdd132, table-ID remapping only"
+  }
+}

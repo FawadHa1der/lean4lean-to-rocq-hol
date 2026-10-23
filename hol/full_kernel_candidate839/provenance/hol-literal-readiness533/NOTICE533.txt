@@ -1,0 +1,31 @@
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 Fawad Haider.
+
+Changed HOL Light implementation of local rocq/Checker.v65-134:
+core_ctor_shape,core_nat_ready,core_bool_ready,core_string_ready,core_supported.
+Ten hierarchical-name constants and one Nat expression constant support those
+five actual operations. Reuses full447 syntax,full493 declaration metadata,
+actual480 expr_eqb,509 list_eqb and532 core_inductive. No checker or oracle stub.
+Exact immediate reference/dependency sources are pinned in INPUTS533.sha256.
+
+Algorithmic ancestry:Mario Carneiro and Lean4Lean contributors,
+https://github.com/digama0/lean4lean
+Project provenance revision8223d223ed98661882e95d9d6a7126df7097cd76.
+The local Gallina implementation is changed,not asserted identical to that
+historical upstream tree. No full Lean4Lean equivalence claim is made here.
+The upstream Apache-2.0 LICENSE is retained byte-for-byte. Pinned rocq/NOTICE
+and notices493/480/509 retain the associated provenance and representation limits.
+
+These predicates do not typecheck or admit declarations. They preserve the
+local reference's explicit tests and omissions. expr_eqb ignores binder names,
+binder information and let nonDep while retaining metadata wrappers; no new
+payload erasure or fallback from exact kinds is introduced. Existing447 metadata
+payload erasure,byte/string encoding and admission obligations remain unresolved.
+Support of a raw expression is not a proof that it is well scoped or well typed.
+
+All definitions and22 proposed proof scripts are SOURCE ONLY / UNCOMPILED.
+model533.py is bounded handwritten Python,not extracted or executed HOL/Rocq.
+Its651 assertions are not proof files,Arena verdicts or a soundness proof.
+The failed first fixture-helper run is retained in adverse-originals.
+No default integration,native permission,guard/trust change or completeness
+claim is introduced. Session78 remains stopped pending fresh authorization.

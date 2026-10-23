@@ -1,0 +1,49 @@
+--- a/hol/environment.ml
++++ b/hol/environment.ml
+@@ -35,6 +35,12 @@
+ end = struct
+   open Lean4hol
+   include Lean4hol_model
++  let audit_phase=ref "environment.unlabelled"
++  let audit_mark label = audit_phase:=label; Printf.eprintf "RB_PHASE %s\n%!" label
++  let prove (tm,tac) = prove(tm,tac THEN
++    (fun ((_,w) as g) ->
++      Printf.eprintf "RB_UNSOLVED %s\n%s\nRB_END_GOAL\n%!" !audit_phase (string_of_term w);
++      ALL_TAC g))
+   type axiom_permission = {axiom_name:name;axiom_params:name list;axiom_type:expr}
+   type environment = {entries:declaration list;grants:axiom_permission list;proof:thm;
+     inductive_proofs:(name * thm) list}
+@@ -480,6 +486,7 @@
+      quote_context c.result_indices]) cs,`:l4_index_ctor`)
+   let admit_indexed_inductive ?(fuel=100000) env b =
+     with_env fuel env [] [Sort(Param b.indexed_name);Sort b.indexed_result_level] (fun st ->
++      audit_mark "indexed.entry";
+       let i=b.indexed_name and ps=b.indexed_level_params and pars=b.indexed_parameters
+       and inds=b.indices and u=b.indexed_result_level and cs=b.indexed_constructors in
+       List.iter (fun n -> validate st [] [Sort(Param n)]) ps;
+@@ -526,7 +533,8 @@
+              mk_list(List.map quote_index_field fs,`:l4_index_field`);quote_level v;quote_levels vs]
+             (List.nth frules 1)) in
+           let conditions=conjuncts(fst(dest_imp(concl step))) in
+-          let at n=prove(List.nth conditions n,CONV_TAC generator_calc) in
++          let at n=audit_mark("indexed.field."^string_of_int j^".premise."^string_of_int n);
++            prove(List.nth conditions n,CONV_TAC generator_calc) in
+           let bound=if result_zero then
+               DISJ1 (level_proof st u Zero) (snd(dest_disj(List.nth conditions 3)))
+             else DISJ2 (fst(dest_disj(List.nth conditions 3)))
+@@ -553,12 +561,13 @@
+       let definition=CONV_RULE object_calc (SUBS [hgen;hh;hctors] (SPECL args l4_index_ok)) in
+       let conditions=conjuncts(rhs(concl definition)) in
+       if List.length conditions<>18 then stop Proof_failure "indexed obligation shape mismatch";
+-      let at j=tick st;prove(List.nth conditions j,CONV_TAC generator_calc) in
++      let at j=tick st; audit_mark("indexed.static."^string_of_int j);
++        prove(List.nth conditions j,CONV_TAC generator_calc) in
+       let static=List.map (fun j -> j,at j) [0;1;2;6;9;10;11;14;15;16;17] in
+       let hn=level_truth st l4_level_nonzero (node "l4_level_nonzero" [qu]) result_nonzero 0 in
+       let zeros=List.map (fun v -> level_truth st l4_level_equiv
+         (node "l4_level_equiv" [quote_level v;`L4Zero`]) (level_sample st 1 v=0) 1) (u::List.concat vss) in
+-      let flags j=prove(List.nth conditions j,
++      let flags j=audit_mark("indexed.flags."^string_of_int j);prove(List.nth conditions j,
+         REWRITE_TAC ([l4_index_large;l4_index_large_fields;l4_index_k;ALL;ALL2;LENGTH;MEM;
+           l4_index_fields;l4_index_result;distinctness "l4_expr";injectivity "l4_expr";
+           distinctness "list";injectivity "list";hn] @ zeros) THEN

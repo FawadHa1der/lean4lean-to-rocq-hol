@@ -1,0 +1,109 @@
+{
+  "checker_run": false,
+  "command": [
+    "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "-B",
+    "scripts/fetch_arena.py",
+    "--import-generated",
+    "cslib=arena/large/cslib/exports/cslib.ndjson"
+  ],
+  "cslib": {
+    "availability": "available",
+    "configuration": {
+      "compare-perf": true,
+      "description": "The Lean Computer Science Library (CSLib). \n",
+      "module": "Cslib",
+      "outcome": "accept",
+      "pre-build": "lake exe cache get",
+      "ref": "main",
+      "rev": "990e65a685bed413f43b139db900a36ad5322a10",
+      "skip-on-ci": true,
+      "timeout": 1800,
+      "url": "https://github.com/leanprover/cslib"
+    },
+    "definition": "tests/cslib.yaml",
+    "definition_sha256": "6e90fdd4588d8f9d45dc028805ecb740773e2692abaf86b4f4c6fd2bc5997a1b",
+    "description": "The Lean Computer Science Library (CSLib). \n",
+    "expected": "accept",
+    "exporter_version": "3.1.0",
+    "format_version": "3.1.0",
+    "header": {
+      "exporter": {
+        "name": "lean4export",
+        "version": "3.1.0"
+      },
+      "format": {
+        "version": "3.1.0"
+      },
+      "lean": {
+        "githash": "293d5d0c0c3f3dded4688b3ccd6a33939ac5102b",
+        "version": "4.34.0"
+      }
+    },
+    "id": "cslib",
+    "imported_from": "/Users/fawadhaider/code/lean4 in rocq:hol light/arena/large/cslib/exports/cslib.ndjson",
+    "lean_githash": "293d5d0c0c3f3dded4688b3ccd6a33939ac5102b",
+    "lean_version": "4.34.0",
+    "lines": 42689984,
+    "origin": "generated_local",
+    "path": "corpus/cslib.ndjson",
+    "sha256": "bc5c88e028d02a3c0789de6efb9cd96e8506d1e96b3d26672d28ae3bb33d0b30",
+    "size": 2422584798,
+    "source_kind": "module_export",
+    "timeout_seconds": 1800
+  },
+  "exit_code": 0,
+  "finished_at": "2026-09-29T20:49:56.986803+00:00",
+  "historical_reports_modified": false,
+  "importer_sha256": "4bed746b7b9252ea765bd325b24d23f6af0508f8c56c15f4a1f71fae2ce0dafb",
+  "manifest_after_sha256": "d0ef9bd650fa4256cca4e4256ef45eda096e8ad3505945dad9c41a3f3d063b19",
+  "manifest_before_sha256": "985cadef081276d8796bc7ee113a47b1f0b2de994f0892dd6027b1f821a52f30",
+  "previous_cases_preserved": true,
+  "provenance_preserved": true,
+  "started_at": "2026-09-29T20:49:50.428335+00:00",
+  "summary_after": {
+    "archive_cases": 193,
+    "availability": {
+      "available": 216,
+      "missing_download": 4
+    },
+    "available_bytes": 3425364332,
+    "cases": 220,
+    "definitions": 80,
+    "expected": {
+      "accept": 131,
+      "either": 18,
+      "reject": 71
+    },
+    "published_bytes": 12593277972,
+    "source_kinds": {
+      "generated_multiple": 141,
+      "leanfile_export": 55,
+      "module_export": 8,
+      "static": 16
+    }
+  },
+  "summary_before": {
+    "archive_cases": 193,
+    "availability": {
+      "available": 215,
+      "missing_download": 5
+    },
+    "available_bytes": 1002779534,
+    "cases": 220,
+    "definitions": 80,
+    "expected": {
+      "accept": 131,
+      "either": 18,
+      "reject": 71
+    },
+    "published_bytes": 12593277972,
+    "source_kinds": {
+      "generated_multiple": 141,
+      "leanfile_export": 55,
+      "module_export": 8,
+      "static": 16
+    }
+  },
+  "timeout_seconds": 300
+}
