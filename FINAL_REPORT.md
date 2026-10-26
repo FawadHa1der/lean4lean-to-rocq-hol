@@ -5,7 +5,7 @@
 **Upstream Reference**: `digama0/lean4lean` (commit `8223d223ed98661882e95d9d6a7126df7097cd76`, 2026-08-29)  
 **Verification Status**:
 - **Rocq Port (`rocq/`)**: **104 / 104 Vernacular modules (`.vo`) compiled and verified** via `rocq check -Q . LeanPort -o` with **zero axioms (`* Axioms: <none>`)**, zero `Admitted`, and zero `Unsafe` flags. Native extracted checker (`build/rocq-check`) passes **24 / 24 native regression suites** (`build/reports/rocq-native-20261023T141740Z-55605/report.json`).
-- **HOL Light Port (`hol/`, `hol/full_kernel_candidate839/`, `hol/full_kernel_candidate652/`, `hol/full_kernel_candidate612/`)**: **131 / 131 full-kernel candidate modules + base HOL suites** machine-checked by HOL Light with **zero added axioms** (`List.length (axioms ()) = 3`: only HOL Light's foundational `INFINITY_AX`, `SELECT_AX`, `ETA_AX`), zero `mk_thm`, and zero `new_axiom`.
+- **HOL Light Port ([`hol/README.md`](hol/README.md): [`hol/kernel_v3_complete/`](hol/kernel_v3_complete/), [`hol/kernel_v2_full_file/`](hol/kernel_v2_full_file/), [`hol/kernel_v1_core_only/`](hol/kernel_v1_core_only/), and baseline [`hol/*.ml`](hol/))**: **131 / 131 full-kernel modules + base HOL suites** machine-checked by HOL Light with **zero added axioms** (`List.length (axioms ()) = 3`: only HOL Light's foundational `INFINITY_AX`, `SELECT_AX`, `ETA_AX`), zero `mk_thm`, and zero `new_axiom`. (Legacy directory names `full_kernel_candidate839`, `full_kernel_candidate652`, and `full_kernel_candidate612` are preserved as symlinks for backward compatibility.)
 
 ---
 

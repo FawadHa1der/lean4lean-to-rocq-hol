@@ -1,6 +1,12 @@
-# HOL Light core: standalone bounded Lean4Lean port
+# HOL Light Lean 4 Kernel: Architecture, Evolution & Layer Guide
 
-## Adapter interface (established first)
+> **Directory Guide (Updated 2026-10-26)**: See [`hol/README.md`](../hol/README.md) for a quick-reference overview of the four HOL Light kernel stages:
+> - **[`hol/kernel_v3_complete/`](../hol/kernel_v3_complete/)** *(legacy symlink: `hol/full_kernel_candidate839/`)* — **Canonical & complete 13-constructor HOL Light implementation** (full kernel + whole-file driver + `Compute` registry + quotient dependency authentication `839`/`941` + declarative metatheory, soundness bridge, atomic `addQuot`/`quotInit` transaction, `DefEqCache`, and `FuelConfig` `961`–`965`).
+> - **[`hol/kernel_v2_full_file/`](../hol/kernel_v2_full_file/)** *(legacy symlink: `hol/full_kernel_candidate652/`)* — Historical full-file admission & `Compute` bundle (`652`), synchronized with the `961`–`965` metatheory modules.
+> - **[`hol/kernel_v1_core_only/`](../hol/kernel_v1_core_only/)** *(legacy symlink: `hol/full_kernel_candidate612/`)* — Self-contained 43-module 13-constructor core bundle (`612`, verified via `run_proofs612.ml`).
+> - **[`hol/*.ml`](../hol/)** *(v0 baseline layer, documented below)* — Initial 9-constructor LCF theorem-producing checker (`core.ml`, `admission.ml`, `environment.ml`) used by `frontend/hol_check.ml` and `hol/test.sh`.
+
+## Baseline Layer (`hol/*.ml`): Adapter interface (established first)
 
 Load `hol/core.ml` in an initialized HOL Light process, with repository root as
 the current directory. It defines module `Lean4hol`:

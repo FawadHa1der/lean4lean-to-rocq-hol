@@ -8,3 +8,5 @@
 /rocq/extracted/
 /vendor/
 *.DS_Store
+/UPSTREAM.md
+/WORK_LOG.md
