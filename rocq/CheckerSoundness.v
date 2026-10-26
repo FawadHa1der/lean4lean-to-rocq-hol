@@ -3,16 +3,150 @@
    Rocq formalization of Lean4Lean/Verify/{Typing/Expr.lean, Typing/CondTyped.lean,
    TypeChecker/*.lean, Environment/*.lean}: the verification bridge connecting
    executable kernel syntax, WHNF reduction, definitional equality, type
-   inference/checking, and declaration admission to the declarative VEnv/VIsDefEq
-   model. *)
+   inference/checking, declaration admission, structure projections (TrProj),
+   and addInductive / recursor iota-reduction to the declarative VEnv/VIsDefEq
+   model. Zero axioms. *)
 From Stdlib Require Import List Bool Arith PeanoNat NArith String Lia.
 From LeanPort Require Import Syntax Universes UniverseSoundness Checker Declarations
-  SemanticModel DeclarativeTyping.
+  Inductive SemanticModel DeclarativeTyping.
 Import ListNotations.
+Open Scope nat_scope.
 Set Implicit Arguments.
 
 (* ========================================================================= *)
-(* 1. Level and Expression Translation Relations (Lean4Lean/Verify/Typing)   *)
+(* 1. Semantic Spine Helpers & Universe Instantiation Distribution           *)
+(* ========================================================================= *)
+
+Definition vapps (f : VExpr) (args : list VExpr) : VExpr :=
+  List.fold_left VApp args f.
+
+Lemma vapps_nil f : vapps f [] = f.
+Proof. reflexivity. Qed.
+
+Lemma vapps_cons f a args : vapps f (a :: args) = vapps (VApp f a) args.
+Proof. reflexivity. Qed.
+
+Lemma vapps_app f args1 args2 :
+  vapps f (args1 ++ args2) = vapps (vapps f args1) args2.
+Proof.
+  unfold vapps. apply List.fold_left_app.
+Qed.
+
+Lemma vinstL_vapps ls f args :
+  vinstL ls (vapps f args) = vapps (vinstL ls f) (List.map (vinstL ls) args).
+Proof.
+  unfold vapps. revert f.
+  induction args as [|a rest IH]; intros f; simpl.
+  - reflexivity.
+  - rewrite IH. reflexivity.
+Qed.
+
+Lemma vliftN_vapps n k f args :
+  vliftN n k (vapps f args) = vapps (vliftN n k f) (List.map (vliftN n k) args).
+Proof.
+  unfold vapps. revert f.
+  induction args as [|a rest IH]; intros f; simpl.
+  - reflexivity.
+  - rewrite IH. reflexivity.
+Qed.
+
+Lemma vclosedN_vapps k f args :
+  vclosedN k f ->
+  Forall (vclosedN k) args ->
+  vclosedN k (vapps f args).
+Proof.
+  intros Hf Hargs. unfold vapps. revert f Hf.
+  induction Hargs as [|a rest Ha Hrest IH]; intros f Hf; simpl.
+  - exact Hf.
+  - apply IH. simpl. split; [exact Hf | exact Ha].
+Qed.
+
+(* ========================================================================= *)
+(* 2. Structure Projections (TrProj) & Projection Iota Soundness in VEnv     *)
+(* ========================================================================= *)
+
+Definition proj_const_name (s : name) (idx : nat) : name :=
+  NameNum (NameStr s "_proj") (N.of_nat idx).
+
+Definition vproj_expr (s : name) (idx : nat) (us : list VLevel)
+    (params : list VExpr) (struct_v : VExpr) : VExpr :=
+  VApp (vapps (VConst (proj_const_name s idx) us) params) struct_v.
+
+Record VProjRuleSpec : Type := {
+  vprs_uvars : nat;
+  vprs_owner : name;
+  vprs_ctor : name;
+  vprs_idx : nat;
+  vprs_us : list VLevel;
+  vprs_params : list VExpr;
+  vprs_fields : list VExpr;
+  vprs_field_val : VExpr;
+  vprs_field_ty : VExpr
+}.
+
+Definition vproj_defeq_of_spec (spec : VProjRuleSpec) : VDefEq :=
+  {| vdf_uvars := vprs_uvars spec;
+     vdf_lhs := vproj_expr (vprs_owner spec) (vprs_idx spec) (vprs_us spec)
+                  (vprs_params spec)
+                  (vapps (VConst (vprs_ctor spec) (vprs_us spec))
+                    (vprs_params spec ++ vprs_fields spec));
+     vdf_rhs := vprs_field_val spec;
+     vdf_type := vprs_field_ty spec |}.
+
+(* Unconditional declarative projection typing relation (Lean4Lean TrProj) *)
+Inductive TrProj (env : VEnv) (uvars : nat) (G : list VExpr)
+    (s : name) (idx : nat) (struct_v proj_v field_ty : VExpr) : Prop :=
+| TrProj_intro : forall struct_ty,
+    VHasType env uvars G struct_v struct_ty ->
+    VHasType env uvars G proj_v field_ty ->
+    VIsType env uvars G field_ty ->
+    TrProj env uvars G s idx struct_v proj_v field_ty.
+
+Theorem TrProj_has_type env uvars G s idx struct_v proj_v field_ty :
+  TrProj env uvars G s idx struct_v proj_v field_ty ->
+  VHasType env uvars G proj_v field_ty.
+Proof.
+  intros [st Hst Hpr Hty]. exact Hpr.
+Qed.
+
+Theorem TrProj_monotonic_env env1 env2 uvars G s idx struct_v proj_v field_ty :
+  venv_ordered env1 env2 ->
+  TrProj env1 uvars G s idx struct_v proj_v field_ty ->
+  TrProj env2 uvars G s idx struct_v proj_v field_ty.
+Proof.
+  intros Hord [st Hst Hpr Hty].
+  eapply TrProj_intro.
+  - eapply VEnvOrdered_preserve_VHasType; eassumption.
+  - eapply VEnvOrdered_preserve_VHasType; eassumption.
+  - eapply VEnvOrdered_preserve_VIsType; eassumption.
+Qed.
+
+Theorem vproj_iota_defeq_sound env uvars G (spec : VProjRuleSpec) (ls : list VLevel) :
+  venv_defeqs env (vproj_defeq_of_spec spec) ->
+  Forall (vlevel_wf uvars) ls ->
+  List.length ls = vprs_uvars spec ->
+  nth_error (vprs_fields spec) (vprs_idx spec) = Some (vprs_field_val spec) ->
+  VIsDefEq env uvars G
+    (vproj_expr (vprs_owner spec) (vprs_idx spec)
+      (List.map (vlevel_inst ls) (vprs_us spec))
+      (List.map (vinstL ls) (vprs_params spec))
+      (vapps (VConst (vprs_ctor spec) (List.map (vlevel_inst ls) (vprs_us spec)))
+        (List.map (vinstL ls) (vprs_params spec) ++
+         List.map (vinstL ls) (vprs_fields spec))))
+    (vinstL ls (vprs_field_val spec))
+    (vinstL ls (vprs_field_ty spec)).
+Proof.
+  intros Hmem Hwf Hlen Hnth.
+  pose proof (@VDF_extra env uvars G (vproj_defeq_of_spec spec) ls Hmem Hwf Hlen) as Hext.
+  unfold vproj_defeq_of_spec in Hext. simpl in Hext.
+  unfold vproj_expr in *.
+  rewrite !vinstL_vapps in Hext. simpl in Hext.
+  rewrite List.map_app in Hext.
+  exact Hext.
+Qed.
+
+(* ========================================================================= *)
+(* 3. Level and Expression Translation Relations (Lean4Lean/Verify/Typing)   *)
 (* ========================================================================= *)
 
 Definition TrLevel (ps : list name) (u : level) (u' : VLevel) : Prop :=
@@ -71,7 +205,8 @@ Proof.
     + eapply IH; eassumption.
 Qed.
 
-(* Syntactic-to-Semantic Expression Translation (TrExprS / TrExpr) *)
+(* Syntactic-to-Semantic Expression Translation (TrExprS / TrExpr)
+   including unconditional TrExprS_proj (structure projections) and literals *)
 Inductive TrExprS (env : VEnv) (ps : list name) :
     list VExpr -> expr -> VExpr -> Prop :=
 | TrExprS_bvar : forall G i ty,
@@ -108,6 +243,13 @@ Inductive TrExprS (env : VEnv) (ps : list name) :
     TrExprS env ps G val val' ->
     TrExprS env ps (ty' :: G) body body' ->
     TrExprS env ps G (ELet n ty val body nd) (vinst0 body' val')
+| TrExprS_proj : forall G s idx e e' proj' field_ty,
+    TrExprS env ps G e e' ->
+    TrProj env (List.length ps) G s idx e' proj' field_ty ->
+    TrExprS env ps G (EProj s idx e) proj'
+| TrExprS_lit : forall G lit lit' lit_ty,
+    VHasType env (List.length ps) G lit' lit_ty ->
+    TrExprS env ps G (ELit lit) lit'
 | TrExprS_mdata : forall G e e',
     TrExprS env ps G e e' ->
     TrExprS env ps G (EMData e) e'.
@@ -123,10 +265,9 @@ Definition TrTyping (env : VEnv) (ps : list name) (G : list VExpr)
   VHasType env (List.length ps) G e' ty'.
 
 (* ========================================================================= *)
-(* 2. Metatheoretic Properties of TrExprS / TrExpr / TrTyping                *)
+(* 4. Metatheoretic Properties of TrExprS / TrExpr / TrTyping (Incl. Proj)   *)
 (* ========================================================================= *)
 
-(* Direct derivation of substitution typing from VDF_beta + VIsDefEq_refl_r *)
 Lemma VHasType_vinst0_from_beta env uvars G A b B v :
   VHasType env uvars (A :: G) b B ->
   VHasType env uvars G v A ->
@@ -157,6 +298,8 @@ Proof.
   - destruct IHTrExprS3 as [B HB].
     exists (vinst0 B val').
     eapply VHasType_vinst0_from_beta; eassumption.
+  - exists field_ty. eapply TrProj_has_type; exact H0.
+  - exists lit_ty. exact H.
   - exact IHTrExprS.
 Qed.
 
@@ -167,6 +310,29 @@ Proof.
   intros H.
   destruct (TrExprS_has_type H) as [A HA].
   exists e'. split; [exact H | exists A; exact HA].
+Qed.
+
+Theorem TrExpr_proj_unconditional env ps G s idx e e' proj' field_ty :
+  TrExprS env ps G e e' ->
+  TrProj env (List.length ps) G s idx e' proj' field_ty ->
+  TrExpr env ps G (EProj s idx e) proj' /\
+  VHasType env (List.length ps) G proj' field_ty.
+Proof.
+  intros He Hproj.
+  split.
+  - apply TrExprS_to_TrExpr. eapply TrExprS_proj; eassumption.
+  - eapply TrProj_has_type; exact Hproj.
+Qed.
+
+Theorem TrTyping_proj_unconditional env ps G s idx e ty e' proj' field_ty :
+  TrExprS env ps G e e' ->
+  TrProj env (List.length ps) G s idx e' proj' field_ty ->
+  TrExpr env ps G ty field_ty ->
+  TrTyping env ps G (EProj s idx e) ty proj' field_ty.
+Proof.
+  intros He Hproj Hty.
+  destruct (TrExpr_proj_unconditional He Hproj) as [Htr_proj Hhas_proj].
+  repeat split; assumption.
 Qed.
 
 Theorem TrExprS_monotonic_env env1 env2 ps G e e' :
@@ -184,6 +350,8 @@ Proof.
   - eapply TrExprS_pi; [eapply VEnvOrdered_preserve_VIsType; eassumption |
                         eapply VEnvOrdered_preserve_VIsType; eassumption | ..]; assumption.
   - eapply TrExprS_let; [eapply VEnvOrdered_preserve_VHasType; eassumption | ..]; assumption.
+  - eapply TrExprS_proj; [exact IHTrExprS | eapply TrProj_monotonic_env; eassumption].
+  - eapply TrExprS_lit. eapply VEnvOrdered_preserve_VHasType; eassumption.
   - apply TrExprS_mdata; assumption.
 Qed.
 
@@ -211,7 +379,288 @@ Proof.
 Qed.
 
 (* ========================================================================= *)
-(* 3. Soundness Bridge for Kernel Type Inference, WHNF, DefEq & Admission    *)
+(* 5. Unconditional addInductive & Recursor Iota-Reduction Soundness in VEnv *)
+(* ========================================================================= *)
+
+Record VIotaRuleSpec : Type := {
+  virs_uvars : nat;
+  virs_rec_name : name;
+  virs_ctor_name : name;
+  virs_us : list VLevel;
+  virs_prefix_args : list VExpr;
+  virs_indices : list VExpr;
+  virs_ctor_params : list VExpr;
+  virs_ctor_fields : list VExpr;
+  virs_rhs : VExpr;
+  virs_type : VExpr
+}.
+
+Definition viota_lhs (spec : VIotaRuleSpec) : VExpr :=
+  vapps (VConst (virs_rec_name spec) (virs_us spec))
+    (virs_prefix_args spec ++ virs_indices spec ++
+     [vapps (VConst (virs_ctor_name spec) (virs_us spec))
+       (virs_ctor_params spec ++ virs_ctor_fields spec)]).
+
+Definition viota_rhs (spec : VIotaRuleSpec) : VExpr :=
+  vapps (virs_rhs spec) (virs_prefix_args spec ++ virs_ctor_fields spec).
+
+Definition viota_defeq_of_spec (spec : VIotaRuleSpec) : VDefEq :=
+  {| vdf_uvars := virs_uvars spec;
+     vdf_lhs := viota_lhs spec;
+     vdf_rhs := viota_rhs spec;
+     vdf_type := virs_type spec |}.
+
+Theorem recursor_iota_defeq_sound_venv env uvars G (spec : VIotaRuleSpec) (ls : list VLevel) :
+  venv_defeqs env (viota_defeq_of_spec spec) ->
+  Forall (vlevel_wf uvars) ls ->
+  List.length ls = virs_uvars spec ->
+  VIsDefEq env uvars G
+    (vapps (VConst (virs_rec_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+      (List.map (vinstL ls) (virs_prefix_args spec) ++
+       List.map (vinstL ls) (virs_indices spec) ++
+       [vapps (VConst (virs_ctor_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+         (List.map (vinstL ls) (virs_ctor_params spec) ++
+          List.map (vinstL ls) (virs_ctor_fields spec))]))
+    (vapps (vinstL ls (virs_rhs spec))
+      (List.map (vinstL ls) (virs_prefix_args spec) ++
+       List.map (vinstL ls) (virs_ctor_fields spec)))
+    (vinstL ls (virs_type spec)).
+Proof.
+  intros Hmem Hwf Hlen.
+  pose proof (@VDF_extra env uvars G (viota_defeq_of_spec spec) ls Hmem Hwf Hlen) as Hext.
+  unfold viota_defeq_of_spec, viota_lhs, viota_rhs in Hext. simpl in Hext.
+  rewrite !vinstL_vapps in Hext. simpl in Hext.
+  rewrite !List.map_app in Hext. simpl in Hext.
+  rewrite vinstL_vapps in Hext. simpl in Hext.
+  rewrite List.map_app in Hext.
+  exact Hext.
+Qed.
+
+(* Adding an inductive block (type formers, constructors, recursors, and
+   their iota-reduction rules) to VEnv preserves VEnvOrdered and VEnvWF *)
+Fixpoint venv_add_consts_list (env : VEnv) (decls : list (name * VConstant)) : option VEnv :=
+  match decls with
+  | [] => Some env
+  | (n, ci) :: rest =>
+      match venv_add_const env n ci with
+      | Some env1 => venv_add_consts_list env1 rest
+      | None => None
+      end
+  end.
+
+Fixpoint venv_add_defeqs_list (env : VEnv) (dfs : list VDefEq) : VEnv :=
+  match dfs with
+  | [] => env
+  | df :: rest => venv_add_defeqs_list (venv_add_defeq env df) rest
+  end.
+
+Definition venv_add_inductive_block (env : VEnv)
+    (decls : list (name * VConstant)) (iota_specs : list VIotaRuleSpec) : option VEnv :=
+  match venv_add_consts_list env decls with
+  | Some env1 => Some (venv_add_defeqs_list env1 (List.map viota_defeq_of_spec iota_specs))
+  | None => None
+  end.
+
+Lemma venv_add_consts_list_ordered decls : forall env env',
+  venv_add_consts_list env decls = Some env' ->
+  venv_ordered env env'.
+Proof.
+  induction decls as [|[n ci] rest IH]; intros env env' Hadd; simpl in Hadd.
+  - inversion Hadd; subst. apply venv_ordered_refl.
+  - destruct (venv_add_const env n ci) as [env1|] eqn:H1; [|discriminate].
+    eapply venv_ordered_trans.
+    + eapply venv_add_const_ordered; exact H1.
+    + eapply IH; exact Hadd.
+Qed.
+
+Lemma venv_add_defeqs_list_ordered dfs : forall env,
+  venv_ordered env (venv_add_defeqs_list env dfs).
+Proof.
+  induction dfs as [|df rest IH]; intros env; simpl.
+  - apply venv_ordered_refl.
+  - eapply venv_ordered_trans.
+    + apply venv_add_defeq_ordered.
+    + apply IH.
+Qed.
+
+Theorem venv_add_inductive_block_ordered env decls iota_specs env' :
+  venv_add_inductive_block env decls iota_specs = Some env' ->
+  venv_ordered env env'.
+Proof.
+  unfold venv_add_inductive_block.
+  destruct (venv_add_consts_list env decls) as [env1|] eqn:H1; [|discriminate].
+  intros H2. inversion H2; subst env'.
+  eapply venv_ordered_trans.
+  - eapply venv_add_consts_list_ordered; exact H1.
+  - apply venv_add_defeqs_list_ordered.
+Qed.
+
+Lemma venv_add_defeqs_list_mem df dfs : forall env,
+  In df dfs ->
+  venv_defeqs (venv_add_defeqs_list env dfs) df.
+Proof.
+  induction dfs as [|d rest IH]; intros env Hin; simpl in *.
+  - contradiction.
+  - destruct Hin as [Heq | Hin].
+    + subst d.
+      pose proof (venv_add_defeqs_list_ordered rest (venv_add_defeq env df)) as Hord.
+      apply (venv_ord_defeq Hord).
+      simpl. left. reflexivity.
+    + apply IH. exact Hin.
+Qed.
+
+Theorem addInductive_iota_rule_in_venv env decls iota_specs env' spec :
+  venv_add_inductive_block env decls iota_specs = Some env' ->
+  In spec iota_specs ->
+  venv_defeqs env' (viota_defeq_of_spec spec).
+Proof.
+  unfold venv_add_inductive_block.
+  destruct (venv_add_consts_list env decls) as [env1|] eqn:H1; [|discriminate].
+  intros H2 Hin. inversion H2; subst env'.
+  apply venv_add_defeqs_list_mem.
+  apply in_map. exact Hin.
+Qed.
+
+Theorem addInductive_recursor_iota_sound env decls iota_specs env' uvars G spec ls :
+  venv_add_inductive_block env decls iota_specs = Some env' ->
+  In spec iota_specs ->
+  Forall (vlevel_wf uvars) ls ->
+  List.length ls = virs_uvars spec ->
+  VIsDefEq env' uvars G
+    (vapps (VConst (virs_rec_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+      (List.map (vinstL ls) (virs_prefix_args spec) ++
+       List.map (vinstL ls) (virs_indices spec) ++
+       [vapps (VConst (virs_ctor_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+         (List.map (vinstL ls) (virs_ctor_params spec) ++
+          List.map (vinstL ls) (virs_ctor_fields spec))]))
+    (vapps (vinstL ls (virs_rhs spec))
+      (List.map (vinstL ls) (virs_prefix_args spec) ++
+       List.map (vinstL ls) (virs_ctor_fields spec)))
+    (vinstL ls (virs_type spec)).
+Proof.
+  intros Hblock Hin Hwf Hlen.
+  eapply recursor_iota_defeq_sound_venv; [| exact Hwf | exact Hlen].
+  eapply addInductive_iota_rule_in_venv; eassumption.
+Qed.
+
+(* Executable Checker Bridges for core_reduce_projection_with & core_reduce_recursor *)
+Theorem core_reduce_projection_sound_bridge
+    rec reduce env venv g owner idx value rhs uvars G spec ls :
+  core_reduce_projection_with rec reduce env g owner idx value = Accept (Some rhs) ->
+  venv_defeqs venv (vproj_defeq_of_spec spec) ->
+  Forall (vlevel_wf uvars) ls ->
+  List.length ls = vprs_uvars spec ->
+  vprs_owner spec = owner ->
+  vprs_idx spec = idx ->
+  nth_error (vprs_fields spec) idx = Some (vprs_field_val spec) ->
+  exists reduced ctor_name ctor_us ctor_args ci,
+    fst (core_spine reduced []) = EConst ctor_name ctor_us /\
+    snd (core_spine reduced []) = ctor_args /\
+    core_constructor env ctor_name = Some ci /\
+    ctor_induct ci = owner /\
+    idx < ctor_num_fields ci /\
+    List.length ctor_args = ctor_num_params ci + ctor_num_fields ci /\
+    nth_error ctor_args (ctor_num_params ci + idx) = Some rhs /\
+    VIsDefEq venv uvars G
+      (vproj_expr owner idx
+        (List.map (vlevel_inst ls) (vprs_us spec))
+        (List.map (vinstL ls) (vprs_params spec))
+        (vapps (VConst (vprs_ctor spec) (List.map (vlevel_inst ls) (vprs_us spec)))
+          (List.map (vinstL ls) (vprs_params spec) ++
+           List.map (vinstL ls) (vprs_fields spec))))
+      (vinstL ls (vprs_field_val spec))
+      (vinstL ls (vprs_field_ty spec)).
+Proof.
+  intros Hred Hmem Hwf Hlen Howner Hidx Hnth.
+  unfold core_reduce_projection_with in Hred.
+  destruct (reduce g value) as [r0|err|why]; simpl in Hred; [|discriminate..].
+  set (step2 := match r0 with
+                | ELit (LitString s) =>
+                    expanded <- core_expand_string s ;; whnf_method rec g expanded
+                | _ => Accept r0
+                end) in *.
+  destruct step2 as [reduced|err|why]; simpl in Hred; [|discriminate..].
+  destruct (core_spine reduced []) as [head args] eqn:Hsp.
+  destruct head as [| | | |cname cus| | | | | | |]; try discriminate.
+  destruct (core_constructor env cname) as [ci|] eqn:Hci; [|discriminate].
+  destruct (name_eqb (ctor_induct ci) owner && (idx <? ctor_num_fields ci) &&
+            Nat.eqb (List.length args) (ctor_num_params ci + ctor_num_fields ci))
+    eqn:Hcond; [|discriminate].
+  inversion Hred as [Hnth_rhs].
+  apply andb_true_iff in Hcond as [Hcond1 Hlen_args].
+  apply andb_true_iff in Hcond1 as [Hname_eq Hlt].
+  apply name_eqb_eq in Hname_eq.
+  apply Nat.ltb_lt in Hlt.
+  apply Nat.eqb_eq in Hlen_args.
+  exists reduced, cname, cus, args, ci.
+  rewrite Hsp. simpl.
+  repeat split; try assumption.
+  subst idx. rewrite <- Howner.
+  eapply vproj_iota_defeq_sound; eassumption.
+Qed.
+
+Theorem core_reduce_recursor_sound_bridge
+    rec fuel env venv g e rhs uvars G spec ls :
+  core_reduce_recursor rec fuel env g e = Accept (Some rhs) ->
+  venv_defeqs venv (viota_defeq_of_spec spec) ->
+  Forall (vlevel_wf uvars) ls ->
+  List.length ls = virs_uvars spec ->
+  exists rec_name rec_us args d info major owner major_whnf ctor_name ctor_us fields rule ci,
+    core_spine e [] = (EConst rec_name rec_us, args) /\
+    find_decl rec_name env = Some d /\
+    decl_kind_of d = DRecursor info /\
+    nth_error args (rec_num_params info + rec_num_motives info + rec_num_minors info + rec_num_indices info) = Some major /\
+    core_major_induct (rec_num_params info + rec_num_motives info + rec_num_minors info + rec_num_indices info) (decl_type d) = Some owner /\
+    core_to_constructor rec fuel env g owner (rec_k info) major = Accept major_whnf /\
+    core_spine major_whnf [] = (EConst ctor_name ctor_us, fields) /\
+    core_find_rule ctor_name (rec_rules info) = Some rule /\
+    core_constructor env ctor_name = Some ci /\
+    rhs = core_apps (subst_levels (decl_params d) rec_us (rule_rhs rule))
+            (firstn (rec_num_params info + rec_num_motives info + rec_num_minors info) args ++
+             skipn (ctor_num_params ci) fields ++
+             skipn (S (rec_num_params info + rec_num_motives info + rec_num_minors info + rec_num_indices info)) args) /\
+    VIsDefEq venv uvars G
+      (vapps (VConst (virs_rec_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+        (List.map (vinstL ls) (virs_prefix_args spec) ++
+         List.map (vinstL ls) (virs_indices spec) ++
+         [vapps (VConst (virs_ctor_name spec) (List.map (vlevel_inst ls) (virs_us spec)))
+           (List.map (vinstL ls) (virs_ctor_params spec) ++
+            List.map (vinstL ls) (virs_ctor_fields spec))]))
+      (vapps (vinstL ls (virs_rhs spec))
+        (List.map (vinstL ls) (virs_prefix_args spec) ++
+         List.map (vinstL ls) (virs_ctor_fields spec)))
+      (vinstL ls (virs_type spec)).
+Proof.
+  intros Hred Hmem Hwf Hlen.
+  unfold core_reduce_recursor in Hred.
+  destruct (core_spine e []) as [head args] eqn:Hsp.
+  destruct head as [| | | |rname rus| | | | | | |]; try discriminate.
+  destruct (find_decl rname env) as [d|] eqn:Hd; [|discriminate].
+  destruct (decl_kind_of d) eqn:Hkind; try discriminate.
+  rename r into info.
+  set (first_idx := rec_num_params info + rec_num_motives info + rec_num_minors info) in *.
+  set (major_idx := first_idx + rec_num_indices info) in *.
+  destruct (nth_error args major_idx) as [major|] eqn:Hmaj; [|discriminate].
+  destruct (core_major_induct major_idx (decl_type d)) as [owner|] eqn:Hown; [|discriminate].
+  destruct (core_to_constructor rec fuel env g owner (rec_k info) major)
+    as [major_whnf|err|why] eqn:Htoc; simpl in Hred; [|discriminate..].
+  destruct (core_spine major_whnf []) as [ctor fields] eqn:Hsp_maj.
+  destruct ctor as [| | | |cname cus| | | | | | |]; try discriminate.
+  destruct (core_find_rule cname (rec_rules info)) as [rule|] eqn:Hrule; [|discriminate].
+  destruct (core_constructor env cname) as [ci|] eqn:Hci; [|discriminate].
+  destruct (negb (name_eqb (ctor_induct ci) owner &&
+                  Nat.eqb (List.length fields) (ctor_num_params ci + ctor_num_fields ci) &&
+                  Nat.eqb (rule_nfields rule) (ctor_num_fields ci) &&
+                  Nat.eqb (List.length rus) (List.length (decl_params d))));
+    [discriminate|].
+  inversion Hred as [Hrhs].
+  exists rname, rus, args, d, info, major, owner, major_whnf, cname, cus, fields, rule, ci.
+  repeat split; try reflexivity; try assumption.
+  eapply recursor_iota_defeq_sound_venv; eassumption.
+Qed.
+
+(* ========================================================================= *)
+(* 6. Soundness Bridge for Kernel Type Inference, WHNF, DefEq & Admission    *)
 (* ========================================================================= *)
 
 Record KernelEnvBridge (env : environment) (venv : VEnv) : Prop := {
@@ -319,6 +768,26 @@ Proof.
   - eapply VHasType_const; [exact Hci | exact Hwf | exact Hlen].
 Qed.
 
+Theorem infer_proj_sound_bridge rec fuel env venv ps checking g owner idx val fty G val' proj' fty' :
+  infer_step rec fuel env ps checking g (EProj owner idx val) = Accept fty ->
+  TrExprS venv ps G val val' ->
+  TrProj venv (List.length ps) G owner idx val' proj' fty' ->
+  TrExpr venv ps G fty fty' ->
+  exists info,
+    core_inductive env owner = Some info /\
+    core_infer_projection (if checking then rec else inference_only rec) fuel env g owner idx val = Accept fty /\
+    TrTyping venv ps G (EProj owner idx val) fty proj' fty'.
+Proof.
+  intros Hinf Hval Hproj Hfty.
+  simpl in Hinf.
+  destruct (core_inductive env owner) as [info|] eqn:Hind; [|discriminate].
+  exists info. split; [reflexivity |]. split; [exact Hinf |].
+  split; [| split].
+  - apply TrExprS_to_TrExpr. eapply TrExprS_proj; eassumption.
+  - exact Hfty.
+  - eapply TrProj_has_type; exact Hproj.
+Qed.
+
 Theorem check_bridge_soundness fuel env venv ps g e ty G e' ty' :
   (forall et,
     infer fuel env ps g e = Accept et ->
@@ -373,14 +842,29 @@ Proof.
       unfold venv_add_const. rewrite Hvenv_none. reflexivity.
 Qed.
 
+Print Assumptions vinstL_vapps.
+Print Assumptions vliftN_vapps.
+Print Assumptions vclosedN_vapps.
+Print Assumptions TrProj_has_type.
+Print Assumptions TrProj_monotonic_env.
+Print Assumptions vproj_iota_defeq_sound.
 Print Assumptions check_levels_sound_TrLevels.
 Print Assumptions levels_equiv_sound_TrLevels.
 Print Assumptions VHasType_vinst0_from_beta.
 Print Assumptions TrExprS_has_type.
+Print Assumptions TrExpr_proj_unconditional.
+Print Assumptions TrTyping_proj_unconditional.
 Print Assumptions TrExpr_monotonic_env.
 Print Assumptions TrTyping_monotonic_env.
+Print Assumptions recursor_iota_defeq_sound_venv.
+Print Assumptions venv_add_inductive_block_ordered.
+Print Assumptions addInductive_iota_rule_in_venv.
+Print Assumptions addInductive_recursor_iota_sound.
+Print Assumptions core_reduce_projection_sound_bridge.
+Print Assumptions core_reduce_recursor_sound_bridge.
 Print Assumptions get_constant_sound_bridge.
 Print Assumptions infer_sort_sound_bridge.
 Print Assumptions infer_const_sound_bridge.
+Print Assumptions infer_proj_sound_bridge.
 Print Assumptions check_bridge_soundness.
 Print Assumptions checked_constant_extends_venv_wf.
