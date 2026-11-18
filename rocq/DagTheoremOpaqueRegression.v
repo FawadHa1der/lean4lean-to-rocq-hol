@@ -76,8 +76,10 @@ Proof. vm_compute. reflexivity. Qed.
 Example theorem_unsupported_literal_declines :
   admit_dag_theorem 32 16 test_env new_name [] test_rows 3 9 = Decline UnsupportedExpression.
 Proof. vm_compute. reflexivity. Qed.
-Example opaque_unsupported_projection_declines :
-  admit_dag_opaque 32 16 test_env new_name [] test_rows 3 10 = Decline UnsupportedExpression.
+(* Row 10 projects out of the anonymous name, which is not an inductive; upstream
+   inferProj throws invalidProj, so this is a rejection, not a decline. *)
+Example opaque_invalid_projection_rejects :
+  admit_dag_opaque 32 16 test_env new_name [] test_rows 3 10 = Reject TypeMismatch.
 Proof. vm_compute. reflexivity. Qed.
 Example theorem_no_fuel_declines :
   admit_dag_theorem 32 0 test_env new_name [] test_rows 3 4 = Decline OutOfFuel.

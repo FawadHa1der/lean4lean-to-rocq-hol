@@ -191,8 +191,9 @@ Proof. reflexivity. Qed.
 Example metadata_erased :
   check_defeq 32 [] [] empty_context (EMData prop) prop = Accept tt.
 Proof. vm_compute. reflexivity. Qed.
-Example projection_declines :
-  infer 32 [] [] empty_context (EProj (nm "S") 0 prop) = Decline UnsupportedExpression.
+(* Upstream inferProj throws invalidProj when the owner is not an inductive. *)
+Example projection_on_non_inductive_rejects :
+  infer 32 [] [] empty_context (EProj (nm "S") 0 prop) = Reject TypeMismatch.
 Proof. reflexivity. Qed.
 Example literal_declines_without_nat_admission :
   infer 32 [] [] empty_context (ELit (LitNat 184467440737095516160000000000000000000%N)) =

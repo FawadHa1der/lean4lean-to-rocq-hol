@@ -157,7 +157,7 @@ let projection_controls () =
     expect (invoke actual indexed rhs lhs) (C.Accept(C.ConversionStuck(rhs,lhs)),[])) [false;true]);
   test "projection-unsafe-and-malformed-gates" (fun () ->
     let bad_owner = shadow {(find "Dep") with C.decl_kind_of=C.DUnsafe (find "Dep").C.decl_kind_of} in
-    expect (C.admit fuel bad_owner (request rhs)) (C.Decline C.UnsupportedExpression);
+    expect (C.admit fuel bad_owner (request rhs)) (C.Reject C.TypeMismatch);
     let bad_ctor = {(find "Dep.mk") with C.decl_kind_of=(match (find "Dep.mk").C.decl_kind_of with
       | C.DConstructor ci -> C.DConstructor {ci with C.ctor_num_fields=n 3}
       | _ -> failwith "expected checked constructor")} in

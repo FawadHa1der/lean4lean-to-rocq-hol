@@ -243,8 +243,15 @@ Example primitive_metavariable_rejected :
 Proof. vm_compute. reflexivity. Qed.
 Example primitive_unsupported_body_propagates_decline :
   pr_classify pr_env PNatAdd
-    (pr_lam core_nat (pr_lam core_nat (EProj (core_name "Unknown") 0 (EBVar 0)))) =
+    (pr_lam core_nat (pr_lam core_nat (ELit (LitString "x")))) =
     Decline UnsupportedExpression.
+Proof. vm_compute. reflexivity. Qed.
+(* A projection whose owner is not an inductive is a definite error upstream
+   (inferProj throws invalidProj), so it is rejected rather than declined. *)
+Example primitive_invalid_projection_body_propagates_reject :
+  pr_classify pr_env PNatAdd
+    (pr_lam core_nat (pr_lam core_nat (EProj (core_name "Unknown") 0 (EBVar 0)))) =
+    Reject TypeMismatch.
 Proof. vm_compute. reflexivity. Qed.
 Example primitive_complex_recursions_never_get_partial_certificates :
   map (fun op => pr_accepted (pr_classify pr_env op pr_fake_add))

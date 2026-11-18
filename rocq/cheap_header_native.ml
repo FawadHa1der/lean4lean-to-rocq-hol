@@ -3818,7 +3818,7 @@ let rec infer_step rec0 fuel0 env ps checking g = function
         | True -> rec0
         | False -> inference_only rec0)
        fuel0 env g owner index value
-   | None -> Decline UnsupportedExpression)
+   | None -> Reject TypeMismatch)
 | EMData body -> infer_step rec0 fuel0 env ps checking g body
 
 (** val core_beta_collect : expr -> expr list -> expr list -> expr **)
@@ -11180,7 +11180,7 @@ module Accessor =
           | True -> rec0
           | False -> inference_only rec0)
          fuel0 env g owner index value
-     | None -> Decline UnsupportedExpression)
+     | None -> Reject TypeMismatch)
   | EMData body -> infer_step resolve rec0 fuel0 env ps checking g body
 
   (** val core_beta_collect : expr -> expr list -> expr list -> expr **)

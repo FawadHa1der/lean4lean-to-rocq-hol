@@ -67,7 +67,7 @@ Proof. vm_compute. repeat split; reflexivity. Qed.
 Example exact_negative_admission_payloads :
   map (fun c => env <- T.case_env c ;; T.forced 128 env c) T.negative_cases =
   [Reject NotDefinitionallyEqual;Reject UnknownConstant;Reject MalformedDeclaration;
-   Reject UnknownConstant;Reject MalformedDeclaration;Decline UnsupportedExpression;
+   Reject UnknownConstant;Reject MalformedDeclaration;Reject TypeMismatch;
    Reject MalformedDeclaration;Reject TypeMismatch;Reject TypeMismatch;
    Reject TypeMismatch;Reject MalformedDeclaration].
 Proof. vm_compute. reflexivity. Qed.

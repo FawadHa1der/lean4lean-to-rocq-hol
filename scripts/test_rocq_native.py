@@ -148,7 +148,7 @@ def main():
               r"^WHNF_PRODUCTION_CALLBACKS_PASS implementations=2 builders=2 modes=2 assertions=720$")
         extracted("persistent_tests_native")
         suite("persistent_tests", ["persistent_tests_native"],
-              r"^assertions=129520 full_result_comparisons=2984 lookup_comparisons=126212 step_accept=666 step_reject=1924 step_decline=134$")
+              r"^assertions=129520 full_result_comparisons=2984 lookup_comparisons=126212 step_accept=666 step_reject=1930 step_decline=128$")
         suite("persistent_stream_tests", ["persistent_tests_native"],
               r"^PASS persistent_stream: assertions=52776 full_results=1448 checked_steps=1332 lookups=51126 observations=44 changed_per_hash=7 nested_positives=4 rollbacks=38$")
         for module, test, marker, arguments in (

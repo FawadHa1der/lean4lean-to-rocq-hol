@@ -734,8 +734,11 @@ Fixpoint infer_step (rec : methods) (fuel : nat) (env : environment) (ps : list 
         ignored <- core_expand_string s ;; Accept (EConst core_string_name [])
       else Decline UnsupportedExpression
   | EProj owner index value =>
+      (* Upstream inferProj throws invalidProj unless the owner is an inductive
+         (Lean4Lean/TypeChecker.lean); a non-inductive owner is a definite error,
+         not an unsupported feature. *)
       match core_inductive env owner with
-      | None => Decline UnsupportedExpression
+      | None => Reject TypeMismatch
       | Some _ => core_infer_projection
           (if checking then rec else inference_only rec) fuel env g owner index value
       end
