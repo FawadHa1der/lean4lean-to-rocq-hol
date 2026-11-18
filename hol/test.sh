@@ -3,7 +3,9 @@
 set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$ROOT"
-LOG=${HOL_CORE_LOG:-/private/tmp/lean4hol-core-tests.log}
+TMP_BASE=/private/tmp
+[ -d "$TMP_BASE" ] || TMP_BASE=/tmp
+LOG=${HOL_CORE_LOG:-$TMP_BASE/lean4hol-core-tests.log}
 cat hol/tests.ml hol/nat_literal_tests.ml hol/family_tests.ml hol/indexed_tests.ml \
   hol/projection_core_tests.ml hol/projection_tests.ml hol/structure_tests.ml |
   LINE_EDITOR=env sh scripts/toolchain-exec.sh hol.sh > "$LOG" 2>&1

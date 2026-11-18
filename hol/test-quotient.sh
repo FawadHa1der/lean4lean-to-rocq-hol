@@ -2,7 +2,9 @@
 set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$ROOT"
-LOG=${HOL_QUOTIENT_LOG:-/private/tmp/lean4hol-quotient-tests.log}
+TMP_BASE=/private/tmp
+[ -d "$TMP_BASE" ] || TMP_BASE=/tmp
+LOG=${HOL_QUOTIENT_LOG:-$TMP_BASE/lean4hol-quotient-tests.log}
 python3 -c 'import os,signal,subprocess
 p=subprocess.Popen(["sh","scripts/toolchain-exec.sh","hol.sh"],stdin=subprocess.PIPE,
   stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=True,

@@ -5,6 +5,15 @@ ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$ROOT"
 export LC_ALL=C
 
+# Portable SHA-256 listing: GNU coreutils on Linux, shasum on macOS.
+sha256_list() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$@"
+    else
+        shasum -a 256 "$@"
+    fi
+}
+
 vernac='(^|[.][[:space:]])[[:space:]]*((Local|Global|Polymorphic|Monomorphic)[[:space:]]+)*(Admitted[[:space:]]*[.]|(Axioms?|Parameters?)[[:space:]]|Unset[[:space:]]+(Guard|Positivity|Universe|Elimination)[[:space:]]+Checking|Unset[[:space:]]+Extraction[[:space:]]+SafeImplicits|Extract[[:space:]]+(Constant|Inductive|Inlined[[:space:]]+Constant))'
 tactics='(^|[;{}]|[.][[:space:]]+)[[:space:]]*admit[[:space:]]*([.;}]|$)|\b(vm_cast_no_check|native_cast_no_check|exact_no_check)\b|\bExtr(Ocaml|Haskell|Scheme)[[:alnum:]_]*\b'
 ocaml='\b(new_axiom|mk_thm)\b|\bObj[[:space:]]*[.][[:space:]]*(magic|obj|set_field|set_tag|new_block|truncate)\b|\bMarshal[[:space:]]*[.][[:space:]]*from_(string|bytes|channel)\b'
@@ -27,6 +36,23 @@ is_generated() {
         rocq/universe_complete_native.ml|rocq/universe_complete_native.mli|\
         rocq/universe_instantiation_native.ml|rocq/universe_instantiation_native.mli|\
         rocq/universe_expression_native.ml|rocq/universe_expression_native.mli) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+is_bundled_hol_light() {
+    case "$1" in
+        hol/kernel_v2_full_file/*|hol/kernel_v3_complete/*)
+            local rest=${1#hol/*/}
+            case "$rest" in
+                */*) return 1 ;;
+                arith.ml|basics.ml|bool.ml|calc_num.ml|canon.ml|class.ml|compute.ml|drule.ml|\
+                equal.ml|firstorder.ml|fusion.ml|grobner.ml|impconv.ml|ind_defs.ml|ind_types.ml|\
+                itab.ml|lib.ml|lists.ml|meson.ml|metis.ml|nets.ml|normalizer.ml|nums.ml|pair.ml|\
+                printer.ml|quot.ml|recursion.ml|simp.ml|tactics.ml|thecops.ml|theorems.ml|\
+                trivia.ml|wf.ml) return 0 ;;
+                *) return 1 ;;
+            esac ;;
         *) return 1 ;;
     esac
 }
@@ -69,6 +95,17 @@ if [[ ${1:-} == --self-test ]]; then
             printf 'Incorrectly classified as generated: %s\n' "$file" >&2; exit 1
         fi
     done
+    for file in hol/kernel_v2_full_file/fusion.ml hol/kernel_v3_complete/fusion.ml \
+        hol/kernel_v3_complete/tactics.ml hol/kernel_v2_full_file/nums.ml; do
+        is_bundled_hol_light "$file" || { printf 'Missed bundled HOL Light file: %s\n' "$file" >&2; exit 1; }
+    done
+    for file in hol/fusion.ml hol/kernel_v3_complete/verify_all_v3.ml \
+        hol/kernel_v3_complete/verify_entries_v3.ml hol/kernel_v3_complete/hol/fusion.ml \
+        hol/kernel_v1_core_only/fusion.ml frontend/fusion.ml; do
+        if is_bundled_hol_light "$file"; then
+            printf 'Incorrectly classified as bundled HOL Light: %s\n' "$file" >&2; exit 1
+        fi
+    done
     echo 'PASS: admission/cast scan and generated-file classification fixtures'
     exit 0
 fi
@@ -84,11 +121,15 @@ inventory() {
     find rocq hol frontend -type f \( -name '*.v' -o -name '*.vo' -o -name '*.ml' -o -name '*.mli' \) -print | sort
 }
 inventory > "$report/inventory-before.txt"
-sources=(); handwritten=(); generated=(); vernacular=(); ml=(); objects=(); modules=()
+sources=(); handwritten=(); generated=(); bundled_hol=(); vernacular=(); ml=(); objects=(); modules=()
 while IFS= read -r file; do
     sources+=("$file")
     if is_generated "$file"; then
         generated+=("$file")
+        continue
+    fi
+    if is_bundled_hol_light "$file"; then
+        bundled_hol+=("$file")
         continue
     fi
     handwritten+=("$file")
@@ -112,8 +153,23 @@ else
     : > "$report/generated-files.txt"
 fi
 printf '%s\n' "${modules[@]}" > "$report/checked-modules.txt"
-shasum -a 256 "${sources[@]}" "${objects[@]}" > "$report/inputs.sha256"
+sha256_list "${sources[@]}" "${objects[@]}" > "$report/inputs.sha256"
 status=0
+if [[ ${#bundled_hol[@]} -gt 0 ]]; then
+    printf '%s\n' "${bundled_hol[@]}" > "$report/bundled-hol-light-files.txt"
+    hol_bin=$(sh scripts/toolchain-exec.sh sh -c 'command -v hol.sh')
+    hol_lib="$(CDPATH='' cd -- "$(dirname -- "$hol_bin")/../lib/hol_light" && pwd -P)"
+    for file in "${bundled_hol[@]}"; do
+        stock="$hol_lib/${file##*/}"
+        if [[ ! -f "$stock" ]] || ! cmp -s "$file" "$stock"; then
+            printf 'MODIFIED_BUNDLED_HOL_LIGHT: %s (expected byte-identical to %s)\n' "$file" "$stock" |
+                tee -a "$report/bundled-hol-light-mismatches.txt"
+            status=1
+        fi
+    done
+else
+    : > "$report/bundled-hol-light-files.txt"
+fi
 for file in "${vernacular[@]}"; do
     object=${file%.v}.vo
     if [[ ! -f "$object" || "$file" -nt "$object" ]]; then
@@ -155,7 +211,7 @@ for expected in '* Axioms: <none>' \
         status=1
     fi
 done
-shasum -a 256 "${sources[@]}" "${objects[@]}" > "$report/inputs-after.sha256"
+sha256_list "${sources[@]}" "${objects[@]}" > "$report/inputs-after.sha256"
 if ! cmp -s "$report/inputs.sha256" "$report/inputs-after.sha256"; then
     echo 'Sources/objects changed during audit; rebuild and rerun on a stable tree.' >&2
     status=1

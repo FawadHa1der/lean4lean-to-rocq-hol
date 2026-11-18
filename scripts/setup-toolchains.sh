@@ -3,10 +3,21 @@ set -eu
 PROJECT_ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd -P)
 mkdir -p "$PROJECT_ROOT/toolchain/bin" "$PROJECT_ROOT/toolchain/logs" "$PROJECT_ROOT/toolchain/downloads"
 . "$PROJECT_ROOT/scripts/toolchain-env.sh"
-if [ "$(uname -s)/$(uname -m)" != Darwin/arm64 ]; then
-    echo "This bootstrap currently pins the Darwin/arm64 opam binary only." >&2
-    exit 1
-fi
+case "$(uname -s)/$(uname -m)" in
+    Darwin/arm64)
+        opam_asset=opam-2.6.0-arm64-macos
+        opam_sha=b57ed6cc082e560063989a285c59786b7c670087da2d317a87e4ba4c7973e71f
+        ;;
+    Linux/x86_64)
+        # Digest published by GitHub for the 2.6.0 release asset.
+        opam_asset=opam-2.6.0-x86_64-linux
+        opam_sha=a59184447f881005dae70b2ae455c3a7e9549834a41c635c49a5a28235eca758
+        ;;
+    *)
+        echo "This bootstrap pins opam binaries for Darwin/arm64 and Linux/x86_64 only." >&2
+        exit 1
+        ;;
+esac
 if ! mkdir "$TOOLCHAIN_DIR/.setup-lock" 2>/dev/null; then
     echo "Another setup may be running; inspect toolchain/.setup-lock before retrying." >&2
     exit 1
@@ -33,25 +44,32 @@ trap finish_setup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 unset OCAMLLIB CAML_LD_LIBRARY_PATH OCAML_TOPLEVEL_PATH
-# The host SDK weak-links these symbols, but this macOS runtime lacks them.
-# Select OCaml's portable pipe/fcntl and dup2/fcntl implementations instead.
-export ac_cv_func_pipe2=no
-export ac_cv_func_dup3=no
+if [ "$(uname -s)" = Darwin ]; then
+    # The host SDK weak-links these symbols, but this macOS runtime lacks them.
+    # Select OCaml's portable pipe/fcntl and dup2/fcntl implementations instead.
+    export ac_cv_func_pipe2=no
+    export ac_cv_func_dup3=no
+fi
 opam="$TOOLCHAIN_ALIAS/bin/opam"
 opam_run() { "$opam" --cli=2.1 "$@"; }
-opam_sha=b57ed6cc082e560063989a285c59786b7c670087da2d317a87e4ba4c7973e71f
 if [ ! -f "$opam" ]; then
-    curl -fL --retry 3 https://github.com/ocaml/opam/releases/download/2.6.0/opam-2.6.0-arm64-macos -o "$opam.download"
-    actual=$(shasum -a 256 "$opam.download" | cut -d ' ' -f 1)
+    curl -fL --retry 3 "https://github.com/ocaml/opam/releases/download/2.6.0/$opam_asset" -o "$opam.download"
+    actual=$(toolchain_sha256 "$opam.download" | cut -d ' ' -f 1)
     [ "$actual" = "$opam_sha" ] || { echo "opam checksum mismatch" >&2; exit 1; }
     mv "$opam.download" "$opam"
     chmod +x "$opam"
 fi
-actual=$(shasum -a 256 "$opam" | cut -d ' ' -f 1)
+actual=$(toolchain_sha256 "$opam" | cut -d ' ' -f 1)
 [ "$actual" = "$opam_sha" ] || { echo "opam checksum mismatch" >&2; exit 1; }
 repository=git+https://github.com/ocaml/opam-repository.git#ec0f6516081487aab3b181feb1d7f169c32e6fb1
 if [ ! -f "$OPAMROOT/config" ]; then
-    opam_run init --root="$OPAMROOT" --bare --no-setup --shell=sh --yes default "$repository"
+    # Linux sandboxes builds with bubblewrap, which unprivileged containers
+    # often cannot provide; builds remain confined to the project prefix.
+    sandbox_flag=
+    if [ "$(uname -s)" = Linux ] && ! command -v bwrap >/dev/null 2>&1; then
+        sandbox_flag=--disable-sandboxing
+    fi
+    opam_run init --root="$OPAMROOT" --bare --no-setup --shell=sh --yes $sandbox_flag default "$repository"
 fi
 sh "$PROJECT_ROOT/scripts/setup-toolchain-perl.sh"
 if ! opam_run switch list --short | grep -qx "$OPAMSWITCH"; then
@@ -60,12 +78,19 @@ fi
 if nm -m "$OPAMROOT/$OPAMSWITCH/bin/ocamlbuild" 2>/dev/null | grep -Eq 'weak external _(pipe2|dup3) '; then
     opam_run reinstall --yes --no-depexts ocaml-base-compiler.4.14.2
 fi
-if [ -f "$TOOLCHAIN_DIR/switch.export" ]; then
+# switch.export records the macOS-resolved closure; on other hosts the pinned
+# repository snapshot resolves the same package versions directly.
+if [ "$(uname -s)" = Darwin ] && [ -f "$TOOLCHAIN_DIR/switch.export" ]; then
     opam_run switch import "$TOOLCHAIN_DIR/switch.export" --yes
 fi
 opam_run install --yes --no-depexts ocaml-base-compiler.4.14.2 rocq-prover.meta.1 rocq-core.9.2.0 rocq-stdlib.9.1.0 yojson.3.0.0 zarith.1.14 hol_light.3.1.0
-opam_run switch export --full "$TOOLCHAIN_DIR/switch.export"
-opam_run list --installed --columns=name,version > "$TOOLCHAIN_DIR/installed-packages.txt"
+if [ "$(uname -s)" = Darwin ]; then
+    opam_run switch export --full "$TOOLCHAIN_DIR/switch.export"
+fi
+opam_run list --installed --columns=name,version > "$TOOLCHAIN_DIR/installed-packages.$(uname -s).txt"
+if [ "$(uname -s)" = Darwin ]; then
+    cp "$TOOLCHAIN_DIR/installed-packages.$(uname -s).txt" "$TOOLCHAIN_DIR/installed-packages.txt"
+fi
 printf 'Toolchain prefix: %s\n' "$OPAMROOT/$OPAMSWITCH"
 restore_toolchain
 sh "$PROJECT_ROOT/scripts/toolchain-smoke.sh"

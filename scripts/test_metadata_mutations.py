@@ -357,7 +357,8 @@ def checker_snapshot(command, snapshot_binary, watch_files):
     watched = list(dict.fromkeys([executable] + [path.resolve() for path in watch_files]))
     before = [binary_identity(path) for path in watched]
     details = {'before': before, 'after': [], 'unchanged': None, 'snapshotted': False}
-    with tempfile.TemporaryDirectory(prefix='metadata-checker-', dir='/private/tmp') as directory:
+    tmp_base = '/private/tmp' if Path('/private/tmp').is_dir() else '/tmp'
+    with tempfile.TemporaryDirectory(prefix='metadata-checker-', dir=tmp_base) as directory:
         actual = list(command)
         if snapshot_binary is not None:
             if snapshot_binary.resolve() != executable:

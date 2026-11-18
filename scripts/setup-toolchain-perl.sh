@@ -10,7 +10,7 @@ mkdir -p "$TOOLCHAIN_DIR/downloads"
 if [ ! -f "$archive" ]; then
     curl -fL --retry 3 https://cpan.metacpan.org/authors/id/R/RO/ROSCH/String-ShellQuote-1.04.tar.gz -o "$archive"
 fi
-actual=$(shasum -a 256 "$archive" | cut -d ' ' -f 1)
+actual=$(toolchain_sha256 "$archive" | cut -d ' ' -f 1)
 [ "$actual" = e606365038ce20d646d255c805effdd32f86475f18d43ca75455b00e4d86dd35 ] || {
     echo "String::ShellQuote checksum mismatch" >&2
     exit 1

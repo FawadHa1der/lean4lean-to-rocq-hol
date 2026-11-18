@@ -8,7 +8,7 @@ system packages. All persistent toolchain artifacts belong under `toolchain/`.
 
 | Component | Version |
 | --- | --- |
-| opam binary | 2.6.0, Darwin arm64 |
+| opam binary | 2.6.0, Darwin arm64 or Linux x86_64 |
 | OCaml | 4.14.2 |
 | Rocq core/runtime | 9.2.0 |
 | Rocq Stdlib | 9.1.0 |
@@ -23,16 +23,40 @@ The opam repository is fixed at
 that snapshot. The opam binary and Perl archive have SHA-256 checks in the
 setup scripts. `toolchain/switch.export` records the resolved dependency
 closure and full package metadata after installation; subsequent setup runs
-import it. `toolchain/installed-packages.txt` records installed versions.
+import it (on macOS; see Linux notes below). `toolchain/installed-packages.txt`
+records installed versions on macOS and `toolchain/installed-packages.Linux.txt`
+on Linux.
 This is source/package reproducibility, not a bit-for-bit reproducible binary
 claim or a fully hermetic build.
 
 ## Prerequisites
 
-The bootstrap currently supports macOS arm64 only. It needs Xcode command-line
-build tools, `make`, `git`, `curl`, `shasum`, `tar`, Perl, and an existing GMP
-development installation. On this host, GMP is read from
+The bootstrap supports macOS arm64 and Linux x86_64. On macOS it needs Xcode
+command-line build tools, `make`, `git`, `curl`, `shasum`, `tar`, Perl, and an
+existing GMP development installation. On the original host, GMP is read from
 `/opt/homebrew/opt/gmp`; setup does not run `brew install`.
+
+On Linux x86_64 (tested on Debian 12 without root access) it needs a C
+toolchain, `make`, `git`, `curl`, `sha256sum` (or `shasum`), `tar`, Perl and the
+GMP development headers. Differences from the macOS path, all selected by
+`uname -s` in `scripts/setup-toolchains.sh`:
+
+- the opam asset is `opam-2.6.0-x86_64-linux`, checked against SHA-256
+  `a59184447f881005dae70b2ae455c3a7e9549834a41c635c49a5a28235eca758`
+  (GitHub's published digest);
+- the Darwin-only `pipe2`/`dup3` Autoconf overrides are not applied;
+- opam is initialised with `--disable-sandboxing` when `bwrap` is not
+  installed (opam's sandbox is a build-isolation aid, not a proof check);
+- `switch.export` is neither imported nor exported, because it pins the
+  Darwin-resolved dependency closure; the opam repository commit stays pinned,
+  and the Linux result is recorded in `installed-packages.Linux.txt`;
+- the short alias root used for relocatable paths is `/tmp` instead of
+  `/private/tmp`.
+
+The Linux path was validated end to end: `scripts/toolchain-smoke.sh` passes
+(Rocq proof, kernel recheck, invalid-proof rejection, OCaml extraction,
+Yojson/Zarith, HOL Light proof and rejection), and `scripts/build-rocq.sh`
+builds all Rocq modules and passes the 24 native suites.
 String::ShellQuote is built and tested under `toolchain/perl5` when missing.
 Other missing external dependencies cause a build failure instead of a global
 package install. Initial setup needs network access to GitHub, opam's source

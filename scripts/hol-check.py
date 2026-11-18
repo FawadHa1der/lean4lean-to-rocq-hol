@@ -623,7 +623,8 @@ def serve(argv):
     hol_pid = None
     tail = bytearray()
     try:
-        with tempfile.TemporaryDirectory(prefix='hol-run-', dir='/private/tmp') as directory:
+        tmp_base = '/private/tmp' if Path('/private/tmp').is_dir() else '/tmp'
+        with tempfile.TemporaryDirectory(prefix='hol-run-', dir=tmp_base) as directory:
             endpoint = str(Path(directory) / 's')
             marker = ('HOL_RUNNER_READY_' + secrets.token_hex(16)).encode()
             ready_pattern = re.compile(re.escape(marker) + rb':([0-9]+)\r?\n')

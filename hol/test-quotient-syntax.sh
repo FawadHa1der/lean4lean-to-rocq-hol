@@ -2,10 +2,12 @@
 set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$ROOT"
-LOG=${HOL_QUOTIENT_LOG:-/private/tmp/lean4hol-quotient-syntax-tests.log}
+TMP_BASE=/private/tmp
+[ -d "$TMP_BASE" ] || TMP_BASE=/tmp
+LOG=${HOL_QUOTIENT_LOG:-$TMP_BASE/lean4hol-quotient-syntax-tests.log}
 FIXTURE=arena/corpus/tutorial/128_quotLiftType.ndjson
 printf '%s  %s\n' 3abbf269039bfe725e22e5ae35438451f87ea200b2434e2e402deac0b9c8faf3 "$FIXTURE" |
-  shasum -a 256 -c -
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum -c -; else shasum -a 256 -c -; fi
 mkdir -p build/quotient-syntax
 run() { sh scripts/toolchain-exec.sh "$@"; }
 run ocamlfind ocamlopt -package yojson,zarith -c \
