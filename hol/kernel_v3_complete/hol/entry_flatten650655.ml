@@ -38,7 +38,7 @@ let prove_L4_FLAT_BOOL650655 () = prove
 
 (* Exactly one layer is concatenated: the inner empty row is retained. *)
 let prove_L4_FLAT_ONE_LAYER650655 () = prove
- (`FLAT ([[[1];[]];[];[[2;3]]]:(num list)list list) = [[1];[];[2;3]]`,
+ (`FLAT ([[[1];[]];[];[[2;3]]]:((num list)list)list) = [[1];[];[2;3]]`,
   REWRITE_TAC[l4_flat650;APPEND]);;
 
 let prove_L4_FLAT_MAP650655 () = prove

@@ -121,7 +121,15 @@ let l4_primitive_wf_wrong_fix_name622 = prove
      [[87;101;108;108;70;111;117;110;100;101;100];[78;97;116];[102;105;120]]) ==>
    l4_primitive_unfold_nat_well_founded622 fuel env s e measure =
      L4KReject491 L4KMalformedDeclaration491`,
-  SIMP_TAC [l4_primitive_unfold_nat_well_founded622;l4_kr_bind491;LET_DEF;LET_END_DEF]);;
+  REPEAT GEN_TAC THEN STRIP_TAC THEN
+  GEN_REWRITE_TAC LAND_CONV [l4_primitive_unfold_nat_well_founded622] THEN
+  ASM_REWRITE_TAC [l4_kr_bind491] THEN
+  CONV_TAC (LAND_CONV (let_CONV THENC let_CONV THENC let_CONV THENC let_CONV)) THEN
+  ASM_REWRITE_TAC [FST;SND;l4_kr_bind491] THEN
+  CONV_TAC (LAND_CONV let_CONV) THEN
+  ASM_REWRITE_TAC [] THEN
+  CONV_TAC (LAND_CONV MATCH_CONV) THEN
+  ASM_REWRITE_TAC []);;
 
 let l4_primitive_wf_wrong_fix_arity622 = prove
  (`!fuel env s e measure locals mb st aty top0 top1 top2 fix_name u v.
@@ -134,7 +142,15 @@ let l4_primitive_wf_wrong_fix_arity622 = prove
    l4_ksplit_app489 top2 = (L4KConst447 fix_name [u;v],[]) ==>
    l4_primitive_unfold_nat_well_founded622 fuel env s e measure =
      L4KDecline491 L4KUnsupportedDeclaration491`,
-  SIMP_TAC [l4_primitive_unfold_nat_well_founded622;l4_kr_bind491;LET_DEF;LET_END_DEF]);;
+  REPEAT GEN_TAC THEN STRIP_TAC THEN
+  GEN_REWRITE_TAC LAND_CONV [l4_primitive_unfold_nat_well_founded622] THEN
+  ASM_REWRITE_TAC [l4_kr_bind491] THEN
+  CONV_TAC (LAND_CONV (let_CONV THENC let_CONV THENC let_CONV THENC let_CONV)) THEN
+  ASM_REWRITE_TAC [FST;SND;l4_kr_bind491] THEN
+  CONV_TAC (LAND_CONV let_CONV) THEN
+  ASM_REWRITE_TAC [] THEN
+  CONV_TAC (LAND_CONV MATCH_CONV) THEN
+  REWRITE_TAC []);;
 
 let l4_primitive_probe_checked_equation622 = prove
  (`!fuel env s pack dom fn args rhs.
