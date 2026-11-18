@@ -108,6 +108,8 @@ QuotientAdmissionFixtures841.v
 HintsRegression.v
 SemanticModel.v
 DeclarativeTyping.v
+TypingLemmas.v
+InferSoundness.v
 CheckerSoundness.v
 DefEqCache.v
 FuelConfig.v
