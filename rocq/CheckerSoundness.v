@@ -5,7 +5,22 @@
    executable kernel syntax, WHNF reduction, definitional equality, type
    inference/checking, declaration admission, structure projections (TrProj),
    and addInductive / recursor iota-reduction to the declarative VEnv/VIsDefEq
-   model. Zero axioms. *)
+   model. Zero axioms.
+
+   STATUS (honest scope, see GAP_ANALYSIS.md).  Every theorem below is
+   axiom-free, but several are *conditional bridges*, not end-to-end soundness:
+   - check_bridge_soundness takes as hypothesis that the inferred type already
+     translates and types e'; it only adds the final conversion step.
+   - checked_constant_extends_venv_wf takes the header typing as a hypothesis.
+   - TrProj is a placeholder: it does not relate proj_v to the structure field,
+     and TrExprS_lit accepts any well-typed term, so the *_proj_unconditional
+     results carry no projection- or literal-specific content.
+   - the recursor/projection bridges repackage VDF_extra for a rule that is
+     assumed to be in the environment.
+   A non-circular inference soundness theorem (relative only to explicit WHNF /
+   conversion oracle specifications, with a syntactic translation) is proved in
+   InferSoundness.v; the declarative metatheory it relies on is in
+   TypingLemmas.v. *)
 From Stdlib Require Import List Bool Arith PeanoNat NArith String Lia.
 From LeanPort Require Import Syntax Universes UniverseSoundness Checker Declarations
   Inductive SemanticModel DeclarativeTyping.
@@ -93,7 +108,10 @@ Definition vproj_defeq_of_spec (spec : VProjRuleSpec) : VDefEq :=
      vdf_rhs := vprs_field_val spec;
      vdf_type := vprs_field_ty spec |}.
 
-(* Unconditional declarative projection typing relation (Lean4Lean TrProj) *)
+(* Declarative projection relation (cf. Lean4Lean TrProj).  CAVEAT: this is a
+   placeholder -- it only requires struct_v and proj_v to be well typed and does
+   not connect proj_v to field idx of structure s.  Upstream's TrProj is itself
+   incomplete at the pinned commit. *)
 Inductive TrProj (env : VEnv) (uvars : nat) (G : list VExpr)
     (s : name) (idx : nat) (struct_v proj_v field_ty : VExpr) : Prop :=
 | TrProj_intro : forall struct_ty,
@@ -205,8 +223,11 @@ Proof.
     + eapply IH; eassumption.
 Qed.
 
-(* Syntactic-to-Semantic Expression Translation (TrExprS / TrExpr)
-   including unconditional TrExprS_proj (structure projections) and literals *)
+(* Syntactic-to-Semantic Expression Translation (TrExprS / TrExpr).
+   CAVEAT: there is no free-variable or let-context translation, TrExprS_proj
+   goes through the placeholder TrProj and TrExprS_lit maps a literal to any
+   well-typed term.  InferSoundness.trE is the precise syntactic translation
+   used for the non-circular result. *)
 Inductive TrExprS (env : VEnv) (ps : list name) :
     list VExpr -> expr -> VExpr -> Prop :=
 | TrExprS_bvar : forall G i ty,
@@ -788,6 +809,9 @@ Proof.
   - eapply TrProj_has_type; exact Hproj.
 Qed.
 
+(* CONDITIONAL: the hypothesis already provides the typing of e' at the
+   inferred type and the soundness of the conversion; this lemma only composes
+   them.  It is not a soundness proof of `infer`/`defeq`. *)
 Theorem check_bridge_soundness fuel env venv ps g e ty G e' ty' :
   (forall et,
     infer fuel env ps g e = Accept et ->
@@ -806,6 +830,7 @@ Proof.
   eapply VDF_defeqDF; [exact Heq | exact Hhas].
 Qed.
 
+(* CONDITIONAL: the declarative header typing is a hypothesis (Hhdr). *)
 Theorem checked_constant_extends_venv_wf fuel env venv n ps ty body kind env' ty' :
   VEnvWF venv ->
   VEnvClosed venv ->

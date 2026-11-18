@@ -1,8 +1,12 @@
 (* SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
-   HOL Light formalization of Lean4Lean/FuelConfig.lean: multi-axis fuel
-   configuration separating WHNF, inference, definitional-equality, lazy-delta,
-   and recursor budgets, with uniform embedding and fail-closed OutOfFuel
-   theorems. Zero new axioms. *)
+   HOL Light formalization of multi-axis fuel configuration separating WHNF,
+   inference, definitional-equality, lazy-delta, and recursor budgets, with
+   uniform embedding and fail-closed OutOfFuel theorems. Zero new axioms.
+
+   STATUS: Standalone outer configuration wrapper around single-fuel
+   l4_infer597 / l4_whnf597 / l4_defeq597 / l4_check597 (there is no
+   FuelConfig.lean in upstream digama0/lean4lean; inner recursion in
+   l4_checker_mode597 remains single-fuel). See GAP_ANALYSIS.md. *)
 needs "hol/ordinary_admission607.ml";;
 
 let l4_fuel_config_INDUCT965,l4_fuel_config_RECURSION965 = define_type

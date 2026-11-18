@@ -3,7 +3,13 @@
    Verified positive and negative definitional-equality memoization and
    equivalence manager (corresponding to Lean4Lean's defeq/equiv_manager cache).
    Proves that consulting a sound positive/negative cache refines uncached
-   definitional equality and preserves both acceptance and rejection verdicts. *)
+   definitional equality and preserves both acceptance and rejection verdicts.
+
+   STATUS: this module is a stand-alone model; the executable checker
+   (Checker.v) does not consult any defeq/whnf/infer cache, and the key below
+   records only the context depth (not the context contents), so it must not
+   be wired into the checker as is.  positive_cache_hit_sound merely unfolds its
+   `positive_cache_semantically_sound` hypothesis. *)
 From Stdlib Require Import List Bool Arith PeanoNat.
 From LeanPort Require Import Syntax Checker SemanticModel DeclarativeTyping.
 Import ListNotations.

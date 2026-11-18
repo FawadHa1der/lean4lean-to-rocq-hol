@@ -1,10 +1,16 @@
 (* SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
    HOL Light formalization of Lean4Lean/Theory/{VLevel,VExpr,VDecl,VEnv}.lean
-   and Lean4Lean/Theory/Typing/{Basic,Lemmas,Env,ChurchRosser,Injectivity}.lean:
+   and core Lean4Lean/Theory/Typing/{Basic,Env}.lean:
    semantic universe levels, de Bruijn expressions, monotonic VEnv, 13-rule
-   declarative VIsDefEq / VHasType, parallel reduction, multi-step confluence
-   inversions, environment monotonicity, and head disjointness / Pi-injectivity.
-   Zero new axioms. *)
+   declarative VIsDefEq / VHasType, environment monotonicity, untyped beta
+   parallel reduction (Takahashi diamond), and syntactic head disjointness /
+   Pi-injectivity over that beta relation.
+   STATUS: Full Lean4Lean/Theory/Typing/Lemmas.lean metatheory (level/term
+   weakening, substitution, context defeq, regularity, and sort/forallE
+   inversions of VIsDefEq) is proved in typing_lemmas966.ml. Note that
+   l4_vpar_red961 below is untyped beta-only parallel reduction rather than
+   upstream Lean4Lean/Theory/Typing/ChurchRosser.lean's typed reduction with
+   iota/delta environment defeqs. Zero new axioms. *)
 needs "hol/ordinary_admission607.ml";;
 
 (* 1. Semantic Universe Levels *)

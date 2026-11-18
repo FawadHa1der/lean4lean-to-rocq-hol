@@ -4,7 +4,15 @@
    l4_checked_constant607), structure projections (TrProj / projection iota),
    and addInductive / recursor iota-reduction to the declarative VEnv /
    VIsDefEq / VHasType specification (declarative_typing961.ml) via
-   TrLevel / TrExprS / TrExpr / TrTyping. Zero new axioms. *)
+   TrLevel / TrExprS / TrExpr / TrTyping. Zero new axioms.
+
+   STATUS: Conditional bridge interface. Note that l4_tr_typing_bridge962
+   takes l4_vhas_type961 as an explicit hypothesis, so the top-level
+   l4_check_bridge_soundness962 / l4_infer_bridge_soundness962 wrappers are
+   conditional interface packaging rather than an unconditional induction over
+   l4_infer_step586 / l4_defeq_step597. For a non-circular structural-induction
+   soundness proof of l4_infer_step586 and l4_infer597 over syntactic
+   translation l4_tr_e967, see infer_soundness967.ml and GAP_ANALYSIS.md. *)
 needs "hol/ordinary_admission607.ml";;
 needs "hol/declarative_typing961.ml";;
 

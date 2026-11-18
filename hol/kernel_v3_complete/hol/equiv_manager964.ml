@@ -1,7 +1,12 @@
 (* SPDX-License-Identifier: Apache-2.0. Copyright 2026 Fawad Haider.
    HOL Light formalization of verified positive and negative definitional-equality
    memoization (EquivManager / DefEqCache). Proves exact refinement of uncached
-   l4_defeq597 under cache soundness. Zero new axioms. *)
+   l4_defeq597 under cache soundness. Zero new axioms.
+
+   STATUS: Standalone outer association-list memoization wrapper around
+   top-level l4_defeq597. It is not threaded through the recursive conversion
+   loop l4_defeq_step597 and does not model union-find equivalence classes; see
+   GAP_ANALYSIS.md. *)
 needs "hol/kernel_checker597.ml";;
 
 let l4_defeq_cache_key_INDUCT964,l4_defeq_cache_key_RECURSION964 = define_type

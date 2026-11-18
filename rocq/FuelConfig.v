@@ -3,7 +3,13 @@
    Multi-axis fuel configuration (Lean4Lean/FuelConfig.lean): separates
    WHNF, type-inference, definitional-equality, lazy-delta, and recursor
    reduction budgets, proves exact embedding of uniform fuel, and establishes
-   fail-closed OutOfFuel behavior across all axes. *)
+   fail-closed OutOfFuel behavior across all axes.
+
+   STATUS: the executable checker uses a single coupled `fuel` (default 512 in
+   the Arena driver) for recursion depth, WHNF rounds and the Nat.pow /
+   shiftLeft guards; upstream FuelConfig keeps separate budgets (whnf 100000,
+   lazyDelta 1000, recDepth 50000, ...).  The record below is a model only and
+   is not threaded through Checker.v. *)
 From Stdlib Require Import List Bool Arith PeanoNat Lia.
 From LeanPort Require Import Syntax Universes WhnfPolicy Checker Declarations.
 Import ListNotations.
