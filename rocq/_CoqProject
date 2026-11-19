@@ -113,3 +113,8 @@ InferSoundness.v
 CheckerSoundness.v
 DefEqCache.v
 FuelConfig.v
+LevelSat.v
+SubstTheory.v
+StrongTyping.v
+EnvDeclTheory.v
+PatternConfluence.v
