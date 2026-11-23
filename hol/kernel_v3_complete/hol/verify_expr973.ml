@@ -2030,6 +2030,7 @@ let l4_vtr_free_ctx_RULES973,l4_vtr_free_ctx_INDUCT973,l4_vtr_free_ctx_CASES973 
  `(!env venv ps. l4_vtr_free_ctx973 env venv ps [] []) /\
   (!env venv ps fs fs' n ty ty'.
      l4_vtr_free_ctx973 env venv ps fs fs' /\
+     ~(MEM n (MAP FST fs')) /\
      l4_vtr_expr973 env venv ps (L4VLCtx973 fs' []) ty ty' /\
      l4_vis_type961 venv (LENGTH ps) (l4_vl_free_ctx973 fs') ty' ==>
      l4_vtr_free_ctx973 env venv ps
@@ -2037,6 +2038,7 @@ let l4_vtr_free_ctx_RULES973,l4_vtr_free_ctx_INDUCT973,l4_vtr_free_ctx_CASES973 
        (CONS (n, L4VLLam973 ty') fs')) /\
   (!env venv ps fs fs' n ty val_e ty' val'.
      l4_vtr_free_ctx973 env venv ps fs fs' /\
+     ~(MEM n (MAP FST fs')) /\
      l4_vtr_expr973 env venv ps (L4VLCtx973 fs' []) ty ty' /\
      l4_vis_type961 venv (LENGTH ps) (l4_vl_free_ctx973 fs') ty' /\
      l4_vtr_expr973 env venv ps (L4VLCtx973 fs' []) val_e val' /\
@@ -2159,6 +2161,28 @@ let l4_vtr_ctx_push_let973 = prove
                l4_vl_free973;l4_vl_bound973] THEN
   STRIP_TAC THEN ASM_REWRITE_TAC [] THEN
   MATCH_MP_TAC l4_vtr_bound_let973 THEN ASM_REWRITE_TAC []);;
+
+let l4_vtr_ctx_push_free_lam973 = prove
+ (`!env venv ps g l n ty ty'.
+   l4_kcontext_bound532 g = [] /\
+   l4_vl_bound973 l = [] /\
+   ~(MEM n (MAP FST (l4_vl_free973 l))) /\
+   l4_vtr_ctx973 env venv ps g l /\
+   l4_vtr_expr973 env venv ps l ty ty' /\
+   l4_vis_type961 venv (LENGTH ps) (l4_vl_ctx973 l) ty' ==>
+   l4_vtr_ctx973 env venv ps
+     (L4KContext532 [] (CONS (n, L4KBinding491 ty NONE) (l4_kcontext_free532 g)))
+     (l4_vl_push_free_lam973 l n ty')`,
+  REPEAT GEN_TAC THEN
+  STRUCT_CASES_TAC (SPEC `l:l4_vl_ctx_rec973` (cases "l4_vl_ctx_rec973")) THEN
+  REWRITE_TAC [l4_vtr_ctx973;l4_vl_push_free_lam973;
+               l4_kcontext_free532;l4_kcontext_bound532;
+               l4_vl_free973;l4_vl_bound973;l4_vl_ctx973] THEN
+  STRIP_TAC THEN
+  POP_ASSUM MP_TAC THEN POP_ASSUM MP_TAC THEN
+  ASM_REWRITE_TAC [l4_vlentries_to_ctx973;APPEND;l4_vtr_bound_nil973] THEN
+  REPEAT DISCH_TAC THEN MATCH_MP_TAC l4_vtr_free_lam973 THEN
+  ASM_REWRITE_TAC []);;
 
 (* ========================================================================= *)
 (* 7. Full Environment Soundness Invariant (l4_venv_sound973)                *)
