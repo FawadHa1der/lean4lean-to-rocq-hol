@@ -667,7 +667,15 @@ val core_nat_value : expr -> n option
 
 val core_nat_constructor : n -> expr
 
-val core_shiftr : nat -> n -> n -> n result
+val core_pow_max_exp : n
+
+val core_shiftr : n -> n -> n option
+
+val core_reduce_bool_name : name
+
+val core_reduce_nat_name : name
+
+val core_reduce_native : expr -> expr option result
 
 val core_binary_nat :
   nat -> environment -> primitive_kind -> n -> n -> expr option result
@@ -752,6 +760,8 @@ val core_congruent_apps :
 
 val core_delta_info : environment -> expr -> declaration option
 
+val core_delta_head : environment -> expr -> bool
+
 val core_delta_sides : environment -> expr -> expr -> (bool, bool) prod
 
 val core_erasing_delta : environment -> expr -> bool
@@ -759,7 +769,17 @@ val core_erasing_delta : environment -> expr -> bool
 val core_delta_congruent :
   methods -> nat -> environment -> context -> expr -> expr -> bool result
 
-val compare_heads : methods -> nat -> context -> expr -> expr -> bool result
+val core_is_cheap_arg : environment -> expr -> bool
+
+val core_compare_args_filtered :
+  bool -> methods -> environment -> context -> expr list -> expr list -> bool
+  result
+
+val core_compare_args_cheap_first :
+  methods -> environment -> context -> expr list -> expr list -> bool result
+
+val compare_heads :
+  methods -> nat -> environment -> context -> expr -> expr -> bool result
 
 val core_compare_fields :
   methods -> context -> name -> expr -> nat -> expr list -> bool result
@@ -803,8 +823,15 @@ val core_lazy_delta :
   nat -> methods -> nat -> environment -> name list -> context -> expr ->
   expr -> conversion_progress result
 
+val core_reduce_proj_core : environment -> nat -> expr -> expr option
+
+val core_lazy_delta_proj :
+  nat -> methods -> nat -> environment -> name list -> context -> nat -> expr
+  -> expr -> bool result
+
 val core_finish_conversion :
-  methods -> nat -> environment -> context -> expr -> expr -> bool result
+  methods -> nat -> environment -> name list -> context -> expr -> expr ->
+  bool result
 
 val core_is_true : expr -> bool
 
@@ -888,6 +915,8 @@ val primitive_true : expr
 val primitive_false : expr
 
 val primitive_call : primitive_kind -> expr list -> expr
+
+val primitive_consume_mdata : nat -> expr -> expr result
 
 val primitive_check_signature : nat -> expr -> expr -> unit0 result
 
@@ -1048,6 +1077,16 @@ val primitive_reflection_type : bool -> expr
 
 val primitive_reflection_make : bool -> primitive_reflection
 
+val primitive_has_decidable_intro : environment -> bool
+
+val primitive_has_bool_dec_eq : environment -> bool
+
+val primitive_reflection_make_v436 : bool -> primitive_reflection
+
+val primitive_reflection_for : environment -> bool -> primitive_reflection
+
+val primitive_bool_dec_v436 : expr
+
 val primitive_reflection_ite : primitive_reflection -> expr
 
 val primitive_reflection_dite : primitive_reflection -> expr
@@ -1070,16 +1109,24 @@ val primitive_condition_prop : primitive_condition -> expr
 
 val primitive_condition_dec : primitive_condition -> expr
 
+val primitive_has_decidable_decide : environment -> bool
+
+val primitive_condition_dec_in : environment -> primitive_condition -> expr
+
 val primitive_condition_ite :
   primitive_condition -> PQ.term -> PQ.term list -> PQ.term -> PQ.term ->
   PQ.term
+
+val primitive_condition_ite_in :
+  environment -> primitive_condition -> PQ.term -> PQ.term list -> PQ.term ->
+  PQ.term -> PQ.term
 
 val primitive_condition_dite :
   primitive_condition -> PQ.term list -> (PQ.term -> PQ.term) -> (PQ.term ->
   PQ.term) -> PQ.term
 
-val primitive_condition_decide :
-  primitive_condition -> PQ.term list -> PQ.term
+val primitive_condition_decide_in :
+  environment -> primitive_condition -> PQ.term list -> PQ.term
 
 val primitive_condition_proof : primitive_condition -> expr
 

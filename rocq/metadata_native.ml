@@ -2842,25 +2842,90 @@ let core_nat_constructor n0 = match n0 with
 | N0 -> EConst (core_zero_name, Nil)
 | Npos _ -> EApp ((EConst (core_succ_name, Nil)), (ELit (LitNat (N.pred n0))))
 
-(** val core_shiftr : nat -> n -> n -> n result **)
+(** val core_pow_max_exp : n **)
 
-let core_shiftr fuel0 a b =
+let core_pow_max_exp =
+  Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+    (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+(** val core_shiftr : n -> n -> n option **)
+
+let core_shiftr a b =
   match N.ltb (N.log2 a) b with
-  | True -> Accept N0
+  | True -> Some N0
   | False ->
-    (match N.leb b (N.of_nat fuel0) with
-     | True -> Accept (N.shiftr a b)
-     | False -> Decline OutOfFuel)
+    (match N.leb b core_pow_max_exp with
+     | True -> Some (N.shiftr a b)
+     | False -> None)
+
+(** val core_reduce_bool_name : name **)
+
+let core_reduce_bool_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, False, False, False, False, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (False, False, True, True, False, True, True, False)),
+    EmptyString)))))))))))))))))))))
+
+(** val core_reduce_nat_name : name **)
+
+let core_reduce_nat_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, True, True, False, False, True, False)), (String ((Ascii
+    (True, False, False, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, True, True, True, False)),
+    EmptyString)))))))))))))))))))
+
+(** val core_reduce_native : expr -> expr option result **)
+
+let core_reduce_native = function
+| EApp (e0, e1) ->
+  (match e0 with
+   | EConst (f, l) ->
+     (match l with
+      | Nil ->
+        (match e1 with
+         | EConst (_, _) ->
+           (match match name_eqb f core_reduce_bool_name with
+                  | True -> True
+                  | False -> name_eqb f core_reduce_nat_name with
+            | True -> Decline UnsupportedExpression
+            | False -> Accept None)
+         | _ -> Accept None)
+      | Cons (_, _) -> Accept None)
+   | _ -> Accept None)
+| _ -> Accept None
 
 (** val core_binary_nat :
     nat -> environment -> primitive_kind -> n -> n -> expr option result **)
 
-let core_binary_nat fuel0 env op a b =
+let core_binary_nat _ env op a b =
   let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
   let bounded = fun operation ->
-    match N.leb b (N.of_nat fuel0) with
+    match N.leb b core_pow_max_exp with
     | True -> numeric (operation a b)
-    | False -> Decline OutOfFuel
+    | False -> Accept None
   in
   let boolean = fun b0 ->
     match core_bool_ready env with
@@ -2886,7 +2951,10 @@ let core_binary_nat fuel0 env op a b =
    | PNatLOr -> numeric (N.coq_lor a b)
    | PNatXor -> numeric (N.coq_lxor a b)
    | PNatShiftLeft -> bounded N.shiftl
-   | PNatShiftRight -> bind (core_shiftr fuel0 a b) numeric
+   | PNatShiftRight ->
+     (match core_shiftr a b with
+      | Some value -> numeric value
+      | None -> Accept None)
    | _ -> Accept None)
 
 (** val core_reduce_nat :
@@ -4051,25 +4119,41 @@ let whnf_round_step rec0 fuel0 env ps g e =
   bind (whnf_core_step rec0 fuel0 env ps False g e) (fun reduced ->
     match reduced with
     | EBVar _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EFVar _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EMVar _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ESort _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EConst (n0, _) ->
       (match match name_eqb n0 core_zero_name with
              | True -> core_nat_ready env
@@ -4077,40 +4161,68 @@ let whnf_round_step rec0 fuel0 env ps g e =
        | True -> Accept (WhnfDone (ELit (LitNat N0)))
        | False -> finish_whnf_unfold env ps reduced)
     | EApp (_, _) ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELam (_, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EPi (_, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELet (_, _, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELit _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EProj (_, _, _) ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EMData _ ->
-      bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced))
+        | None ->
+          bind (core_reduce_nat rec0 fuel0 env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced)))
 
 (** val whnf_loop :
     nat -> methods -> nat -> environment -> name list -> context -> expr ->
@@ -4329,6 +4441,13 @@ let core_delta_info env e =
      | None -> None)
   | _ -> None
 
+(** val core_delta_head : environment -> expr -> bool **)
+
+let core_delta_head env e =
+  match core_delta_info env e with
+  | Some _ -> True
+  | None -> False
+
 (** val core_delta_sides :
     environment -> expr -> expr -> (bool, bool) prod **)
 
@@ -4392,10 +4511,55 @@ let core_delta_congruent rec0 fuel0 env g t0 s =
      | None -> Accept False)
   | None -> Accept False
 
-(** val compare_heads :
-    methods -> nat -> context -> expr -> expr -> bool result **)
+(** val core_is_cheap_arg : environment -> expr -> bool **)
 
-let compare_heads rec0 fuel0 g t0 s =
+let core_is_cheap_arg env e = match e with
+| EBVar _ -> True
+| EFVar _ -> True
+| ESort _ -> True
+| EConst (_, _) -> negb (core_delta_head env e)
+| ELit _ -> True
+| _ -> False
+
+(** val core_compare_args_filtered :
+    bool -> methods -> environment -> context -> expr list -> expr list ->
+    bool result **)
+
+let rec core_compare_args_filtered want_cheap rec0 env g xs ys =
+  match xs with
+  | Nil -> (match ys with
+            | Nil -> Accept True
+            | Cons (_, _) -> Accept False)
+  | Cons (x, xs0) ->
+    (match ys with
+     | Nil -> Accept False
+     | Cons (y, ys0) ->
+       let is_cheap =
+         match core_is_cheap_arg env x with
+         | True -> core_is_cheap_arg env y
+         | False -> False
+       in
+       (match eqb0 is_cheap want_cheap with
+        | True ->
+          bind (rec0.defeq_method g x y) (fun ok ->
+            match ok with
+            | True -> core_compare_args_filtered want_cheap rec0 env g xs0 ys0
+            | False -> Accept False)
+        | False -> core_compare_args_filtered want_cheap rec0 env g xs0 ys0))
+
+(** val core_compare_args_cheap_first :
+    methods -> environment -> context -> expr list -> expr list -> bool result **)
+
+let core_compare_args_cheap_first rec0 env g xs ys =
+  bind (core_compare_args_filtered True rec0 env g xs ys) (fun ok ->
+    match ok with
+    | True -> core_compare_args_filtered False rec0 env g xs ys
+    | False -> Accept False)
+
+(** val compare_heads :
+    methods -> nat -> environment -> context -> expr -> expr -> bool result **)
+
+let compare_heads rec0 fuel0 env g t0 s =
   match t0 with
   | EBVar n0 ->
     (match s with
@@ -4428,7 +4592,7 @@ let compare_heads rec0 fuel0 g t0 s =
         | True ->
           bind (rec0.defeq_method g tf sf) (fun ok ->
             match ok with
-            | True -> core_compare_args rec0 g ta sa
+            | True -> core_compare_args_cheap_first rec0 env g ta sa
             | False -> Accept False)
         | False -> Accept False)
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
@@ -4442,13 +4606,11 @@ let compare_heads rec0 fuel0 g t0 s =
     (match s with
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
      | _ -> Accept False)
-  | EProj (n0, i, a) ->
+  | EProj (_, i, a) ->
     (match s with
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
-     | EProj (m, j, b) ->
-       (match match name_eqb n0 m with
-              | True -> Nat.eqb i j
-              | False -> False with
+     | EProj (_, j, b) ->
+       (match Nat.eqb i j with
         | True -> rec0.defeq_method g a b
         | False -> Accept False)
      | _ -> Accept False)
@@ -4572,7 +4734,7 @@ let core_try_string_expansion rec0 g t0 s =
     methods -> nat -> environment -> context -> expr -> expr -> bool result **)
 
 let core_compare_fallback rec0 fuel0 env g t0 s =
-  bind (compare_heads rec0 fuel0 g t0 s) (fun ok ->
+  bind (compare_heads rec0 fuel0 env g t0 s) (fun ok ->
     match ok with
     | True -> Accept True
     | False ->
@@ -4901,100 +5063,237 @@ let rec core_lazy_delta rounds rec0 fuel0 env ps g t0 s =
                     bind (rec0.defeq_method g t0 sn0) (fun ok -> Accept
                       (ConversionDone ok))
                   | None ->
-                    bind (core_delta_congruent rec0 fuel0 env g t0 s)
-                      (fun same ->
-                      match same with
-                      | True -> Accept (ConversionDone True)
-                      | False ->
-                        bind (core_opposite_projection rec0 env g t0 s)
-                          (fun projected ->
-                          match projected with
-                          | Some p ->
-                            let Pair (tn0, sn0) = p in
-                            core_lazy_delta rounds0 rec0 fuel0 env ps g tn0
-                              sn0
+                    bind (core_reduce_native t0) (fun nat_t ->
+                      match nat_t with
+                      | Some tn0 ->
+                        bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                          (ConversionDone ok))
+                      | None ->
+                        bind (core_reduce_native s) (fun nat_s ->
+                          match nat_s with
+                          | Some sn0 ->
+                            bind (rec0.defeq_method g t0 sn0) (fun ok ->
+                              Accept (ConversionDone ok))
                           | None ->
-                            let Pair (unfold_left, unfold_right) =
-                              core_delta_sides env t0 s
-                            in
-                            bind
-                              (match unfold_left with
-                               | True -> core_unfold env ps t0
-                               | False -> Accept None)
-                              (fun td ->
-                              bind
-                                (match unfold_right with
-                                 | True -> core_unfold env ps s
-                                 | False -> Accept None)
-                                (fun sd ->
-                                match td with
-                                | Some _ ->
-                                  bind
-                                    (match td with
-                                     | Some e ->
-                                       rec0.whnf_core_method True g e
-                                     | None -> Accept t0)
-                                    (fun tn0 ->
+                            bind (core_delta_congruent rec0 fuel0 env g t0 s)
+                              (fun same ->
+                              match same with
+                              | True -> Accept (ConversionDone True)
+                              | False ->
+                                bind
+                                  (core_opposite_projection rec0 env g t0 s)
+                                  (fun projected ->
+                                  match projected with
+                                  | Some p ->
+                                    let Pair (tn0, sn0) = p in
+                                    core_lazy_delta rounds0 rec0 fuel0 env ps
+                                      g tn0 sn0
+                                  | None ->
+                                    let Pair (unfold_left, unfold_right) =
+                                      core_delta_sides env t0 s
+                                    in
                                     bind
-                                      (match sd with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept s)
-                                      (fun sn0 ->
-                                      core_lazy_delta rounds0 rec0 fuel0 env
-                                        ps g tn0 sn0))
-                                | None ->
-                                  (match sd with
-                                   | Some _ ->
-                                     bind
-                                       (match td with
-                                        | Some e ->
-                                          rec0.whnf_core_method True g e
-                                        | None -> Accept t0)
-                                       (fun tn0 ->
-                                       bind
-                                         (match sd with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept s)
-                                         (fun sn0 ->
-                                         core_lazy_delta rounds0 rec0 fuel0
-                                           env ps g tn0 sn0))
-                                   | None -> Accept (ConversionStuck (t0, s)))))))))))
+                                      (match unfold_left with
+                                       | True -> core_unfold env ps t0
+                                       | False -> Accept None)
+                                      (fun td ->
+                                      bind
+                                        (match unfold_right with
+                                         | True -> core_unfold env ps s
+                                         | False -> Accept None)
+                                        (fun sd ->
+                                        match td with
+                                        | Some _ ->
+                                          bind
+                                            (match td with
+                                             | Some e ->
+                                               rec0.whnf_core_method True g e
+                                             | None -> Accept t0)
+                                            (fun tn0 ->
+                                            bind
+                                              (match sd with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept s)
+                                              (fun sn0 ->
+                                              core_lazy_delta rounds0 rec0
+                                                fuel0 env ps g tn0 sn0))
+                                        | None ->
+                                          (match sd with
+                                           | Some _ ->
+                                             bind
+                                               (match td with
+                                                | Some e ->
+                                                  rec0.whnf_core_method True
+                                                    g e
+                                                | None -> Accept t0)
+                                               (fun tn0 ->
+                                               bind
+                                                 (match sd with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept s)
+                                                 (fun sn0 ->
+                                                 core_lazy_delta rounds0 rec0
+                                                   fuel0 env ps g tn0 sn0))
+                                           | None ->
+                                             Accept (ConversionStuck (t0, s)))))))))))))
+
+(** val core_reduce_proj_core : environment -> nat -> expr -> expr option **)
+
+let core_reduce_proj_core env idx e =
+  let Pair (h, args) = core_spine e Nil in
+  (match h with
+   | EConst (cn, _) ->
+     (match core_constructor env cn with
+      | Some ci ->
+        (match match Nat.ltb idx ci.ctor_num_fields with
+               | True ->
+                 Nat.eqb (length args)
+                   (add ci.ctor_num_params ci.ctor_num_fields)
+               | False -> False with
+         | True -> nth_error args (add ci.ctor_num_params idx)
+         | False -> None)
+      | None -> None)
+   | _ -> None)
+
+(** val core_lazy_delta_proj :
+    nat -> methods -> nat -> environment -> name list -> context -> nat ->
+    expr -> expr -> bool result **)
+
+let rec core_lazy_delta_proj rounds rec0 fuel0 env ps g idx t0 s =
+  match rounds with
+  | O -> Decline OutOfFuel
+  | S rounds0 ->
+    bind (core_quick rec0 fuel0 g t0 s) (fun quick ->
+      match quick with
+      | Some ok -> Accept ok
+      | None ->
+        bind (core_delta_congruent rec0 fuel0 env g t0 s) (fun same ->
+          match same with
+          | True -> Accept True
+          | False ->
+            bind (core_opposite_projection rec0 env g t0 s) (fun projected ->
+              match projected with
+              | Some p ->
+                let Pair (tn, sn) = p in
+                core_lazy_delta_proj rounds0 rec0 fuel0 env ps g idx tn sn
+              | None ->
+                let Pair (unfold_left, unfold_right) =
+                  core_delta_sides env t0 s
+                in
+                bind
+                  (match unfold_left with
+                   | True -> core_unfold env ps t0
+                   | False -> Accept None)
+                  (fun td ->
+                  bind
+                    (match unfold_right with
+                     | True -> core_unfold env ps s
+                     | False -> Accept None)
+                    (fun sd ->
+                    match td with
+                    | Some _ ->
+                      bind
+                        (match td with
+                         | Some e -> rec0.whnf_core_method True g e
+                         | None -> Accept t0)
+                        (fun tn ->
+                        bind
+                          (match sd with
+                           | Some e -> rec0.whnf_core_method True g e
+                           | None -> Accept s)
+                          (fun sn ->
+                          core_lazy_delta_proj rounds0 rec0 fuel0 env ps g
+                            idx tn sn))
+                    | None ->
+                      (match sd with
+                       | Some _ ->
+                         bind
+                           (match td with
+                            | Some e -> rec0.whnf_core_method True g e
+                            | None -> Accept t0)
+                           (fun tn ->
+                           bind
+                             (match sd with
+                              | Some e -> rec0.whnf_core_method True g e
+                              | None -> Accept s)
+                             (fun sn ->
+                             core_lazy_delta_proj rounds0 rec0 fuel0 env ps g
+                               idx tn sn))
+                       | None ->
+                         (match core_reduce_proj_core env idx t0 with
+                          | Some tf ->
+                            (match core_reduce_proj_core env idx s with
+                             | Some sf -> rec0.defeq_method g tf sf
+                             | None -> rec0.defeq_method g t0 s)
+                          | None -> rec0.defeq_method g t0 s)))))))
 
 (** val core_finish_conversion :
-    methods -> nat -> environment -> context -> expr -> expr -> bool result **)
+    methods -> nat -> environment -> name list -> context -> expr -> expr ->
+    bool result **)
 
-let core_finish_conversion rec0 fuel0 env g t0 s =
-  let project = fun e ->
-    let Pair (head, args) = core_spine e Nil in
-    (match head with
-     | EBVar _ -> Accept None
-     | EFVar _ -> Accept None
-     | EMVar _ -> Accept None
-     | ESort _ -> Accept None
-     | EConst (_, _) -> Accept None
-     | EApp (_, _) -> Accept None
-     | ELam (_, _, _, _) -> Accept None
-     | EPi (_, _, _, _) -> Accept None
-     | ELet (_, _, _, _, _) -> Accept None
-     | ELit _ -> Accept None
-     | EProj (owner, index, value) ->
-       bind (core_reduce_projection rec0 env g owner index value)
-         (fun field -> Accept (option_map (fun f -> core_apps f args) field))
-     | EMData _ -> Accept None)
-  in
-  bind (project t0) (fun tp ->
-    bind (project s) (fun sp ->
-      match tp with
-      | Some t1 ->
-        (match sp with
-         | Some s0 -> rec0.defeq_method g t1 s0
-         | None -> rec0.defeq_method g t1 s)
-      | None ->
-        (match sp with
-         | Some s0 -> rec0.defeq_method g t0 s0
-         | None -> compare_after_whnf rec0 fuel0 env g t0 s)))
+let core_finish_conversion rec0 fuel0 env ps g t0 s =
+  let Pair (th, ta) = core_spine t0 Nil in
+  let Pair (sh, sa) = core_spine s Nil in
+  bind
+    (match th with
+     | EProj (_, ti, te) ->
+       (match sh with
+        | EProj (_, si, se) ->
+          (match match Nat.eqb ti si with
+                 | True -> Nat.eqb (length ta) (length sa)
+                 | False -> False with
+           | True ->
+             bind
+               (core_lazy_delta_proj (S fuel0) rec0 fuel0 env ps g ti te se)
+               (fun ok ->
+               match ok with
+               | True ->
+                 (match ta with
+                  | Nil -> Accept True
+                  | Cons (_, _) ->
+                    core_compare_args_cheap_first rec0 env g ta sa)
+               | False -> Accept False)
+           | False -> Accept False)
+        | _ -> Accept False)
+     | _ -> Accept False)
+    (fun lazy_proj_ok ->
+    match lazy_proj_ok with
+    | True -> Accept True
+    | False ->
+      let project = fun e ->
+        let Pair (head, args) = core_spine e Nil in
+        (match head with
+         | EBVar _ -> Accept None
+         | EFVar _ -> Accept None
+         | EMVar _ -> Accept None
+         | ESort _ -> Accept None
+         | EConst (_, _) -> Accept None
+         | EApp (_, _) -> Accept None
+         | ELam (_, _, _, _) -> Accept None
+         | EPi (_, _, _, _) -> Accept None
+         | ELet (_, _, _, _, _) -> Accept None
+         | ELit _ -> Accept None
+         | EProj (owner, index, value) ->
+           bind (core_reduce_projection rec0 env g owner index value)
+             (fun field -> Accept
+             (option_map (fun f -> core_apps f args) field))
+         | EMData _ -> Accept None)
+      in
+      bind (project t0) (fun tp ->
+        bind (project s) (fun sp ->
+          match tp with
+          | Some t1 ->
+            (match sp with
+             | Some s0 -> rec0.defeq_method g t1 s0
+             | None -> rec0.defeq_method g t1 s)
+          | None ->
+            (match sp with
+             | Some s0 -> rec0.defeq_method g t0 s0
+             | None -> compare_after_whnf rec0 fuel0 env g t0 s))))
 
 (** val core_is_true : expr -> bool **)
 
@@ -5042,7 +5341,7 @@ let defeq_step rec0 fuel0 env ps g t0 s =
                     match progress with
                     | ConversionDone ok -> Accept ok
                     | ConversionStuck (tn0, sn0) ->
-                      core_finish_conversion rec1 fuel0 env g tn0 sn0))))))
+                      core_finish_conversion rec1 fuel0 env ps g tn0 sn0))))))
 
 (** val checker_mode :
     reduction_mode -> nat -> environment -> name list -> methods **)
@@ -5651,6 +5950,16 @@ let primitive_false =
 let primitive_call op args =
   core_apps (EConst ((primitive_name op), Nil)) args
 
+(** val primitive_consume_mdata : nat -> expr -> expr result **)
+
+let rec primitive_consume_mdata fuel0 e =
+  match fuel0 with
+  | O -> Decline OutOfFuel
+  | S fuel1 ->
+    (match e with
+     | EMData a -> primitive_consume_mdata fuel1 a
+     | _ -> Accept e)
+
 (** val primitive_check_signature : nat -> expr -> expr -> unit0 result **)
 
 let rec primitive_check_signature fuel0 actual expected0 =
@@ -5658,19 +5967,13 @@ let rec primitive_check_signature fuel0 actual expected0 =
   | O -> Decline OutOfFuel
   | S fuel1 ->
     (match actual with
-     | EApp (a, b) ->
-       (match expected0 with
-        | EApp (c, d) ->
-          bind (primitive_check_signature fuel1 a c) (fun _ ->
-            primitive_check_signature fuel1 b d)
-        | _ -> require (expr_eqb actual expected0) TypeMismatch)
      | EPi (_, _, a, b) ->
        (match expected0 with
         | EPi (_, _, c, d) ->
-          bind (primitive_check_signature fuel1 a c) (fun _ ->
-            primitive_check_signature fuel1 b d)
+          bind (primitive_consume_mdata fuel1 a) (fun a' ->
+            bind (require (expr_eqb a' c) TypeMismatch) (fun _ ->
+              primitive_check_signature fuel1 b d))
         | _ -> require (expr_eqb actual expected0) TypeMismatch)
-     | EMData a -> primitive_check_signature fuel1 a expected0
      | _ -> require (expr_eqb actual expected0) TypeMismatch)
 
 (** val primitive_authenticated :
@@ -6246,6 +6549,326 @@ let primitive_reflection_make false_eq =
              PQ.dite (PQ.dec p) (PQ.eq PQ.bool b PQ.tru) (PQ.bool_dec b) pos
                neg)))))) }
 
+(** val primitive_has_decidable_intro : environment -> bool **)
+
+let primitive_has_decidable_intro env =
+  match find_decl
+          (primitive_path (Cons ((String ((Ascii (False, False, True, False,
+            False, False, True, False)), (String ((Ascii (True, False, True,
+            False, False, True, True, False)), (String ((Ascii (True, True,
+            False, False, False, True, True, False)), (String ((Ascii (True,
+            False, False, True, False, True, True, False)), (String ((Ascii
+            (False, False, True, False, False, True, True, False)), (String
+            ((Ascii (True, False, False, False, False, True, True, False)),
+            (String ((Ascii (False, True, False, False, False, True, True,
+            False)), (String ((Ascii (False, False, True, True, False, True,
+            True, False)), (String ((Ascii (True, False, True, False, False,
+            True, True, False)), EmptyString)))))))))))))))))), (Cons
+            ((String ((Ascii (True, False, False, True, False, True, True,
+            False)), (String ((Ascii (False, True, True, True, False, True,
+            True, False)), (String ((Ascii (False, False, True, False, True,
+            True, True, False)), (String ((Ascii (False, True, False, False,
+            True, True, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), EmptyString)))))))))), Nil)))))
+          env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_has_bool_dec_eq : environment -> bool **)
+
+let primitive_has_bool_dec_eq env =
+  match find_decl
+          (primitive_path (Cons ((String ((Ascii (False, True, False, False,
+            False, False, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (True, True,
+            True, True, False, True, True, False)), (String ((Ascii (False,
+            False, True, True, False, True, True, False)),
+            EmptyString)))))))), (Cons ((String ((Ascii (False, False, True,
+            False, False, True, True, False)), (String ((Ascii (True, False,
+            True, False, False, True, True, False)), (String ((Ascii (True,
+            True, False, False, False, True, True, False)), (String ((Ascii
+            (True, False, True, False, False, False, True, False)), (String
+            ((Ascii (True, False, False, False, True, True, True, False)),
+            EmptyString)))))))))), Nil)))))
+          env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_reflection_make_v436 : bool -> primitive_reflection **)
+
+let primitive_reflection_make_v436 false_eq =
+  let base = primitive_reflection_make false_eq in
+  let rt = base.reflection_type in
+  let relation0 = fun p b -> PQ.apps (PQ.embed rt) (Cons (p, (Cons (b, Nil))))
+  in
+  let false_proof = fun b hf ->
+    match false_eq with
+    | True -> hf
+    | False ->
+      PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+        PQ.apps
+          (PQ.const (Cons ((String ((Ascii (False, True, False, False, False,
+            False, True, False)), (String ((Ascii (True, True, True, True,
+            False, True, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (False, False,
+            True, True, False, True, True, False)), EmptyString)))))))),
+            (Cons ((String ((Ascii (False, True, True, True, False, True,
+            True, False)), (String ((Ascii (True, True, True, True, False,
+            True, True, False)), (String ((Ascii (True, True, False, False,
+            False, False, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (False, True,
+            True, True, False, True, True, False)), (String ((Ascii (False,
+            True, True, False, False, True, True, False)), (String ((Ascii
+            (True, False, True, False, True, True, True, False)), (String
+            ((Ascii (True, True, False, False, True, True, True, False)),
+            (String ((Ascii (True, False, False, True, False, True, True,
+            False)), (String ((Ascii (True, True, True, True, False, True,
+            True, False)), (String ((Ascii (False, True, True, True, False,
+            True, True, False)), EmptyString)))))))))))))))))))))), Nil))))
+            (Cons (LZero, Nil)))
+          (Cons
+          ((PQ.const (Cons ((String ((Ascii (False, True, True, False, False,
+             False, True, False)), (String ((Ascii (True, False, False,
+             False, False, True, True, False)), (String ((Ascii (False,
+             False, True, True, False, True, True, False)), (String ((Ascii
+             (True, True, False, False, True, True, True, False)), (String
+             ((Ascii (True, False, True, False, False, True, True, False)),
+             EmptyString)))))))))), Nil)) Nil),
+          (Cons (PQ.fal, (Cons (PQ.tru, (Cons
+          ((PQ.apps
+             (PQ.const (Cons ((String ((Ascii (True, False, True, False,
+               False, False, True, False)), (String ((Ascii (True, False,
+               False, False, True, True, True, False)), EmptyString)))),
+               (Cons ((String ((Ascii (False, True, False, False, True, True,
+               True, False)), (String ((Ascii (True, False, True, False,
+               False, True, True, False)), (String ((Ascii (True, True,
+               False, False, False, True, True, False)), EmptyString)))))),
+               Nil)))) (Cons (LZero, (Cons ((LSucc LZero), Nil)))))
+             (Cons (PQ.bool, (Cons (b, (Cons
+             ((PQ.lam PQ.bool (fun x ->
+                PQ.lam (PQ.eq PQ.bool b x) (fun _ -> PQ.eq PQ.bool x PQ.tru))),
+             (Cons (ht, (Cons (PQ.fal, (Cons (hf, Nil))))))))))))),
+          Nil)))))))))
+  in
+  { reflection_type = rt; reflection_true = base.reflection_true;
+  reflection_false = base.reflection_false; reflection_dec =
+  (PQ.run
+    (PQ.lam PQ.prop (fun p ->
+      PQ.lam PQ.bool (fun b ->
+        PQ.lam (relation0 p b) (fun h ->
+          PQ.apps
+            (PQ.const (Cons ((String ((Ascii (False, False, True, False,
+              False, False, True, False)), (String ((Ascii (True, False,
+              True, False, False, True, True, False)), (String ((Ascii (True,
+              True, False, False, False, True, True, False)), (String ((Ascii
+              (True, False, False, True, False, True, True, False)), (String
+              ((Ascii (False, False, True, False, False, True, True, False)),
+              (String ((Ascii (True, False, False, False, False, True, True,
+              False)), (String ((Ascii (False, True, False, False, False,
+              True, True, False)), (String ((Ascii (False, False, True, True,
+              False, True, True, False)), (String ((Ascii (True, False, True,
+              False, False, True, True, False)),
+              EmptyString)))))))))))))))))), (Cons ((String ((Ascii (True,
+              False, False, True, False, True, True, False)), (String ((Ascii
+              (False, True, True, True, False, True, True, False)), (String
+              ((Ascii (False, False, True, False, True, True, True, False)),
+              (String ((Ascii (False, True, False, False, True, True, True,
+              False)), (String ((Ascii (True, True, True, True, False, True,
+              True, False)), EmptyString)))))))))), Nil)))) Nil)
+            (Cons (p, (Cons (b, (Cons
+            ((PQ.app
+               (PQ.apps
+                 (PQ.const (Cons ((String ((Ascii (False, True, False, False,
+                   False, False, True, False)), (String ((Ascii (True, True,
+                   True, True, False, True, True, False)), (String ((Ascii
+                   (True, True, True, True, False, True, True, False)),
+                   (String ((Ascii (False, False, True, True, False, True,
+                   True, False)), EmptyString)))))))), (Cons ((String ((Ascii
+                   (False, True, False, False, True, True, True, False)),
+                   (String ((Ascii (True, False, True, False, False, True,
+                   True, False)), (String ((Ascii (True, True, False, False,
+                   False, True, True, False)), EmptyString)))))), Nil))))
+                   (Cons (LZero, Nil)))
+                 (Cons
+                 ((PQ.lam PQ.bool (fun b' ->
+                    PQ.arrow (PQ.eq PQ.bool b b')
+                      (PQ.apps
+                        (PQ.const (Cons ((String ((Ascii (False, True, False,
+                          False, False, False, True, False)), (String ((Ascii
+                          (True, True, True, True, False, True, True,
+                          False)), (String ((Ascii (True, True, True, True,
+                          False, True, True, False)), (String ((Ascii (False,
+                          False, True, True, False, True, True, False)),
+                          EmptyString)))))))), (Cons ((String ((Ascii (False,
+                          True, False, False, True, False, True, False)),
+                          (String ((Ascii (True, False, True, False, False,
+                          True, True, False)), (String ((Ascii (False, True,
+                          True, False, False, True, True, False)), (String
+                          ((Ascii (False, False, True, True, False, True,
+                          True, False)), (String ((Ascii (True, False, True,
+                          False, False, True, True, False)), (String ((Ascii
+                          (True, True, False, False, False, True, True,
+                          False)), (String ((Ascii (False, False, True,
+                          False, True, True, True, False)), (String ((Ascii
+                          (True, True, False, False, True, True, True,
+                          False)), EmptyString)))))))))))))))), Nil)))) Nil)
+                        (Cons (b', (Cons (p, Nil))))))),
+                 (Cons
+                 ((PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf ->
+                    PQ.apps h (Cons ((PQ.not p), (Cons
+                      ((PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p)
+                         (fun _ ->
+                         PQ.lam
+                           (PQ.arrow
+                             (match false_eq with
+                              | True -> PQ.eq PQ.bool b PQ.fal
+                              | False -> PQ.not (PQ.eq PQ.bool b PQ.tru))
+                             (PQ.not p))
+                           (fun no -> PQ.app no (false_proof b hf)))),
+                      Nil)))))),
+                 (Cons
+                 ((PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+                    PQ.apps h (Cons (p, (Cons
+                      ((PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p)
+                         (fun yes ->
+                         PQ.lam
+                           (PQ.arrow
+                             (match false_eq with
+                              | True -> PQ.eq PQ.bool b PQ.fal
+                              | False -> PQ.not (PQ.eq PQ.bool b PQ.tru))
+                             (PQ.not p))
+                           (fun _ -> PQ.app yes ht))),
+                      Nil)))))),
+                 (Cons (b, Nil)))))))))
+               (PQ.refl PQ.bool b)),
+            Nil))))))))))) }
+
+(** val primitive_reflection_for :
+    environment -> bool -> primitive_reflection **)
+
+let primitive_reflection_for env false_eq =
+  match primitive_has_decidable_intro env with
+  | True -> primitive_reflection_make_v436 false_eq
+  | False -> primitive_reflection_make false_eq
+
+(** val primitive_bool_dec_v436 : expr **)
+
+let primitive_bool_dec_v436 =
+  PQ.run
+    (PQ.lam PQ.bool (fun b ->
+      PQ.apps
+        (PQ.const (Cons ((String ((Ascii (False, False, True, False, False,
+          False, True, False)), (String ((Ascii (True, False, True, False,
+          False, True, True, False)), (String ((Ascii (True, True, False,
+          False, False, True, True, False)), (String ((Ascii (True, False,
+          False, True, False, True, True, False)), (String ((Ascii (False,
+          False, True, False, False, True, True, False)), (String ((Ascii
+          (True, False, False, False, False, True, True, False)), (String
+          ((Ascii (False, True, False, False, False, True, True, False)),
+          (String ((Ascii (False, False, True, True, False, True, True,
+          False)), (String ((Ascii (True, False, True, False, False, True,
+          True, False)), EmptyString)))))))))))))))))), (Cons ((String
+          ((Ascii (True, False, False, True, False, True, True, False)),
+          (String ((Ascii (False, True, True, True, False, True, True,
+          False)), (String ((Ascii (False, False, True, False, True, True,
+          True, False)), (String ((Ascii (False, True, False, False, True,
+          True, True, False)), (String ((Ascii (True, True, True, True,
+          False, True, True, False)), EmptyString)))))))))), Nil)))) Nil)
+        (Cons ((PQ.eq PQ.bool b PQ.tru), (Cons (b, (Cons
+        ((PQ.app
+           (PQ.apps
+             (PQ.const (Cons ((String ((Ascii (False, True, False, False,
+               False, False, True, False)), (String ((Ascii (True, True,
+               True, True, False, True, True, False)), (String ((Ascii (True,
+               True, True, True, False, True, True, False)), (String ((Ascii
+               (False, False, True, True, False, True, True, False)),
+               EmptyString)))))))), (Cons ((String ((Ascii (False, True,
+               False, False, True, True, True, False)), (String ((Ascii
+               (True, False, True, False, False, True, True, False)), (String
+               ((Ascii (True, True, False, False, False, True, True, False)),
+               EmptyString)))))), Nil)))) (Cons (LZero, Nil)))
+             (Cons
+             ((PQ.lam PQ.bool (fun b' ->
+                PQ.arrow (PQ.eq PQ.bool b b')
+                  (PQ.apps
+                    (PQ.const (Cons ((String ((Ascii (False, True, False,
+                      False, False, False, True, False)), (String ((Ascii
+                      (True, True, True, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, False, True,
+                      True, False, True, True, False)), EmptyString)))))))),
+                      (Cons ((String ((Ascii (False, True, False, False,
+                      True, False, True, False)), (String ((Ascii (True,
+                      False, True, False, False, True, True, False)), (String
+                      ((Ascii (False, True, True, False, False, True, True,
+                      False)), (String ((Ascii (False, False, True, True,
+                      False, True, True, False)), (String ((Ascii (True,
+                      False, True, False, False, True, True, False)), (String
+                      ((Ascii (True, True, False, False, False, True, True,
+                      False)), (String ((Ascii (False, False, True, False,
+                      True, True, True, False)), (String ((Ascii (True, True,
+                      False, False, True, True, True, False)),
+                      EmptyString)))))))))))))))), Nil)))) Nil)
+                    (Cons (b', (Cons ((PQ.eq PQ.bool b PQ.tru), Nil))))))),
+             (Cons
+             ((PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf ->
+                PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+                  PQ.apps
+                    (PQ.const (Cons ((String ((Ascii (False, True, False,
+                      False, False, False, True, False)), (String ((Ascii
+                      (True, True, True, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, False, True,
+                      True, False, True, True, False)), EmptyString)))))))),
+                      (Cons ((String ((Ascii (False, True, True, True, False,
+                      True, True, False)), (String ((Ascii (True, True, True,
+                      True, False, True, True, False)), (String ((Ascii
+                      (True, True, False, False, False, False, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, True, True,
+                      True, False, True, True, False)), (String ((Ascii
+                      (False, True, True, False, False, True, True, False)),
+                      (String ((Ascii (True, False, True, False, True, True,
+                      True, False)), (String ((Ascii (True, True, False,
+                      False, True, True, True, False)), (String ((Ascii
+                      (True, False, False, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, True, True,
+                      True, False, True, True, False)),
+                      EmptyString)))))))))))))))))))))), Nil)))) (Cons
+                      (LZero, Nil)))
+                    (Cons
+                    ((PQ.const (Cons ((String ((Ascii (False, True, True,
+                       False, False, False, True, False)), (String ((Ascii
+                       (True, False, False, False, False, True, True,
+                       False)), (String ((Ascii (False, False, True, True,
+                       False, True, True, False)), (String ((Ascii (True,
+                       True, False, False, True, True, True, False)), (String
+                       ((Ascii (True, False, True, False, False, True, True,
+                       False)), EmptyString)))))))))), Nil)) Nil),
+                    (Cons (PQ.fal, (Cons (PQ.tru, (Cons
+                    ((PQ.apps
+                       (PQ.const (Cons ((String ((Ascii (True, False, True,
+                         False, False, False, True, False)), (String ((Ascii
+                         (True, False, False, False, True, True, True,
+                         False)), EmptyString)))), (Cons ((String ((Ascii
+                         (False, True, False, False, True, True, True,
+                         False)), (String ((Ascii (True, False, True, False,
+                         False, True, True, False)), (String ((Ascii (True,
+                         True, False, False, False, True, True, False)),
+                         EmptyString)))))), Nil)))) (Cons (LZero, (Cons
+                         ((LSucc LZero), Nil)))))
+                       (Cons (PQ.bool, (Cons (b, (Cons
+                       ((PQ.lam PQ.bool (fun x ->
+                          PQ.lam (PQ.eq PQ.bool b x) (fun _ ->
+                            PQ.eq PQ.bool x PQ.tru))),
+                       (Cons (ht, (Cons (PQ.fal, (Cons (hf, Nil))))))))))))),
+                    Nil))))))))))),
+             (Cons ((PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht -> ht)), (Cons
+             (b, Nil)))))))))
+           (PQ.refl PQ.bool b)),
+        Nil))))))))
+
 (** val primitive_reflection_ite : primitive_reflection -> expr **)
 
 let primitive_reflection_ite r =
@@ -6456,6 +7079,44 @@ let primitive_condition_dec = function
     False, False, False, True, True, True, False)), EmptyString)))))))))),
     Nil)))) Nil
 
+(** val primitive_has_decidable_decide : environment -> bool **)
+
+let primitive_has_decidable_decide env =
+  match find_decl (NameStr ((NameStr (NameAnon, (String ((Ascii (False,
+          False, True, False, False, False, True, False)), (String ((Ascii
+          (True, False, True, False, False, True, True, False)), (String
+          ((Ascii (True, True, False, False, False, True, True, False)),
+          (String ((Ascii (True, False, False, True, False, True, True,
+          False)), (String ((Ascii (False, False, True, False, False, True,
+          True, False)), (String ((Ascii (True, False, False, False, False,
+          True, True, False)), (String ((Ascii (False, True, False, False,
+          False, True, True, False)), (String ((Ascii (False, False, True,
+          True, False, True, True, False)), (String ((Ascii (True, False,
+          True, False, False, True, True, False)),
+          EmptyString)))))))))))))))))))), (String ((Ascii (False, False,
+          True, False, False, True, True, False)), (String ((Ascii (True,
+          False, True, False, False, True, True, False)), (String ((Ascii
+          (True, True, False, False, False, True, True, False)), (String
+          ((Ascii (True, False, False, True, False, True, True, False)),
+          (String ((Ascii (False, False, True, False, False, True, True,
+          False)), (String ((Ascii (True, False, True, False, False, True,
+          True, False)), EmptyString)))))))))))))) env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_condition_dec_in :
+    environment -> primitive_condition -> expr **)
+
+let primitive_condition_dec_in env c = match c with
+| PCBool ->
+  (match primitive_has_bool_dec_eq env with
+   | True -> primitive_condition_dec PCBool
+   | False ->
+     (match primitive_has_decidable_intro env with
+      | True -> primitive_bool_dec_v436
+      | False -> primitive_condition_dec PCBool))
+| _ -> primitive_condition_dec c
+
 (** val primitive_condition_ite :
     primitive_condition -> PQ.term -> PQ.term list -> PQ.term -> PQ.term ->
     PQ.term **)
@@ -6463,6 +7124,14 @@ let primitive_condition_dec = function
 let primitive_condition_ite c a args t0 e =
   PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t0 e
+
+(** val primitive_condition_ite_in :
+    environment -> primitive_condition -> PQ.term -> PQ.term list -> PQ.term
+    -> PQ.term -> PQ.term **)
+
+let primitive_condition_ite_in env c a args t0 e =
+  PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
+    (PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args) t0 e
 
 (** val primitive_condition_dite :
     primitive_condition -> PQ.term list -> (PQ.term -> PQ.term) -> (PQ.term
@@ -6472,11 +7141,36 @@ let primitive_condition_dite c args t0 e =
   PQ.dite PQ.nat (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t0 e
 
-(** val primitive_condition_decide :
-    primitive_condition -> PQ.term list -> PQ.term **)
+(** val primitive_condition_decide_in :
+    environment -> primitive_condition -> PQ.term list -> PQ.term **)
 
-let primitive_condition_decide c args =
-  primitive_condition_ite c PQ.bool args PQ.tru PQ.fal
+let primitive_condition_decide_in env c args =
+  match match primitive_has_decidable_intro env with
+        | True -> primitive_has_decidable_decide env
+        | False -> False with
+  | True ->
+    PQ.apps
+      (PQ.const (Cons ((String ((Ascii (False, False, True, False, False,
+        False, True, False)), (String ((Ascii (True, False, True, False,
+        False, True, True, False)), (String ((Ascii (True, True, False,
+        False, False, True, True, False)), (String ((Ascii (True, False,
+        False, True, False, True, True, False)), (String ((Ascii (False,
+        False, True, False, False, True, True, False)), (String ((Ascii
+        (True, False, False, False, False, True, True, False)), (String
+        ((Ascii (False, True, False, False, False, True, True, False)),
+        (String ((Ascii (False, False, True, True, False, True, True,
+        False)), (String ((Ascii (True, False, True, False, False, True,
+        True, False)), EmptyString)))))))))))))))))), (Cons ((String ((Ascii
+        (False, False, True, False, False, True, True, False)), (String
+        ((Ascii (True, False, True, False, False, True, True, False)),
+        (String ((Ascii (True, True, False, False, False, True, True,
+        False)), (String ((Ascii (True, False, False, True, False, True,
+        True, False)), (String ((Ascii (False, False, True, False, False,
+        True, True, False)), (String ((Ascii (True, False, True, False,
+        False, True, True, False)), EmptyString)))))))))))), Nil)))) Nil)
+      (Cons ((PQ.apps (PQ.embed (primitive_condition_prop c)) args), (Cons
+      ((PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args), Nil))))
+  | False -> primitive_condition_ite_in env c PQ.bool args PQ.tru PQ.fal
 
 (** val primitive_condition_proof : primitive_condition -> expr **)
 
@@ -6653,8 +7347,8 @@ let primitive_condition_proof c =
 
 let primitive_check_condition fuel0 env c with_ite with_dite =
   bind (require (core_bool_ready env) MalformedDeclaration) (fun _ ->
-    bind (infer fuel0 env Nil empty_context (primitive_condition_dec c))
-      (fun _ ->
+    let dec_c = primitive_condition_dec_in env c in
+    bind (infer fuel0 env Nil empty_context dec_c) (fun _ ->
       match c with
       | PCBool ->
         bind
@@ -6677,9 +7371,7 @@ let primitive_check_condition fuel0 env c with_ite with_dite =
                      (Cons (PQ.nat, (Cons
                      ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
                         (b, Nil))),
-                     (Cons
-                     ((PQ.apps (PQ.embed (primitive_condition_dec c)) (Cons
-                        (b, Nil))),
+                     (Cons ((PQ.apps (PQ.embed dec_c) (Cons (b, Nil))),
                      Nil)))))))
                in
                bind
@@ -6706,31 +7398,79 @@ let primitive_check_condition fuel0 env c with_ite with_dite =
                  | True -> PNatBEq
                  | False -> PNatBLE in
         bind (primitive_authenticated fuel0 env op) (fun _ ->
-          let r = primitive_reflection_make is_eq in
+          let r = primitive_reflection_for env is_eq in
           bind (primitive_check_reflection fuel0 env r with_ite with_dite)
             (fun _ ->
-            let gadget =
-              PQ.lam PQ.nat (fun x ->
-                PQ.lam PQ.nat (fun y ->
-                  PQ.apps
-                    (PQ.lam PQ.prop (fun p ->
-                      PQ.lam PQ.bool (fun b ->
-                        PQ.lam
-                          (PQ.apps (PQ.embed r.reflection_type) (Cons (p,
-                            (Cons (b, Nil)))))
-                          (fun h ->
-                          PQ.apps (PQ.embed r.reflection_dec) (Cons (p, (Cons
-                            (b, (Cons (h, Nil))))))))))
-                    (Cons
-                    ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
-                       (x, (Cons (y, Nil))))),
-                    (Cons ((PQ.call op (Cons (x, (Cons (y, Nil))))), (Cons
-                    ((PQ.apps (PQ.embed (primitive_condition_proof c)) (Cons
-                       (x, (Cons (y, Nil))))),
-                    Nil))))))))
-            in
-            primitive_eq_closed fuel0 env gadget
-              (PQ.embed (primitive_condition_dec c))))))
+            bind
+              (match match primitive_has_decidable_intro env with
+                     | True -> primitive_has_decidable_decide env
+                     | False -> False with
+               | True ->
+                 let relation0 = fun p b ->
+                   PQ.apps (PQ.embed r.reflection_type) (Cons (p, (Cons (b,
+                     Nil))))
+                 in
+                 primitive_eq_closed fuel0 env
+                   (PQ.lam PQ.prop (fun p ->
+                     PQ.lam PQ.bool (fun b ->
+                       PQ.lam (relation0 p b) (fun h ->
+                         PQ.apps
+                           (PQ.const (Cons ((String ((Ascii (False, False,
+                             True, False, False, False, True, False)),
+                             (String ((Ascii (True, False, True, False,
+                             False, True, True, False)), (String ((Ascii
+                             (True, True, False, False, False, True, True,
+                             False)), (String ((Ascii (True, False, False,
+                             True, False, True, True, False)), (String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             False, False, False, True, True, False)),
+                             (String ((Ascii (False, True, False, False,
+                             False, True, True, False)), (String ((Ascii
+                             (False, False, True, True, False, True, True,
+                             False)), (String ((Ascii (True, False, True,
+                             False, False, True, True, False)),
+                             EmptyString)))))))))))))))))), (Cons ((String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             True, False, False, True, True, False)), (String
+                             ((Ascii (True, True, False, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             False, True, False, True, True, False)), (String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             True, False, False, True, True, False)),
+                             EmptyString)))))))))))), Nil)))) Nil)
+                           (Cons (p, (Cons
+                           ((PQ.apps (PQ.embed r.reflection_dec) (Cons (p,
+                              (Cons (b, (Cons (h, Nil))))))),
+                           Nil))))))))
+                   (PQ.lam PQ.prop (fun p ->
+                     PQ.lam PQ.bool (fun b ->
+                       PQ.lam (relation0 p b) (fun _ -> b))))
+               | False -> Accept Tt)
+              (fun _ ->
+              let gadget =
+                PQ.lam PQ.nat (fun x ->
+                  PQ.lam PQ.nat (fun y ->
+                    PQ.apps
+                      (PQ.lam PQ.prop (fun p ->
+                        PQ.lam PQ.bool (fun b ->
+                          PQ.lam
+                            (PQ.apps (PQ.embed r.reflection_type) (Cons (p,
+                              (Cons (b, Nil)))))
+                            (fun h ->
+                            PQ.apps (PQ.embed r.reflection_dec) (Cons (p,
+                              (Cons (b, (Cons (h, Nil))))))))))
+                      (Cons
+                      ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
+                         (x, (Cons (y, Nil))))),
+                      (Cons ((PQ.call op (Cons (x, (Cons (y, Nil))))), (Cons
+                      ((PQ.apps (PQ.embed (primitive_condition_proof c))
+                         (Cons (x, (Cons (y, Nil))))),
+                      Nil))))))))
+              in
+              primitive_eq_closed fuel0 env gadget (PQ.embed dec_c))))))
 
 (** val primitive_go_name : bool -> name **)
 
@@ -7418,7 +8158,8 @@ let primitive_unfold_nat_well_founded fuel0 env s e measure =
                                                                     (local_expr
                                                                     x)))
                                                                     (PQ.run
-                                                                    (primitive_condition_ite
+                                                                    (primitive_condition_ite_in
+                                                                    env
                                                                     PCBool
                                                                     PQ.nat
                                                                     (Cons
@@ -7674,7 +8415,8 @@ let primitive_check_bitwise fuel0 env body =
                   let n1 = PQ.embed (local_expr n0) in
                   let m0 = PQ.embed (local_expr m) in
                   let bool_ite = fun b ->
-                    primitive_condition_ite PCBool PQ.nat (Cons (b, Nil))
+                    primitive_condition_ite_in env PCBool PQ.nat (Cons (b,
+                      Nil))
                   in
                   PQ.run
                     (primitive_condition_dite PCNatEq (Cons (n1, (Cons
@@ -7695,13 +8437,13 @@ let primitive_check_bitwise fuel0 env body =
                            PQ.call PNatDiv (Cons (m0, (Cons (PQ.two, Nil))))
                          in
                          let b1 =
-                           primitive_condition_decide PCNatEq (Cons
+                           primitive_condition_decide_in env PCNatEq (Cons
                              ((PQ.call PNatMod (Cons (n1, (Cons (PQ.two,
                                 Nil))))),
                              (Cons (PQ.one, Nil))))
                          in
                          let b2 =
-                           primitive_condition_decide PCNatEq (Cons
+                           primitive_condition_decide_in env PCNatEq (Cons
                              ((PQ.call PNatMod (Cons (m0, (Cons (PQ.two,
                                 Nil))))),
                              (Cons (PQ.one, Nil))))
@@ -11552,26 +12294,91 @@ module Accessor =
   | Npos _ ->
     EApp ((EConst (core_succ_name, Nil)), (ELit (LitNat (N.pred n0))))
 
-  (** val core_shiftr : nat -> n -> n -> n result **)
+  (** val core_pow_max_exp : n **)
 
-  let core_shiftr fuel0 a b =
+  let core_pow_max_exp =
+    Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+      (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+  (** val core_shiftr : n -> n -> n option **)
+
+  let core_shiftr a b =
     match N.ltb (N.log2 a) b with
-    | True -> Accept N0
+    | True -> Some N0
     | False ->
-      (match N.leb b (N.of_nat fuel0) with
-       | True -> Accept (N.shiftr a b)
-       | False -> Decline OutOfFuel)
+      (match N.leb b core_pow_max_exp with
+       | True -> Some (N.shiftr a b)
+       | False -> None)
+
+  (** val core_reduce_bool_name : name **)
+
+  let core_reduce_bool_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, False, False, False, False, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (False, False, True, True, False, True, True, False)),
+      EmptyString)))))))))))))))))))))
+
+  (** val core_reduce_nat_name : name **)
+
+  let core_reduce_nat_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, True, True, False, False, True, False)), (String ((Ascii
+      (True, False, False, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, True, True, True, False)),
+      EmptyString)))))))))))))))))))
+
+  (** val core_reduce_native : expr -> expr option result **)
+
+  let core_reduce_native = function
+  | EApp (e0, e1) ->
+    (match e0 with
+     | EConst (f, l) ->
+       (match l with
+        | Nil ->
+          (match e1 with
+           | EConst (_, _) ->
+             (match match name_eqb f core_reduce_bool_name with
+                    | True -> True
+                    | False -> name_eqb f core_reduce_nat_name with
+              | True -> Decline UnsupportedExpression
+              | False -> Accept None)
+           | _ -> Accept None)
+        | Cons (_, _) -> Accept None)
+     | _ -> Accept None)
+  | _ -> Accept None
 
   (** val core_binary_nat :
       (name -> environment -> declaration option) -> nat -> environment ->
       primitive_kind -> n -> n -> expr option result **)
 
-  let core_binary_nat resolve fuel0 env op a b =
+  let core_binary_nat resolve _ env op a b =
     let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
     let bounded = fun operation ->
-      match N.leb b (N.of_nat fuel0) with
+      match N.leb b core_pow_max_exp with
       | True -> numeric (operation a b)
-      | False -> Decline OutOfFuel
+      | False -> Accept None
     in
     let boolean = fun b0 ->
       match core_bool_ready resolve env with
@@ -11597,7 +12404,10 @@ module Accessor =
      | PNatLOr -> numeric (N.coq_lor a b)
      | PNatXor -> numeric (N.coq_lxor a b)
      | PNatShiftLeft -> bounded N.shiftl
-     | PNatShiftRight -> bind (core_shiftr fuel0 a b) numeric
+     | PNatShiftRight ->
+       (match core_shiftr a b with
+        | Some value -> numeric value
+        | None -> Accept None)
      | _ -> Accept None)
 
   (** val core_reduce_nat :
@@ -12789,29 +13599,45 @@ module Accessor =
     bind (whnf_core_step resolve rec0 fuel0 env ps False g e) (fun reduced ->
       match reduced with
       | EBVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EFVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EMVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ESort _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EConst (n0, _) ->
         (match match name_eqb n0 core_zero_name with
                | True -> core_nat_ready resolve env
@@ -12819,47 +13645,75 @@ module Accessor =
          | True -> Accept (WhnfDone (ELit (LitNat N0)))
          | False -> finish_whnf_unfold resolve env ps reduced)
       | EApp (_, _) ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELam (_, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EPi (_, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELet (_, _, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELit _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EProj (_, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EMData _ ->
-        bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
-          (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced))
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel0 env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced)))
 
   (** val whnf_loop :
       (name -> environment -> declaration option) -> nat -> methods -> nat ->
@@ -13081,6 +13935,15 @@ module Accessor =
        | None -> None)
     | _ -> None
 
+  (** val core_delta_head :
+      (name -> environment -> declaration option) -> environment -> expr ->
+      bool **)
+
+  let core_delta_head resolve env e =
+    match core_delta_info resolve env e with
+    | Some _ -> True
+    | None -> False
+
   (** val core_delta_sides :
       (name -> environment -> declaration option) -> environment -> expr ->
       expr -> (bool, bool) prod **)
@@ -13148,10 +14011,63 @@ module Accessor =
        | None -> Accept False)
     | None -> Accept False
 
-  (** val compare_heads :
-      methods -> nat -> context -> expr -> expr -> bool result **)
+  (** val core_is_cheap_arg :
+      (name -> environment -> declaration option) -> environment -> expr ->
+      bool **)
 
-  let compare_heads rec0 fuel0 g t0 s =
+  let core_is_cheap_arg resolve env e = match e with
+  | EBVar _ -> True
+  | EFVar _ -> True
+  | ESort _ -> True
+  | EConst (_, _) -> negb (core_delta_head resolve env e)
+  | ELit _ -> True
+  | _ -> False
+
+  (** val core_compare_args_filtered :
+      (name -> environment -> declaration option) -> bool -> methods ->
+      environment -> context -> expr list -> expr list -> bool result **)
+
+  let rec core_compare_args_filtered resolve want_cheap rec0 env g xs ys =
+    match xs with
+    | Nil -> (match ys with
+              | Nil -> Accept True
+              | Cons (_, _) -> Accept False)
+    | Cons (x, xs0) ->
+      (match ys with
+       | Nil -> Accept False
+       | Cons (y, ys0) ->
+         let is_cheap =
+           match core_is_cheap_arg resolve env x with
+           | True -> core_is_cheap_arg resolve env y
+           | False -> False
+         in
+         (match eqb0 is_cheap want_cheap with
+          | True ->
+            bind (rec0.defeq_method g x y) (fun ok ->
+              match ok with
+              | True ->
+                core_compare_args_filtered resolve want_cheap rec0 env g xs0
+                  ys0
+              | False -> Accept False)
+          | False ->
+            core_compare_args_filtered resolve want_cheap rec0 env g xs0 ys0))
+
+  (** val core_compare_args_cheap_first :
+      (name -> environment -> declaration option) -> methods -> environment
+      -> context -> expr list -> expr list -> bool result **)
+
+  let core_compare_args_cheap_first resolve rec0 env g xs ys =
+    bind (core_compare_args_filtered resolve True rec0 env g xs ys)
+      (fun ok ->
+      match ok with
+      | True -> core_compare_args_filtered resolve False rec0 env g xs ys
+      | False -> Accept False)
+
+  (** val compare_heads :
+      (name -> environment -> declaration option) -> methods -> nat ->
+      environment -> context -> expr -> expr -> bool result **)
+
+  let compare_heads resolve rec0 fuel0 env g t0 s =
     match t0 with
     | EBVar n0 ->
       (match s with
@@ -13184,7 +14100,7 @@ module Accessor =
           | True ->
             bind (rec0.defeq_method g tf sf) (fun ok ->
               match ok with
-              | True -> core_compare_args rec0 g ta sa
+              | True -> core_compare_args_cheap_first resolve rec0 env g ta sa
               | False -> Accept False)
           | False -> Accept False)
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
@@ -13198,13 +14114,11 @@ module Accessor =
       (match s with
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
        | _ -> Accept False)
-    | EProj (n0, i, a) ->
+    | EProj (_, i, a) ->
       (match s with
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
-       | EProj (m, j, b) ->
-         (match match name_eqb n0 m with
-                | True -> Nat.eqb i j
-                | False -> False with
+       | EProj (_, j, b) ->
+         (match Nat.eqb i j with
           | True -> rec0.defeq_method g a b
           | False -> Accept False)
        | _ -> Accept False)
@@ -13331,7 +14245,7 @@ module Accessor =
       environment -> context -> expr -> expr -> bool result **)
 
   let core_compare_fallback resolve rec0 fuel0 env g t0 s =
-    bind (compare_heads rec0 fuel0 g t0 s) (fun ok ->
+    bind (compare_heads resolve rec0 fuel0 env g t0 s) (fun ok ->
       match ok with
       | True -> Accept True
       | False ->
@@ -13666,105 +14580,254 @@ module Accessor =
                       bind (rec0.defeq_method g t0 sn0) (fun ok -> Accept
                         (ConversionDone ok))
                     | None ->
-                      bind
-                        (core_delta_congruent resolve rec0 fuel0 env g t0 s)
-                        (fun same ->
-                        match same with
-                        | True -> Accept (ConversionDone True)
-                        | False ->
-                          bind
-                            (core_opposite_projection resolve rec0 env g t0 s)
-                            (fun projected ->
-                            match projected with
-                            | Some p ->
-                              let Pair (tn0, sn0) = p in
-                              core_lazy_delta resolve rounds0 rec0 fuel0 env
-                                ps g tn0 sn0
+                      bind (core_reduce_native t0) (fun nat_t ->
+                        match nat_t with
+                        | Some tn0 ->
+                          bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                            (ConversionDone ok))
+                        | None ->
+                          bind (core_reduce_native s) (fun nat_s ->
+                            match nat_s with
+                            | Some sn0 ->
+                              bind (rec0.defeq_method g t0 sn0) (fun ok ->
+                                Accept (ConversionDone ok))
                             | None ->
-                              let Pair (unfold_left, unfold_right) =
-                                core_delta_sides resolve env t0 s
-                              in
                               bind
-                                (match unfold_left with
-                                 | True -> core_unfold resolve env ps t0
-                                 | False -> Accept None)
-                                (fun td ->
-                                bind
-                                  (match unfold_right with
-                                   | True -> core_unfold resolve env ps s
-                                   | False -> Accept None)
-                                  (fun sd ->
-                                  match td with
-                                  | Some _ ->
-                                    bind
-                                      (match td with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept t0)
-                                      (fun tn0 ->
+                                (core_delta_congruent resolve rec0 fuel0 env
+                                  g t0 s)
+                                (fun same ->
+                                match same with
+                                | True -> Accept (ConversionDone True)
+                                | False ->
+                                  bind
+                                    (core_opposite_projection resolve rec0
+                                      env g t0 s)
+                                    (fun projected ->
+                                    match projected with
+                                    | Some p ->
+                                      let Pair (tn0, sn0) = p in
+                                      core_lazy_delta resolve rounds0 rec0
+                                        fuel0 env ps g tn0 sn0
+                                    | None ->
+                                      let Pair (unfold_left, unfold_right) =
+                                        core_delta_sides resolve env t0 s
+                                      in
                                       bind
-                                        (match sd with
-                                         | Some e ->
-                                           rec0.whnf_core_method True g e
-                                         | None -> Accept s)
-                                        (fun sn0 ->
-                                        core_lazy_delta resolve rounds0 rec0
-                                          fuel0 env ps g tn0 sn0))
-                                  | None ->
-                                    (match sd with
-                                     | Some _ ->
-                                       bind
-                                         (match td with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept t0)
-                                         (fun tn0 ->
-                                         bind
-                                           (match sd with
-                                            | Some e ->
-                                              rec0.whnf_core_method True g e
-                                            | None -> Accept s)
-                                           (fun sn0 ->
-                                           core_lazy_delta resolve rounds0
-                                             rec0 fuel0 env ps g tn0 sn0))
-                                     | None ->
-                                       Accept (ConversionStuck (t0, s)))))))))))
+                                        (match unfold_left with
+                                         | True ->
+                                           core_unfold resolve env ps t0
+                                         | False -> Accept None)
+                                        (fun td ->
+                                        bind
+                                          (match unfold_right with
+                                           | True ->
+                                             core_unfold resolve env ps s
+                                           | False -> Accept None)
+                                          (fun sd ->
+                                          match td with
+                                          | Some _ ->
+                                            bind
+                                              (match td with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept t0)
+                                              (fun tn0 ->
+                                              bind
+                                                (match sd with
+                                                 | Some e ->
+                                                   rec0.whnf_core_method True
+                                                     g e
+                                                 | None -> Accept s)
+                                                (fun sn0 ->
+                                                core_lazy_delta resolve
+                                                  rounds0 rec0 fuel0 env ps g
+                                                  tn0 sn0))
+                                          | None ->
+                                            (match sd with
+                                             | Some _ ->
+                                               bind
+                                                 (match td with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept t0)
+                                                 (fun tn0 ->
+                                                 bind
+                                                   (match sd with
+                                                    | Some e ->
+                                                      rec0.whnf_core_method
+                                                        True g e
+                                                    | None -> Accept s)
+                                                   (fun sn0 ->
+                                                   core_lazy_delta resolve
+                                                     rounds0 rec0 fuel0 env
+                                                     ps g tn0 sn0))
+                                             | None ->
+                                               Accept (ConversionStuck (t0,
+                                                 s)))))))))))))
+
+  (** val core_reduce_proj_core :
+      (name -> environment -> declaration option) -> environment -> nat ->
+      expr -> expr option **)
+
+  let core_reduce_proj_core resolve env idx e =
+    let Pair (h, args) = core_spine e Nil in
+    (match h with
+     | EConst (cn, _) ->
+       (match core_constructor resolve env cn with
+        | Some ci ->
+          (match match Nat.ltb idx ci.ctor_num_fields with
+                 | True ->
+                   Nat.eqb (length args)
+                     (add ci.ctor_num_params ci.ctor_num_fields)
+                 | False -> False with
+           | True -> nth_error args (add ci.ctor_num_params idx)
+           | False -> None)
+        | None -> None)
+     | _ -> None)
+
+  (** val core_lazy_delta_proj :
+      (name -> environment -> declaration option) -> nat -> methods -> nat ->
+      environment -> name list -> context -> nat -> expr -> expr -> bool
+      result **)
+
+  let rec core_lazy_delta_proj resolve rounds rec0 fuel0 env ps g idx t0 s =
+    match rounds with
+    | O -> Decline OutOfFuel
+    | S rounds0 ->
+      bind (core_quick rec0 fuel0 g t0 s) (fun quick ->
+        match quick with
+        | Some ok -> Accept ok
+        | None ->
+          bind (core_delta_congruent resolve rec0 fuel0 env g t0 s)
+            (fun same ->
+            match same with
+            | True -> Accept True
+            | False ->
+              bind (core_opposite_projection resolve rec0 env g t0 s)
+                (fun projected ->
+                match projected with
+                | Some p ->
+                  let Pair (tn, sn) = p in
+                  core_lazy_delta_proj resolve rounds0 rec0 fuel0 env ps g
+                    idx tn sn
+                | None ->
+                  let Pair (unfold_left, unfold_right) =
+                    core_delta_sides resolve env t0 s
+                  in
+                  bind
+                    (match unfold_left with
+                     | True -> core_unfold resolve env ps t0
+                     | False -> Accept None)
+                    (fun td ->
+                    bind
+                      (match unfold_right with
+                       | True -> core_unfold resolve env ps s
+                       | False -> Accept None)
+                      (fun sd ->
+                      match td with
+                      | Some _ ->
+                        bind
+                          (match td with
+                           | Some e -> rec0.whnf_core_method True g e
+                           | None -> Accept t0)
+                          (fun tn ->
+                          bind
+                            (match sd with
+                             | Some e -> rec0.whnf_core_method True g e
+                             | None -> Accept s)
+                            (fun sn ->
+                            core_lazy_delta_proj resolve rounds0 rec0 fuel0
+                              env ps g idx tn sn))
+                      | None ->
+                        (match sd with
+                         | Some _ ->
+                           bind
+                             (match td with
+                              | Some e -> rec0.whnf_core_method True g e
+                              | None -> Accept t0)
+                             (fun tn ->
+                             bind
+                               (match sd with
+                                | Some e -> rec0.whnf_core_method True g e
+                                | None -> Accept s)
+                               (fun sn ->
+                               core_lazy_delta_proj resolve rounds0 rec0
+                                 fuel0 env ps g idx tn sn))
+                         | None ->
+                           (match core_reduce_proj_core resolve env idx t0 with
+                            | Some tf ->
+                              (match core_reduce_proj_core resolve env idx s with
+                               | Some sf -> rec0.defeq_method g tf sf
+                               | None -> rec0.defeq_method g t0 s)
+                            | None -> rec0.defeq_method g t0 s)))))))
 
   (** val core_finish_conversion :
       (name -> environment -> declaration option) -> methods -> nat ->
-      environment -> context -> expr -> expr -> bool result **)
+      environment -> name list -> context -> expr -> expr -> bool result **)
 
-  let core_finish_conversion resolve rec0 fuel0 env g t0 s =
-    let project = fun e ->
-      let Pair (head, args) = core_spine e Nil in
-      (match head with
-       | EBVar _ -> Accept None
-       | EFVar _ -> Accept None
-       | EMVar _ -> Accept None
-       | ESort _ -> Accept None
-       | EConst (_, _) -> Accept None
-       | EApp (_, _) -> Accept None
-       | ELam (_, _, _, _) -> Accept None
-       | EPi (_, _, _, _) -> Accept None
-       | ELet (_, _, _, _, _) -> Accept None
-       | ELit _ -> Accept None
-       | EProj (owner, index, value) ->
-         bind (core_reduce_projection resolve rec0 env g owner index value)
-           (fun field -> Accept
-           (option_map (fun f -> core_apps f args) field))
-       | EMData _ -> Accept None)
-    in
-    bind (project t0) (fun tp ->
-      bind (project s) (fun sp ->
-        match tp with
-        | Some t1 ->
-          (match sp with
-           | Some s0 -> rec0.defeq_method g t1 s0
-           | None -> rec0.defeq_method g t1 s)
-        | None ->
-          (match sp with
-           | Some s0 -> rec0.defeq_method g t0 s0
-           | None -> compare_after_whnf resolve rec0 fuel0 env g t0 s)))
+  let core_finish_conversion resolve rec0 fuel0 env ps g t0 s =
+    let Pair (th, ta) = core_spine t0 Nil in
+    let Pair (sh, sa) = core_spine s Nil in
+    bind
+      (match th with
+       | EProj (_, ti, te) ->
+         (match sh with
+          | EProj (_, si, se) ->
+            (match match Nat.eqb ti si with
+                   | True -> Nat.eqb (length ta) (length sa)
+                   | False -> False with
+             | True ->
+               bind
+                 (core_lazy_delta_proj resolve (S fuel0) rec0 fuel0 env ps g
+                   ti te se)
+                 (fun ok ->
+                 match ok with
+                 | True ->
+                   (match ta with
+                    | Nil -> Accept True
+                    | Cons (_, _) ->
+                      core_compare_args_cheap_first resolve rec0 env g ta sa)
+                 | False -> Accept False)
+             | False -> Accept False)
+          | _ -> Accept False)
+       | _ -> Accept False)
+      (fun lazy_proj_ok ->
+      match lazy_proj_ok with
+      | True -> Accept True
+      | False ->
+        let project = fun e ->
+          let Pair (head, args) = core_spine e Nil in
+          (match head with
+           | EBVar _ -> Accept None
+           | EFVar _ -> Accept None
+           | EMVar _ -> Accept None
+           | ESort _ -> Accept None
+           | EConst (_, _) -> Accept None
+           | EApp (_, _) -> Accept None
+           | ELam (_, _, _, _) -> Accept None
+           | EPi (_, _, _, _) -> Accept None
+           | ELet (_, _, _, _, _) -> Accept None
+           | ELit _ -> Accept None
+           | EProj (owner, index, value) ->
+             bind
+               (core_reduce_projection resolve rec0 env g owner index value)
+               (fun field -> Accept
+               (option_map (fun f -> core_apps f args) field))
+           | EMData _ -> Accept None)
+        in
+        bind (project t0) (fun tp ->
+          bind (project s) (fun sp ->
+            match tp with
+            | Some t1 ->
+              (match sp with
+               | Some s0 -> rec0.defeq_method g t1 s0
+               | None -> rec0.defeq_method g t1 s)
+            | None ->
+              (match sp with
+               | Some s0 -> rec0.defeq_method g t0 s0
+               | None -> compare_after_whnf resolve rec0 fuel0 env g t0 s))))
 
   (** val core_true_shortcut :
       (name -> environment -> declaration option) -> methods -> environment
@@ -13807,8 +14870,8 @@ module Accessor =
                       match progress with
                       | ConversionDone ok -> Accept ok
                       | ConversionStuck (tn0, sn0) ->
-                        core_finish_conversion resolve rec1 fuel0 env g tn0
-                          sn0))))))
+                        core_finish_conversion resolve rec1 fuel0 env ps g
+                          tn0 sn0))))))
 
   (** val checker_mode :
       (name -> environment -> declaration option) -> reduction_mode -> nat ->

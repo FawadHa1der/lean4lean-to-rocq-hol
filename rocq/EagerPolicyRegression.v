@@ -73,12 +73,15 @@ Lemma nat_guard_skips_to_congruence rounds rec fuel env ps g t s error :
   core_quick rec fuel g t s = Accept None ->
   core_offset rec env g t s = Accept None ->
   nat_probe_allowed (method_mode rec) t s = false ->
+  core_reduce_native t = Accept None ->
+  core_reduce_native s = Accept None ->
   core_delta_congruent rec fuel env g t s = Reject error ->
   core_lazy_delta (S rounds) rec fuel env ps g t s = Reject error.
 Proof.
-  intros Hq Ho Hg Hc. rewrite guard_order_lazy_delta_exact.
+  intros Hq Ho Hg Hnt Hns Hc. rewrite guard_order_lazy_delta_exact.
   cbn [stage3_lazy_delta]. rewrite Hq. cbn [bind].
-  rewrite Ho. cbn [bind]. rewrite Hg. cbn [bind]. rewrite Hc. reflexivity.
+  rewrite Ho. cbn [bind]. rewrite Hg. cbn [bind].
+  rewrite Hnt. cbn [bind]. rewrite Hns. cbn [bind]. rewrite Hc. reflexivity.
 Qed.
 
 Lemma step_eval_methods_equivalent a b fuel env ps base arena checking q :

@@ -631,7 +631,15 @@ val core_nat_value : expr -> n option
 
 val core_nat_constructor : n -> expr
 
-val core_shiftr : nat -> n -> n -> n result
+val core_pow_max_exp : n
+
+val core_shiftr : n -> n -> n option
+
+val core_reduce_bool_name : name
+
+val core_reduce_nat_name : name
+
+val core_reduce_native : expr -> expr option result
 
 val core_binary_nat :
   nat -> environment -> primitive_kind -> n -> n -> expr option result
@@ -716,6 +724,8 @@ val core_congruent_apps :
 
 val core_delta_info : environment -> expr -> declaration option
 
+val core_delta_head : environment -> expr -> bool
+
 val core_delta_sides : environment -> expr -> expr -> (bool, bool) prod
 
 val core_erasing_delta : environment -> expr -> bool
@@ -723,7 +733,17 @@ val core_erasing_delta : environment -> expr -> bool
 val core_delta_congruent :
   methods -> nat -> environment -> context -> expr -> expr -> bool result
 
-val compare_heads : methods -> nat -> context -> expr -> expr -> bool result
+val core_is_cheap_arg : environment -> expr -> bool
+
+val core_compare_args_filtered :
+  bool -> methods -> environment -> context -> expr list -> expr list -> bool
+  result
+
+val core_compare_args_cheap_first :
+  methods -> environment -> context -> expr list -> expr list -> bool result
+
+val compare_heads :
+  methods -> nat -> environment -> context -> expr -> expr -> bool result
 
 val core_compare_fields :
   methods -> context -> name -> expr -> nat -> expr list -> bool result
@@ -767,8 +787,15 @@ val core_lazy_delta :
   nat -> methods -> nat -> environment -> name list -> context -> expr ->
   expr -> conversion_progress result
 
+val core_reduce_proj_core : environment -> nat -> expr -> expr option
+
+val core_lazy_delta_proj :
+  nat -> methods -> nat -> environment -> name list -> context -> nat -> expr
+  -> expr -> bool result
+
 val core_finish_conversion :
-  methods -> nat -> environment -> context -> expr -> expr -> bool result
+  methods -> nat -> environment -> name list -> context -> expr -> expr ->
+  bool result
 
 val core_is_true : expr -> bool
 
@@ -871,7 +898,15 @@ module Accessor :
 
   val core_nat_constructor : n -> expr
 
-  val core_shiftr : nat -> n -> n -> n result
+  val core_pow_max_exp : n
+
+  val core_shiftr : n -> n -> n option
+
+  val core_reduce_bool_name : name
+
+  val core_reduce_nat_name : name
+
+  val core_reduce_native : expr -> expr option result
 
   val core_binary_nat :
     (name -> environment -> declaration option) -> nat -> environment ->
@@ -968,6 +1003,9 @@ module Accessor :
     (name -> environment -> declaration option) -> environment -> expr ->
     declaration option
 
+  val core_delta_head :
+    (name -> environment -> declaration option) -> environment -> expr -> bool
+
   val core_delta_sides :
     (name -> environment -> declaration option) -> environment -> expr ->
     expr -> (bool, bool) prod
@@ -979,7 +1017,20 @@ module Accessor :
     (name -> environment -> declaration option) -> methods -> nat ->
     environment -> context -> expr -> expr -> bool result
 
-  val compare_heads : methods -> nat -> context -> expr -> expr -> bool result
+  val core_is_cheap_arg :
+    (name -> environment -> declaration option) -> environment -> expr -> bool
+
+  val core_compare_args_filtered :
+    (name -> environment -> declaration option) -> bool -> methods ->
+    environment -> context -> expr list -> expr list -> bool result
+
+  val core_compare_args_cheap_first :
+    (name -> environment -> declaration option) -> methods -> environment ->
+    context -> expr list -> expr list -> bool result
+
+  val compare_heads :
+    (name -> environment -> declaration option) -> methods -> nat ->
+    environment -> context -> expr -> expr -> bool result
 
   val core_compare_fields :
     methods -> context -> name -> expr -> nat -> expr list -> bool result
@@ -1025,9 +1076,17 @@ module Accessor :
     environment -> name list -> context -> expr -> expr ->
     conversion_progress result
 
+  val core_reduce_proj_core :
+    (name -> environment -> declaration option) -> environment -> nat -> expr
+    -> expr option
+
+  val core_lazy_delta_proj :
+    (name -> environment -> declaration option) -> nat -> methods -> nat ->
+    environment -> name list -> context -> nat -> expr -> expr -> bool result
+
   val core_finish_conversion :
     (name -> environment -> declaration option) -> methods -> nat ->
-    environment -> context -> expr -> expr -> bool result
+    environment -> name list -> context -> expr -> expr -> bool result
 
   val core_true_shortcut :
     (name -> environment -> declaration option) -> methods -> environment ->

@@ -99,8 +99,8 @@ Example bitwise_tag_has_no_binary_acceleration :
 Proof. reflexivity. Qed.
 Example bitwise_tag_distinct_from_xor : primitive_kind_eqb PNatBitwise PNatXor = false.
 Proof. reflexivity. Qed.
-Example binary_large_exponent_declines : core_binary_nat 32 ext_nat_env PNatPow 2 1000000 =
-  Decline OutOfFuel.
+Example binary_large_exponent_falls_back :
+  core_binary_nat 32 ext_nat_env PNatPow 2 16777217 = Accept None.
 Proof. vm_compute. reflexivity. Qed.
 Example binary_huge_right_shift_short_circuits :
   core_binary_nat 32 ext_nat_env PNatShiftRight 184467440737095516160000000000000000000
@@ -251,7 +251,8 @@ Definition extension_checks (_ : unit) : list bool :=
      (EApp (EConst ext_box_mk []) (EProj ext_box_name 0 (EFVar (nm "b")))));
    rejected (infer 32 ext_box_env [] empty_context (EProj ext_box_name 1 ext_box_value));
    match core_utf8 ext_utf8_emoji with Some [n] => N.eqb n 128512 | _ => false end;
-   declined (core_binary_nat 32 ext_nat_env PNatPow 2 1000000);
+   match core_binary_nat 32 ext_nat_env PNatPow 2 16777217 with
+   | Accept None => true | _ => false end;
    match core_reduce_quotient (checker 32 ext_q_env []) ext_q_env empty_context ext_q_lift_app with
    | Accept (Some e) => expr_eqb e (EApp ext_q_function prop) | _ => false end;
    match core_reduce_quotient (checker 32 ext_q_env []) [] empty_context ext_q_lift_app with

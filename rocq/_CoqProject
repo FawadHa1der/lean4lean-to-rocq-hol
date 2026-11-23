@@ -118,3 +118,4 @@ SubstTheory.v
 StrongTyping.v
 EnvDeclTheory.v
 PatternConfluence.v
+CachedChecker.v

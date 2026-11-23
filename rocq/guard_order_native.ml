@@ -339,12 +339,6 @@ module Pos =
        | XI q0 -> Npos (XO q0)
        | XO q0 -> Npos (XI q0)
        | XH -> N0)
-
-  (** val of_succ_nat : nat -> positive **)
-
-  let rec of_succ_nat = function
-  | O -> XH
-  | S x -> succ (of_succ_nat x)
  end
 
 module Coq_Pos =
@@ -772,12 +766,6 @@ module N =
   let shiftr a = function
   | N0 -> a
   | Npos p -> Pos.iter div2 a p
-
-  (** val of_nat : nat -> n **)
-
-  let of_nat = function
-  | O -> N0
-  | S n' -> Npos (Pos.of_succ_nat n')
  end
 
 type ascii =
@@ -1722,25 +1710,90 @@ let core_nat_value = function
              | LitString _ -> None)
 | _ -> None
 
-(** val core_shiftr : nat -> n -> n -> n result **)
+(** val core_pow_max_exp : n **)
 
-let core_shiftr fuel a b =
+let core_pow_max_exp =
+  Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+    (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+(** val core_shiftr : n -> n -> n option **)
+
+let core_shiftr a b =
   match N.ltb (N.log2 a) b with
-  | True -> Accept N0
+  | True -> Some N0
   | False ->
-    (match N.leb b (N.of_nat fuel) with
-     | True -> Accept (N.shiftr a b)
-     | False -> Decline OutOfFuel)
+    (match N.leb b core_pow_max_exp with
+     | True -> Some (N.shiftr a b)
+     | False -> None)
+
+(** val core_reduce_bool_name : name **)
+
+let core_reduce_bool_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, False, False, False, False, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (False, False, True, True, False, True, True, False)),
+    EmptyString)))))))))))))))))))))
+
+(** val core_reduce_nat_name : name **)
+
+let core_reduce_nat_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, True, True, False, False, True, False)), (String ((Ascii
+    (True, False, False, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, True, True, True, False)),
+    EmptyString)))))))))))))))))))
+
+(** val core_reduce_native : expr -> expr option result **)
+
+let core_reduce_native = function
+| EApp (e0, e1) ->
+  (match e0 with
+   | EConst (f, l) ->
+     (match l with
+      | Nil ->
+        (match e1 with
+         | EConst (_, _) ->
+           (match match name_eqb f core_reduce_bool_name with
+                  | True -> True
+                  | False -> name_eqb f core_reduce_nat_name with
+            | True -> Decline UnsupportedExpression
+            | False -> Accept None)
+         | _ -> Accept None)
+      | Cons (_, _) -> Accept None)
+   | _ -> Accept None)
+| _ -> Accept None
 
 (** val core_binary_nat :
     nat -> environment -> primitive_kind -> n -> n -> expr option result **)
 
-let core_binary_nat fuel env op a b =
+let core_binary_nat _ env op a b =
   let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
   let bounded = fun operation ->
-    match N.leb b (N.of_nat fuel) with
+    match N.leb b core_pow_max_exp with
     | True -> numeric (operation a b)
-    | False -> Decline OutOfFuel
+    | False -> Accept None
   in
   let boolean = fun b0 ->
     match core_bool_ready env with
@@ -1766,7 +1819,10 @@ let core_binary_nat fuel env op a b =
    | PNatLOr -> numeric (N.coq_lor a b)
    | PNatXor -> numeric (N.coq_lxor a b)
    | PNatShiftLeft -> bounded N.shiftl
-   | PNatShiftRight -> bind (core_shiftr fuel a b) numeric
+   | PNatShiftRight ->
+     (match core_shiftr a b with
+      | Some value -> numeric value
+      | None -> Accept None)
    | _ -> Accept None)
 
 (** val core_reduce_nat :
@@ -2314,65 +2370,83 @@ let rec core_lazy_delta rounds rec0 fuel env ps g t s =
                     bind (rec0.defeq_method g t sn0) (fun ok -> Accept
                       (ConversionDone ok))
                   | None ->
-                    bind (core_delta_congruent rec0 fuel env g t s)
-                      (fun same ->
-                      match same with
-                      | True -> Accept (ConversionDone True)
-                      | False ->
-                        bind (core_opposite_projection rec0 env g t s)
-                          (fun projected ->
-                          match projected with
-                          | Some p ->
-                            let Pair (tn0, sn0) = p in
-                            core_lazy_delta rounds0 rec0 fuel env ps g tn0 sn0
+                    bind (core_reduce_native t) (fun nat_t ->
+                      match nat_t with
+                      | Some tn0 ->
+                        bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                          (ConversionDone ok))
+                      | None ->
+                        bind (core_reduce_native s) (fun nat_s ->
+                          match nat_s with
+                          | Some sn0 ->
+                            bind (rec0.defeq_method g t sn0) (fun ok ->
+                              Accept (ConversionDone ok))
                           | None ->
-                            let Pair (unfold_left, unfold_right) =
-                              core_delta_sides env t s
-                            in
-                            bind
-                              (match unfold_left with
-                               | True -> core_unfold env ps t
-                               | False -> Accept None)
-                              (fun td ->
-                              bind
-                                (match unfold_right with
-                                 | True -> core_unfold env ps s
-                                 | False -> Accept None)
-                                (fun sd ->
-                                match td with
-                                | Some _ ->
-                                  bind
-                                    (match td with
-                                     | Some e ->
-                                       rec0.whnf_core_method True g e
-                                     | None -> Accept t)
-                                    (fun tn0 ->
+                            bind (core_delta_congruent rec0 fuel env g t s)
+                              (fun same ->
+                              match same with
+                              | True -> Accept (ConversionDone True)
+                              | False ->
+                                bind
+                                  (core_opposite_projection rec0 env g t s)
+                                  (fun projected ->
+                                  match projected with
+                                  | Some p ->
+                                    let Pair (tn0, sn0) = p in
+                                    core_lazy_delta rounds0 rec0 fuel env ps
+                                      g tn0 sn0
+                                  | None ->
+                                    let Pair (unfold_left, unfold_right) =
+                                      core_delta_sides env t s
+                                    in
                                     bind
-                                      (match sd with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept s)
-                                      (fun sn0 ->
-                                      core_lazy_delta rounds0 rec0 fuel env
-                                        ps g tn0 sn0))
-                                | None ->
-                                  (match sd with
-                                   | Some _ ->
-                                     bind
-                                       (match td with
-                                        | Some e ->
-                                          rec0.whnf_core_method True g e
-                                        | None -> Accept t)
-                                       (fun tn0 ->
-                                       bind
-                                         (match sd with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept s)
-                                         (fun sn0 ->
-                                         core_lazy_delta rounds0 rec0 fuel
-                                           env ps g tn0 sn0))
-                                   | None -> Accept (ConversionStuck (t, s)))))))))))
+                                      (match unfold_left with
+                                       | True -> core_unfold env ps t
+                                       | False -> Accept None)
+                                      (fun td ->
+                                      bind
+                                        (match unfold_right with
+                                         | True -> core_unfold env ps s
+                                         | False -> Accept None)
+                                        (fun sd ->
+                                        match td with
+                                        | Some _ ->
+                                          bind
+                                            (match td with
+                                             | Some e ->
+                                               rec0.whnf_core_method True g e
+                                             | None -> Accept t)
+                                            (fun tn0 ->
+                                            bind
+                                              (match sd with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept s)
+                                              (fun sn0 ->
+                                              core_lazy_delta rounds0 rec0
+                                                fuel env ps g tn0 sn0))
+                                        | None ->
+                                          (match sd with
+                                           | Some _ ->
+                                             bind
+                                               (match td with
+                                                | Some e ->
+                                                  rec0.whnf_core_method True
+                                                    g e
+                                                | None -> Accept t)
+                                               (fun tn0 ->
+                                               bind
+                                                 (match sd with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept s)
+                                                 (fun sn0 ->
+                                                 core_lazy_delta rounds0 rec0
+                                                   fuel env ps g tn0 sn0))
+                                           | None ->
+                                             Accept (ConversionStuck (t, s)))))))))))))
 
 (** val core_is_true : expr -> bool **)
 
@@ -2640,26 +2714,91 @@ module Accessor =
                | LitString _ -> None)
   | _ -> None
 
-  (** val core_shiftr : nat -> n -> n -> n result **)
+  (** val core_pow_max_exp : n **)
 
-  let core_shiftr fuel a b =
+  let core_pow_max_exp =
+    Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+      (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+  (** val core_shiftr : n -> n -> n option **)
+
+  let core_shiftr a b =
     match N.ltb (N.log2 a) b with
-    | True -> Accept N0
+    | True -> Some N0
     | False ->
-      (match N.leb b (N.of_nat fuel) with
-       | True -> Accept (N.shiftr a b)
-       | False -> Decline OutOfFuel)
+      (match N.leb b core_pow_max_exp with
+       | True -> Some (N.shiftr a b)
+       | False -> None)
+
+  (** val core_reduce_bool_name : name **)
+
+  let core_reduce_bool_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, False, False, False, False, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (False, False, True, True, False, True, True, False)),
+      EmptyString)))))))))))))))))))))
+
+  (** val core_reduce_nat_name : name **)
+
+  let core_reduce_nat_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, True, True, False, False, True, False)), (String ((Ascii
+      (True, False, False, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, True, True, True, False)),
+      EmptyString)))))))))))))))))))
+
+  (** val core_reduce_native : expr -> expr option result **)
+
+  let core_reduce_native = function
+  | EApp (e0, e1) ->
+    (match e0 with
+     | EConst (f, l) ->
+       (match l with
+        | Nil ->
+          (match e1 with
+           | EConst (_, _) ->
+             (match match name_eqb f core_reduce_bool_name with
+                    | True -> True
+                    | False -> name_eqb f core_reduce_nat_name with
+              | True -> Decline UnsupportedExpression
+              | False -> Accept None)
+           | _ -> Accept None)
+        | Cons (_, _) -> Accept None)
+     | _ -> Accept None)
+  | _ -> Accept None
 
   (** val core_binary_nat :
       (name -> environment -> declaration option) -> nat -> environment ->
       primitive_kind -> n -> n -> expr option result **)
 
-  let core_binary_nat resolve fuel env op a b =
+  let core_binary_nat resolve _ env op a b =
     let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
     let bounded = fun operation ->
-      match N.leb b (N.of_nat fuel) with
+      match N.leb b core_pow_max_exp with
       | True -> numeric (operation a b)
-      | False -> Decline OutOfFuel
+      | False -> Accept None
     in
     let boolean = fun b0 ->
       match core_bool_ready resolve env with
@@ -2685,7 +2824,10 @@ module Accessor =
      | PNatLOr -> numeric (N.coq_lor a b)
      | PNatXor -> numeric (N.coq_lxor a b)
      | PNatShiftLeft -> bounded N.shiftl
-     | PNatShiftRight -> bind (core_shiftr fuel a b) numeric
+     | PNatShiftRight ->
+       (match core_shiftr a b with
+        | Some value -> numeric value
+        | None -> Accept None)
      | _ -> Accept None)
 
   (** val core_reduce_nat :
@@ -3242,67 +3384,91 @@ module Accessor =
                       bind (rec0.defeq_method g t sn0) (fun ok -> Accept
                         (ConversionDone ok))
                     | None ->
-                      bind (core_delta_congruent resolve rec0 fuel env g t s)
-                        (fun same ->
-                        match same with
-                        | True -> Accept (ConversionDone True)
-                        | False ->
-                          bind
-                            (core_opposite_projection resolve rec0 env g t s)
-                            (fun projected ->
-                            match projected with
-                            | Some p ->
-                              let Pair (tn0, sn0) = p in
-                              core_lazy_delta resolve rounds0 rec0 fuel env
-                                ps g tn0 sn0
+                      bind (core_reduce_native t) (fun nat_t ->
+                        match nat_t with
+                        | Some tn0 ->
+                          bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                            (ConversionDone ok))
+                        | None ->
+                          bind (core_reduce_native s) (fun nat_s ->
+                            match nat_s with
+                            | Some sn0 ->
+                              bind (rec0.defeq_method g t sn0) (fun ok ->
+                                Accept (ConversionDone ok))
                             | None ->
-                              let Pair (unfold_left, unfold_right) =
-                                core_delta_sides resolve env t s
-                              in
                               bind
-                                (match unfold_left with
-                                 | True -> core_unfold resolve env ps t
-                                 | False -> Accept None)
-                                (fun td ->
-                                bind
-                                  (match unfold_right with
-                                   | True -> core_unfold resolve env ps s
-                                   | False -> Accept None)
-                                  (fun sd ->
-                                  match td with
-                                  | Some _ ->
-                                    bind
-                                      (match td with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept t)
-                                      (fun tn0 ->
+                                (core_delta_congruent resolve rec0 fuel env g
+                                  t s)
+                                (fun same ->
+                                match same with
+                                | True -> Accept (ConversionDone True)
+                                | False ->
+                                  bind
+                                    (core_opposite_projection resolve rec0
+                                      env g t s)
+                                    (fun projected ->
+                                    match projected with
+                                    | Some p ->
+                                      let Pair (tn0, sn0) = p in
+                                      core_lazy_delta resolve rounds0 rec0
+                                        fuel env ps g tn0 sn0
+                                    | None ->
+                                      let Pair (unfold_left, unfold_right) =
+                                        core_delta_sides resolve env t s
+                                      in
                                       bind
-                                        (match sd with
-                                         | Some e ->
-                                           rec0.whnf_core_method True g e
-                                         | None -> Accept s)
-                                        (fun sn0 ->
-                                        core_lazy_delta resolve rounds0 rec0
-                                          fuel env ps g tn0 sn0))
-                                  | None ->
-                                    (match sd with
-                                     | Some _ ->
-                                       bind
-                                         (match td with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept t)
-                                         (fun tn0 ->
-                                         bind
-                                           (match sd with
-                                            | Some e ->
-                                              rec0.whnf_core_method True g e
-                                            | None -> Accept s)
-                                           (fun sn0 ->
-                                           core_lazy_delta resolve rounds0
-                                             rec0 fuel env ps g tn0 sn0))
-                                     | None -> Accept (ConversionStuck (t, s)))))))))))
+                                        (match unfold_left with
+                                         | True ->
+                                           core_unfold resolve env ps t
+                                         | False -> Accept None)
+                                        (fun td ->
+                                        bind
+                                          (match unfold_right with
+                                           | True ->
+                                             core_unfold resolve env ps s
+                                           | False -> Accept None)
+                                          (fun sd ->
+                                          match td with
+                                          | Some _ ->
+                                            bind
+                                              (match td with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept t)
+                                              (fun tn0 ->
+                                              bind
+                                                (match sd with
+                                                 | Some e ->
+                                                   rec0.whnf_core_method True
+                                                     g e
+                                                 | None -> Accept s)
+                                                (fun sn0 ->
+                                                core_lazy_delta resolve
+                                                  rounds0 rec0 fuel env ps g
+                                                  tn0 sn0))
+                                          | None ->
+                                            (match sd with
+                                             | Some _ ->
+                                               bind
+                                                 (match td with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept t)
+                                                 (fun tn0 ->
+                                                 bind
+                                                   (match sd with
+                                                    | Some e ->
+                                                      rec0.whnf_core_method
+                                                        True g e
+                                                    | None -> Accept s)
+                                                   (fun sn0 ->
+                                                   core_lazy_delta resolve
+                                                     rounds0 rec0 fuel env ps
+                                                     g tn0 sn0))
+                                             | None ->
+                                               Accept (ConversionStuck (t, s)))))))))))))
 
   (** val core_true_shortcut :
       (name -> environment -> declaration option) -> methods -> environment
