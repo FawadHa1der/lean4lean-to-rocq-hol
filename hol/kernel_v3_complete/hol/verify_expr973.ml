@@ -2177,6 +2177,10 @@ let l4_vind_head_inj973 = new_definition
      ALL2 l4_vlevel_equiv961 us1 us2 /\
      ALL2 (l4_vis_defeq_u961 venv uvars g) args1 args2`;;
 
+let l4_seq973 = new_recursive_definition num_RECURSION
+ `(l4_seq973 start 0 = []) /\
+  (l4_seq973 start (SUC n) = CONS start (l4_seq973 (SUC start) n))`;;
+
 let l4_venv_sound973 = new_definition
  `l4_venv_sound973 env venv <=>
    l4_venv_wf966 venv /\
@@ -2284,7 +2288,7 @@ let l4_venv_sound973 = new_definition
      idx < l4_kctor_num_fields493 c ==>
      ?pci. l4_venv_lookup_const961 venv (l4_proj_const_name962 own idx) pci /\
            l4_vc_uvars961 pci = LENGTH (l4_kdecl_params493 d)) /\
-   (!uvars g own info ctor c d idx us cus params idxs fs fval sv.
+   (!uvars g own info ctor c d idx us cus params idxs fields fval sv.
      l4_vctx_wf966 venv uvars g /\
      l4_core_inductive532 env own = SOME info /\
      l4_kind_ctors493 info = [ctor] /\
@@ -2292,16 +2296,14 @@ let l4_venv_sound973 = new_definition
      l4_kdecl_kind493 d = L4KDConstructor493 c /\
      idx < l4_kctor_num_fields493 c /\
      LENGTH params = l4_kind_num_params493 info /\
-     l4_kctor_num_params493 c = l4_kind_num_params493 info /\
      LENGTH idxs = l4_kind_num_indices493 info /\
-     LENGTH fs = l4_kctor_num_fields493 c /\
-     l4_nth_error550 (APPEND params fs) (l4_kctor_num_params493 c + idx) = SOME fval /\
-     ALL (l4_vlevel_wf961 uvars) us /\
-     LENGTH us = LENGTH (l4_kdecl_params493 d) /\
+     LENGTH fields = l4_kctor_num_params493 c + l4_kctor_num_fields493 c /\
+     l4_kctor_num_params493 c = l4_kind_num_params493 info /\
+     l4_nth_error550 fields (l4_kctor_num_params493 c + idx) = SOME fval /\
      l4_vhas_type961 venv uvars g sv
        (l4_vapps962 (APPEND params idxs) (L4VConst961 own us)) /\
      l4_vis_defeq_u961 venv uvars g sv
-       (l4_vapps962 (APPEND params fs) (L4VConst961 ctor cus)) /\
+       (l4_vapps962 fields (L4VConst961 ctor cus)) /\
      (?fty. l4_vhas_type961 venv uvars g (l4_vproj_expr962 own idx us params sv) fty) ==>
      l4_vis_defeq_u961 venv uvars g
        (l4_vproj_expr962 own idx us params sv) fval) /\
@@ -2321,7 +2323,7 @@ let l4_venv_sound973 = new_definition
        (l4_vapps962 (APPEND params idxs) (L4VConst961 own us)) /\
      l4_vhas_type961 venv uvars g
        (l4_vapps962 (APPEND params idxs) (L4VConst961 own us)) (L4VSort961 usort) /\
-     (~mp ==> (!ls. 0 < l4_vlevel_eval961 ls usort)) /\
+     (~mp ==> ~l4_vlevel_equiv961 usort L4VLZero961) /\
      l4_vhas_type961 venv uvars g
        (l4_vapps962 params (L4VConst961 ctor us)) typ /\
      l4_vproj_telescope973 env venv uvars g own us params sv mp idx 0 typ fty ==>
@@ -2343,13 +2345,13 @@ let l4_venv_sound973 = new_definition
      (!i. i < l4_kctor_num_fields493 c ==>
         ?fty. l4_vtr_proj973 env venv uvars g own i sv
                 (l4_vproj_expr962 own i us params sv) fty) /\
-     (!fs.
-       LENGTH fs = l4_kctor_num_fields493 c /\
-       (!i fv. i < l4_kctor_num_fields493 c /\ l4_nth_error550 fs i = SOME fv ==>
-         l4_vis_defeq_u961 venv uvars g
-           (l4_vproj_expr962 own i us params sv) fv) ==>
-       l4_vis_defeq_u961 venv uvars g sv
-         (l4_vapps962 (APPEND params fs) (L4VConst961 ctor us)))) /\
+     l4_vis_defeq961 venv uvars g sv
+       (l4_vapps962
+          (APPEND params
+            (MAP (\i. l4_vproj_expr962 own i us params sv)
+              (l4_seq973 0 (l4_kctor_num_fields493 c))))
+          (L4VConst961 ctor us))
+       (l4_vapps962 params (L4VConst961 own us))) /\
    (!uvars g cn ci cus args t.
      l4_vctx_wf966 venv uvars g /\
      l4_core_constructor532 env cn = SOME ci /\
@@ -2366,17 +2368,18 @@ let l4_venv_sound973 = new_definition
      l4_kfind_decl493 env own = SOME d_ind /\
      l4_kdecl_kind493 d_ind = L4KDInductive493 info /\
      l4_kfind_decl493 env ctor = SOME d_ctor /\
-     l4_kdecl_kind493 d_ctor = L4KDConstructor493 c /\
-     l4_kctor_induct493 c = own ==>
-     l4_kctor_num_params493 c = l4_kind_num_params493 info /\
-     LENGTH (l4_kdecl_params493 d_ctor) = LENGTH (l4_kdecl_params493 d_ind)) /\
+     l4_kdecl_kind493 d_ctor = L4KDConstructor493 c ==>
+     (MEM ctor (l4_kind_ctors493 info) <=> l4_kctor_induct493 c = own) /\
+     (MEM ctor (l4_kind_ctors493 info) ==>
+       l4_kctor_num_params493 c = l4_kind_num_params493 info /\
+       LENGTH (l4_kdecl_params493 d_ctor) = LENGTH (l4_kdecl_params493 d_ind))) /\
    (!uvars g own info us args usort.
      l4_vctx_wf966 venv uvars g /\
      l4_core_inductive532 env own = SOME info /\
      l4_vhas_type961 venv uvars g
        (l4_vapps962 args (L4VConst961 own us)) (L4VSort961 usort) ==>
      LENGTH args = l4_kind_num_params493 info + l4_kind_num_indices493 info) /\
-   (!uvars g own info ctor c d us params idxs sv.
+   (!uvars g own info ctor c d us params idxs t.
      l4_vctx_wf966 venv uvars g /\
      l4_core_inductive532 env own = SOME info /\
      l4_kind_ctors493 info = [ctor] /\
@@ -2384,17 +2387,19 @@ let l4_venv_sound973 = new_definition
      l4_kdecl_kind493 d = L4KDConstructor493 c /\
      LENGTH params = l4_kind_num_params493 info /\
      LENGTH idxs = l4_kind_num_indices493 info /\
-     l4_vhas_type961 venv uvars g sv
-       (l4_vapps962 (APPEND params idxs) (L4VConst961 own us)) ==>
+     l4_vhas_type961 venv uvars g
+       (l4_vapps962 (APPEND params idxs) (L4VConst961 own us)) t ==>
      ?ty_p. l4_vhas_type961 venv uvars g
               (l4_vapps962 params (L4VConst961 ctor us)) ty_p) /\
    (!uvars n k g g' own info t0 us args.
-     l4_vctx_wf966 venv uvars g /\
+     l4_vctx_wf966 venv uvars g' /\
      l4_vctx_liftN966 n k g g' /\
      l4_core_inductive532 env own = SOME info /\
-     l4_vhas_type961 venv uvars g' (l4_vliftN961 t0 n k)
-       (l4_vapps962 (MAP (\a. l4_vliftN961 a n k) args) (L4VConst961 own us)) ==>
-     l4_vhas_type961 venv uvars g t0 (l4_vapps962 args (L4VConst961 own us)))`;;
+     l4_vis_defeq_u961 venv uvars g' (l4_vliftN961 t0 n k)
+       (l4_vapps962 args (L4VConst961 own us)) ==>
+     ?args0.
+       LENGTH args0 = LENGTH args /\
+       l4_vis_defeq_u961 venv uvars g t0 (l4_vapps962 args0 (L4VConst961 own us)))`;;
 
 let l4_ves_proj_thms973 =
   let raw = UNDISCH (fst (EQ_IMP_RULE (SPEC_ALL l4_venv_sound973))) in
