@@ -77,3 +77,24 @@ let l4_core_reduce_nat549 = new_definition
            | _ -> L4KAccept491 NONE)
         | NONE -> L4KAccept491 NONE)
    | _ -> L4KAccept491 NONE`;;
+
+(* Lean4Lean TypeChecker.reduceNative (lines 453-459): explicitly decline
+   Lean.reduceBool and Lean.reduceNat hooks with UnsupportedExpression. *)
+let l4_core_reduce_bool_name549 = new_definition
+ `l4_core_reduce_bool_name549 =
+   L4String (L4String L4Anonymous [76;101;97;110])
+     [114;101;100;117;99;101;66;111;111;108]`;;
+
+let l4_core_reduce_nat_name549 = new_definition
+ `l4_core_reduce_nat_name549 =
+   L4String (L4String L4Anonymous [76;101;97;110])
+     [114;101;100;117;99;101;78;97;116]`;;
+
+let l4_core_reduce_native549 = new_definition
+ `l4_core_reduce_native549 e =
+   match e with
+   | L4KApp447 (L4KConst447 f []) (L4KConst447 a us) ->
+       if f = l4_core_reduce_bool_name549 \/ f = l4_core_reduce_nat_name549
+       then L4KDecline491 L4KUnsupportedExpression491
+       else L4KAccept491 (NONE:l4_kexpr447 option)
+   | _ -> L4KAccept491 (NONE:l4_kexpr447 option)`;;

@@ -57,7 +57,14 @@ let l4_kernel_project_equations647 : thm list = [
   l4_core_same_head595;
   l4_core_congruent_apps595;
   l4_core_delta_congruent595;
+  l4_core_eta_expand_pis595;
+  l4_core_eta_expand_atom595;
+  l4_core_eta_expand595;
+  l4_core_is_cheap_arg595;
+  l4_core_compare_args_filtered595;
+  l4_core_compare_args_cheap_first595;
   l4_compare_heads595;
+  l4_core_reduce_proj_core595;
   l4_core_compare_fields595;
   l4_core_structure_eta595;
   l4_core_unit_like595;
@@ -126,6 +133,7 @@ let l4_kernel_project_equations647 : thm list = [
   l4_check_defeq597;
   (* /private/tmp/hol-kernel-composition597/hol/kernel_conversion597.ml *)
   l4_core_lazy_delta597;
+  l4_core_lazy_delta_proj597;
   l4_core_finish_conversion597;
   l4_core_is_true597;
   l4_core_true_shortcut597;
@@ -230,6 +238,7 @@ let l4_kernel_project_equations647 : thm list = [
   l4_core_bitop544;
   l4_core_nat_value544;
   l4_core_nat_constructor544;
+  l4_core_pow_max_exp544;
   l4_core_shiftr544;
   l4_core_binary_nat544;
   (* /private/tmp/hol-kernel-strings539/hol/kernel_strings539.ml *)
@@ -283,6 +292,9 @@ let l4_kernel_project_equations647 : thm list = [
   (* /private/tmp/hol-natural-reduction549/hol/natural_reduction549.ml *)
   l4_core_reduce_nat_reference549;
   l4_core_reduce_nat549;
+  l4_core_reduce_bool_name549;
+  l4_core_reduce_nat_name549;
+  l4_core_reduce_native549;
   (* /private/tmp/hol-nested-admission634/hol/nested_admission634.ml *)
   l4_nested_checked_context634;
   l4_admit_inductive_nested634;
@@ -416,6 +428,7 @@ let l4_kernel_project_equations647 : thm list = [
   l4_primitive_true619;
   l4_primitive_false619;
   l4_primitive_call619;
+  l4_primitive_consume_mdata619;
   l4_primitive_check_signature619;
   l4_primitive_authenticated619;
   l4_primitive_dependencies619;
@@ -482,6 +495,12 @@ let l4_kernel_project_equations647 : thm list = [
   l4_reflection_dec621;
   l4_primitive_reflection_type621;
   l4_primitive_reflection_make621;
+  l4_primitive_has_decidable_intro621;
+  l4_primitive_has_bool_dec_eq621;
+  l4_primitive_has_decidable_decide621;
+  l4_primitive_reflection_make_v436621;
+  l4_primitive_reflection_for621;
+  l4_primitive_bool_dec_v436621;
   l4_primitive_reflection_ite621;
   l4_primitive_reflection_dite621;
   l4_primitive_eq_closed621;
@@ -489,9 +508,12 @@ let l4_kernel_project_equations647 : thm list = [
   l4_primitive_check_reflection621;
   l4_primitive_condition_prop621;
   l4_primitive_condition_dec621;
+  l4_primitive_condition_dec_in621;
   l4_primitive_condition_ite621;
+  l4_primitive_condition_ite_in621;
   l4_primitive_condition_dite621;
   l4_primitive_condition_decide621;
+  l4_primitive_condition_decide_in621;
   l4_primitive_condition_proof621;
   l4_primitive_check_condition621;
   l4_primitive_go_name621;

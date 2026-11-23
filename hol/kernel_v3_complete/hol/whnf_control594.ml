@@ -90,14 +90,18 @@ let l4_whnf_step594 = new_definition
          | SOME value -> l4_whnf_method543 rec g value
          | NONE -> L4KAccept491 reduced)
      | _ ->
-       l4_kr_bind491 (l4_core_reduce_nat549 rec fuel env g reduced) (\native.
-         match native with
+       l4_kr_bind491 (l4_core_reduce_native549 reduced) (\nat_hook.
+         match nat_hook with
          | SOME value -> L4KAccept491 value
          | NONE ->
-           l4_kr_bind491 (l4_core_unfold528 env ps reduced) (\unfolded.
-             match unfolded with
-             | SOME value -> l4_whnf_method543 rec g value
-             | NONE -> L4KAccept491 reduced)))`;;
+           l4_kr_bind491 (l4_core_reduce_nat549 rec fuel env g reduced) (\native.
+             match native with
+             | SOME value -> L4KAccept491 value
+             | NONE ->
+               l4_kr_bind491 (l4_core_unfold528 env ps reduced) (\unfolded.
+                 match unfolded with
+                 | SOME value -> l4_whnf_method543 rec g value
+                 | NONE -> L4KAccept491 reduced))))`;;
 
 let l4_finish_whnf_unfold594 = new_definition
  `l4_finish_whnf_unfold594 env ps e =
@@ -116,10 +120,14 @@ let l4_whnf_round_step594 = new_definition
        then L4KAccept491 (L4WhnfDone543 (L4KNatLit447 0))
        else l4_finish_whnf_unfold594 env ps reduced
      | _ ->
-       l4_kr_bind491 (l4_core_reduce_nat549 rec fuel env g reduced) (\native.
-         match native with
+       l4_kr_bind491 (l4_core_reduce_native549 reduced) (\nat_hook.
+         match nat_hook with
          | SOME value -> L4KAccept491 (L4WhnfDone543 value)
-         | NONE -> l4_finish_whnf_unfold594 env ps reduced))`;;
+         | NONE ->
+           l4_kr_bind491 (l4_core_reduce_nat549 rec fuel env g reduced) (\native.
+             match native with
+             | SOME value -> L4KAccept491 (L4WhnfDone543 value)
+             | NONE -> l4_finish_whnf_unfold594 env ps reduced)))`;;
 
 (* Only rounds decrease here. Recursive callbacks and reducer fuel retain
    their supplied predecessor depth throughout this loop, as in Rocq. *)

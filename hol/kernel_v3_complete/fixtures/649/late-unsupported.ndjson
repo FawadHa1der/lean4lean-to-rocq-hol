@@ -8,4 +8,4 @@
 {"ie":5,"lam":{"name":0,"type":1,"body":1,"binderInfo":"default"}}
 {"ie":6,"lam":{"name":0,"type":0,"body":5,"binderInfo":"default"}}
 {"thm":{"name":1,"levelParams":[],"type":4,"value":6,"all":[1]}}
-{"ie":7,"mdata":{"expr":6,"data":{"unsupported649":true}}}
+{"ie":7,"fvar":0}

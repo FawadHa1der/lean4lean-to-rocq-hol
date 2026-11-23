@@ -39,6 +39,12 @@ let L4_REFLECTION_TYPE_FIELD621 = prove
      l4_primitive_reflection_type621 false_eq`,
   REWRITE_TAC [l4_primitive_reflection_make621; LET_DEF; LET_END_DEF; l4_reflection_type621]);;
 
+let L4_REFLECTION_TYPE_FIELD_V436621 = prove
+ (`!false_eq. l4_reflection_type621 (l4_primitive_reflection_make_v436621 false_eq) =
+     l4_primitive_reflection_type621 false_eq`,
+  REWRITE_TAC [l4_primitive_reflection_make_v436621; L4_REFLECTION_TYPE_FIELD621;
+    LET_DEF; LET_END_DEF; l4_reflection_type621]);;
+
 let L4_CONDITION_UNREADY_FIRST621 = prove
  (`!fuel env c wi wd. ~l4_core_bool_ready533 env ==>
      l4_primitive_check_condition621 fuel env c wi wd =
@@ -48,18 +54,18 @@ let L4_CONDITION_UNREADY_FIRST621 = prove
 let L4_CONDITION_INFER_REJECT621 = prove
  (`!fuel env c wi wd reason.
      l4_core_bool_ready533 env /\
-     l4_infer597 fuel env [] l4_kempty_context532 (l4_primitive_condition_dec621 c) =
+     l4_infer597 fuel env [] l4_kempty_context532 (l4_primitive_condition_dec_in621 env c) =
        L4KReject491 reason ==>
      l4_primitive_check_condition621 fuel env c wi wd = L4KReject491 reason`,
-  SIMP_TAC [l4_primitive_check_condition621; l4_kr_bind491]);;
+  SIMP_TAC [l4_primitive_check_condition621; LET_DEF; LET_END_DEF; l4_kr_bind491]);;
 
 let L4_CONDITION_INFER_DECLINE621 = prove
  (`!fuel env c wi wd reason.
      l4_core_bool_ready533 env /\
-     l4_infer597 fuel env [] l4_kempty_context532 (l4_primitive_condition_dec621 c) =
+     l4_infer597 fuel env [] l4_kempty_context532 (l4_primitive_condition_dec_in621 env c) =
        L4KDecline491 reason ==>
      l4_primitive_check_condition621 fuel env c wi wd = L4KDecline491 reason`,
-  SIMP_TAC [l4_primitive_check_condition621; l4_kr_bind491]);;
+  SIMP_TAC [l4_primitive_check_condition621; LET_DEF; LET_END_DEF; l4_kr_bind491]);;
 
 let L4_REFLECTION_INITIAL_REJECT621 = prove
  (`!fuel env r wi wd reason.

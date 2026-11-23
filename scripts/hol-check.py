@@ -30,11 +30,15 @@ MAX_INPUT_BYTES = 32 * 1024 * 1024
 MAX_SOURCE_BYTES = 2 * 1024 * 1024
 MAX_INPUT_TOTAL = 128 * 1024 * 1024
 MAX_INPUT_FILES = 512
-SOURCE_ROOTS = ('hol/environment.ml', 'hol/primitive_validation.ml', 'hol/text_validation.ml',
-                'hol/raw_ctor_admission.ml',
-                'hol/raw_indexed_admission.ml',
-                'frontend/hol_check.ml', 'frontend/hol_server.ml')
-BOOT_FILES = {
+SOURCE_ROOTS_V0 = ('hol/environment.ml', 'hol/primitive_validation.ml', 'hol/text_validation.ml',
+                   'hol/raw_ctor_admission.ml',
+                   'hol/raw_indexed_admission.ml',
+                   'frontend/hol_check.ml', 'frontend/hol_server.ml')
+SOURCE_ROOTS_V3 = ('hol/kernel_v3_complete/hol/file_certificate649.ml',
+                   'frontend/hol_check_v3.ml', 'frontend/hol_server.ml')
+STOCK_HOL_NEEDS = frozenset({'compute.ml', 'calc_num.ml', 'wf.ml', 'lists.ml',
+                             'Library/bitsize.ml', 'Library/prime.ml'})
+BOOT_FILES_V0 = {
     'scripts/hol-check.py': 'supervisor-source',
     'scripts/hol-server.sh': 'launcher-source',
     'scripts/toolchain-exec.sh': 'launcher-source',
@@ -43,7 +47,16 @@ BOOT_FILES = {
        for name in ('wire', 'replay', 'hol_input')
        for ext, role in (('cmo', 'bytecode'), ('cmi', 'interface'))},
 }
-BOOTSTRAP = b'''Topdirs.dir_directory (Sys.getenv "HOL_RUNNER_ZARITH");;
+BOOT_FILES_V3 = {
+    'scripts/hol-check.py': 'supervisor-source',
+    'scripts/hol-server.sh': 'launcher-source',
+    'scripts/toolchain-exec.sh': 'launcher-source',
+    'scripts/toolchain-env.sh': 'launcher-source',
+    **{f'build/frontend/{name}.{ext}': 'bridge-' + role
+       for name in ('wire', 'replay')
+       for ext, role in (('cmo', 'bytecode'), ('cmi', 'interface'))},
+}
+BOOTSTRAP_V0 = b'''Topdirs.dir_directory (Sys.getenv "HOL_RUNNER_ZARITH");;
 Topdirs.dir_directory (Sys.getenv "HOL_RUNNER_YOJSON");;
 Topdirs.dir_directory "build/frontend";;
 #load "unix.cma";;
@@ -64,6 +77,26 @@ with exn -> prerr_endline (Printexc.to_string exn); exit 3;;
 unset_jrh_lexer;;
 let () = try
   needs "frontend/hol_check.ml";
+  needs "frontend/hol_server.ml"
+with exn -> prerr_endline (Printexc.to_string exn); exit 3;;
+exit 3;;
+'''
+BOOTSTRAP_V3 = b'''Topdirs.dir_directory (Sys.getenv "HOL_RUNNER_ZARITH");;
+Topdirs.dir_directory (Sys.getenv "HOL_RUNNER_YOJSON");;
+Topdirs.dir_directory "build/frontend";;
+#load "unix.cma";;
+#load "zarith.cma";;
+#load "yojson.cma";;
+Topdirs.dir_load Format.std_formatter (Filename.concat (Sys.getenv "HOL_RUNNER_ROOT") "build/frontend/wire.cmo");;
+Topdirs.dir_load Format.std_formatter (Filename.concat (Sys.getenv "HOL_RUNNER_ROOT") "build/frontend/replay.cmo");;
+use_file_raise_failure := true;;
+load_path := [Filename.concat (Sys.getenv "HOL_RUNNER_ROOT") "hol/kernel_v3_complete"; Sys.getenv "HOL_RUNNER_ROOT"; "$"];;
+let () = try
+  needs "hol/file_certificate649.ml"
+with exn -> prerr_endline (Printexc.to_string exn); exit 3;;
+unset_jrh_lexer;;
+let () = try
+  needs "frontend/hol_check_v3.ml";
   needs "frontend/hol_server.ml"
 with exn -> prerr_endline (Printexc.to_string exn); exit 3;;
 exit 3;;
@@ -191,7 +224,7 @@ def source_tokens(source):
                 at += 1
 
 
-def literal_needs(data):
+def literal_needs(data, kernel='v3', current_rel=''):
     if len(data) > MAX_SOURCE_BYTES:
         raise ValueError('source exceeds dependency scan byte limit')
     tokens = list(source_tokens(data.decode('utf-8')))
@@ -209,19 +242,26 @@ def literal_needs(data):
         if value != 'needs':
             continue
         following = tokens[index + 1] if index + 1 < len(tokens) else None
-        if (previous == ('punctuation', '.') or following is None
-                or following[0] != 'string'
-                or not re.fullmatch(r'(?:hol|frontend)/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.ml',
-                                    following[1])):
+        if previous == ('punctuation', '.') or following is None or following[0] != 'string':
             raise ValueError('needs must use a literal canonical project .ml path')
-        dependencies.add(following[1])
+        dep = following[1]
+        if kernel == 'v3' and dep in STOCK_HOL_NEEDS:
+            continue
+        if not re.fullmatch(r'(?:hol|frontend)/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.ml', dep):
+            raise ValueError(f'needs must use a literal canonical project .ml path: {dep}')
+        if kernel == 'v3' and current_rel.startswith('hol/kernel_v3_complete/') and dep.startswith('hol/'):
+            dep = 'hol/kernel_v3_complete/' + dep
+        dependencies.add(dep)
     return sorted(dependencies)
 
 
-def project_snapshot(root):
+def project_snapshot(root, kernel='v3'):
     root = root.resolve(strict=True)
+    source_roots = SOURCE_ROOTS_V3 if kernel == 'v3' else SOURCE_ROOTS_V0
+    boot_files = BOOT_FILES_V3 if kernel == 'v3' else BOOT_FILES_V0
+    bootstrap = BOOTSTRAP_V3 if kernel == 'v3' else BOOTSTRAP_V0
     inputs, edges = {}, {}
-    pending = list(SOURCE_ROOTS)
+    pending = list(source_roots)
     total = 0
 
     def add(relative, role):
@@ -239,14 +279,15 @@ def project_snapshot(root):
         relative = pending.pop()
         if relative in inputs:
             continue
-        dependencies = literal_needs(add(relative, 'hol-source-dependency'))
+        dependencies = literal_needs(add(relative, 'hol-source-dependency'),
+                                     kernel=kernel, current_rel=relative)
         edges[relative] = dependencies
         pending.extend(dependencies)
-    for relative, role in sorted(BOOT_FILES.items()):
+    for relative, role in sorted(boot_files.items()):
         add(relative, role)
-    return {'project_root': str(root), 'source_roots': list(SOURCE_ROOTS),
+    return {'project_root': str(root), 'kernel': kernel, 'source_roots': list(source_roots),
             'literal_needs': edges, 'inputs': [inputs[key] for key in sorted(inputs)],
-            'bootstrap': {'sha256': sha256(BOOTSTRAP), 'size_bytes': len(BOOTSTRAP)}}
+            'bootstrap': {'sha256': sha256(bootstrap), 'size_bytes': len(bootstrap)}}
 
 
 def require_stable_startup(before, after):
@@ -314,10 +355,11 @@ def publish_provenance(root, before, directory, endpoint, hol_pid, args, started
     if (not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid()
             or stat.S_IMODE(info.st_mode) != 0o700):
         raise ValueError('provenance run directory must be private mode 0700')
-    after = project_snapshot(root)
+    after = project_snapshot(root, kernel=args.kernel)
     require_stable_startup(before, after)
     manifest = {
         'version': 1, 'kind': 'hol-runner-startup-provenance', 'scope': 'project-inputs-only',
+        'kernel': args.kernel,
         'limitations': [
             'Two matching filesystem snapshots, not an attestation of executed bytes or runtime state.',
             'No HOL toolchain, external OCaml libraries, dynamic libraries, OS, or semantic attestation.',
@@ -328,6 +370,7 @@ def publish_provenance(root, before, directory, endpoint, hol_pid, args, started
         'startup': {'started_at': started_at, 'ready_at': utc_now(),
                     'supervisor_pid': os.getpid(), 'hol_pid': hol_pid, 'socket': endpoint,
                     'case_timeout_seconds': args.case_timeout,
+                    'kernel': args.kernel, 'fuel': args.fuel,
                     'before_snapshot_sha256': sha256(json_bytes(before)),
                     'ready_snapshot_sha256': sha256(json_bytes(after)),
                     'comparison': 'before-launch-and-at-ready-identical'},
@@ -587,22 +630,34 @@ def finish_process(process, hol_pid, primary):
 
 def serve(argv):
     parser = Parser(description='Start a warm HOL parent; print a JSON readiness record.')
+    parser.add_argument('--kernel', choices=('v3', 'v0'), default='v3',
+                        help='HOL kernel backend: v3 (13-ctor kernel_v3_complete, default) or v0 (legacy)')
+    parser.add_argument('--fuel', type=int, default=50000,
+                        help='recursion fuel for v3 kernel_v3_complete (default: 50000)')
     parser.add_argument('--case-timeout', type=positive_seconds, default=30,
                         help='maximum wall seconds per case (default: 30)')
-    parser.add_argument('--startup-timeout', type=positive_seconds, default=180,
-                        help='maximum HOL initialization seconds (default: 180)')
+    parser.add_argument('--startup-timeout', type=positive_seconds, default=300,
+                        help='maximum HOL initialization seconds (default: 300)')
     parser.add_argument('--provenance-output', metavar='PATH',
                         help='persist a private startup manifest atomically; never overwrite PATH')
     args = parser.parse_args(argv)
+    if args.fuel < 0:
+        raise ValueError('fuel must be nonnegative')
     if signal.getsignal(signal.SIGCHLD) != signal.SIG_DFL:
         raise RuntimeError('HOL server requires default SIGCHLD disposition for owned-child teardown')
     if args.provenance_output:
         unused_path, descriptor = output_location(args.provenance_output)
         os.close(descriptor)
-    for name in ('wire.cmo', 'replay.cmo', 'hol_input.cmo'):
+    needed_cmos = ('wire.cmo', 'replay.cmo') if args.kernel == 'v3' else ('wire.cmo', 'replay.cmo', 'hol_input.cmo')
+    for name in needed_cmos:
         if not (ROOT / 'build/frontend' / name).is_file():
             raise ValueError('missing bytecode; run sh scripts/build-hol-frontend.sh first')
-    for name in ('hol/environment.ml', 'frontend/hol_check.ml', 'frontend/hol_server.ml'):
+    needed_sources = (
+        ('hol/kernel_v3_complete/hol/file_certificate649.ml', 'frontend/hol_check_v3.ml', 'frontend/hol_server.ml')
+        if args.kernel == 'v3'
+        else ('hol/environment.ml', 'frontend/hol_check.ml', 'frontend/hol_server.ml')
+    )
+    for name in needed_sources:
         if not (ROOT / name).is_file():
             raise ValueError(f'missing startup dependency: {name}')
     libraries = {}
@@ -630,19 +685,22 @@ def serve(argv):
             ready_pattern = re.compile(re.escape(marker) + rb':([0-9]+)\r?\n')
             os.chmod(directory, 0o700)
             environment = {**os.environ, **libraries, 'LINE_EDITOR': 'env',
+                           'OCAMLRUNPARAM': os.environ.get('OCAMLRUNPARAM', 's=16M,i=32M,o=30'),
                            'HOL_RUNNER_ROOT': str(ROOT),
                            'HOL_RUNNER_SOCKET': endpoint,
                            'HOL_RUNNER_CASE_TIMEOUT': str(args.case_timeout),
+                           'HOL_RUNNER_FUEL': str(args.fuel),
                            'HOL_RUNNER_READY': marker.decode()}
             environment.pop('HOL_ML_PATH', None)
             started_at = utc_now()
-            before = project_snapshot(ROOT)
+            before = project_snapshot(ROOT, kernel=args.kernel)
+            bootstrap = BOOTSTRAP_V3 if args.kernel == 'v3' else BOOTSTRAP_V0
             process = subprocess.Popen(['hol.sh'], cwd=ROOT, env=environment,
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                        stderr=subprocess.STDOUT, start_new_session=True)
             primary_error = None
             try:
-                process.stdin.write(BOOTSTRAP)
+                process.stdin.write(bootstrap)
                 process.stdin.close()
                 deadline = time.monotonic() + args.startup_timeout
                 ready = False
@@ -671,6 +729,7 @@ def serve(argv):
                                     ROOT, before, directory, endpoint, hol_pid, args, started_at)
                                 ready = True
                                 print(json.dumps({'socket': endpoint, 'supervisor_pid': os.getpid(),
+                                                  'kernel': args.kernel, 'fuel': args.fuel,
                                                   'case_timeout_seconds': args.case_timeout,
                                                   **provenance}), flush=True)
                             scan_tail = scanned[-512:]

@@ -152,9 +152,17 @@ let l4_whnf_constant_delta594 = prove
    l4_whnf_step594 rec fuel env ps g e = l4_whnf_method543 rec g value /\
    l4_whnf_round_step594 rec fuel env ps g e = L4KAccept491 (L4WhnfContinue543 value)`,
   SIMP_TAC [l4_whnf_step594;l4_whnf_round_step594;l4_finish_whnf_unfold594;l4_kr_bind491]);;
+let l4_whnf_app_native_decline594 = prove
+ (`!rec fuel env ps g e a us.
+   l4_whnf_core_step594 rec fuel env ps F g e =
+     L4KAccept491 (L4KApp447 (L4KConst447 l4_core_reduce_bool_name549 []) (L4KConst447 a us)) ==>
+   l4_whnf_step594 rec fuel env ps g e = L4KDecline491 L4KUnsupportedExpression491 /\
+   l4_whnf_round_step594 rec fuel env ps g e = L4KDecline491 L4KUnsupportedExpression491`,
+  SIMP_TAC [l4_whnf_step594;l4_whnf_round_step594;l4_core_reduce_native549;l4_kr_bind491]);;
 let l4_whnf_app_nat_done594 = prove
  (`!rec fuel env ps g e f a value.
    l4_whnf_core_step594 rec fuel env ps F g e = L4KAccept491 (L4KApp447 f a) /\
+   l4_core_reduce_native549 (L4KApp447 f a) = L4KAccept491 NONE /\
    l4_core_reduce_nat549 rec fuel env g (L4KApp447 f a) = L4KAccept491 (SOME value) ==>
    l4_whnf_step594 rec fuel env ps g e = L4KAccept491 value /\
    l4_whnf_round_step594 rec fuel env ps g e = L4KAccept491 (L4WhnfDone543 value)`,
@@ -162,6 +170,7 @@ let l4_whnf_app_nat_done594 = prove
 let l4_whnf_app_nat_reject594 = prove
  (`!rec fuel env ps g e f a reason.
    l4_whnf_core_step594 rec fuel env ps F g e = L4KAccept491 (L4KApp447 f a) /\
+   l4_core_reduce_native549 (L4KApp447 f a) = L4KAccept491 NONE /\
    l4_core_reduce_nat549 rec fuel env g (L4KApp447 f a) = L4KReject491 reason ==>
    l4_whnf_step594 rec fuel env ps g e = L4KReject491 reason /\
    l4_whnf_round_step594 rec fuel env ps g e = L4KReject491 reason`,
@@ -169,6 +178,7 @@ let l4_whnf_app_nat_reject594 = prove
 let l4_whnf_app_nat_decline594 = prove
  (`!rec fuel env ps g e f a reason.
    l4_whnf_core_step594 rec fuel env ps F g e = L4KAccept491 (L4KApp447 f a) /\
+   l4_core_reduce_native549 (L4KApp447 f a) = L4KAccept491 NONE /\
    l4_core_reduce_nat549 rec fuel env g (L4KApp447 f a) = L4KDecline491 reason ==>
    l4_whnf_step594 rec fuel env ps g e = L4KDecline491 reason /\
    l4_whnf_round_step594 rec fuel env ps g e = L4KDecline491 reason`,
@@ -176,6 +186,7 @@ let l4_whnf_app_nat_decline594 = prove
 let l4_whnf_app_delta594 = prove
  (`!rec fuel env ps g e f a value.
    l4_whnf_core_step594 rec fuel env ps F g e = L4KAccept491 (L4KApp447 f a) /\
+   l4_core_reduce_native549 (L4KApp447 f a) = L4KAccept491 NONE /\
    l4_core_reduce_nat549 rec fuel env g (L4KApp447 f a) = L4KAccept491 NONE /\
    l4_core_unfold528 env ps (L4KApp447 f a) = L4KAccept491 (SOME value) ==>
    l4_whnf_step594 rec fuel env ps g e = l4_whnf_method543 rec g value /\

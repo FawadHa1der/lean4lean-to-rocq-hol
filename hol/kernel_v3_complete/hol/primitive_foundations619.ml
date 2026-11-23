@@ -87,19 +87,25 @@ let l4_primitive_call619 = new_definition
  `l4_primitive_call619 op args =
    l4_kapply_exprs489 args (L4KConst447 (l4_primitive_name619 op) [])`;;
 
-(* Only actual-side metadata is stripped. Pi display names/binder info do not
-   affect these shape checks; aliases and other constructors are not unfolded. *)
+let l4_primitive_consume_mdata619 = new_recursive_definition num_RECURSION
+ `(l4_primitive_consume_mdata619 0 e = L4KDecline491 L4KOutOfFuel491) /\
+  (l4_primitive_consume_mdata619 (SUC fuel) e =
+    match e with
+    | L4KMData447 a -> l4_primitive_consume_mdata619 fuel a
+    | _ -> L4KAccept491 e)`;;
+
+(* Upstream commit 67f63b0 eraseMData (Lean4Lean/Primitive.lean:311-313): strip
+   head L4KMData447 only on domains along the outer L4KPi447 spine; all other
+   positions remain strict. *)
 let l4_primitive_check_signature619 = new_recursive_definition num_RECURSION
  `(l4_primitive_check_signature619 0 actual expected = L4KDecline491 L4KOutOfFuel491) /\
   (l4_primitive_check_signature619 (SUC fuel) actual expected =
     match (actual,expected) with
-    | (L4KMData447 a,e) -> l4_primitive_check_signature619 fuel a e
     | (L4KPi447 n bi a b,L4KPi447 m bj c d) ->
-        l4_kr_bind491 (l4_primitive_check_signature619 fuel a c)
-          (\ignored. l4_primitive_check_signature619 fuel b d)
-    | (L4KApp447 a b,L4KApp447 c d) ->
-        l4_kr_bind491 (l4_primitive_check_signature619 fuel a c)
-          (\ignored. l4_primitive_check_signature619 fuel b d)
+        l4_kr_bind491 (l4_primitive_consume_mdata619 fuel a) (\a'.
+          if l4_kexpr_eqb480 a' c
+          then l4_primitive_check_signature619 fuel b d
+          else L4KReject491 L4KTypeMismatch491)
     | _ -> if l4_kexpr_eqb480 actual expected then L4KAccept491 one
            else L4KReject491 L4KTypeMismatch491)`;;
 

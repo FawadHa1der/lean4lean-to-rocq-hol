@@ -32,20 +32,25 @@ let l4_core_nat_constructor544 = new_definition
    if n = 0 then L4KConst447 l4_core_zero_name533 []
    else L4KApp447 (L4KConst447 l4_core_succ_name533 []) (L4KNatLit447 (n - 1))`;;
 
+(* Lean4Lean TypeChecker.lean:471-477: bound fast pow/shift exponent at 2^24
+   and return Accept NONE (symbolic fallback) rather than Decline OutOfFuel. *)
+let l4_core_pow_max_exp544 = new_definition
+ `l4_core_pow_max_exp544 = 16777216`;;
+
 (* Natural subtraction makes bitsize 0 - 1 = 0, matching N.log2 0.
-   Keep this shortcut BEFORE the budget test, including at fuel zero. *)
+   Keep this shortcut BEFORE the 2^24 exponent cutoff. *)
 let l4_core_shiftr544 = new_definition
- `l4_core_shiftr544 (fuel:num) a b =
-   if bitsize a - 1 < b then L4KAccept491 0
-   else if b <= fuel then L4KAccept491 (a DIV (2 EXP b))
-   else L4KDecline491 L4KOutOfFuel491`;;
+ `l4_core_shiftr544 a b =
+   if bitsize a - 1 < b then SOME 0
+   else if b <= l4_core_pow_max_exp544 then SOME (a DIV (2 EXP b))
+   else NONE`;;
 
 let l4_core_binary_nat544 = new_definition
  `l4_core_binary_nat544 (fuel:num) env op a b =
    let numeric = \n. L4KAccept491 (SOME (L4KNatLit447 n)) in
    let bounded = \operation:num->num->num.
-     if b <= fuel then numeric (operation a b)
-     else L4KDecline491 L4KOutOfFuel491 in
+     if b <= l4_core_pow_max_exp544 then numeric (operation a b)
+     else L4KAccept491 NONE in
    let boolean = \answer.
      if l4_core_bool_ready533 env then
        L4KAccept491
@@ -69,6 +74,8 @@ let l4_core_binary_nat544 = new_definition
    | L4KPNatBitwise493 -> L4KAccept491 NONE
    | L4KPNatShiftLeft493 -> bounded (\x y. x * 2 EXP y)
    | L4KPNatShiftRight493 ->
-       l4_kr_bind491 (l4_core_shiftr544 fuel a b) numeric
+       (match l4_core_shiftr544 a b with
+        | SOME value -> numeric value
+        | NONE -> L4KAccept491 NONE)
    | L4KPCharOfNat493 -> L4KAccept491 NONE
    | L4KPStringOfList493 -> L4KAccept491 NONE`;;

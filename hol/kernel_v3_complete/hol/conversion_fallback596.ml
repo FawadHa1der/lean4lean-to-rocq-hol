@@ -29,7 +29,7 @@ let l4_core_try_string_expansion596 = new_definition
 
 let l4_core_compare_fallback596 = new_definition
  `l4_core_compare_fallback596 rec fuel env g t s =
-   l4_kr_bind491 (l4_compare_heads595 rec fuel g t s) (\ok.
+   l4_kr_bind491 (l4_compare_heads595 rec fuel env g t s) (\ok.
      if ok then L4KAccept491 T else
      l4_kr_bind491 (l4_core_structure_eta595 rec env g t s) (\ok.
        if ok then L4KAccept491 T else

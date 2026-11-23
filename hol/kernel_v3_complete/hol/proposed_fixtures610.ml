@@ -115,8 +115,10 @@ let proposed_fixtures610 () =
   invalid "invalid UTF-8 does not become replacement scalar"
     (fun () -> Q.expr memo (Wire.StringLit "\192\128"));
   preflight "{\"ie\":1,\"mdata\":{\"expr\":0,\"data\":{}}}";
-  unsupported "nonempty metadata is not silently dropped" (fun () ->
-    preflight "{\"ie\":1,\"mdata\":{\"expr\":0,\"data\":{\"x\":1}}}");
+  preflight "{\"ie\":1,\"mdata\":{\"expr\":0,\"data\":{\"x\":1}}}";
+  preflight "{\"meta\":{\"exporter\":{\"name\":\"lean4export\",\"version\":\"3.1.0\"},\"format\":{\"version\":\"3.1.0\"},\"lean\":{\"version\":\"4.36.0\",\"githash\":\"abc\"}}}";
+  unsupported "unknown meta field is not silently dropped" (fun () ->
+    preflight "{\"meta\":{\"format\":{\"version\":\"3.1.0\"},\"lean\":{\"version\":\"4.36.0\",\"githash\":\"abc\"},\"unknownMeta\":1}}");
   unsupported "unknown binder field is not silently dropped" (fun () ->
     preflight "{\"ie\":1,\"lam\":{\"name\":0,\"type\":0,\"body\":0,\"binderInfo\":\"default\",\"extra\":true}}");
   List.iter (fun tag -> unsupported "unsupported local/metavariable decoder tag"
