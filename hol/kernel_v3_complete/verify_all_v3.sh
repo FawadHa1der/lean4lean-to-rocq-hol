@@ -1,7 +1,7 @@
 #!/bin/sh
-# Load and verify all 133 hol/*.ml modules of kernel_v3_complete across two
-# fresh HOL Light sessions:
-#   1. verify_all_v3.ml     — 125 core/metatheory/property/regression modules
+# Load and verify all 138 hol/*.ml modules of kernel_v3_complete across two
+# fresh sequential HOL Light sessions:
+#   1. verify_all_v3.ml     — 130 core/metatheory/property/regression modules
 #   2. verify_entries_v3.ml —   8 held "655" entry modules + 104 entry cases
 #                             (candidate_entry655 requires a pristine session)
 # Usage: sh hol/kernel_v3_complete/verify_all_v3.sh [LOGDIR]
@@ -23,18 +23,24 @@ run ocamlfind ocamlc -package yojson,zarith -I "$SCRATCH/frontend" -c \
 cd "$HERE"
 start=$(date +%s)
 
-LEAN4LEAN_FIXTURE_TMPDIR="$SCRATCH/fixture_tmp_main" \
-LEAN4LEAN_V3_FRONTEND_DIR="$SCRATCH/frontend" \
-LINE_EDITOR=env run hol.sh < verify_all_v3.ml > "$MAIN_LOG" 2>&1 &
-pid_main=$!
+# Run sessions sequentially under bounded virtual memory and compact OCaml GC
+# so verification succeeds reliably on 8 GiB / 0 swap environments.
+(
+  ulimit -v 4500000
+  OCAMLRUNPARAM="s=16M,i=32M,o=30" \
+  LEAN4LEAN_FIXTURE_TMPDIR="$SCRATCH/fixture_tmp_main" \
+  LEAN4LEAN_V3_FRONTEND_DIR="$SCRATCH/frontend" \
+  LINE_EDITOR=env run hol.sh < verify_all_v3.ml > "$MAIN_LOG" 2>&1
+) || true
 
-LEAN4LEAN_FIXTURE_TMPDIR="$SCRATCH/fixture_tmp_entries" \
-LEAN4LEAN_V3_FRONTEND_DIR="$SCRATCH/frontend" \
-LINE_EDITOR=env run hol.sh < verify_entries_v3.ml > "$ENTRIES_LOG" 2>&1 &
-pid_entries=$!
+(
+  ulimit -v 4500000
+  OCAMLRUNPARAM="s=16M,i=32M,o=30" \
+  LEAN4LEAN_FIXTURE_TMPDIR="$SCRATCH/fixture_tmp_entries" \
+  LEAN4LEAN_V3_FRONTEND_DIR="$SCRATCH/frontend" \
+  LINE_EDITOR=env run hol.sh < verify_entries_v3.ml > "$ENTRIES_LOG" 2>&1
+) || true
 
-wait "$pid_main" || true
-wait "$pid_entries" || true
 end=$(date +%s)
 
 echo "wall_clock_seconds=$((end - start))"
@@ -57,7 +63,7 @@ if ! cmp -s "$SCRATCH/expected_modules.txt" "$SCRATCH/verified_modules.txt"; the
   exit 1
 fi
 
-if grep -q '^V3_SUMMARY loaded=125 failed=0 total=125$' "$MAIN_LOG" &&
+if grep -q '^V3_SUMMARY loaded=130 failed=0 total=130$' "$MAIN_LOG" &&
    grep -q '^AXIOMS=3$' "$MAIN_LOG" &&
    grep -q '^V3_CHECK_AXIOMS_OK$' "$MAIN_LOG" &&
    grep -q '^V3_LOAD_DONE$' "$MAIN_LOG" &&

@@ -638,14 +638,14 @@ let l4_vnth_rail_list_from_pair968 = prove
   INDUCT_TAC THEN GEN_TAC THEN
   STRUCT_CASES_TAC (SPEC `k:num` num_CASES) THEN REPEAT GEN_TAC THEN TRY ARITH_TAC THENL
   [DISCH_TAC THEN
-   REWRITE_TAC [ARITH_RULE `2 * 0 = 0 /\ 2 * 0 + 1 = 1 /\ 1 - 1 = 0`;
-                ADD_CLAUSES;l4_rail_list_from968;l4_vnth_nat961;ARITH_EQ];
+   REWRITE_TAC [ARITH_RULE `2 * 0 = 0 /\ 2 * 0 + 1 = 1 /\ 1 - 1 = 0 /\ ~(1 = 0)`;
+                ADD_CLAUSES;l4_rail_list_from968;l4_vnth_nat961];
    DISCH_TAC THEN
    REWRITE_TAC [l4_rail_list_from968;
                 ARITH_RULE `~(2 * SUC m = 0) /\ ~(2 * SUC m - 1 = 0) /\
                             (2 * SUC m - 1) - 1 = 2 * m /\
-                            ~(2 * SUC m + 1 = 0) /\ ~(2 * SUC m + 1 - 1 = 0) /\
-                            (2 * SUC m + 1 - 1) - 1 = 2 * m + 1`;
+                            ~(2 * SUC m + 1 = 0) /\ ~((2 * SUC m + 1) - 1 = 0) /\
+                            ((2 * SUC m + 1) - 1) - 1 = 2 * m + 1`;
                 l4_vnth_nat961] THEN
    FIRST_X_ASSUM (MP_TAC o SPECL [`n:num`;`a:num->bool`;`SUC base`]) THEN
    ANTS_TAC THENL [ASM_ARITH_TAC; SIMP_TAC [ADD_CLAUSES]]]);;
@@ -676,7 +676,7 @@ let l4_vnth_rail_list_rail968 = prove
   REPEAT GEN_TAC THEN REWRITE_TAC [l4_lit_wf968;l4_lvl_rail968] THEN DISCH_TAC THEN
   ASM_CASES_TAC `l4_lit_pol968 l` THEN
   ASM_SIMP_TAC [l4_vnth_rail_list_yes968;l4_vnth_rail_list_no968] THEN
-  COND_CASES_TAC THEN REFL_TAC);;
+  COND_CASES_TAC THEN REWRITE_TAC []);;
 
 let l4_small_le_big968 = prove
  (`!n phi. l4_vlevel_le961 (l4_lvl_small968 n) (l4_lvl_big968 n phi)`,
@@ -725,7 +725,8 @@ let l4_big_equiv_small_iff_unsat968 = prove
    ASM_CASES_TAC `l4_vlevel_eval961 ls (l4_lvl_big968 n phi) =
                   l4_vlevel_eval961 ls (l4_lvl_small968 n)` THEN
    ASM_REWRITE_TAC [] THEN
-   UNDISCH_TAC `~l4_cnf_sat968 phi` THEN REWRITE_TAC [l4_cnf_sat968] THEN
+   SUBGOAL_THEN `l4_cnf_sat968 phi` (fun th -> ASM_MESON_TAC [th]) THEN
+   REWRITE_TAC [l4_cnf_sat968] THEN
    EXISTS_TAC `\i:num. ~(l4_vnth_nat961 ls (l4_lvl_yes968 i) = 0)` THEN
    SUBGOAL_THEN `!c. MEM c phi ==>
                      l4_vlevel_eval961 ls (l4_clause_lvl968 c) <=
@@ -759,9 +760,10 @@ let l4_big_equiv_small_iff_unsat968 = prove
     [UNDISCH_TAC `~(l4_vnth_nat961 ls (l4_lvl_rail968 l) = 0)` THEN
      ASM_SIMP_TAC [l4_lvl_rail968];
      ASM_REWRITE_TAC [] THEN
-     DISCH_TAC THEN
-     UNDISCH_TAC `~(l4_vnth_nat961 ls (l4_lvl_rail968 l) = 0)` THEN
-     ASM_REWRITE_TAC [l4_lvl_rail968] THEN DISCH_TAC THEN
+     MATCH_MP_TAC (TAUT `(~p ==> F) ==> p`) THEN DISCH_TAC THEN
+     SUBGOAL_THEN `~(l4_vnth_nat961 ls (l4_lvl_no968 (l4_lit_var968 l)) = 0)`
+       ASSUME_TAC THENL
+     [ASM_MESON_TAC [l4_lvl_rail968]; ALL_TAC] THEN
      SUBGOAL_THEN `l4_lit_var968 l < n` ASSUME_TAC THENL
      [REWRITE_TAC [GSYM l4_lit_wf968] THEN ASM_MESON_TAC []; ALL_TAC] THEN
      MP_TAC (SPECL [`n:num`;`l4_lit_var968 l`;`ls:num list`] l4_two_le_eval_small968) THEN
@@ -942,9 +944,13 @@ let l4_not_sat_self_contradiction968 = prove
     MP_TAC (SPEC `[L4Lit968 0 T]` th) THEN
     MP_TAC (SPEC `[L4Lit968 0 F]` th)) THEN
   REWRITE_TAC [MEM;l4_clause_sat968] THEN
-  DISCH_THEN (X_CHOOSE_THEN `l1:l4_lit968` (CONJUNCTS_THEN2 SUBST_ALL_TAC MP_TAC)) THEN
-  DISCH_THEN (X_CHOOSE_THEN `l2:l4_lit968` (CONJUNCTS_THEN2 SUBST_ALL_TAC MP_TAC)) THEN
-  REWRITE_TAC [l4_lit_var968;l4_lit_pol968] THEN MESON_TAC []);;
+  DISCH_THEN (X_CHOOSE_THEN `l1:l4_lit968` (CONJUNCTS_THEN2 MP_TAC MP_TAC)) THEN
+  DISCH_THEN (fun h1 -> DISCH_THEN (fun e1 ->
+    ASSUME_TAC (REWRITE_RULE [e1;l4_lit_var968;l4_lit_pol968] h1))) THEN
+  DISCH_THEN (X_CHOOSE_THEN `l2:l4_lit968` (CONJUNCTS_THEN2 MP_TAC MP_TAC)) THEN
+  DISCH_THEN (fun h2 -> DISCH_THEN (fun e2 ->
+    ASSUME_TAC (REWRITE_RULE [e2;l4_lit_var968;l4_lit_pol968] h2))) THEN
+  POP_ASSUM MP_TAC THEN ASM_REWRITE_TAC []);;
 
 let l4_equiv_self_contradiction968 = prove
  (`l4_vlevel_equiv961
