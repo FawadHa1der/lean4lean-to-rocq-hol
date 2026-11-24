@@ -130,17 +130,17 @@ let proposed_source_decoder_fixtures641 () =
       "{\"meta\":{\"format\":{\"version\":\"3.1.0\"}}}" ^ "\n";
     "complete unsupported format", Wire.Unsupported, 1,
       "{\"meta\":{\"format\":{\"version\":\"99\"},\"lean\":{\"version\":\"x\",\"githash\":\"y\"}}}" ^ "\n";
-    "extra exporter is not erased", Wire.Unsupported, 1,
-      "{\"meta\":{\"format\":{\"version\":\"3.1.0\"},\"lean\":{\"version\":\"x\",\"githash\":\"y\"},\"exporter\":{\"name\":\"test\"}}}" ^ "\n";
+    "unknown meta field is not erased", Wire.Unsupported, 1,
+      "{\"meta\":{\"format\":{\"version\":\"3.1.0\"},\"lean\":{\"version\":\"x\",\"githash\":\"y\"},\"unknownMeta\":{\"name\":\"test\"}}}" ^ "\n";
     "unsupported decoder tag", Wire.Unsupported, 2, meta ^ "{\"ie\":0,\"fvar\":0}" ^ "\n";
     "unknown field before undefined references", Wire.Unsupported, 2,
       meta ^ "{\"ie\":0,\"app\":{\"fn\":99,\"arg\":98,\"extra\":true}}" ^ "\n";
-    "nonempty metadata before undefined reference", Wire.Unsupported, 2,
+    "nonempty metadata with undefined reference is malformed", Wire.Malformed, 2,
       meta ^ "{\"ie\":0,\"mdata\":{\"expr\":99,\"data\":{\"x\":1}}}" ^ "\n";
     "duplicate top-level key", Wire.Malformed, 2, meta ^ "{\"ie\":0,\"ie\":1,\"sort\":0}" ^ "\n";
     "duplicate nested key", Wire.Malformed, 2,
       meta ^ "{\"in\":1,\"str\":{\"pre\":0,\"str\":\"x\",\"str\":\"y\"}}" ^ "\n";
-    "duplicates precede unsupported metadata", Wire.Malformed, 2,
+    "duplicates in metadata payload rejected", Wire.Malformed, 2,
       meta ^ "{\"ie\":0,\"mdata\":{\"expr\":99,\"data\":{\"x\":1,\"x\":2}}}" ^ "\n";
     "missing binder field", Wire.Malformed, 2,
       meta ^ "{\"ie\":0,\"lam\":{\"name\":0,\"type\":99,\"body\":99}}" ^ "\n";
@@ -160,7 +160,7 @@ let proposed_source_decoder_fixtures641 () =
     "two JSON records on one line", Wire.Malformed, 2,
       meta ^ "{\"ie\":0,\"sort\":0} {\"ie\":1,\"sort\":0}" ^ "\n";
     "late preflight failure forbids prefix return", Wire.Unsupported, 3,
-      meta ^ sort ^ "{\"ie\":1,\"mdata\":{\"expr\":0,\"data\":{\"late\":true}}}" ^ "\n";
+      meta ^ sort ^ "{\"ie\":1,\"fvar\":0}" ^ "\n";
     "malformed metadata payload", Wire.Malformed, 3,
       meta ^ sort ^ "{\"ie\":1,\"mdata\":{\"expr\":0,\"data\":[]}}" ^ "\n";
     "invalid UTF-8", Wire.Malformed, 2,

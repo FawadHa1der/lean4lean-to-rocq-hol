@@ -280,25 +280,41 @@ Definition core_nat_constructor (n : N) : expr :=
   | Npos _ => EApp (EConst core_succ_name []) (ELit (LitNat (N.pred n)))
   end.
 
-Definition core_shiftr (fuel : nat) (a b : N) : result N :=
-  if N.ltb (N.log2 a) b then Accept 0%N
-  else if N.leb b (N.of_nat fuel) then Accept (N.shiftr a b)
-  else Decline OutOfFuel.
+Definition core_pow_max_exp : N := 16777216%N.
 
-Lemma core_shiftr_sound fuel a b value :
-  core_shiftr fuel a b = Accept value -> value = N.shiftr a b.
+Definition core_shiftr (a b : N) : option N :=
+  if N.ltb (N.log2 a) b then Some 0%N
+  else if N.leb b core_pow_max_exp then Some (N.shiftr a b)
+  else None.
+
+Lemma core_shiftr_sound a b value :
+  core_shiftr a b = Some value -> value = N.shiftr a b.
 Proof.
   unfold core_shiftr. destruct (N.ltb (N.log2 a) b) eqn:Hlt.
   - intros H. inversion H; subst. symmetry. apply N.shiftr_eq_0.
     apply N.ltb_lt. exact Hlt.
-  - destruct (N.leb b (N.of_nat fuel)); intros H; inversion H. reflexivity.
+  - destruct (N.leb b core_pow_max_exp); intros H; inversion H. reflexivity.
 Qed.
+
+Definition core_reduce_bool_name : name := NameStr (NameStr NameAnon "Lean") "reduceBool".
+Definition core_reduce_nat_name : name := NameStr (NameStr NameAnon "Lean") "reduceNat".
+
+(* Lean4Lean TypeChecker.reduceNative (lines 453-459): reject native reduction
+   hooks explicitly with Decline UnsupportedExpression. *)
+Definition core_reduce_native (e : expr) : result (option expr) :=
+  match e with
+  | EApp (EConst f []) (EConst _ _) =>
+      if name_eqb f core_reduce_bool_name || name_eqb f core_reduce_nat_name
+      then Decline UnsupportedExpression
+      else Accept None
+  | _ => Accept None
+  end.
 
 Definition core_binary_nat (fuel : nat) (env : environment) (op : primitive_kind)
     (a b : N) : result (option expr) :=
   let numeric := fun n => Accept (Some (ELit (LitNat n))) in
   let bounded := fun (operation : N -> N -> N) =>
-    if N.leb b (N.of_nat fuel) then numeric (operation a b) else Decline OutOfFuel in
+    if N.leb b core_pow_max_exp then numeric (operation a b) else Accept None in
   let boolean := fun (b : bool) =>
     if core_bool_ready env then
       Accept (Some (EConst (if b then core_true_name else core_false_name) []))
@@ -318,7 +334,11 @@ Definition core_binary_nat (fuel : nat) (env : environment) (op : primitive_kind
   | PNatXor => numeric (N.lxor a b)
   | PNatBitwise => Accept None
   | PNatShiftLeft => bounded N.shiftl
-  | PNatShiftRight => value <- core_shiftr fuel a b ;; numeric value
+  | PNatShiftRight =>
+      match core_shiftr a b with
+      | Some value => numeric value
+      | None => Accept None
+      end
   | _ => Accept None
   end.
 
@@ -889,12 +909,17 @@ Definition whnf_step (rec : methods) (fuel : nat) (env : environment) (ps : list
       else unfolded <- core_unfold env ps reduced ;;
         match unfolded with Some value => whnf_method rec g value | None => Accept reduced end
   | _ =>
-      native <- core_reduce_nat rec fuel env g reduced ;;
-      match native with
+      nat_hook <- core_reduce_native reduced ;;
+      match nat_hook with
       | Some value => Accept value
       | None =>
-          unfolded <- core_unfold env ps reduced ;;
-          match unfolded with Some value => whnf_method rec g value | None => Accept reduced end
+          native <- core_reduce_nat rec fuel env g reduced ;;
+          match native with
+          | Some value => Accept value
+          | None =>
+              unfolded <- core_unfold env ps reduced ;;
+              match unfolded with Some value => whnf_method rec g value | None => Accept reduced end
+          end
       end
   end.
 
@@ -913,10 +938,15 @@ Definition whnf_round_step (rec : methods) (fuel : nat) (env : environment)
       then Accept (WhnfDone (ELit (LitNat 0%N)))
       else finish_whnf_unfold env ps reduced
   | _ =>
-      native <- core_reduce_nat rec fuel env g reduced ;;
-      match native with
+      nat_hook <- core_reduce_native reduced ;;
+      match nat_hook with
       | Some value => Accept (WhnfDone value)
-      | None => finish_whnf_unfold env ps reduced
+      | None =>
+          native <- core_reduce_nat rec fuel env g reduced ;;
+          match native with
+          | Some value => Accept (WhnfDone value)
+          | None => finish_whnf_unfold env ps reduced
+          end
       end
   end.
 
@@ -936,6 +966,38 @@ Definition eta_compare (rec : methods) (g : context) (domain body other : expr)
           (EApp (lift 1 0 other) (EBVar 0))
       else Accept false
   | _ => Accept false
+  end.
+
+(* Lean4Lean TypeChecker.etaExpand (lines 946-966), bounded by eta_fuel. *)
+Fixpoint core_eta_expand_pis (eta_fuel : nat) (rec : methods) (g : context)
+    (e ty : expr) (args : list expr) : result expr :=
+  match eta_fuel with
+  | 0 => Decline OutOfFuel
+  | S eta_fuel =>
+      match ty with
+      | EPi n bi domain body =>
+          let gb := push_binding g domain None in
+          let args' := List.app (map (lift 1 0) args) [EBVar 0] in
+          body' <- whnf_method rec gb body ;;
+          rest <- core_eta_expand_pis eta_fuel rec gb (lift 1 0 e) body' args' ;;
+          Accept (ELam n bi domain rest)
+      | _ => Accept (core_apps e args)
+      end
+  end.
+
+Fixpoint core_eta_expand (eta_fuel : nat) (rec : methods) (g : context)
+    (e : expr) {struct e} : result expr :=
+  match e with
+  | ELam n bi domain body =>
+      body' <- core_eta_expand eta_fuel rec (push_binding g domain None) body ;;
+      Accept (ELam n bi domain body')
+  | _ =>
+      ty <- infer_type_method rec g e ;;
+      ty <- whnf_method rec g ty ;;
+      match ty with
+      | EPi _ _ _ _ => core_eta_expand_pis eta_fuel rec g e ty []
+      | _ => Accept e
+      end
   end.
 
 (* A failed bounded alpha comparison is only an inconclusive fast path. The
@@ -1087,21 +1149,46 @@ Definition core_delta_congruent (rec : methods) (fuel : nat) (env : environment)
   | _, _ => Accept false
   end.
 
-Definition compare_heads (rec : methods) (fuel : nat) (g : context)
+Definition core_is_cheap_arg (env : environment) (e : expr) : bool :=
+  match e with
+  | EBVar _ | EFVar _ | ESort _ | ELit _ => true
+  | EConst _ _ => negb (core_delta_head env e)
+  | _ => false
+  end.
+
+Fixpoint core_compare_args_filtered (want_cheap : bool) (rec : methods)
+    (env : environment) (g : context) (xs ys : list expr) : result bool :=
+  match xs, ys with
+  | [], [] => Accept true
+  | x :: xs, y :: ys =>
+      let is_cheap := core_is_cheap_arg env x && core_is_cheap_arg env y in
+      if Bool.eqb is_cheap want_cheap then
+        ok <- defeq_method rec g x y ;;
+        if ok then core_compare_args_filtered want_cheap rec env g xs ys else Accept false
+      else core_compare_args_filtered want_cheap rec env g xs ys
+  | _, _ => Accept false
+  end.
+
+Definition core_compare_args_cheap_first (rec : methods) (env : environment)
+    (g : context) (xs ys : list expr) : result bool :=
+  ok <- core_compare_args_filtered true rec env g xs ys ;;
+  if ok then core_compare_args_filtered false rec env g xs ys else Accept false.
+
+Definition compare_heads (rec : methods) (fuel : nat) (env : environment) (g : context)
     (t s : expr) : result bool :=
   match t, s with
   | EConst n us, EConst m vs =>
       if name_eqb n m then levels_equiv fuel us vs else Accept false
   | EBVar n, EBVar m => Accept (Nat.eqb n m)
   | EFVar n, EFVar m => Accept (name_eqb n m)
-  | EProj n i a, EProj m j b =>
-      if name_eqb n m && Nat.eqb i j then defeq_method rec g a b else Accept false
+  | EProj _ i a, EProj _ j b =>
+      if Nat.eqb i j then defeq_method rec g a b else Accept false
   | EApp f a, EApp h b =>
       let '(tf, ta) := core_spine t [] in
       let '(sf, sa) := core_spine s [] in
       if Nat.eqb (List.length ta) (List.length sa) then
         ok <- defeq_method rec g tf sf ;;
-        if ok then core_compare_args rec g ta sa else Accept false
+        if ok then core_compare_args_cheap_first rec env g ta sa else Accept false
       else Accept false
   | ELam _ _ domain body, other => eta_compare rec g domain body other
   | other, ELam _ _ domain body => eta_compare rec g domain body other
@@ -1181,7 +1268,7 @@ Definition core_try_string_expansion (rec : methods) (g : context)
 
 Definition core_compare_fallback (rec : methods) (fuel : nat) (env : environment)
     (g : context) (t s : expr) : result bool :=
-  ok <- compare_heads rec fuel g t s ;;
+  ok <- compare_heads rec fuel env g t s ;;
   if ok then Accept true else
   ok <- core_structure_eta rec env g t s ;;
   if ok then Accept true else
@@ -1314,6 +1401,14 @@ Fixpoint core_lazy_delta (rounds : nat) (rec : methods) (fuel : nat)
             match sn with
             | Some sn => ok <- defeq_method rec g t sn ;; Accept (ConversionDone ok)
             | None =>
+            nat_t <- core_reduce_native t ;;
+            match nat_t with
+            | Some tn => ok <- defeq_method rec g tn s ;; Accept (ConversionDone ok)
+            | None =>
+            nat_s <- core_reduce_native s ;;
+            match nat_s with
+            | Some sn => ok <- defeq_method rec g t sn ;; Accept (ConversionDone ok)
+            | None =>
             same <- core_delta_congruent rec fuel env g t s ;;
             if same then Accept (ConversionDone true) else
             projected <- core_opposite_projection rec env g t s ;;
@@ -1332,13 +1427,84 @@ Fixpoint core_lazy_delta (rounds : nat) (rec : methods) (fuel : nat)
             end
             end
             end
+            end
+            end
+          end
+        end
+      end
+  end.
+
+Definition core_reduce_proj_core (env : environment) (idx : nat) (e : expr) : option expr :=
+  let '(h, args) := core_spine e [] in
+  match h with
+  | EConst cn _ =>
+      match core_constructor env cn with
+      | Some ci =>
+          if (idx <? ctor_num_fields ci) &&
+             Nat.eqb (List.length args) (ctor_num_params ci + ctor_num_fields ci)
+          then nth_error args (ctor_num_params ci + idx)
+          else None
+      | None => None
+      end
+  | _ => None
+  end.
+
+(* Lean4Lean TypeChecker.lazyDeltaProjReduction (lines 798-812): lazily unfold
+   projected structures and compare fields once stuck, before falling back to
+   full projection reduction. *)
+Fixpoint core_lazy_delta_proj (rounds : nat) (rec : methods) (fuel : nat)
+    (env : environment) (ps : list name) (g : context) (idx : nat) (t s : expr)
+    : result bool :=
+  match rounds with
+  | 0 => Decline OutOfFuel
+  | S rounds =>
+      quick <- core_quick rec fuel g t s ;;
+      match quick with
+      | Some ok => Accept ok
+      | None =>
+        same <- core_delta_congruent rec fuel env g t s ;;
+        if same then Accept true else
+        projected <- core_opposite_projection rec env g t s ;;
+        match projected with
+        | Some (tn, sn) => core_lazy_delta_proj rounds rec fuel env ps g idx tn sn
+        | None =>
+          let '(unfold_left, unfold_right) := core_delta_sides env t s in
+          td <- if unfold_left then core_unfold env ps t else Accept None ;;
+          sd <- if unfold_right then core_unfold env ps s else Accept None ;;
+          match td, sd with
+          | None, None =>
+              match core_reduce_proj_core env idx t, core_reduce_proj_core env idx s with
+              | Some tf, Some sf => defeq_method rec g tf sf
+              | _, _ => defeq_method rec g t s
+              end
+          | _, _ =>
+              tn <- match td with Some e => whnf_core_method rec true g e | None => Accept t end ;;
+              sn <- match sd with Some e => whnf_core_method rec true g e | None => Accept s end ;;
+              core_lazy_delta_proj rounds rec fuel env ps g idx tn sn
           end
         end
       end
   end.
 
 Definition core_finish_conversion (rec : methods) (fuel : nat) (env : environment)
-    (g : context) (t s : expr) : result bool :=
+    (ps : list name) (g : context) (t s : expr) : result bool :=
+  let '(th, ta) := core_spine t [] in
+  let '(sh, sa) := core_spine s [] in
+  lazy_proj_ok <-
+    match th, sh with
+    | EProj _ ti te, EProj _ si se =>
+        if Nat.eqb ti si && Nat.eqb (List.length ta) (List.length sa) then
+          ok <- core_lazy_delta_proj (S fuel) rec fuel env ps g ti te se ;;
+          if ok then
+            match ta with
+            | [] => Accept true
+            | _ => core_compare_args_cheap_first rec env g ta sa
+            end
+          else Accept false
+        else Accept false
+    | _, _ => Accept false
+    end ;;
+  if lazy_proj_ok then Accept true else
   (* Cheap projections can hide a constructor. Only re-enter conversion when
      full projection reduction actually produced a field. *)
   let project := fun e => let '(head, args) := core_spine e [] in match head with
@@ -1381,7 +1547,7 @@ Definition defeq_step (rec : methods) (fuel : nat) (env : environment) (ps : lis
       progress <- core_lazy_delta (S fuel) rec fuel env ps g tn sn ;;
       match progress with
       | ConversionDone ok => Accept ok
-      | ConversionStuck tn sn => core_finish_conversion rec fuel env g tn sn
+      | ConversionStuck tn sn => core_finish_conversion rec fuel env ps g tn sn
       end
     end
   end.

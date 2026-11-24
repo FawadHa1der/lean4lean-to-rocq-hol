@@ -355,6 +355,12 @@ module MakeOrderTac =
 
 module Nat =
  struct
+  (** val pred : nat -> nat **)
+
+  let pred n0 = match n0 with
+  | O -> n0
+  | S u -> u
+
   (** val eqb : nat -> nat -> bool **)
 
   let rec eqb n0 m =
@@ -380,14 +386,14 @@ module Nat =
   let ltb n0 m =
     leb (S n0) m
 
-  (** val min : nat -> nat -> nat **)
+  (** val max : nat -> nat -> nat **)
 
-  let rec min n0 m =
+  let rec max n0 m =
     match n0 with
-    | O -> O
+    | O -> m
     | S n' -> (match m with
-               | O -> O
-               | S m' -> S (min n' m'))
+               | O -> n0
+               | S m' -> S (max n' m'))
 
   (** val to_little_uint : nat -> uint -> uint **)
 
@@ -948,6 +954,13 @@ module Coq_Pos =
     | XH -> (match q with
              | XH -> True
              | _ -> False)
+
+  (** val leb : positive -> positive -> bool **)
+
+  let leb x y =
+    match compare x y with
+    | Gt -> False
+    | _ -> True
 
   (** val of_succ_nat : nat -> positive **)
 
@@ -2908,25 +2921,90 @@ let core_nat_constructor n0 = match n0 with
 | N0 -> EConst (core_zero_name, Nil)
 | Npos _ -> EApp ((EConst (core_succ_name, Nil)), (ELit (LitNat (N.pred n0))))
 
-(** val core_shiftr : nat -> n -> n -> n result **)
+(** val core_pow_max_exp : n **)
 
-let core_shiftr fuel a b =
+let core_pow_max_exp =
+  Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+    (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+(** val core_shiftr : n -> n -> n option **)
+
+let core_shiftr a b =
   match N.ltb (N.log2 a) b with
-  | True -> Accept N0
+  | True -> Some N0
   | False ->
-    (match N.leb b (N.of_nat fuel) with
-     | True -> Accept (N.shiftr a b)
-     | False -> Decline OutOfFuel)
+    (match N.leb b core_pow_max_exp with
+     | True -> Some (N.shiftr a b)
+     | False -> None)
+
+(** val core_reduce_bool_name : name **)
+
+let core_reduce_bool_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, False, False, False, False, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (True, True, True, True, False, True, True, False)), (String ((Ascii
+    (False, False, True, True, False, True, True, False)),
+    EmptyString)))))))))))))))))))))
+
+(** val core_reduce_nat_name : name **)
+
+let core_reduce_nat_name =
+  NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+    False, False, True, False)), (String ((Ascii (True, False, True, False,
+    False, True, True, False)), (String ((Ascii (True, False, False, False,
+    False, True, True, False)), (String ((Ascii (False, True, True, True,
+    False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+    (False, True, False, False, True, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, True, True, True, False)), (String ((Ascii
+    (True, True, False, False, False, True, True, False)), (String ((Ascii
+    (True, False, True, False, False, True, True, False)), (String ((Ascii
+    (False, True, True, True, False, False, True, False)), (String ((Ascii
+    (True, False, False, False, False, True, True, False)), (String ((Ascii
+    (False, False, True, False, True, True, True, False)),
+    EmptyString)))))))))))))))))))
+
+(** val core_reduce_native : expr -> expr option result **)
+
+let core_reduce_native = function
+| EApp (e0, e1) ->
+  (match e0 with
+   | EConst (f, l) ->
+     (match l with
+      | Nil ->
+        (match e1 with
+         | EConst (_, _) ->
+           (match match name_eqb f core_reduce_bool_name with
+                  | True -> True
+                  | False -> name_eqb f core_reduce_nat_name with
+            | True -> Decline UnsupportedExpression
+            | False -> Accept None)
+         | _ -> Accept None)
+      | Cons (_, _) -> Accept None)
+   | _ -> Accept None)
+| _ -> Accept None
 
 (** val core_binary_nat :
     nat -> environment -> primitive_kind -> n -> n -> expr option result **)
 
-let core_binary_nat fuel env op a b =
+let core_binary_nat _ env op a b =
   let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
   let bounded = fun operation ->
-    match N.leb b (N.of_nat fuel) with
+    match N.leb b core_pow_max_exp with
     | True -> numeric (operation a b)
-    | False -> Decline OutOfFuel
+    | False -> Accept None
   in
   let boolean = fun b0 ->
     match core_bool_ready env with
@@ -2952,7 +3030,10 @@ let core_binary_nat fuel env op a b =
    | PNatLOr -> numeric (N.coq_lor a b)
    | PNatXor -> numeric (N.coq_lxor a b)
    | PNatShiftLeft -> bounded N.shiftl
-   | PNatShiftRight -> bind (core_shiftr fuel a b) numeric
+   | PNatShiftRight ->
+     (match core_shiftr a b with
+      | Some value -> numeric value
+      | None -> Accept None)
    | _ -> Accept None)
 
 (** val core_reduce_nat :
@@ -4116,25 +4197,41 @@ let whnf_round_step rec0 fuel env ps g e =
   bind (whnf_core_step rec0 fuel env ps False g e) (fun reduced ->
     match reduced with
     | EBVar _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EFVar _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EMVar _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ESort _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EConst (n0, _) ->
       (match match name_eqb n0 core_zero_name with
              | True -> core_nat_ready env
@@ -4142,40 +4239,68 @@ let whnf_round_step rec0 fuel env ps g e =
        | True -> Accept (WhnfDone (ELit (LitNat N0)))
        | False -> finish_whnf_unfold env ps reduced)
     | EApp (_, _) ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELam (_, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EPi (_, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELet (_, _, _, _, _) ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | ELit _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EProj (_, _, _) ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced)
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced))
     | EMData _ ->
-      bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
-        match native with
+      bind (core_reduce_native reduced) (fun nat_hook ->
+        match nat_hook with
         | Some value -> Accept (WhnfDone value)
-        | None -> finish_whnf_unfold env ps reduced))
+        | None ->
+          bind (core_reduce_nat rec0 fuel env g reduced) (fun native ->
+            match native with
+            | Some value -> Accept (WhnfDone value)
+            | None -> finish_whnf_unfold env ps reduced)))
 
 (** val whnf_loop :
     nat -> methods -> nat -> environment -> name list -> context -> expr ->
@@ -4199,6 +4324,37 @@ let eta_compare rec0 g domain body other =
               ((lift (S O) O other), (EBVar O)))
           | False -> Accept False)
       | _ -> Accept False))
+
+(** val core_eta_expand_pis :
+    nat -> methods -> context -> expr -> expr -> expr list -> expr result **)
+
+let rec core_eta_expand_pis eta_fuel rec0 g e ty args =
+  match eta_fuel with
+  | O -> Decline OutOfFuel
+  | S eta_fuel0 ->
+    (match ty with
+     | EPi (n0, bi, domain, body) ->
+       let gb = push_binding g domain None in
+       let args' = app (map (lift (S O) O) args) (Cons ((EBVar O), Nil)) in
+       bind (rec0.whnf_method gb body) (fun body' ->
+         bind
+           (core_eta_expand_pis eta_fuel0 rec0 gb (lift (S O) O e) body'
+             args')
+           (fun rest -> Accept (ELam (n0, bi, domain, rest))))
+     | _ -> Accept (core_apps e args))
+
+(** val core_eta_expand : nat -> methods -> context -> expr -> expr result **)
+
+let rec core_eta_expand eta_fuel rec0 g e = match e with
+| ELam (n0, bi, domain, body) ->
+  bind (core_eta_expand eta_fuel rec0 (push_binding g domain None) body)
+    (fun body' -> Accept (ELam (n0, bi, domain, body')))
+| _ ->
+  bind (rec0.infer_type_method g e) (fun ty ->
+    bind (rec0.whnf_method g ty) (fun ty0 ->
+      match ty0 with
+      | EPi (_, _, _, _) -> core_eta_expand_pis eta_fuel rec0 g e ty0 Nil
+      | _ -> Accept e))
 
 (** val core_alpha : nat -> expr -> expr -> (bool, nat) prod **)
 
@@ -4394,6 +4550,13 @@ let core_delta_info env e =
      | None -> None)
   | _ -> None
 
+(** val core_delta_head : environment -> expr -> bool **)
+
+let core_delta_head env e =
+  match core_delta_info env e with
+  | Some _ -> True
+  | None -> False
+
 (** val core_delta_sides :
     environment -> expr -> expr -> (bool, bool) prod **)
 
@@ -4457,10 +4620,55 @@ let core_delta_congruent rec0 fuel env g t0 s =
      | None -> Accept False)
   | None -> Accept False
 
-(** val compare_heads :
-    methods -> nat -> context -> expr -> expr -> bool result **)
+(** val core_is_cheap_arg : environment -> expr -> bool **)
 
-let compare_heads rec0 fuel g t0 s =
+let core_is_cheap_arg env e = match e with
+| EBVar _ -> True
+| EFVar _ -> True
+| ESort _ -> True
+| EConst (_, _) -> negb (core_delta_head env e)
+| ELit _ -> True
+| _ -> False
+
+(** val core_compare_args_filtered :
+    bool -> methods -> environment -> context -> expr list -> expr list ->
+    bool result **)
+
+let rec core_compare_args_filtered want_cheap rec0 env g xs ys =
+  match xs with
+  | Nil -> (match ys with
+            | Nil -> Accept True
+            | Cons (_, _) -> Accept False)
+  | Cons (x, xs0) ->
+    (match ys with
+     | Nil -> Accept False
+     | Cons (y, ys0) ->
+       let is_cheap =
+         match core_is_cheap_arg env x with
+         | True -> core_is_cheap_arg env y
+         | False -> False
+       in
+       (match eqb0 is_cheap want_cheap with
+        | True ->
+          bind (rec0.defeq_method g x y) (fun ok ->
+            match ok with
+            | True -> core_compare_args_filtered want_cheap rec0 env g xs0 ys0
+            | False -> Accept False)
+        | False -> core_compare_args_filtered want_cheap rec0 env g xs0 ys0))
+
+(** val core_compare_args_cheap_first :
+    methods -> environment -> context -> expr list -> expr list -> bool result **)
+
+let core_compare_args_cheap_first rec0 env g xs ys =
+  bind (core_compare_args_filtered True rec0 env g xs ys) (fun ok ->
+    match ok with
+    | True -> core_compare_args_filtered False rec0 env g xs ys
+    | False -> Accept False)
+
+(** val compare_heads :
+    methods -> nat -> environment -> context -> expr -> expr -> bool result **)
+
+let compare_heads rec0 fuel env g t0 s =
   match t0 with
   | EBVar n0 ->
     (match s with
@@ -4493,7 +4701,7 @@ let compare_heads rec0 fuel g t0 s =
         | True ->
           bind (rec0.defeq_method g tf sf) (fun ok ->
             match ok with
-            | True -> core_compare_args rec0 g ta sa
+            | True -> core_compare_args_cheap_first rec0 env g ta sa
             | False -> Accept False)
         | False -> Accept False)
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
@@ -4507,13 +4715,11 @@ let compare_heads rec0 fuel g t0 s =
     (match s with
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
      | _ -> Accept False)
-  | EProj (n0, i, a) ->
+  | EProj (_, i, a) ->
     (match s with
      | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
-     | EProj (m, j, b) ->
-       (match match name_eqb n0 m with
-              | True -> Nat.eqb i j
-              | False -> False with
+     | EProj (_, j, b) ->
+       (match Nat.eqb i j with
         | True -> rec0.defeq_method g a b
         | False -> Accept False)
      | _ -> Accept False)
@@ -4637,7 +4843,7 @@ let core_try_string_expansion rec0 g t0 s =
     methods -> nat -> environment -> context -> expr -> expr -> bool result **)
 
 let core_compare_fallback rec0 fuel env g t0 s =
-  bind (compare_heads rec0 fuel g t0 s) (fun ok ->
+  bind (compare_heads rec0 fuel env g t0 s) (fun ok ->
     match ok with
     | True -> Accept True
     | False ->
@@ -4965,99 +5171,236 @@ let rec core_lazy_delta rounds rec0 fuel env ps g t0 s =
                     bind (rec0.defeq_method g t0 sn0) (fun ok -> Accept
                       (ConversionDone ok))
                   | None ->
-                    bind (core_delta_congruent rec0 fuel env g t0 s)
-                      (fun same ->
-                      match same with
-                      | True -> Accept (ConversionDone True)
-                      | False ->
-                        bind (core_opposite_projection rec0 env g t0 s)
-                          (fun projected ->
-                          match projected with
-                          | Some p ->
-                            let Pair (tn0, sn0) = p in
-                            core_lazy_delta rounds0 rec0 fuel env ps g tn0 sn0
+                    bind (core_reduce_native t0) (fun nat_t ->
+                      match nat_t with
+                      | Some tn0 ->
+                        bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                          (ConversionDone ok))
+                      | None ->
+                        bind (core_reduce_native s) (fun nat_s ->
+                          match nat_s with
+                          | Some sn0 ->
+                            bind (rec0.defeq_method g t0 sn0) (fun ok ->
+                              Accept (ConversionDone ok))
                           | None ->
-                            let Pair (unfold_left, unfold_right) =
-                              core_delta_sides env t0 s
-                            in
-                            bind
-                              (match unfold_left with
-                               | True -> core_unfold env ps t0
-                               | False -> Accept None)
-                              (fun td ->
-                              bind
-                                (match unfold_right with
-                                 | True -> core_unfold env ps s
-                                 | False -> Accept None)
-                                (fun sd ->
-                                match td with
-                                | Some _ ->
-                                  bind
-                                    (match td with
-                                     | Some e ->
-                                       rec0.whnf_core_method True g e
-                                     | None -> Accept t0)
-                                    (fun tn0 ->
+                            bind (core_delta_congruent rec0 fuel env g t0 s)
+                              (fun same ->
+                              match same with
+                              | True -> Accept (ConversionDone True)
+                              | False ->
+                                bind
+                                  (core_opposite_projection rec0 env g t0 s)
+                                  (fun projected ->
+                                  match projected with
+                                  | Some p ->
+                                    let Pair (tn0, sn0) = p in
+                                    core_lazy_delta rounds0 rec0 fuel env ps
+                                      g tn0 sn0
+                                  | None ->
+                                    let Pair (unfold_left, unfold_right) =
+                                      core_delta_sides env t0 s
+                                    in
                                     bind
-                                      (match sd with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept s)
-                                      (fun sn0 ->
-                                      core_lazy_delta rounds0 rec0 fuel env
-                                        ps g tn0 sn0))
-                                | None ->
-                                  (match sd with
-                                   | Some _ ->
-                                     bind
-                                       (match td with
-                                        | Some e ->
-                                          rec0.whnf_core_method True g e
-                                        | None -> Accept t0)
-                                       (fun tn0 ->
-                                       bind
-                                         (match sd with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept s)
-                                         (fun sn0 ->
-                                         core_lazy_delta rounds0 rec0 fuel
-                                           env ps g tn0 sn0))
-                                   | None -> Accept (ConversionStuck (t0, s)))))))))))
+                                      (match unfold_left with
+                                       | True -> core_unfold env ps t0
+                                       | False -> Accept None)
+                                      (fun td ->
+                                      bind
+                                        (match unfold_right with
+                                         | True -> core_unfold env ps s
+                                         | False -> Accept None)
+                                        (fun sd ->
+                                        match td with
+                                        | Some _ ->
+                                          bind
+                                            (match td with
+                                             | Some e ->
+                                               rec0.whnf_core_method True g e
+                                             | None -> Accept t0)
+                                            (fun tn0 ->
+                                            bind
+                                              (match sd with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept s)
+                                              (fun sn0 ->
+                                              core_lazy_delta rounds0 rec0
+                                                fuel env ps g tn0 sn0))
+                                        | None ->
+                                          (match sd with
+                                           | Some _ ->
+                                             bind
+                                               (match td with
+                                                | Some e ->
+                                                  rec0.whnf_core_method True
+                                                    g e
+                                                | None -> Accept t0)
+                                               (fun tn0 ->
+                                               bind
+                                                 (match sd with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept s)
+                                                 (fun sn0 ->
+                                                 core_lazy_delta rounds0 rec0
+                                                   fuel env ps g tn0 sn0))
+                                           | None ->
+                                             Accept (ConversionStuck (t0, s)))))))))))))
+
+(** val core_reduce_proj_core : environment -> nat -> expr -> expr option **)
+
+let core_reduce_proj_core env idx e =
+  let Pair (h, args) = core_spine e Nil in
+  (match h with
+   | EConst (cn, _) ->
+     (match core_constructor env cn with
+      | Some ci ->
+        (match match Nat.ltb idx ci.ctor_num_fields with
+               | True ->
+                 Nat.eqb (length args)
+                   (add ci.ctor_num_params ci.ctor_num_fields)
+               | False -> False with
+         | True -> nth_error args (add ci.ctor_num_params idx)
+         | False -> None)
+      | None -> None)
+   | _ -> None)
+
+(** val core_lazy_delta_proj :
+    nat -> methods -> nat -> environment -> name list -> context -> nat ->
+    expr -> expr -> bool result **)
+
+let rec core_lazy_delta_proj rounds rec0 fuel env ps g idx t0 s =
+  match rounds with
+  | O -> Decline OutOfFuel
+  | S rounds0 ->
+    bind (core_quick rec0 fuel g t0 s) (fun quick ->
+      match quick with
+      | Some ok -> Accept ok
+      | None ->
+        bind (core_delta_congruent rec0 fuel env g t0 s) (fun same ->
+          match same with
+          | True -> Accept True
+          | False ->
+            bind (core_opposite_projection rec0 env g t0 s) (fun projected ->
+              match projected with
+              | Some p ->
+                let Pair (tn, sn) = p in
+                core_lazy_delta_proj rounds0 rec0 fuel env ps g idx tn sn
+              | None ->
+                let Pair (unfold_left, unfold_right) =
+                  core_delta_sides env t0 s
+                in
+                bind
+                  (match unfold_left with
+                   | True -> core_unfold env ps t0
+                   | False -> Accept None)
+                  (fun td ->
+                  bind
+                    (match unfold_right with
+                     | True -> core_unfold env ps s
+                     | False -> Accept None)
+                    (fun sd ->
+                    match td with
+                    | Some _ ->
+                      bind
+                        (match td with
+                         | Some e -> rec0.whnf_core_method True g e
+                         | None -> Accept t0)
+                        (fun tn ->
+                        bind
+                          (match sd with
+                           | Some e -> rec0.whnf_core_method True g e
+                           | None -> Accept s)
+                          (fun sn ->
+                          core_lazy_delta_proj rounds0 rec0 fuel env ps g idx
+                            tn sn))
+                    | None ->
+                      (match sd with
+                       | Some _ ->
+                         bind
+                           (match td with
+                            | Some e -> rec0.whnf_core_method True g e
+                            | None -> Accept t0)
+                           (fun tn ->
+                           bind
+                             (match sd with
+                              | Some e -> rec0.whnf_core_method True g e
+                              | None -> Accept s)
+                             (fun sn ->
+                             core_lazy_delta_proj rounds0 rec0 fuel env ps g
+                               idx tn sn))
+                       | None ->
+                         (match core_reduce_proj_core env idx t0 with
+                          | Some tf ->
+                            (match core_reduce_proj_core env idx s with
+                             | Some sf -> rec0.defeq_method g tf sf
+                             | None -> rec0.defeq_method g t0 s)
+                          | None -> rec0.defeq_method g t0 s)))))))
 
 (** val core_finish_conversion :
-    methods -> nat -> environment -> context -> expr -> expr -> bool result **)
+    methods -> nat -> environment -> name list -> context -> expr -> expr ->
+    bool result **)
 
-let core_finish_conversion rec0 fuel env g t0 s =
-  let project = fun e ->
-    let Pair (head, args) = core_spine e Nil in
-    (match head with
-     | EBVar _ -> Accept None
-     | EFVar _ -> Accept None
-     | EMVar _ -> Accept None
-     | ESort _ -> Accept None
-     | EConst (_, _) -> Accept None
-     | EApp (_, _) -> Accept None
-     | ELam (_, _, _, _) -> Accept None
-     | EPi (_, _, _, _) -> Accept None
-     | ELet (_, _, _, _, _) -> Accept None
-     | ELit _ -> Accept None
-     | EProj (owner, index, value) ->
-       bind (core_reduce_projection rec0 env g owner index value)
-         (fun field -> Accept (option_map (fun f -> core_apps f args) field))
-     | EMData _ -> Accept None)
-  in
-  bind (project t0) (fun tp ->
-    bind (project s) (fun sp ->
-      match tp with
-      | Some t1 ->
-        (match sp with
-         | Some s0 -> rec0.defeq_method g t1 s0
-         | None -> rec0.defeq_method g t1 s)
-      | None ->
-        (match sp with
-         | Some s0 -> rec0.defeq_method g t0 s0
-         | None -> compare_after_whnf rec0 fuel env g t0 s)))
+let core_finish_conversion rec0 fuel env ps g t0 s =
+  let Pair (th, ta) = core_spine t0 Nil in
+  let Pair (sh, sa) = core_spine s Nil in
+  bind
+    (match th with
+     | EProj (_, ti, te) ->
+       (match sh with
+        | EProj (_, si, se) ->
+          (match match Nat.eqb ti si with
+                 | True -> Nat.eqb (length ta) (length sa)
+                 | False -> False with
+           | True ->
+             bind (core_lazy_delta_proj (S fuel) rec0 fuel env ps g ti te se)
+               (fun ok ->
+               match ok with
+               | True ->
+                 (match ta with
+                  | Nil -> Accept True
+                  | Cons (_, _) ->
+                    core_compare_args_cheap_first rec0 env g ta sa)
+               | False -> Accept False)
+           | False -> Accept False)
+        | _ -> Accept False)
+     | _ -> Accept False)
+    (fun lazy_proj_ok ->
+    match lazy_proj_ok with
+    | True -> Accept True
+    | False ->
+      let project = fun e ->
+        let Pair (head, args) = core_spine e Nil in
+        (match head with
+         | EBVar _ -> Accept None
+         | EFVar _ -> Accept None
+         | EMVar _ -> Accept None
+         | ESort _ -> Accept None
+         | EConst (_, _) -> Accept None
+         | EApp (_, _) -> Accept None
+         | ELam (_, _, _, _) -> Accept None
+         | EPi (_, _, _, _) -> Accept None
+         | ELet (_, _, _, _, _) -> Accept None
+         | ELit _ -> Accept None
+         | EProj (owner, index, value) ->
+           bind (core_reduce_projection rec0 env g owner index value)
+             (fun field -> Accept
+             (option_map (fun f -> core_apps f args) field))
+         | EMData _ -> Accept None)
+      in
+      bind (project t0) (fun tp ->
+        bind (project s) (fun sp ->
+          match tp with
+          | Some t1 ->
+            (match sp with
+             | Some s0 -> rec0.defeq_method g t1 s0
+             | None -> rec0.defeq_method g t1 s)
+          | None ->
+            (match sp with
+             | Some s0 -> rec0.defeq_method g t0 s0
+             | None -> compare_after_whnf rec0 fuel env g t0 s))))
 
 (** val core_is_true : expr -> bool **)
 
@@ -5105,7 +5448,7 @@ let defeq_step rec0 fuel env ps g t0 s =
                     match progress with
                     | ConversionDone ok -> Accept ok
                     | ConversionStuck (tn0, sn0) ->
-                      core_finish_conversion rec1 fuel env g tn0 sn0))))))
+                      core_finish_conversion rec1 fuel env ps g tn0 sn0))))))
 
 (** val checker_mode :
     reduction_mode -> nat -> environment -> name list -> methods **)
@@ -5714,6 +6057,16 @@ let primitive_false =
 let primitive_call op args =
   core_apps (EConst ((primitive_name op), Nil)) args
 
+(** val primitive_consume_mdata : nat -> expr -> expr result **)
+
+let rec primitive_consume_mdata fuel e =
+  match fuel with
+  | O -> Decline OutOfFuel
+  | S fuel0 ->
+    (match e with
+     | EMData a -> primitive_consume_mdata fuel0 a
+     | _ -> Accept e)
+
 (** val primitive_check_signature : nat -> expr -> expr -> unit0 result **)
 
 let rec primitive_check_signature fuel actual expected =
@@ -5721,19 +6074,13 @@ let rec primitive_check_signature fuel actual expected =
   | O -> Decline OutOfFuel
   | S fuel0 ->
     (match actual with
-     | EApp (a, b) ->
-       (match expected with
-        | EApp (c, d) ->
-          bind (primitive_check_signature fuel0 a c) (fun _ ->
-            primitive_check_signature fuel0 b d)
-        | _ -> require (expr_eqb actual expected) TypeMismatch)
      | EPi (_, _, a, b) ->
        (match expected with
         | EPi (_, _, c, d) ->
-          bind (primitive_check_signature fuel0 a c) (fun _ ->
-            primitive_check_signature fuel0 b d)
+          bind (primitive_consume_mdata fuel0 a) (fun a' ->
+            bind (require (expr_eqb a' c) TypeMismatch) (fun _ ->
+              primitive_check_signature fuel0 b d))
         | _ -> require (expr_eqb actual expected) TypeMismatch)
-     | EMData a -> primitive_check_signature fuel0 a expected
      | _ -> require (expr_eqb actual expected) TypeMismatch)
 
 (** val primitive_authenticated :
@@ -6309,6 +6656,326 @@ let primitive_reflection_make false_eq =
              PQ.dite (PQ.dec p) (PQ.eq PQ.bool b PQ.tru) (PQ.bool_dec b) pos
                neg)))))) }
 
+(** val primitive_has_decidable_intro : environment -> bool **)
+
+let primitive_has_decidable_intro env =
+  match find_decl
+          (primitive_path (Cons ((String ((Ascii (False, False, True, False,
+            False, False, True, False)), (String ((Ascii (True, False, True,
+            False, False, True, True, False)), (String ((Ascii (True, True,
+            False, False, False, True, True, False)), (String ((Ascii (True,
+            False, False, True, False, True, True, False)), (String ((Ascii
+            (False, False, True, False, False, True, True, False)), (String
+            ((Ascii (True, False, False, False, False, True, True, False)),
+            (String ((Ascii (False, True, False, False, False, True, True,
+            False)), (String ((Ascii (False, False, True, True, False, True,
+            True, False)), (String ((Ascii (True, False, True, False, False,
+            True, True, False)), EmptyString)))))))))))))))))), (Cons
+            ((String ((Ascii (True, False, False, True, False, True, True,
+            False)), (String ((Ascii (False, True, True, True, False, True,
+            True, False)), (String ((Ascii (False, False, True, False, True,
+            True, True, False)), (String ((Ascii (False, True, False, False,
+            True, True, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), EmptyString)))))))))), Nil)))))
+          env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_has_bool_dec_eq : environment -> bool **)
+
+let primitive_has_bool_dec_eq env =
+  match find_decl
+          (primitive_path (Cons ((String ((Ascii (False, True, False, False,
+            False, False, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (True, True,
+            True, True, False, True, True, False)), (String ((Ascii (False,
+            False, True, True, False, True, True, False)),
+            EmptyString)))))))), (Cons ((String ((Ascii (False, False, True,
+            False, False, True, True, False)), (String ((Ascii (True, False,
+            True, False, False, True, True, False)), (String ((Ascii (True,
+            True, False, False, False, True, True, False)), (String ((Ascii
+            (True, False, True, False, False, False, True, False)), (String
+            ((Ascii (True, False, False, False, True, True, True, False)),
+            EmptyString)))))))))), Nil)))))
+          env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_reflection_make_v436 : bool -> primitive_reflection **)
+
+let primitive_reflection_make_v436 false_eq =
+  let base = primitive_reflection_make false_eq in
+  let rt = base.reflection_type in
+  let relation = fun p b -> PQ.apps (PQ.embed rt) (Cons (p, (Cons (b, Nil))))
+  in
+  let false_proof = fun b hf ->
+    match false_eq with
+    | True -> hf
+    | False ->
+      PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+        PQ.apps
+          (PQ.const (Cons ((String ((Ascii (False, True, False, False, False,
+            False, True, False)), (String ((Ascii (True, True, True, True,
+            False, True, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (False, False,
+            True, True, False, True, True, False)), EmptyString)))))))),
+            (Cons ((String ((Ascii (False, True, True, True, False, True,
+            True, False)), (String ((Ascii (True, True, True, True, False,
+            True, True, False)), (String ((Ascii (True, True, False, False,
+            False, False, True, False)), (String ((Ascii (True, True, True,
+            True, False, True, True, False)), (String ((Ascii (False, True,
+            True, True, False, True, True, False)), (String ((Ascii (False,
+            True, True, False, False, True, True, False)), (String ((Ascii
+            (True, False, True, False, True, True, True, False)), (String
+            ((Ascii (True, True, False, False, True, True, True, False)),
+            (String ((Ascii (True, False, False, True, False, True, True,
+            False)), (String ((Ascii (True, True, True, True, False, True,
+            True, False)), (String ((Ascii (False, True, True, True, False,
+            True, True, False)), EmptyString)))))))))))))))))))))), Nil))))
+            (Cons (LZero, Nil)))
+          (Cons
+          ((PQ.const (Cons ((String ((Ascii (False, True, True, False, False,
+             False, True, False)), (String ((Ascii (True, False, False,
+             False, False, True, True, False)), (String ((Ascii (False,
+             False, True, True, False, True, True, False)), (String ((Ascii
+             (True, True, False, False, True, True, True, False)), (String
+             ((Ascii (True, False, True, False, False, True, True, False)),
+             EmptyString)))))))))), Nil)) Nil),
+          (Cons (PQ.fal, (Cons (PQ.tru, (Cons
+          ((PQ.apps
+             (PQ.const (Cons ((String ((Ascii (True, False, True, False,
+               False, False, True, False)), (String ((Ascii (True, False,
+               False, False, True, True, True, False)), EmptyString)))),
+               (Cons ((String ((Ascii (False, True, False, False, True, True,
+               True, False)), (String ((Ascii (True, False, True, False,
+               False, True, True, False)), (String ((Ascii (True, True,
+               False, False, False, True, True, False)), EmptyString)))))),
+               Nil)))) (Cons (LZero, (Cons ((LSucc LZero), Nil)))))
+             (Cons (PQ.bool, (Cons (b, (Cons
+             ((PQ.lam PQ.bool (fun x ->
+                PQ.lam (PQ.eq PQ.bool b x) (fun _ -> PQ.eq PQ.bool x PQ.tru))),
+             (Cons (ht, (Cons (PQ.fal, (Cons (hf, Nil))))))))))))),
+          Nil)))))))))
+  in
+  { reflection_type = rt; reflection_true = base.reflection_true;
+  reflection_false = base.reflection_false; reflection_dec =
+  (PQ.run
+    (PQ.lam PQ.prop (fun p ->
+      PQ.lam PQ.bool (fun b ->
+        PQ.lam (relation p b) (fun h ->
+          PQ.apps
+            (PQ.const (Cons ((String ((Ascii (False, False, True, False,
+              False, False, True, False)), (String ((Ascii (True, False,
+              True, False, False, True, True, False)), (String ((Ascii (True,
+              True, False, False, False, True, True, False)), (String ((Ascii
+              (True, False, False, True, False, True, True, False)), (String
+              ((Ascii (False, False, True, False, False, True, True, False)),
+              (String ((Ascii (True, False, False, False, False, True, True,
+              False)), (String ((Ascii (False, True, False, False, False,
+              True, True, False)), (String ((Ascii (False, False, True, True,
+              False, True, True, False)), (String ((Ascii (True, False, True,
+              False, False, True, True, False)),
+              EmptyString)))))))))))))))))), (Cons ((String ((Ascii (True,
+              False, False, True, False, True, True, False)), (String ((Ascii
+              (False, True, True, True, False, True, True, False)), (String
+              ((Ascii (False, False, True, False, True, True, True, False)),
+              (String ((Ascii (False, True, False, False, True, True, True,
+              False)), (String ((Ascii (True, True, True, True, False, True,
+              True, False)), EmptyString)))))))))), Nil)))) Nil)
+            (Cons (p, (Cons (b, (Cons
+            ((PQ.app
+               (PQ.apps
+                 (PQ.const (Cons ((String ((Ascii (False, True, False, False,
+                   False, False, True, False)), (String ((Ascii (True, True,
+                   True, True, False, True, True, False)), (String ((Ascii
+                   (True, True, True, True, False, True, True, False)),
+                   (String ((Ascii (False, False, True, True, False, True,
+                   True, False)), EmptyString)))))))), (Cons ((String ((Ascii
+                   (False, True, False, False, True, True, True, False)),
+                   (String ((Ascii (True, False, True, False, False, True,
+                   True, False)), (String ((Ascii (True, True, False, False,
+                   False, True, True, False)), EmptyString)))))), Nil))))
+                   (Cons (LZero, Nil)))
+                 (Cons
+                 ((PQ.lam PQ.bool (fun b' ->
+                    PQ.arrow (PQ.eq PQ.bool b b')
+                      (PQ.apps
+                        (PQ.const (Cons ((String ((Ascii (False, True, False,
+                          False, False, False, True, False)), (String ((Ascii
+                          (True, True, True, True, False, True, True,
+                          False)), (String ((Ascii (True, True, True, True,
+                          False, True, True, False)), (String ((Ascii (False,
+                          False, True, True, False, True, True, False)),
+                          EmptyString)))))))), (Cons ((String ((Ascii (False,
+                          True, False, False, True, False, True, False)),
+                          (String ((Ascii (True, False, True, False, False,
+                          True, True, False)), (String ((Ascii (False, True,
+                          True, False, False, True, True, False)), (String
+                          ((Ascii (False, False, True, True, False, True,
+                          True, False)), (String ((Ascii (True, False, True,
+                          False, False, True, True, False)), (String ((Ascii
+                          (True, True, False, False, False, True, True,
+                          False)), (String ((Ascii (False, False, True,
+                          False, True, True, True, False)), (String ((Ascii
+                          (True, True, False, False, True, True, True,
+                          False)), EmptyString)))))))))))))))), Nil)))) Nil)
+                        (Cons (b', (Cons (p, Nil))))))),
+                 (Cons
+                 ((PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf ->
+                    PQ.apps h (Cons ((PQ.not p), (Cons
+                      ((PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p)
+                         (fun _ ->
+                         PQ.lam
+                           (PQ.arrow
+                             (match false_eq with
+                              | True -> PQ.eq PQ.bool b PQ.fal
+                              | False -> PQ.not (PQ.eq PQ.bool b PQ.tru))
+                             (PQ.not p))
+                           (fun no -> PQ.app no (false_proof b hf)))),
+                      Nil)))))),
+                 (Cons
+                 ((PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+                    PQ.apps h (Cons (p, (Cons
+                      ((PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p)
+                         (fun yes ->
+                         PQ.lam
+                           (PQ.arrow
+                             (match false_eq with
+                              | True -> PQ.eq PQ.bool b PQ.fal
+                              | False -> PQ.not (PQ.eq PQ.bool b PQ.tru))
+                             (PQ.not p))
+                           (fun _ -> PQ.app yes ht))),
+                      Nil)))))),
+                 (Cons (b, Nil)))))))))
+               (PQ.refl PQ.bool b)),
+            Nil))))))))))) }
+
+(** val primitive_reflection_for :
+    environment -> bool -> primitive_reflection **)
+
+let primitive_reflection_for env false_eq =
+  match primitive_has_decidable_intro env with
+  | True -> primitive_reflection_make_v436 false_eq
+  | False -> primitive_reflection_make false_eq
+
+(** val primitive_bool_dec_v436 : expr **)
+
+let primitive_bool_dec_v436 =
+  PQ.run
+    (PQ.lam PQ.bool (fun b ->
+      PQ.apps
+        (PQ.const (Cons ((String ((Ascii (False, False, True, False, False,
+          False, True, False)), (String ((Ascii (True, False, True, False,
+          False, True, True, False)), (String ((Ascii (True, True, False,
+          False, False, True, True, False)), (String ((Ascii (True, False,
+          False, True, False, True, True, False)), (String ((Ascii (False,
+          False, True, False, False, True, True, False)), (String ((Ascii
+          (True, False, False, False, False, True, True, False)), (String
+          ((Ascii (False, True, False, False, False, True, True, False)),
+          (String ((Ascii (False, False, True, True, False, True, True,
+          False)), (String ((Ascii (True, False, True, False, False, True,
+          True, False)), EmptyString)))))))))))))))))), (Cons ((String
+          ((Ascii (True, False, False, True, False, True, True, False)),
+          (String ((Ascii (False, True, True, True, False, True, True,
+          False)), (String ((Ascii (False, False, True, False, True, True,
+          True, False)), (String ((Ascii (False, True, False, False, True,
+          True, True, False)), (String ((Ascii (True, True, True, True,
+          False, True, True, False)), EmptyString)))))))))), Nil)))) Nil)
+        (Cons ((PQ.eq PQ.bool b PQ.tru), (Cons (b, (Cons
+        ((PQ.app
+           (PQ.apps
+             (PQ.const (Cons ((String ((Ascii (False, True, False, False,
+               False, False, True, False)), (String ((Ascii (True, True,
+               True, True, False, True, True, False)), (String ((Ascii (True,
+               True, True, True, False, True, True, False)), (String ((Ascii
+               (False, False, True, True, False, True, True, False)),
+               EmptyString)))))))), (Cons ((String ((Ascii (False, True,
+               False, False, True, True, True, False)), (String ((Ascii
+               (True, False, True, False, False, True, True, False)), (String
+               ((Ascii (True, True, False, False, False, True, True, False)),
+               EmptyString)))))), Nil)))) (Cons (LZero, Nil)))
+             (Cons
+             ((PQ.lam PQ.bool (fun b' ->
+                PQ.arrow (PQ.eq PQ.bool b b')
+                  (PQ.apps
+                    (PQ.const (Cons ((String ((Ascii (False, True, False,
+                      False, False, False, True, False)), (String ((Ascii
+                      (True, True, True, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, False, True,
+                      True, False, True, True, False)), EmptyString)))))))),
+                      (Cons ((String ((Ascii (False, True, False, False,
+                      True, False, True, False)), (String ((Ascii (True,
+                      False, True, False, False, True, True, False)), (String
+                      ((Ascii (False, True, True, False, False, True, True,
+                      False)), (String ((Ascii (False, False, True, True,
+                      False, True, True, False)), (String ((Ascii (True,
+                      False, True, False, False, True, True, False)), (String
+                      ((Ascii (True, True, False, False, False, True, True,
+                      False)), (String ((Ascii (False, False, True, False,
+                      True, True, True, False)), (String ((Ascii (True, True,
+                      False, False, True, True, True, False)),
+                      EmptyString)))))))))))))))), Nil)))) Nil)
+                    (Cons (b', (Cons ((PQ.eq PQ.bool b PQ.tru), Nil))))))),
+             (Cons
+             ((PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf ->
+                PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht ->
+                  PQ.apps
+                    (PQ.const (Cons ((String ((Ascii (False, True, False,
+                      False, False, False, True, False)), (String ((Ascii
+                      (True, True, True, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, False, True,
+                      True, False, True, True, False)), EmptyString)))))))),
+                      (Cons ((String ((Ascii (False, True, True, True, False,
+                      True, True, False)), (String ((Ascii (True, True, True,
+                      True, False, True, True, False)), (String ((Ascii
+                      (True, True, False, False, False, False, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, True, True,
+                      True, False, True, True, False)), (String ((Ascii
+                      (False, True, True, False, False, True, True, False)),
+                      (String ((Ascii (True, False, True, False, True, True,
+                      True, False)), (String ((Ascii (True, True, False,
+                      False, True, True, True, False)), (String ((Ascii
+                      (True, False, False, True, False, True, True, False)),
+                      (String ((Ascii (True, True, True, True, False, True,
+                      True, False)), (String ((Ascii (False, True, True,
+                      True, False, True, True, False)),
+                      EmptyString)))))))))))))))))))))), Nil)))) (Cons
+                      (LZero, Nil)))
+                    (Cons
+                    ((PQ.const (Cons ((String ((Ascii (False, True, True,
+                       False, False, False, True, False)), (String ((Ascii
+                       (True, False, False, False, False, True, True,
+                       False)), (String ((Ascii (False, False, True, True,
+                       False, True, True, False)), (String ((Ascii (True,
+                       True, False, False, True, True, True, False)), (String
+                       ((Ascii (True, False, True, False, False, True, True,
+                       False)), EmptyString)))))))))), Nil)) Nil),
+                    (Cons (PQ.fal, (Cons (PQ.tru, (Cons
+                    ((PQ.apps
+                       (PQ.const (Cons ((String ((Ascii (True, False, True,
+                         False, False, False, True, False)), (String ((Ascii
+                         (True, False, False, False, True, True, True,
+                         False)), EmptyString)))), (Cons ((String ((Ascii
+                         (False, True, False, False, True, True, True,
+                         False)), (String ((Ascii (True, False, True, False,
+                         False, True, True, False)), (String ((Ascii (True,
+                         True, False, False, False, True, True, False)),
+                         EmptyString)))))), Nil)))) (Cons (LZero, (Cons
+                         ((LSucc LZero), Nil)))))
+                       (Cons (PQ.bool, (Cons (b, (Cons
+                       ((PQ.lam PQ.bool (fun x ->
+                          PQ.lam (PQ.eq PQ.bool b x) (fun _ ->
+                            PQ.eq PQ.bool x PQ.tru))),
+                       (Cons (ht, (Cons (PQ.fal, (Cons (hf, Nil))))))))))))),
+                    Nil))))))))))),
+             (Cons ((PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht -> ht)), (Cons
+             (b, Nil)))))))))
+           (PQ.refl PQ.bool b)),
+        Nil))))))))
+
 (** val primitive_reflection_ite : primitive_reflection -> expr **)
 
 let primitive_reflection_ite r =
@@ -6518,6 +7185,44 @@ let primitive_condition_dec = function
     False, False, False, True, True, True, False)), EmptyString)))))))))),
     Nil)))) Nil
 
+(** val primitive_has_decidable_decide : environment -> bool **)
+
+let primitive_has_decidable_decide env =
+  match find_decl (NameStr ((NameStr (NameAnon, (String ((Ascii (False,
+          False, True, False, False, False, True, False)), (String ((Ascii
+          (True, False, True, False, False, True, True, False)), (String
+          ((Ascii (True, True, False, False, False, True, True, False)),
+          (String ((Ascii (True, False, False, True, False, True, True,
+          False)), (String ((Ascii (False, False, True, False, False, True,
+          True, False)), (String ((Ascii (True, False, False, False, False,
+          True, True, False)), (String ((Ascii (False, True, False, False,
+          False, True, True, False)), (String ((Ascii (False, False, True,
+          True, False, True, True, False)), (String ((Ascii (True, False,
+          True, False, False, True, True, False)),
+          EmptyString)))))))))))))))))))), (String ((Ascii (False, False,
+          True, False, False, True, True, False)), (String ((Ascii (True,
+          False, True, False, False, True, True, False)), (String ((Ascii
+          (True, True, False, False, False, True, True, False)), (String
+          ((Ascii (True, False, False, True, False, True, True, False)),
+          (String ((Ascii (False, False, True, False, False, True, True,
+          False)), (String ((Ascii (True, False, True, False, False, True,
+          True, False)), EmptyString)))))))))))))) env with
+  | Some _ -> True
+  | None -> False
+
+(** val primitive_condition_dec_in :
+    environment -> primitive_condition -> expr **)
+
+let primitive_condition_dec_in env c = match c with
+| PCBool ->
+  (match primitive_has_bool_dec_eq env with
+   | True -> primitive_condition_dec PCBool
+   | False ->
+     (match primitive_has_decidable_intro env with
+      | True -> primitive_bool_dec_v436
+      | False -> primitive_condition_dec PCBool))
+| _ -> primitive_condition_dec c
+
 (** val primitive_condition_ite :
     primitive_condition -> PQ.term -> PQ.term list -> PQ.term -> PQ.term ->
     PQ.term **)
@@ -6525,6 +7230,14 @@ let primitive_condition_dec = function
 let primitive_condition_ite c a args t0 e =
   PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t0 e
+
+(** val primitive_condition_ite_in :
+    environment -> primitive_condition -> PQ.term -> PQ.term list -> PQ.term
+    -> PQ.term -> PQ.term **)
+
+let primitive_condition_ite_in env c a args t0 e =
+  PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
+    (PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args) t0 e
 
 (** val primitive_condition_dite :
     primitive_condition -> PQ.term list -> (PQ.term -> PQ.term) -> (PQ.term
@@ -6534,11 +7247,36 @@ let primitive_condition_dite c args t0 e =
   PQ.dite PQ.nat (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t0 e
 
-(** val primitive_condition_decide :
-    primitive_condition -> PQ.term list -> PQ.term **)
+(** val primitive_condition_decide_in :
+    environment -> primitive_condition -> PQ.term list -> PQ.term **)
 
-let primitive_condition_decide c args =
-  primitive_condition_ite c PQ.bool args PQ.tru PQ.fal
+let primitive_condition_decide_in env c args =
+  match match primitive_has_decidable_intro env with
+        | True -> primitive_has_decidable_decide env
+        | False -> False with
+  | True ->
+    PQ.apps
+      (PQ.const (Cons ((String ((Ascii (False, False, True, False, False,
+        False, True, False)), (String ((Ascii (True, False, True, False,
+        False, True, True, False)), (String ((Ascii (True, True, False,
+        False, False, True, True, False)), (String ((Ascii (True, False,
+        False, True, False, True, True, False)), (String ((Ascii (False,
+        False, True, False, False, True, True, False)), (String ((Ascii
+        (True, False, False, False, False, True, True, False)), (String
+        ((Ascii (False, True, False, False, False, True, True, False)),
+        (String ((Ascii (False, False, True, True, False, True, True,
+        False)), (String ((Ascii (True, False, True, False, False, True,
+        True, False)), EmptyString)))))))))))))))))), (Cons ((String ((Ascii
+        (False, False, True, False, False, True, True, False)), (String
+        ((Ascii (True, False, True, False, False, True, True, False)),
+        (String ((Ascii (True, True, False, False, False, True, True,
+        False)), (String ((Ascii (True, False, False, True, False, True,
+        True, False)), (String ((Ascii (False, False, True, False, False,
+        True, True, False)), (String ((Ascii (True, False, True, False,
+        False, True, True, False)), EmptyString)))))))))))), Nil)))) Nil)
+      (Cons ((PQ.apps (PQ.embed (primitive_condition_prop c)) args), (Cons
+      ((PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args), Nil))))
+  | False -> primitive_condition_ite_in env c PQ.bool args PQ.tru PQ.fal
 
 (** val primitive_condition_proof : primitive_condition -> expr **)
 
@@ -6715,8 +7453,8 @@ let primitive_condition_proof c =
 
 let primitive_check_condition fuel env c with_ite with_dite =
   bind (require (core_bool_ready env) MalformedDeclaration) (fun _ ->
-    bind (infer fuel env Nil empty_context (primitive_condition_dec c))
-      (fun _ ->
+    let dec_c = primitive_condition_dec_in env c in
+    bind (infer fuel env Nil empty_context dec_c) (fun _ ->
       match c with
       | PCBool ->
         bind
@@ -6739,9 +7477,7 @@ let primitive_check_condition fuel env c with_ite with_dite =
                      (Cons (PQ.nat, (Cons
                      ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
                         (b, Nil))),
-                     (Cons
-                     ((PQ.apps (PQ.embed (primitive_condition_dec c)) (Cons
-                        (b, Nil))),
+                     (Cons ((PQ.apps (PQ.embed dec_c) (Cons (b, Nil))),
                      Nil)))))))
                in
                bind
@@ -6768,31 +7504,79 @@ let primitive_check_condition fuel env c with_ite with_dite =
                  | True -> PNatBEq
                  | False -> PNatBLE in
         bind (primitive_authenticated fuel env op) (fun _ ->
-          let r = primitive_reflection_make is_eq in
+          let r = primitive_reflection_for env is_eq in
           bind (primitive_check_reflection fuel env r with_ite with_dite)
             (fun _ ->
-            let gadget =
-              PQ.lam PQ.nat (fun x ->
-                PQ.lam PQ.nat (fun y ->
-                  PQ.apps
-                    (PQ.lam PQ.prop (fun p ->
-                      PQ.lam PQ.bool (fun b ->
-                        PQ.lam
-                          (PQ.apps (PQ.embed r.reflection_type) (Cons (p,
-                            (Cons (b, Nil)))))
-                          (fun h ->
-                          PQ.apps (PQ.embed r.reflection_dec) (Cons (p, (Cons
-                            (b, (Cons (h, Nil))))))))))
-                    (Cons
-                    ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
-                       (x, (Cons (y, Nil))))),
-                    (Cons ((PQ.call op (Cons (x, (Cons (y, Nil))))), (Cons
-                    ((PQ.apps (PQ.embed (primitive_condition_proof c)) (Cons
-                       (x, (Cons (y, Nil))))),
-                    Nil))))))))
-            in
-            primitive_eq_closed fuel env gadget
-              (PQ.embed (primitive_condition_dec c))))))
+            bind
+              (match match primitive_has_decidable_intro env with
+                     | True -> primitive_has_decidable_decide env
+                     | False -> False with
+               | True ->
+                 let relation = fun p b ->
+                   PQ.apps (PQ.embed r.reflection_type) (Cons (p, (Cons (b,
+                     Nil))))
+                 in
+                 primitive_eq_closed fuel env
+                   (PQ.lam PQ.prop (fun p ->
+                     PQ.lam PQ.bool (fun b ->
+                       PQ.lam (relation p b) (fun h ->
+                         PQ.apps
+                           (PQ.const (Cons ((String ((Ascii (False, False,
+                             True, False, False, False, True, False)),
+                             (String ((Ascii (True, False, True, False,
+                             False, True, True, False)), (String ((Ascii
+                             (True, True, False, False, False, True, True,
+                             False)), (String ((Ascii (True, False, False,
+                             True, False, True, True, False)), (String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             False, False, False, True, True, False)),
+                             (String ((Ascii (False, True, False, False,
+                             False, True, True, False)), (String ((Ascii
+                             (False, False, True, True, False, True, True,
+                             False)), (String ((Ascii (True, False, True,
+                             False, False, True, True, False)),
+                             EmptyString)))))))))))))))))), (Cons ((String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             True, False, False, True, True, False)), (String
+                             ((Ascii (True, True, False, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             False, True, False, True, True, False)), (String
+                             ((Ascii (False, False, True, False, False, True,
+                             True, False)), (String ((Ascii (True, False,
+                             True, False, False, True, True, False)),
+                             EmptyString)))))))))))), Nil)))) Nil)
+                           (Cons (p, (Cons
+                           ((PQ.apps (PQ.embed r.reflection_dec) (Cons (p,
+                              (Cons (b, (Cons (h, Nil))))))),
+                           Nil))))))))
+                   (PQ.lam PQ.prop (fun p ->
+                     PQ.lam PQ.bool (fun b ->
+                       PQ.lam (relation p b) (fun _ -> b))))
+               | False -> Accept Tt)
+              (fun _ ->
+              let gadget =
+                PQ.lam PQ.nat (fun x ->
+                  PQ.lam PQ.nat (fun y ->
+                    PQ.apps
+                      (PQ.lam PQ.prop (fun p ->
+                        PQ.lam PQ.bool (fun b ->
+                          PQ.lam
+                            (PQ.apps (PQ.embed r.reflection_type) (Cons (p,
+                              (Cons (b, Nil)))))
+                            (fun h ->
+                            PQ.apps (PQ.embed r.reflection_dec) (Cons (p,
+                              (Cons (b, (Cons (h, Nil))))))))))
+                      (Cons
+                      ((PQ.apps (PQ.embed (primitive_condition_prop c)) (Cons
+                         (x, (Cons (y, Nil))))),
+                      (Cons ((PQ.call op (Cons (x, (Cons (y, Nil))))), (Cons
+                      ((PQ.apps (PQ.embed (primitive_condition_proof c))
+                         (Cons (x, (Cons (y, Nil))))),
+                      Nil))))))))
+              in
+              primitive_eq_closed fuel env gadget (PQ.embed dec_c))))))
 
 (** val primitive_go_name : bool -> name **)
 
@@ -7479,7 +8263,8 @@ let primitive_unfold_nat_well_founded fuel env s e measure =
                                                                     (local_expr
                                                                     x)))
                                                                     (PQ.run
-                                                                    (primitive_condition_ite
+                                                                    (primitive_condition_ite_in
+                                                                    env
                                                                     PCBool
                                                                     PQ.nat
                                                                     (Cons
@@ -7735,7 +8520,8 @@ let primitive_check_bitwise fuel env body =
                   let n1 = PQ.embed (local_expr n0) in
                   let m0 = PQ.embed (local_expr m) in
                   let bool_ite = fun b ->
-                    primitive_condition_ite PCBool PQ.nat (Cons (b, Nil))
+                    primitive_condition_ite_in env PCBool PQ.nat (Cons (b,
+                      Nil))
                   in
                   PQ.run
                     (primitive_condition_dite PCNatEq (Cons (n1, (Cons
@@ -7756,13 +8542,13 @@ let primitive_check_bitwise fuel env body =
                            PQ.call PNatDiv (Cons (m0, (Cons (PQ.two, Nil))))
                          in
                          let b1 =
-                           primitive_condition_decide PCNatEq (Cons
+                           primitive_condition_decide_in env PCNatEq (Cons
                              ((PQ.call PNatMod (Cons (n1, (Cons (PQ.two,
                                 Nil))))),
                              (Cons (PQ.one, Nil))))
                          in
                          let b2 =
-                           primitive_condition_decide PCNatEq (Cons
+                           primitive_condition_decide_in env PCNatEq (Cons
                              ((PQ.call PNatMod (Cons (m0, (Cons (PQ.two,
                                 Nil))))),
                              (Cons (PQ.one, Nil))))
@@ -10943,8 +11729,47 @@ module N_as_OT =
     N.eq_dec
  end
 
+module PositiveOrderedTypeBits =
+ struct
+  type t = positive
+
+  (** val compare : t -> t -> positive compare0 **)
+
+  let rec compare p y =
+    match p with
+    | XI p0 -> (match y with
+                | XI p1 -> compare p0 p1
+                | _ -> GT)
+    | XO p0 -> (match y with
+                | XO p1 -> compare p0 p1
+                | _ -> LT)
+    | XH -> (match y with
+             | XI _ -> LT
+             | XO _ -> GT
+             | XH -> EQ)
+
+  (** val eq_dec : positive -> positive -> sumbool **)
+
+  let eq_dec x y =
+    match Coq_Pos.compare x y with
+    | Eq -> Left
+    | _ -> Right
+ end
+
+(** val append0 : positive -> positive -> positive **)
+
+let rec append0 i j =
+  match i with
+  | XI ii -> XI (append0 ii j)
+  | XO ii -> XO (append0 ii j)
+  | XH -> j
+
 module PositiveMap =
  struct
+  module E = PositiveOrderedTypeBits
+
+  module ME = KeyOrderedType(E)
+
   type key = positive
 
   type 'a tree =
@@ -10958,6 +11783,17 @@ module PositiveMap =
   let empty =
     Leaf
 
+  (** val is_empty : 'a1 t -> bool **)
+
+  let rec is_empty = function
+  | Leaf -> True
+  | Node (l, o, r) ->
+    (match o with
+     | Some _ -> False
+     | None -> (match is_empty l with
+                | True -> is_empty r
+                | False -> False))
+
   (** val find : key -> 'a1 t -> 'a1 option **)
 
   let rec find i = function
@@ -10967,6 +11803,18 @@ module PositiveMap =
      | XI ii -> find ii r
      | XO ii -> find ii l
      | XH -> o)
+
+  (** val mem : key -> 'a1 t -> bool **)
+
+  let rec mem i = function
+  | Leaf -> False
+  | Node (l, o, r) ->
+    (match i with
+     | XI ii -> mem ii r
+     | XO ii -> mem ii l
+     | XH -> (match o with
+              | Some _ -> True
+              | None -> False))
 
   (** val add : key -> 'a1 -> 'a1 t -> 'a1 t **)
 
@@ -10981,6 +11829,190 @@ module PositiveMap =
      | XI ii -> Node (l, o, (add ii v r))
      | XO ii -> Node ((add ii v l), o, r)
      | XH -> Node (l, (Some v), r))
+
+  (** val remove : key -> 'a1 t -> 'a1 t **)
+
+  let rec remove i m =
+    match i with
+    | XI ii ->
+      (match m with
+       | Leaf -> Leaf
+       | Node (l, o, r) ->
+         (match l with
+          | Leaf ->
+            (match o with
+             | Some _ -> Node (l, o, (remove ii r))
+             | None ->
+               (match remove ii r with
+                | Leaf -> Leaf
+                | Node (t0, o0, t1) -> Node (Leaf, None, (Node (t0, o0, t1)))))
+          | Node (_, _, _) -> Node (l, o, (remove ii r))))
+    | XO ii ->
+      (match m with
+       | Leaf -> Leaf
+       | Node (l, o, r) ->
+         (match o with
+          | Some _ -> Node ((remove ii l), o, r)
+          | None ->
+            (match r with
+             | Leaf ->
+               (match remove ii l with
+                | Leaf -> Leaf
+                | Node (t0, o0, t1) -> Node ((Node (t0, o0, t1)), None, Leaf))
+             | Node (_, _, _) -> Node ((remove ii l), o, r))))
+    | XH ->
+      (match m with
+       | Leaf -> Leaf
+       | Node (l, _, r) ->
+         (match l with
+          | Leaf ->
+            (match r with
+             | Leaf -> Leaf
+             | Node (_, _, _) -> Node (l, None, r))
+          | Node (_, _, _) -> Node (l, None, r)))
+
+  (** val xelements : 'a1 t -> key -> (key, 'a1) prod list **)
+
+  let rec xelements m i =
+    match m with
+    | Leaf -> Nil
+    | Node (l, o, r) ->
+      (match o with
+       | Some x ->
+         app (xelements l (append0 i (XO XH))) (Cons ((Pair (i, x)),
+           (xelements r (append0 i (XI XH)))))
+       | None ->
+         app (xelements l (append0 i (XO XH)))
+           (xelements r (append0 i (XI XH))))
+
+  (** val elements : 'a1 t -> (key, 'a1) prod list **)
+
+  let elements m =
+    xelements m XH
+
+  (** val cardinal : 'a1 t -> nat **)
+
+  let rec cardinal = function
+  | Leaf -> O
+  | Node (l, o, r) ->
+    (match o with
+     | Some _ -> S (Coq__1.add (cardinal l) (cardinal r))
+     | None -> Coq__1.add (cardinal l) (cardinal r))
+
+  (** val xfind : key -> key -> 'a1 t -> 'a1 option **)
+
+  let rec xfind i j m =
+    match i with
+    | XI ii ->
+      (match j with
+       | XI jj -> xfind ii jj m
+       | XO _ -> None
+       | XH -> find i m)
+    | XO ii ->
+      (match j with
+       | XI _ -> None
+       | XO jj -> xfind ii jj m
+       | XH -> find i m)
+    | XH -> (match j with
+             | XH -> find i m
+             | _ -> None)
+
+  (** val xmapi : (key -> 'a1 -> 'a2) -> 'a1 t -> key -> 'a2 t **)
+
+  let rec xmapi f m i =
+    match m with
+    | Leaf -> Leaf
+    | Node (l, o, r) ->
+      Node ((xmapi f l (append0 i (XO XH))), (option_map (f i) o),
+        (xmapi f r (append0 i (XI XH))))
+
+  (** val mapi : (key -> 'a1 -> 'a2) -> 'a1 t -> 'a2 t **)
+
+  let mapi f m =
+    xmapi f m XH
+
+  (** val map : ('a1 -> 'a2) -> 'a1 t -> 'a2 t **)
+
+  let map f m =
+    mapi (fun _ -> f) m
+
+  (** val xmap2_l :
+      ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a3 t **)
+
+  let rec xmap2_l f = function
+  | Leaf -> Leaf
+  | Node (l, o, r) -> Node ((xmap2_l f l), (f o None), (xmap2_l f r))
+
+  (** val xmap2_r :
+      ('a1 option -> 'a2 option -> 'a3 option) -> 'a2 t -> 'a3 t **)
+
+  let rec xmap2_r f = function
+  | Leaf -> Leaf
+  | Node (l, o, r) -> Node ((xmap2_r f l), (f None o), (xmap2_r f r))
+
+  (** val _map2 :
+      ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t **)
+
+  let rec _map2 f m1 m2 =
+    match m1 with
+    | Leaf -> xmap2_r f m2
+    | Node (l1, o1, r1) ->
+      (match m2 with
+       | Leaf -> xmap2_l f m1
+       | Node (l2, o2, r2) ->
+         Node ((_map2 f l1 l2), (f o1 o2), (_map2 f r1 r2)))
+
+  (** val map2 :
+      ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t **)
+
+  let map2 f =
+    _map2 (fun o1 o2 ->
+      match o1 with
+      | Some _ -> f o1 o2
+      | None -> (match o2 with
+                 | Some _ -> f o1 o2
+                 | None -> None))
+
+  (** val xfoldi :
+      (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> key -> 'a2 **)
+
+  let rec xfoldi f m v i =
+    match m with
+    | Leaf -> v
+    | Node (l, o, r) ->
+      (match o with
+       | Some x ->
+         xfoldi f r (f i x (xfoldi f l v (append0 i (XO XH))))
+           (append0 i (XI XH))
+       | None ->
+         xfoldi f r (xfoldi f l v (append0 i (XO XH))) (append0 i (XI XH)))
+
+  (** val fold : (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> 'a2 **)
+
+  let fold f m i =
+    xfoldi f m i XH
+
+  (** val equal : ('a1 -> 'a1 -> bool) -> 'a1 t -> 'a1 t -> bool **)
+
+  let rec equal cmp m1 m2 =
+    match m1 with
+    | Leaf -> is_empty m2
+    | Node (l1, o1, r1) ->
+      (match m2 with
+       | Leaf -> is_empty m1
+       | Node (l2, o2, r2) ->
+         (match match match o1 with
+                      | Some v1 ->
+                        (match o2 with
+                         | Some v2 -> cmp v1 v2
+                         | None -> False)
+                      | None -> (match o2 with
+                                 | Some _ -> False
+                                 | None -> True) with
+                | True -> equal cmp l1 l2
+                | False -> False with
+          | True -> equal cmp r1 r2
+          | False -> False))
  end
 
 type dag_node =
@@ -12923,26 +13955,91 @@ module Accessor =
   | Npos _ ->
     EApp ((EConst (core_succ_name, Nil)), (ELit (LitNat (N.pred n0))))
 
-  (** val core_shiftr : nat -> n -> n -> n result **)
+  (** val core_pow_max_exp : n **)
 
-  let core_shiftr fuel a b =
+  let core_pow_max_exp =
+    Npos (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO (XO
+      (XO (XO (XO (XO (XO (XO (XO XH))))))))))))))))))))))))
+
+  (** val core_shiftr : n -> n -> n option **)
+
+  let core_shiftr a b =
     match N.ltb (N.log2 a) b with
-    | True -> Accept N0
+    | True -> Some N0
     | False ->
-      (match N.leb b (N.of_nat fuel) with
-       | True -> Accept (N.shiftr a b)
-       | False -> Decline OutOfFuel)
+      (match N.leb b core_pow_max_exp with
+       | True -> Some (N.shiftr a b)
+       | False -> None)
+
+  (** val core_reduce_bool_name : name **)
+
+  let core_reduce_bool_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, False, False, False, False, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (True, True, True, True, False, True, True, False)), (String
+      ((Ascii (False, False, True, True, False, True, True, False)),
+      EmptyString)))))))))))))))))))))
+
+  (** val core_reduce_nat_name : name **)
+
+  let core_reduce_nat_name =
+    NameStr ((NameStr (NameAnon, (String ((Ascii (False, False, True, True,
+      False, False, True, False)), (String ((Ascii (True, False, True, False,
+      False, True, True, False)), (String ((Ascii (True, False, False, False,
+      False, True, True, False)), (String ((Ascii (False, True, True, True,
+      False, True, True, False)), EmptyString)))))))))), (String ((Ascii
+      (False, True, False, False, True, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, True, True, True, False)), (String ((Ascii
+      (True, True, False, False, False, True, True, False)), (String ((Ascii
+      (True, False, True, False, False, True, True, False)), (String ((Ascii
+      (False, True, True, True, False, False, True, False)), (String ((Ascii
+      (True, False, False, False, False, True, True, False)), (String ((Ascii
+      (False, False, True, False, True, True, True, False)),
+      EmptyString)))))))))))))))))))
+
+  (** val core_reduce_native : expr -> expr option result **)
+
+  let core_reduce_native = function
+  | EApp (e0, e1) ->
+    (match e0 with
+     | EConst (f, l) ->
+       (match l with
+        | Nil ->
+          (match e1 with
+           | EConst (_, _) ->
+             (match match name_eqb f core_reduce_bool_name with
+                    | True -> True
+                    | False -> name_eqb f core_reduce_nat_name with
+              | True -> Decline UnsupportedExpression
+              | False -> Accept None)
+           | _ -> Accept None)
+        | Cons (_, _) -> Accept None)
+     | _ -> Accept None)
+  | _ -> Accept None
 
   (** val core_binary_nat :
       (name -> environment -> declaration option) -> nat -> environment ->
       primitive_kind -> n -> n -> expr option result **)
 
-  let core_binary_nat resolve fuel env op a b =
+  let core_binary_nat resolve _ env op a b =
     let numeric = fun n0 -> Accept (Some (ELit (LitNat n0))) in
     let bounded = fun operation ->
-      match N.leb b (N.of_nat fuel) with
+      match N.leb b core_pow_max_exp with
       | True -> numeric (operation a b)
-      | False -> Decline OutOfFuel
+      | False -> Accept None
     in
     let boolean = fun b0 ->
       match core_bool_ready resolve env with
@@ -12968,7 +14065,10 @@ module Accessor =
      | PNatLOr -> numeric (N.coq_lor a b)
      | PNatXor -> numeric (N.coq_lxor a b)
      | PNatShiftLeft -> bounded N.shiftl
-     | PNatShiftRight -> bind (core_shiftr fuel a b) numeric
+     | PNatShiftRight ->
+       (match core_shiftr a b with
+        | Some value -> numeric value
+        | None -> Accept None)
      | _ -> Accept None)
 
   (** val core_reduce_nat :
@@ -14159,25 +15259,45 @@ module Accessor =
     bind (whnf_core_step resolve rec0 fuel env ps False g e) (fun reduced ->
       match reduced with
       | EBVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EFVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EMVar _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ESort _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EConst (n0, _) ->
         (match match name_eqb n0 core_zero_name with
                | True -> core_nat_ready resolve env
@@ -14185,40 +15305,75 @@ module Accessor =
          | True -> Accept (WhnfDone (ELit (LitNat N0)))
          | False -> finish_whnf_unfold resolve env ps reduced)
       | EApp (_, _) ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELam (_, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EPi (_, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELet (_, _, _, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | ELit _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EProj (_, _, _) ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced)
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced))
       | EMData _ ->
-        bind (core_reduce_nat resolve rec0 fuel env g reduced) (fun native ->
-          match native with
+        bind (core_reduce_native reduced) (fun nat_hook ->
+          match nat_hook with
           | Some value -> Accept (WhnfDone value)
-          | None -> finish_whnf_unfold resolve env ps reduced))
+          | None ->
+            bind (core_reduce_nat resolve rec0 fuel env g reduced)
+              (fun native ->
+              match native with
+              | Some value -> Accept (WhnfDone value)
+              | None -> finish_whnf_unfold resolve env ps reduced)))
 
   (** val whnf_loop :
       (name -> environment -> declaration option) -> nat -> methods -> nat ->
@@ -14440,6 +15595,15 @@ module Accessor =
        | None -> None)
     | _ -> None
 
+  (** val core_delta_head :
+      (name -> environment -> declaration option) -> environment -> expr ->
+      bool **)
+
+  let core_delta_head resolve env e =
+    match core_delta_info resolve env e with
+    | Some _ -> True
+    | None -> False
+
   (** val core_delta_sides :
       (name -> environment -> declaration option) -> environment -> expr ->
       expr -> (bool, bool) prod **)
@@ -14507,10 +15671,63 @@ module Accessor =
        | None -> Accept False)
     | None -> Accept False
 
-  (** val compare_heads :
-      methods -> nat -> context -> expr -> expr -> bool result **)
+  (** val core_is_cheap_arg :
+      (name -> environment -> declaration option) -> environment -> expr ->
+      bool **)
 
-  let compare_heads rec0 fuel g t0 s =
+  let core_is_cheap_arg resolve env e = match e with
+  | EBVar _ -> True
+  | EFVar _ -> True
+  | ESort _ -> True
+  | EConst (_, _) -> negb (core_delta_head resolve env e)
+  | ELit _ -> True
+  | _ -> False
+
+  (** val core_compare_args_filtered :
+      (name -> environment -> declaration option) -> bool -> methods ->
+      environment -> context -> expr list -> expr list -> bool result **)
+
+  let rec core_compare_args_filtered resolve want_cheap rec0 env g xs ys =
+    match xs with
+    | Nil -> (match ys with
+              | Nil -> Accept True
+              | Cons (_, _) -> Accept False)
+    | Cons (x, xs0) ->
+      (match ys with
+       | Nil -> Accept False
+       | Cons (y, ys0) ->
+         let is_cheap =
+           match core_is_cheap_arg resolve env x with
+           | True -> core_is_cheap_arg resolve env y
+           | False -> False
+         in
+         (match eqb0 is_cheap want_cheap with
+          | True ->
+            bind (rec0.defeq_method g x y) (fun ok ->
+              match ok with
+              | True ->
+                core_compare_args_filtered resolve want_cheap rec0 env g xs0
+                  ys0
+              | False -> Accept False)
+          | False ->
+            core_compare_args_filtered resolve want_cheap rec0 env g xs0 ys0))
+
+  (** val core_compare_args_cheap_first :
+      (name -> environment -> declaration option) -> methods -> environment
+      -> context -> expr list -> expr list -> bool result **)
+
+  let core_compare_args_cheap_first resolve rec0 env g xs ys =
+    bind (core_compare_args_filtered resolve True rec0 env g xs ys)
+      (fun ok ->
+      match ok with
+      | True -> core_compare_args_filtered resolve False rec0 env g xs ys
+      | False -> Accept False)
+
+  (** val compare_heads :
+      (name -> environment -> declaration option) -> methods -> nat ->
+      environment -> context -> expr -> expr -> bool result **)
+
+  let compare_heads resolve rec0 fuel env g t0 s =
     match t0 with
     | EBVar n0 ->
       (match s with
@@ -14543,7 +15760,7 @@ module Accessor =
           | True ->
             bind (rec0.defeq_method g tf sf) (fun ok ->
               match ok with
-              | True -> core_compare_args rec0 g ta sa
+              | True -> core_compare_args_cheap_first resolve rec0 env g ta sa
               | False -> Accept False)
           | False -> Accept False)
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
@@ -14557,13 +15774,11 @@ module Accessor =
       (match s with
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
        | _ -> Accept False)
-    | EProj (n0, i, a) ->
+    | EProj (_, i, a) ->
       (match s with
        | ELam (_, _, domain, body) -> eta_compare rec0 g domain body t0
-       | EProj (m, j, b) ->
-         (match match name_eqb n0 m with
-                | True -> Nat.eqb i j
-                | False -> False with
+       | EProj (_, j, b) ->
+         (match Nat.eqb i j with
           | True -> rec0.defeq_method g a b
           | False -> Accept False)
        | _ -> Accept False)
@@ -14690,7 +15905,7 @@ module Accessor =
       environment -> context -> expr -> expr -> bool result **)
 
   let core_compare_fallback resolve rec0 fuel env g t0 s =
-    bind (compare_heads rec0 fuel g t0 s) (fun ok ->
+    bind (compare_heads resolve rec0 fuel env g t0 s) (fun ok ->
       match ok with
       | True -> Accept True
       | False ->
@@ -15025,105 +16240,254 @@ module Accessor =
                       bind (rec0.defeq_method g t0 sn0) (fun ok -> Accept
                         (ConversionDone ok))
                     | None ->
-                      bind
-                        (core_delta_congruent resolve rec0 fuel env g t0 s)
-                        (fun same ->
-                        match same with
-                        | True -> Accept (ConversionDone True)
-                        | False ->
-                          bind
-                            (core_opposite_projection resolve rec0 env g t0 s)
-                            (fun projected ->
-                            match projected with
-                            | Some p ->
-                              let Pair (tn0, sn0) = p in
-                              core_lazy_delta resolve rounds0 rec0 fuel env
-                                ps g tn0 sn0
+                      bind (core_reduce_native t0) (fun nat_t ->
+                        match nat_t with
+                        | Some tn0 ->
+                          bind (rec0.defeq_method g tn0 s) (fun ok -> Accept
+                            (ConversionDone ok))
+                        | None ->
+                          bind (core_reduce_native s) (fun nat_s ->
+                            match nat_s with
+                            | Some sn0 ->
+                              bind (rec0.defeq_method g t0 sn0) (fun ok ->
+                                Accept (ConversionDone ok))
                             | None ->
-                              let Pair (unfold_left, unfold_right) =
-                                core_delta_sides resolve env t0 s
-                              in
                               bind
-                                (match unfold_left with
-                                 | True -> core_unfold resolve env ps t0
-                                 | False -> Accept None)
-                                (fun td ->
-                                bind
-                                  (match unfold_right with
-                                   | True -> core_unfold resolve env ps s
-                                   | False -> Accept None)
-                                  (fun sd ->
-                                  match td with
-                                  | Some _ ->
-                                    bind
-                                      (match td with
-                                       | Some e ->
-                                         rec0.whnf_core_method True g e
-                                       | None -> Accept t0)
-                                      (fun tn0 ->
+                                (core_delta_congruent resolve rec0 fuel env g
+                                  t0 s)
+                                (fun same ->
+                                match same with
+                                | True -> Accept (ConversionDone True)
+                                | False ->
+                                  bind
+                                    (core_opposite_projection resolve rec0
+                                      env g t0 s)
+                                    (fun projected ->
+                                    match projected with
+                                    | Some p ->
+                                      let Pair (tn0, sn0) = p in
+                                      core_lazy_delta resolve rounds0 rec0
+                                        fuel env ps g tn0 sn0
+                                    | None ->
+                                      let Pair (unfold_left, unfold_right) =
+                                        core_delta_sides resolve env t0 s
+                                      in
                                       bind
-                                        (match sd with
-                                         | Some e ->
-                                           rec0.whnf_core_method True g e
-                                         | None -> Accept s)
-                                        (fun sn0 ->
-                                        core_lazy_delta resolve rounds0 rec0
-                                          fuel env ps g tn0 sn0))
-                                  | None ->
-                                    (match sd with
-                                     | Some _ ->
-                                       bind
-                                         (match td with
-                                          | Some e ->
-                                            rec0.whnf_core_method True g e
-                                          | None -> Accept t0)
-                                         (fun tn0 ->
-                                         bind
-                                           (match sd with
-                                            | Some e ->
-                                              rec0.whnf_core_method True g e
-                                            | None -> Accept s)
-                                           (fun sn0 ->
-                                           core_lazy_delta resolve rounds0
-                                             rec0 fuel env ps g tn0 sn0))
-                                     | None ->
-                                       Accept (ConversionStuck (t0, s)))))))))))
+                                        (match unfold_left with
+                                         | True ->
+                                           core_unfold resolve env ps t0
+                                         | False -> Accept None)
+                                        (fun td ->
+                                        bind
+                                          (match unfold_right with
+                                           | True ->
+                                             core_unfold resolve env ps s
+                                           | False -> Accept None)
+                                          (fun sd ->
+                                          match td with
+                                          | Some _ ->
+                                            bind
+                                              (match td with
+                                               | Some e ->
+                                                 rec0.whnf_core_method True g
+                                                   e
+                                               | None -> Accept t0)
+                                              (fun tn0 ->
+                                              bind
+                                                (match sd with
+                                                 | Some e ->
+                                                   rec0.whnf_core_method True
+                                                     g e
+                                                 | None -> Accept s)
+                                                (fun sn0 ->
+                                                core_lazy_delta resolve
+                                                  rounds0 rec0 fuel env ps g
+                                                  tn0 sn0))
+                                          | None ->
+                                            (match sd with
+                                             | Some _ ->
+                                               bind
+                                                 (match td with
+                                                  | Some e ->
+                                                    rec0.whnf_core_method
+                                                      True g e
+                                                  | None -> Accept t0)
+                                                 (fun tn0 ->
+                                                 bind
+                                                   (match sd with
+                                                    | Some e ->
+                                                      rec0.whnf_core_method
+                                                        True g e
+                                                    | None -> Accept s)
+                                                   (fun sn0 ->
+                                                   core_lazy_delta resolve
+                                                     rounds0 rec0 fuel env ps
+                                                     g tn0 sn0))
+                                             | None ->
+                                               Accept (ConversionStuck (t0,
+                                                 s)))))))))))))
+
+  (** val core_reduce_proj_core :
+      (name -> environment -> declaration option) -> environment -> nat ->
+      expr -> expr option **)
+
+  let core_reduce_proj_core resolve env idx e =
+    let Pair (h, args) = core_spine e Nil in
+    (match h with
+     | EConst (cn, _) ->
+       (match core_constructor resolve env cn with
+        | Some ci ->
+          (match match Nat.ltb idx ci.ctor_num_fields with
+                 | True ->
+                   Nat.eqb (length args)
+                     (add ci.ctor_num_params ci.ctor_num_fields)
+                 | False -> False with
+           | True -> nth_error args (add ci.ctor_num_params idx)
+           | False -> None)
+        | None -> None)
+     | _ -> None)
+
+  (** val core_lazy_delta_proj :
+      (name -> environment -> declaration option) -> nat -> methods -> nat ->
+      environment -> name list -> context -> nat -> expr -> expr -> bool
+      result **)
+
+  let rec core_lazy_delta_proj resolve rounds rec0 fuel env ps g idx t0 s =
+    match rounds with
+    | O -> Decline OutOfFuel
+    | S rounds0 ->
+      bind (core_quick rec0 fuel g t0 s) (fun quick ->
+        match quick with
+        | Some ok -> Accept ok
+        | None ->
+          bind (core_delta_congruent resolve rec0 fuel env g t0 s)
+            (fun same ->
+            match same with
+            | True -> Accept True
+            | False ->
+              bind (core_opposite_projection resolve rec0 env g t0 s)
+                (fun projected ->
+                match projected with
+                | Some p ->
+                  let Pair (tn, sn) = p in
+                  core_lazy_delta_proj resolve rounds0 rec0 fuel env ps g idx
+                    tn sn
+                | None ->
+                  let Pair (unfold_left, unfold_right) =
+                    core_delta_sides resolve env t0 s
+                  in
+                  bind
+                    (match unfold_left with
+                     | True -> core_unfold resolve env ps t0
+                     | False -> Accept None)
+                    (fun td ->
+                    bind
+                      (match unfold_right with
+                       | True -> core_unfold resolve env ps s
+                       | False -> Accept None)
+                      (fun sd ->
+                      match td with
+                      | Some _ ->
+                        bind
+                          (match td with
+                           | Some e -> rec0.whnf_core_method True g e
+                           | None -> Accept t0)
+                          (fun tn ->
+                          bind
+                            (match sd with
+                             | Some e -> rec0.whnf_core_method True g e
+                             | None -> Accept s)
+                            (fun sn ->
+                            core_lazy_delta_proj resolve rounds0 rec0 fuel
+                              env ps g idx tn sn))
+                      | None ->
+                        (match sd with
+                         | Some _ ->
+                           bind
+                             (match td with
+                              | Some e -> rec0.whnf_core_method True g e
+                              | None -> Accept t0)
+                             (fun tn ->
+                             bind
+                               (match sd with
+                                | Some e -> rec0.whnf_core_method True g e
+                                | None -> Accept s)
+                               (fun sn ->
+                               core_lazy_delta_proj resolve rounds0 rec0 fuel
+                                 env ps g idx tn sn))
+                         | None ->
+                           (match core_reduce_proj_core resolve env idx t0 with
+                            | Some tf ->
+                              (match core_reduce_proj_core resolve env idx s with
+                               | Some sf -> rec0.defeq_method g tf sf
+                               | None -> rec0.defeq_method g t0 s)
+                            | None -> rec0.defeq_method g t0 s)))))))
 
   (** val core_finish_conversion :
       (name -> environment -> declaration option) -> methods -> nat ->
-      environment -> context -> expr -> expr -> bool result **)
+      environment -> name list -> context -> expr -> expr -> bool result **)
 
-  let core_finish_conversion resolve rec0 fuel env g t0 s =
-    let project = fun e ->
-      let Pair (head, args) = core_spine e Nil in
-      (match head with
-       | EBVar _ -> Accept None
-       | EFVar _ -> Accept None
-       | EMVar _ -> Accept None
-       | ESort _ -> Accept None
-       | EConst (_, _) -> Accept None
-       | EApp (_, _) -> Accept None
-       | ELam (_, _, _, _) -> Accept None
-       | EPi (_, _, _, _) -> Accept None
-       | ELet (_, _, _, _, _) -> Accept None
-       | ELit _ -> Accept None
-       | EProj (owner, index, value) ->
-         bind (core_reduce_projection resolve rec0 env g owner index value)
-           (fun field -> Accept
-           (option_map (fun f -> core_apps f args) field))
-       | EMData _ -> Accept None)
-    in
-    bind (project t0) (fun tp ->
-      bind (project s) (fun sp ->
-        match tp with
-        | Some t1 ->
-          (match sp with
-           | Some s0 -> rec0.defeq_method g t1 s0
-           | None -> rec0.defeq_method g t1 s)
-        | None ->
-          (match sp with
-           | Some s0 -> rec0.defeq_method g t0 s0
-           | None -> compare_after_whnf resolve rec0 fuel env g t0 s)))
+  let core_finish_conversion resolve rec0 fuel env ps g t0 s =
+    let Pair (th, ta) = core_spine t0 Nil in
+    let Pair (sh, sa) = core_spine s Nil in
+    bind
+      (match th with
+       | EProj (_, ti, te) ->
+         (match sh with
+          | EProj (_, si, se) ->
+            (match match Nat.eqb ti si with
+                   | True -> Nat.eqb (length ta) (length sa)
+                   | False -> False with
+             | True ->
+               bind
+                 (core_lazy_delta_proj resolve (S fuel) rec0 fuel env ps g ti
+                   te se)
+                 (fun ok ->
+                 match ok with
+                 | True ->
+                   (match ta with
+                    | Nil -> Accept True
+                    | Cons (_, _) ->
+                      core_compare_args_cheap_first resolve rec0 env g ta sa)
+                 | False -> Accept False)
+             | False -> Accept False)
+          | _ -> Accept False)
+       | _ -> Accept False)
+      (fun lazy_proj_ok ->
+      match lazy_proj_ok with
+      | True -> Accept True
+      | False ->
+        let project = fun e ->
+          let Pair (head, args) = core_spine e Nil in
+          (match head with
+           | EBVar _ -> Accept None
+           | EFVar _ -> Accept None
+           | EMVar _ -> Accept None
+           | ESort _ -> Accept None
+           | EConst (_, _) -> Accept None
+           | EApp (_, _) -> Accept None
+           | ELam (_, _, _, _) -> Accept None
+           | EPi (_, _, _, _) -> Accept None
+           | ELet (_, _, _, _, _) -> Accept None
+           | ELit _ -> Accept None
+           | EProj (owner, index, value) ->
+             bind
+               (core_reduce_projection resolve rec0 env g owner index value)
+               (fun field -> Accept
+               (option_map (fun f -> core_apps f args) field))
+           | EMData _ -> Accept None)
+        in
+        bind (project t0) (fun tp ->
+          bind (project s) (fun sp ->
+            match tp with
+            | Some t1 ->
+              (match sp with
+               | Some s0 -> rec0.defeq_method g t1 s0
+               | None -> rec0.defeq_method g t1 s)
+            | None ->
+              (match sp with
+               | Some s0 -> rec0.defeq_method g t0 s0
+               | None -> compare_after_whnf resolve rec0 fuel env g t0 s))))
 
   (** val core_true_shortcut :
       (name -> environment -> declaration option) -> methods -> environment
@@ -15166,7 +16530,8 @@ module Accessor =
                       match progress with
                       | ConversionDone ok -> Accept ok
                       | ConversionStuck (tn0, sn0) ->
-                        core_finish_conversion resolve rec1 fuel env g tn0 sn0))))))
+                        core_finish_conversion resolve rec1 fuel env ps g tn0
+                          sn0))))))
 
   (** val checker_mode :
       (name -> environment -> declaration option) -> reduction_mode -> nat ->
@@ -16493,41 +17858,426 @@ let quotient_runtime_initial =
 let quotient_runtime_initialize s =
   quotient_indexed_transaction suffix_bitfold8 s
 
-type defeq_cache_key = { dck_context_depth : nat; dck_lhs : expr;
-                         dck_rhs : expr }
+module CacheMap = PositiveMap
+
+(** val option_expr_eqb : expr option -> expr option -> bool **)
+
+let option_expr_eqb a b =
+  match a with
+  | Some x -> (match b with
+               | Some y -> expr_eqb x y
+               | None -> False)
+  | None -> (match b with
+             | Some _ -> False
+             | None -> True)
+
+(** val binding_eqb : binding -> binding -> bool **)
+
+let binding_eqb b1 b2 =
+  match expr_eqb b1.binding_type b2.binding_type with
+  | True -> option_expr_eqb b1.binding_value b2.binding_value
+  | False -> False
+
+(** val free_entry_eqb :
+    (name, binding) prod -> (name, binding) prod -> bool **)
+
+let free_entry_eqb p1 p2 =
+  match name_eqb (fst p1) (fst p2) with
+  | True -> binding_eqb (snd p1) (snd p2)
+  | False -> False
+
+(** val context_eqb : context -> context -> bool **)
+
+let context_eqb g1 g2 =
+  match list_eqb binding_eqb g1.bound_context g2.bound_context with
+  | True -> list_eqb free_entry_eqb g1.free_context g2.free_context
+  | False -> False
+
+(** val core_alpha_opt :
+    nat -> expr option -> expr option -> (bool, nat) prod **)
+
+let core_alpha_opt budget a b =
+  match a with
+  | Some x ->
+    (match b with
+     | Some y -> core_alpha budget x y
+     | None -> Pair (False, budget))
+  | None ->
+    (match b with
+     | Some _ -> Pair (False, budget)
+     | None -> Pair (True, budget))
+
+(** val core_alpha_binding : nat -> binding -> binding -> (bool, nat) prod **)
+
+let core_alpha_binding budget b1 b2 =
+  let Pair (ok, rem) = core_alpha budget b1.binding_type b2.binding_type in
+  (match ok with
+   | True -> core_alpha_opt rem b1.binding_value b2.binding_value
+   | False -> Pair (False, rem))
+
+(** val core_alpha_bindings :
+    nat -> binding list -> binding list -> (bool, nat) prod **)
+
+let rec core_alpha_bindings budget xs ys =
+  match xs with
+  | Nil ->
+    (match ys with
+     | Nil -> Pair (True, budget)
+     | Cons (_, _) -> Pair (False, budget))
+  | Cons (x, xs0) ->
+    (match ys with
+     | Nil -> Pair (False, budget)
+     | Cons (y, ys0) ->
+       let Pair (ok, rem) = core_alpha_binding budget x y in
+       (match ok with
+        | True -> core_alpha_bindings rem xs0 ys0
+        | False -> Pair (False, rem)))
+
+(** val core_alpha_free :
+    nat -> (name, binding) prod list -> (name, binding) prod list -> (bool,
+    nat) prod **)
+
+let rec core_alpha_free budget xs ys =
+  match xs with
+  | Nil ->
+    (match ys with
+     | Nil -> Pair (True, budget)
+     | Cons (_, _) -> Pair (False, budget))
+  | Cons (p, xs0) ->
+    let Pair (n1, b1) = p in
+    (match ys with
+     | Nil -> Pair (False, budget)
+     | Cons (p0, ys0) ->
+       let Pair (n2, b2) = p0 in
+       (match name_eqb n1 n2 with
+        | True ->
+          let Pair (ok, rem) = core_alpha_binding budget b1 b2 in
+          (match ok with
+           | True -> core_alpha_free rem xs0 ys0
+           | False -> Pair (False, rem))
+        | False -> Pair (False, budget)))
+
+(** val core_alpha_context : nat -> context -> context -> bool **)
+
+let core_alpha_context budget g1 g2 =
+  let Pair (ok, rem) =
+    core_alpha_bindings budget g1.bound_context g2.bound_context
+  in
+  (match ok with
+   | True -> fst (core_alpha_free rem g1.free_context g2.free_context)
+   | False -> False)
+
+(** val pos_trunc : nat -> positive -> positive **)
+
+let rec pos_trunc k p =
+  match k with
+  | O -> XH
+  | S k0 ->
+    (match p with
+     | XI q -> XI (pos_trunc k0 q)
+     | XO q -> XO (pos_trunc k0 q)
+     | XH -> XH)
+
+(** val pos_xor_trunc : nat -> positive -> positive -> positive **)
+
+let rec pos_xor_trunc k a b =
+  match k with
+  | O -> XH
+  | S k0 ->
+    (match a with
+     | XI a' ->
+       (match b with
+        | XI b' -> XO (pos_xor_trunc k0 a' b')
+        | XO b' -> XI (pos_xor_trunc k0 a' b')
+        | XH -> pos_trunc (S k0) a)
+     | XO a' ->
+       (match b with
+        | XI b' -> XI (pos_xor_trunc k0 a' b')
+        | XO b' -> XO (pos_xor_trunc k0 a' b')
+        | XH -> pos_trunc (S k0) a)
+     | XH -> pos_trunc (S k0) b)
+
+(** val hash_mix : positive -> positive -> positive **)
+
+let hash_mix a b =
+  pos_xor_trunc (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O)))))))))))))))) (XO a) b
+
+(** val hash_ascii : ascii -> positive **)
+
+let hash_ascii = function
+| Ascii (b0, b1, b2, b3, b4, b5, b6, b7) ->
+  let f = fun b p -> match b with
+                     | True -> XI p
+                     | False -> XO p in
+  f b0 (f b1 (f b2 (f b3 (f b4 (f b5 (f b6 (f b7 XH)))))))
+
+(** val hash_string_bounded : nat -> string -> positive -> positive **)
+
+let rec hash_string_bounded fuel s acc =
+  match fuel with
+  | O -> acc
+  | S fuel0 ->
+    (match s with
+     | EmptyString -> acc
+     | String (c, rest) ->
+       hash_string_bounded fuel0 rest (hash_mix acc (hash_ascii c)))
+
+(** val hash_nat_small : nat -> positive **)
+
+let hash_nat_small n0 = match n0 with
+| O -> XH
+| S n1 ->
+  (match n1 with
+   | O -> XO XH
+   | S n2 ->
+     (match n2 with
+      | O -> XI XH
+      | S n3 ->
+        (match n3 with
+         | O -> XO (XO XH)
+         | S n4 ->
+           (match n4 with
+            | O -> XI (XO XH)
+            | S n5 ->
+              (match n5 with
+               | O -> XO (XI XH)
+               | S n6 ->
+                 (match n6 with
+                  | O -> XI (XI XH)
+                  | S n7 ->
+                    (match n7 with
+                     | O -> XO (XO (XO XH))
+                     | S _ ->
+                       pos_trunc (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S O)))))))))))))))) (Coq_Pos.of_succ_nat n0))))))))
+
+(** val hash_N_fast : n -> positive **)
+
+let hash_N_fast = function
+| N0 -> XH
+| Npos p ->
+  pos_trunc (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S O))))))))))))))))
+    p
+
+(** val hash_name_bounded : nat -> name -> positive **)
+
+let rec hash_name_bounded fuel n0 =
+  match fuel with
+  | O -> XH
+  | S fuel0 ->
+    (match n0 with
+     | NameAnon -> XI XH
+     | NameStr (p, s) ->
+       hash_mix (hash_name_bounded fuel0 p)
+         (hash_string_bounded (S (S (S (S (S (S O)))))) s (XI (XI XH)))
+     | NameNum (p, k) ->
+       hash_mix (hash_name_bounded fuel0 p)
+         (hash_mix (XI (XI (XO XH))) (hash_N_fast k)))
+
+(** val hash_level_bounded : nat -> level -> positive **)
+
+let rec hash_level_bounded fuel u =
+  match fuel with
+  | O -> XI (XO XH)
+  | S fuel0 ->
+    (match u with
+     | LZero -> XI (XO (XI XH))
+     | LSucc v -> hash_mix (XI (XO (XO (XO XH)))) (hash_level_bounded fuel0 v)
+     | LMax (a, b) ->
+       hash_mix (XI (XI (XO (XO XH))))
+         (hash_mix (hash_level_bounded fuel0 a) (hash_level_bounded fuel0 b))
+     | LIMax (a, b) ->
+       hash_mix (XI (XI (XI (XO XH))))
+         (hash_mix (hash_level_bounded fuel0 a) (hash_level_bounded fuel0 b))
+     | LParam n0 ->
+       hash_mix (XI (XO (XI (XI XH)))) (hash_name_bounded (S (S O)) n0)
+     | LMVar n0 ->
+       hash_mix (XI (XO (XI (XO (XO XH))))) (hash_name_bounded (S (S O)) n0))
+
+(** val hash_levels_bounded : nat -> level list -> positive -> positive **)
+
+let rec hash_levels_bounded fuel us acc =
+  match fuel with
+  | O -> acc
+  | S fuel0 ->
+    (match us with
+     | Nil -> acc
+     | Cons (u, us0) ->
+       hash_levels_bounded fuel0 us0
+         (hash_mix acc (hash_level_bounded (S (S O)) u)))
+
+(** val hash_expr_bounded : nat -> expr -> positive **)
+
+let rec hash_expr_bounded depth e =
+  match depth with
+  | O -> XI (XO (XO (XI (XO XH))))
+  | S d ->
+    (match e with
+     | EBVar i -> hash_mix (XI (XI (XO (XI (XO XH))))) (hash_nat_small i)
+     | EFVar n0 ->
+       hash_mix (XI (XI (XI (XI (XO XH))))) (hash_name_bounded (S (S O)) n0)
+     | EMVar n0 ->
+       hash_mix (XI (XO (XI (XO (XI XH))))) (hash_name_bounded (S (S O)) n0)
+     | ESort u ->
+       hash_mix (XI (XI (XO (XI (XI XH))))) (hash_level_bounded (S (S O)) u)
+     | EConst (n0, us) ->
+       hash_mix (XI (XO (XI (XI (XI XH)))))
+         (hash_mix (hash_name_bounded (S (S O)) n0)
+           (hash_levels_bounded (S (S O)) us (XI (XI (XO (XO (XO (XO XH))))))))
+     | EApp (f, a) ->
+       hash_mix (XI (XI (XI (XO (XO (XO XH))))))
+         (hash_mix (hash_expr_bounded d f) (hash_expr_bounded d a))
+     | ELam (_, _, a, b) ->
+       hash_mix (XI (XO (XO (XI (XO (XO XH))))))
+         (hash_mix (hash_expr_bounded d a) (hash_expr_bounded d b))
+     | EPi (_, _, a, b) ->
+       hash_mix (XI (XI (XI (XI (XO (XO XH))))))
+         (hash_mix (hash_expr_bounded d a) (hash_expr_bounded d b))
+     | ELet (_, a, v, b, _) ->
+       hash_mix (XI (XI (XO (XO (XI (XO XH))))))
+         (hash_mix (hash_expr_bounded d a)
+           (hash_mix (hash_expr_bounded d v) (hash_expr_bounded d b)))
+     | ELit l ->
+       (match l with
+        | LitNat n0 ->
+          hash_mix (XI (XO (XO (XI (XI (XO XH)))))) (hash_N_fast n0)
+        | LitString s ->
+          hash_mix (XI (XO (XO (XO (XO (XI XH))))))
+            (hash_string_bounded (S (S (S (S (S (S O)))))) s (XI (XO (XI (XO
+              (XO (XI XH))))))))
+     | EProj (_, i, a) ->
+       hash_mix (XI (XI (XI (XO (XO (XI XH))))))
+         (hash_mix (hash_nat_small i) (hash_expr_bounded d a))
+     | EMData a ->
+       hash_mix (XI (XI (XO (XI (XO (XI XH)))))) (hash_expr_bounded d a))
+
+(** val hash_expr : expr -> positive **)
+
+let hash_expr e =
+  hash_expr_bounded (S (S (S O))) e
+
+(** val hash_binding : binding -> positive **)
+
+let hash_binding b =
+  let vh =
+    match b.binding_value with
+    | Some v ->
+      hash_mix (XI (XO (XI (XI (XO (XI XH))))))
+        (hash_expr_bounded (S (S O)) v)
+    | None -> XI (XO (XO (XO (XI (XI XH)))))
+  in
+  hash_mix (hash_expr_bounded (S (S O)) b.binding_type) vh
+
+(** val hash_bound_prefix : nat -> binding list -> positive -> positive **)
+
+let rec hash_bound_prefix fuel bs acc =
+  match fuel with
+  | O -> acc
+  | S fuel0 ->
+    (match bs with
+     | Nil -> acc
+     | Cons (b, bs0) ->
+       hash_bound_prefix fuel0 bs0 (hash_mix acc (hash_binding b)))
+
+(** val hash_free_prefix :
+    nat -> (name, binding) prod list -> positive -> positive **)
+
+let rec hash_free_prefix fuel fs acc =
+  match fuel with
+  | O -> acc
+  | S fuel0 ->
+    (match fs with
+     | Nil -> acc
+     | Cons (p, fs0) ->
+       let Pair (n0, b) = p in
+       hash_free_prefix fuel0 fs0
+         (hash_mix acc
+           (hash_mix (hash_name_bounded (S (S O)) n0) (hash_binding b))))
+
+(** val hash_context : context -> positive **)
+
+let hash_context g =
+  match g.bound_context with
+  | Nil ->
+    (match g.free_context with
+     | Nil -> XI (XI (XI (XI (XI (XI XH)))))
+     | Cons (p, l) ->
+       hash_mix
+         (hash_bound_prefix (S (S O)) Nil (XI (XI (XI (XI (XI (XI XH)))))))
+         (hash_free_prefix (S (S O)) (Cons (p, l)) (XI (XI (XO (XO (XO (XO
+           (XO XH)))))))))
+  | Cons (b, l) ->
+    hash_mix
+      (hash_bound_prefix (S (S O)) (Cons (b, l)) (XI (XI (XI (XI (XI (XI
+        XH)))))))
+      (hash_free_prefix (S (S O)) g.free_context (XI (XI (XO (XO (XO (XO (XO
+        XH))))))))
+
+type defeq_cache_key = { dck_context : context; dck_lhs : expr; dck_rhs : expr }
 
 (** val defeq_cache_key_eqb : defeq_cache_key -> defeq_cache_key -> bool **)
 
 let defeq_cache_key_eqb k1 k2 =
-  match match Nat.eqb k1.dck_context_depth k2.dck_context_depth with
+  match match context_eqb k1.dck_context k2.dck_context with
         | True -> expr_eqb k1.dck_lhs k2.dck_lhs
         | False -> False with
   | True -> expr_eqb k1.dck_rhs k2.dck_rhs
   | False -> False
 
+(** val defeq_cache_key_hash : defeq_cache_key -> positive **)
+
+let defeq_cache_key_hash k =
+  hash_mix (hash_context k.dck_context)
+    (hash_mix (hash_expr k.dck_lhs) (hash_expr k.dck_rhs))
+
 type defeq_cache_entry = { dce_key : defeq_cache_key; dce_verdict : bool }
 
-type defeq_cache = defeq_cache_entry list
+type defeq_cache = defeq_cache_entry list CacheMap.t
 
-(** val cache_lookup : defeq_cache_key -> defeq_cache -> bool option **)
+(** val empty_defeq_cache : defeq_cache **)
 
-let rec cache_lookup k = function
+let empty_defeq_cache =
+  CacheMap.empty
+
+(** val bucket_lookup :
+    defeq_cache_key -> defeq_cache_entry list -> bool option **)
+
+let rec bucket_lookup k = function
 | Nil -> None
 | Cons (entry, rest) ->
   (match defeq_cache_key_eqb k entry.dce_key with
    | True -> Some entry.dce_verdict
-   | False -> cache_lookup k rest)
+   | False -> bucket_lookup k rest)
+
+(** val cache_find1 : positive -> 'a1 CacheMap.t -> 'a1 option **)
+
+let cache_find1 h m = match m with
+| CacheMap.Leaf -> None
+| CacheMap.Node (_, _, _) -> PositiveMap.find h m
+
+(** val cache_lookup : defeq_cache_key -> defeq_cache -> bool option **)
+
+let cache_lookup k cache =
+  match cache_find1 (defeq_cache_key_hash k) cache with
+  | Some entries -> bucket_lookup k entries
+  | None -> None
 
 (** val cache_insert :
     defeq_cache_key -> bool -> defeq_cache -> defeq_cache **)
 
 let cache_insert k verdict cache =
-  Cons ({ dce_key = k; dce_verdict = verdict }, cache)
+  let h = defeq_cache_key_hash k in
+  let entries = match cache_find1 h cache with
+                | Some xs -> xs
+                | None -> Nil in
+  CacheMap.add h (Cons ({ dce_key = k; dce_verdict = verdict }, entries))
+    cache
 
 (** val key_of_query : context -> expr -> expr -> defeq_cache_key **)
 
 let key_of_query g t0 s =
-  { dck_context_depth = (length g.bound_context); dck_lhs = t0; dck_rhs = s }
+  { dck_context = g; dck_lhs = t0; dck_rhs = s }
 
 (** val cached_defeq :
     nat -> environment -> name list -> context -> defeq_cache -> expr -> expr
@@ -16544,64 +18294,7673 @@ let cached_defeq fuel env ps g cache t0 s =
         Pair ((cache_insert key0 verdict cache), (Accept verdict))
       | x -> Pair (cache, x)))
 
-type fuel_config = { fc_whnf : nat; fc_infer : nat; fc_defeq : nat;
-                     fc_delta : nat; fc_recursor : nat }
+type equiv_manager = { em_parent : positive PositiveMap.t;
+                       em_next : positive;
+                       em_nodes : ((context, expr) prod, positive) prod list
+                                  CacheMap.t }
+
+(** val em_empty : equiv_manager **)
+
+let em_empty =
+  { em_parent = PositiveMap.empty; em_next = XH; em_nodes = CacheMap.empty }
+
+(** val em_find_aux :
+    nat -> positive PositiveMap.t -> positive -> (positive, positive
+    PositiveMap.t) prod **)
+
+let rec em_find_aux fuel parent n0 =
+  match fuel with
+  | O -> Pair (n0, parent)
+  | S fuel0 ->
+    (match PositiveMap.find n0 parent with
+     | Some p ->
+       (match Coq_Pos.eqb p n0 with
+        | True -> Pair (n0, parent)
+        | False ->
+          let Pair (root, parent') = em_find_aux fuel0 parent p in
+          Pair (root, (PositiveMap.add n0 root parent')))
+     | None -> Pair (n0, parent))
+
+(** val em_find :
+    equiv_manager -> positive -> (positive, equiv_manager) prod **)
+
+let em_find m n0 =
+  let Pair (r, parent') =
+    em_find_aux (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+      m.em_parent n0
+  in
+  Pair (r, { em_parent = parent'; em_next = m.em_next; em_nodes =
+  m.em_nodes })
+
+(** val em_merge : equiv_manager -> positive -> positive -> equiv_manager **)
+
+let em_merge m n1 n2 =
+  let Pair (r1, m1) = em_find m n1 in
+  let Pair (r2, m2) = em_find m1 n2 in
+  (match Coq_Pos.eqb r1 r2 with
+   | True -> m2
+   | False ->
+     { em_parent = (PositiveMap.add r1 r2 m2.em_parent); em_next =
+       m2.em_next; em_nodes = m2.em_nodes })
+
+(** val em_bucket_find :
+    context -> expr -> ((context, expr) prod, positive) prod list -> positive
+    option **)
+
+let rec em_bucket_find g e = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, id) = p in
+  let Pair (g', e') = p0 in
+  (match match core_alpha_context (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                 (S (S
+                 O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                 g g' with
+         | True ->
+           fst
+             (core_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S
+               O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+               e e')
+         | False -> False with
+   | True -> Some id
+   | False -> em_bucket_find g e rest)
+
+(** val em_to_node_hashed :
+    equiv_manager -> positive -> context -> expr -> (positive, equiv_manager)
+    prod **)
+
+let em_to_node_hashed m h g e =
+  let bucket = match cache_find1 h m.em_nodes with
+               | Some xs -> xs
+               | None -> Nil
+  in
+  (match em_bucket_find g e bucket with
+   | Some id -> Pair (id, m)
+   | None ->
+     let id = m.em_next in
+     let nodes' =
+       CacheMap.add h (Cons ((Pair ((Pair (g, e)), id)),
+         (firstn (S (S (S O))) bucket))) m.em_nodes
+     in
+     Pair (id, { em_parent = m.em_parent; em_next = (Coq_Pos.succ id);
+     em_nodes = nodes' }))
+
+(** val em_add_equiv_hashed :
+    equiv_manager -> positive -> positive -> context -> expr -> expr ->
+    equiv_manager **)
+
+let em_add_equiv_hashed m h1 h2 g e1 e2 =
+  let Pair (r1, m1) = em_to_node_hashed m h1 g e1 in
+  let Pair (r2, m2) = em_to_node_hashed m1 h2 g e2 in em_merge m2 r1 r2
+
+(** val em_add_equiv :
+    equiv_manager -> context -> expr -> expr -> equiv_manager **)
+
+let em_add_equiv m g e1 e2 =
+  let hg = hash_context g in
+  em_add_equiv_hashed m (hash_mix hg (hash_expr e1))
+    (hash_mix hg (hash_expr e2)) g e1 e2
+
+(** val em_root_aux :
+    nat -> positive PositiveMap.t -> positive -> positive **)
+
+let rec em_root_aux fuel parent n0 =
+  match fuel with
+  | O -> n0
+  | S fuel0 ->
+    (match PositiveMap.find n0 parent with
+     | Some p ->
+       (match Coq_Pos.eqb p n0 with
+        | True -> n0
+        | False -> em_root_aux fuel0 parent p)
+     | None -> n0)
+
+(** val em_root : equiv_manager -> positive -> positive **)
+
+let em_root m n0 =
+  em_root_aux (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+    m.em_parent n0
+
+(** val em_is_equiv_ro_hashed :
+    equiv_manager -> positive -> positive -> context -> expr -> expr -> bool **)
+
+let em_is_equiv_ro_hashed m h1 h2 g e1 e2 =
+  match m.em_next with
+  | XH -> False
+  | _ ->
+    (match CacheMap.find h1 m.em_nodes with
+     | Some b1 ->
+       (match CacheMap.find h2 m.em_nodes with
+        | Some b2 ->
+          (match em_bucket_find g e1 b1 with
+           | Some n1 ->
+             (match em_bucket_find g e2 b2 with
+              | Some n2 -> Coq_Pos.eqb (em_root m n1) (em_root m n2)
+              | None -> False)
+           | None -> False)
+        | None -> False)
+     | None -> False)
+
+(** val em_is_equiv_ro : equiv_manager -> context -> expr -> expr -> bool **)
+
+let em_is_equiv_ro m g e1 e2 =
+  match core_alpha_eq e1 e2 with
+  | True -> True
+  | False ->
+    let hg = hash_context g in
+    em_is_equiv_ro_hashed m (hash_mix hg (hash_expr e1))
+      (hash_mix hg (hash_expr e2)) g e1 e2
+
+type fuel_config = { fc_whnf : nat; fc_whnf_eager : nat; fc_lazy_delta : 
+                     nat; fc_eta_expand : nat; fc_rec_depth : nat;
+                     fc_inductive_fuel : nat }
+
+(** val default_lazy_delta_rounds : nat **)
+
+let default_lazy_delta_rounds =
+  S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(** val default_eta_expand_rounds : nat **)
+
+let default_eta_expand_rounds =
+  S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(** val default_rec_depth : nat **)
+
+let default_rec_depth =
+  of_num_uint (UIntDecimal (D5 (D0 (D0 (D0 (D0 Nil0))))))
+
+(** val default_inductive_fuel : nat **)
+
+let default_inductive_fuel =
+  S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(** val default_fuel_config : fuel_config **)
+
+let default_fuel_config =
+  { fc_whnf = normal_whnf_rounds; fc_whnf_eager = eager_whnf_rounds;
+    fc_lazy_delta = default_lazy_delta_rounds; fc_eta_expand =
+    default_eta_expand_rounds; fc_rec_depth = default_rec_depth;
+    fc_inductive_fuel = default_inductive_fuel }
+
+(** val fuel_config_with_rec_depth : nat -> fuel_config **)
+
+let fuel_config_with_rec_depth rec_depth =
+  { fc_whnf = normal_whnf_rounds; fc_whnf_eager = eager_whnf_rounds;
+    fc_lazy_delta = default_lazy_delta_rounds; fc_eta_expand =
+    default_eta_expand_rounds; fc_rec_depth = rec_depth; fc_inductive_fuel =
+    default_inductive_fuel }
 
 (** val uniform_fuel_config : nat -> fuel_config **)
 
 let uniform_fuel_config fuel =
-  { fc_whnf = fuel; fc_infer = fuel; fc_defeq = fuel; fc_delta = fuel;
-    fc_recursor = fuel }
+  { fc_whnf = fuel; fc_whnf_eager = fuel; fc_lazy_delta = fuel;
+    fc_eta_expand = fuel; fc_rec_depth = fuel; fc_inductive_fuel = fuel }
 
-(** val min_fuel_of_config : fuel_config -> nat **)
+(** val fuel_config_nonzero : fuel_config -> bool **)
 
-let min_fuel_of_config cfg =
-  Nat.min cfg.fc_whnf
-    (Nat.min cfg.fc_infer
-      (Nat.min cfg.fc_defeq (Nat.min cfg.fc_delta cfg.fc_recursor)))
+let fuel_config_nonzero cfg =
+  match cfg.fc_whnf with
+  | O -> False
+  | S _ ->
+    (match cfg.fc_whnf_eager with
+     | O -> False
+     | S _ ->
+       (match cfg.fc_lazy_delta with
+        | O -> False
+        | S _ ->
+          (match cfg.fc_eta_expand with
+           | O -> False
+           | S _ ->
+             (match cfg.fc_rec_depth with
+              | O -> False
+              | S _ ->
+                (match cfg.fc_inductive_fuel with
+                 | O -> False
+                 | S _ -> True)))))
 
 (** val infer_with_config :
     fuel_config -> environment -> name list -> context -> expr -> expr result **)
 
 let infer_with_config cfg env ps g e =
-  match min_fuel_of_config cfg with
-  | O -> Decline OutOfFuel
-  | S _ -> infer cfg.fc_infer env ps g e
+  match fuel_config_nonzero cfg with
+  | True -> infer cfg.fc_rec_depth env ps g e
+  | False -> Decline OutOfFuel
 
 (** val whnf_with_config :
     fuel_config -> environment -> name list -> context -> expr -> expr result **)
 
 let whnf_with_config cfg env ps g e =
-  match min_fuel_of_config cfg with
-  | O -> Decline OutOfFuel
-  | S _ -> whnf cfg.fc_whnf env ps g e
+  match fuel_config_nonzero cfg with
+  | True -> whnf cfg.fc_rec_depth env ps g e
+  | False -> Decline OutOfFuel
 
 (** val defeq_with_config :
     fuel_config -> environment -> name list -> context -> expr -> expr ->
     bool result **)
 
 let defeq_with_config cfg env ps g t0 s =
-  match min_fuel_of_config cfg with
-  | O -> Decline OutOfFuel
-  | S _ -> defeq cfg.fc_defeq env ps g t0 s
+  match fuel_config_nonzero cfg with
+  | True -> defeq cfg.fc_rec_depth env ps g t0 s
+  | False -> Decline OutOfFuel
+
+(** val eta_expand_with_config :
+    fuel_config -> environment -> name list -> context -> expr -> expr result **)
+
+let eta_expand_with_config cfg env ps g e =
+  match fuel_config_nonzero cfg with
+  | True ->
+    core_eta_expand cfg.fc_eta_expand (checker cfg.fc_rec_depth env ps) g e
+  | False -> Decline OutOfFuel
 
 (** val check_with_config :
     fuel_config -> environment -> name list -> context -> expr -> expr ->
     unit0 result **)
 
 let check_with_config cfg env ps g e ty =
-  match min_fuel_of_config cfg with
-  | O -> Decline OutOfFuel
-  | S _ ->
-    bind (sort_of (checker cfg.fc_infer env ps) g ty) (fun _ ->
+  match fuel_config_nonzero cfg with
+  | True ->
+    bind (sort_of (checker cfg.fc_rec_depth env ps) g ty) (fun _ ->
       bind (infer_with_config cfg env ps g e) (fun et ->
         bind (defeq_with_config cfg env ps g et ty) (fun ok ->
           require ok TypeMismatch)))
+  | False -> Decline OutOfFuel
 
 (** val admit_with_config :
     fuel_config -> environment -> input_decl -> environment result **)
 
 let admit_with_config cfg env d =
-  match min_fuel_of_config cfg with
+  match fuel_config_nonzero cfg with
+  | True -> admit cfg.fc_rec_depth env d
+  | False -> Decline OutOfFuel
+
+(** val chash_mix : positive -> positive -> positive **)
+
+let chash_mix a b =
+  pos_xor_trunc (S (S (S (S (S (S (S (S (S (S (S (S (S (S O)))))))))))))) (XO
+    a) b
+
+(** val pos_of_nat_fast : nat -> positive **)
+
+let pos_of_nat_fast =
+  hash_nat_small
+
+(** val pos_of_N_fast : n -> positive **)
+
+let pos_of_N_fast =
+  hash_N_fast
+
+(** val hash_name : name -> positive **)
+
+let hash_name n0 =
+  hash_name_bounded (S (S (S (S (S (S O)))))) n0
+
+(** val hash_level : level -> positive **)
+
+let hash_level u =
+  hash_level_bounded (S (S (S (S O)))) u
+
+(** val hash_levels : level list -> positive **)
+
+let hash_levels us =
+  hash_levels_bounded (S (S (S O))) us XH
+
+(** val hash_string : string -> positive **)
+
+let hash_string s =
+  hash_string_bounded (S (S (S (S (S (S (S (S (S (S (S (S O)))))))))))) s XH
+
+type cmeta = { cm_lbr : nat; cm_hfv : bool; cm_supp : bool;
+               cm_dag : positive option }
+
+(** val cmeta_closed_supp : cmeta **)
+
+let cmeta_closed_supp =
+  { cm_lbr = O; cm_hfv = False; cm_supp = True; cm_dag = None }
+
+(** val cmeta_closed_unsupp : cmeta **)
+
+let cmeta_closed_unsupp =
+  { cm_lbr = O; cm_hfv = False; cm_supp = False; cm_dag = None }
+
+(** val cmeta_fvar : cmeta **)
+
+let cmeta_fvar =
+  { cm_lbr = O; cm_hfv = True; cm_supp = True; cm_dag = None }
+
+type cexpr =
+| CBVar of cmeta * nat
+| CFVar of cmeta * name
+| CMVar of cmeta * name
+| CSort of cmeta * level
+| CConst of cmeta * name * level list
+| CApp of cmeta * cexpr * cexpr
+| CLam of cmeta * name * binder_info * cexpr * cexpr
+| CPi of cmeta * name * binder_info * cexpr * cexpr
+| CLet of cmeta * name * cexpr * cexpr * cexpr * bool
+| CProj of cmeta * name * nat * cexpr
+| CMData of cmeta * cexpr
+| CLit of cmeta * literal
+
+(** val c_meta : cexpr -> cmeta **)
+
+let c_meta = function
+| CBVar (m, _) -> m
+| CFVar (m, _) -> m
+| CMVar (m, _) -> m
+| CSort (m, _) -> m
+| CConst (m, _, _) -> m
+| CApp (m, _, _) -> m
+| CLam (m, _, _, _, _) -> m
+| CPi (m, _, _, _, _) -> m
+| CLet (m, _, _, _, _, _) -> m
+| CProj (m, _, _, _) -> m
+| CMData (m, _) -> m
+| CLit (m, _) -> m
+
+(** val ce_lbr : cexpr -> nat **)
+
+let ce_lbr e =
+  (c_meta e).cm_lbr
+
+(** val ce_hfv : cexpr -> bool **)
+
+let ce_hfv e =
+  (c_meta e).cm_hfv
+
+(** val ce_supp : cexpr -> bool **)
+
+let ce_supp e =
+  (c_meta e).cm_supp
+
+(** val ce_dag : cexpr -> positive option **)
+
+let ce_dag e =
+  (c_meta e).cm_dag
+
+(** val c_hash_expr_bounded : nat -> cexpr -> positive **)
+
+let rec c_hash_expr_bounded depth e =
+  match depth with
+  | O ->
+    (match e with
+     | CBVar (_, i) -> chash_mix (XI XH) (pos_of_nat_fast i)
+     | CFVar (_, n0) -> chash_mix (XI (XO XH)) (hash_name n0)
+     | CMVar (_, n0) -> chash_mix (XI (XI XH)) (hash_name n0)
+     | CSort (_, _) -> XI (XI (XO XH))
+     | CConst (_, n0, _) -> chash_mix (XI (XO (XI XH))) (hash_name n0)
+     | CApp (_, _, _) -> XI (XO (XO (XO XH)))
+     | CLam (_, _, _, _, _) -> XI (XI (XO (XO XH)))
+     | CPi (_, _, _, _, _) -> XI (XI (XI (XO XH)))
+     | CLet (_, _, _, _, _, _) -> XI (XO (XI (XI XH)))
+     | CProj (_, n0, i, _) ->
+       chash_mix (XI (XI (XI (XI XH))))
+         (chash_mix (hash_name n0) (pos_of_nat_fast i))
+     | CMData (_, _) -> XI (XO (XI (XO (XO XH))))
+     | CLit (_, l) ->
+       (match l with
+        | LitNat n0 ->
+          chash_mix (XI (XO (XO (XI (XO XH))))) (pos_of_N_fast n0)
+        | LitString s -> chash_mix (XI (XI (XO (XI (XO XH))))) (hash_string s)))
+  | S d ->
+    (match e with
+     | CBVar (_, i) -> chash_mix (XI XH) (pos_of_nat_fast i)
+     | CFVar (_, n0) -> chash_mix (XI (XO XH)) (hash_name n0)
+     | CMVar (_, n0) -> chash_mix (XI (XI XH)) (hash_name n0)
+     | CSort (_, u) -> chash_mix (XI (XI (XO XH))) (hash_level u)
+     | CConst (_, n0, us) ->
+       chash_mix (XI (XO (XI XH))) (chash_mix (hash_name n0) (hash_levels us))
+     | CApp (_, f, a) ->
+       chash_mix (XI (XO (XO (XO XH))))
+         (chash_mix (c_hash_expr_bounded d f) (c_hash_expr_bounded d a))
+     | CLam (_, _, _, dom, b) ->
+       chash_mix (XI (XI (XO (XO XH))))
+         (chash_mix (c_hash_expr_bounded d dom) (c_hash_expr_bounded d b))
+     | CPi (_, _, _, dom, b) ->
+       chash_mix (XI (XI (XI (XO XH))))
+         (chash_mix (c_hash_expr_bounded d dom) (c_hash_expr_bounded d b))
+     | CLet (_, _, t0, v, b, _) ->
+       chash_mix (XI (XO (XI (XI XH))))
+         (chash_mix (c_hash_expr_bounded d t0)
+           (chash_mix (c_hash_expr_bounded d v) (c_hash_expr_bounded d b)))
+     | CProj (_, n0, i, a) ->
+       chash_mix (XI (XI (XI (XI XH))))
+         (chash_mix (hash_name n0)
+           (chash_mix (pos_of_nat_fast i) (c_hash_expr_bounded d a)))
+     | CMData (_, a) ->
+       chash_mix (XI (XO (XI (XO (XO XH))))) (c_hash_expr_bounded d a)
+     | CLit (_, l) ->
+       (match l with
+        | LitNat n0 ->
+          chash_mix (XI (XO (XO (XI (XO XH))))) (pos_of_N_fast n0)
+        | LitString s -> chash_mix (XI (XI (XO (XI (XO XH))))) (hash_string s)))
+
+(** val ce_hash : cexpr -> positive **)
+
+let ce_hash e =
+  c_hash_expr_bounded (S (S (S O))) e
+
+(** val c_tag_dag : positive -> cexpr -> cexpr **)
+
+let c_tag_dag id e =
+  let m = c_meta e in
+  let m' = { cm_lbr = m.cm_lbr; cm_hfv = m.cm_hfv; cm_supp = m.cm_supp;
+    cm_dag = (Some id) }
+  in
+  (match e with
+   | CBVar (_, i) -> CBVar (m', i)
+   | CFVar (_, n0) -> CFVar (m', n0)
+   | CMVar (_, n0) -> CMVar (m', n0)
+   | CSort (_, u) -> CSort (m', u)
+   | CConst (_, n0, us) -> CConst (m', n0, us)
+   | CApp (_, f, a) -> CApp (m', f, a)
+   | CLam (_, n0, bi, d, b) -> CLam (m', n0, bi, d, b)
+   | CPi (_, n0, bi, d, b) -> CPi (m', n0, bi, d, b)
+   | CLet (_, n0, t0, v, b, nd) -> CLet (m', n0, t0, v, b, nd)
+   | CProj (_, n0, i, a) -> CProj (m', n0, i, a)
+   | CMData (_, a) -> CMData (m', a)
+   | CLit (_, l) -> CLit (m', l))
+
+(** val mk_cmeta : nat -> bool -> bool -> cmeta **)
+
+let mk_cmeta lbr hfv supp =
+  match lbr with
+  | O ->
+    (match hfv with
+     | True ->
+       (match supp with
+        | True -> cmeta_fvar
+        | False ->
+          { cm_lbr = lbr; cm_hfv = hfv; cm_supp = supp; cm_dag = None })
+     | False ->
+       (match supp with
+        | True -> cmeta_closed_supp
+        | False -> cmeta_closed_unsupp))
+  | S _ -> { cm_lbr = lbr; cm_hfv = hfv; cm_supp = supp; cm_dag = None }
+
+(** val mk_cbvar : nat -> cexpr **)
+
+let mk_cbvar i =
+  CBVar ({ cm_lbr = (S i); cm_hfv = False; cm_supp = True; cm_dag = None }, i)
+
+(** val mk_cfvar : name -> cexpr **)
+
+let mk_cfvar n0 =
+  CFVar (cmeta_fvar, n0)
+
+(** val mk_cmvar : name -> cexpr **)
+
+let mk_cmvar n0 =
+  CMVar (cmeta_closed_supp, n0)
+
+(** val mk_csort : level -> cexpr **)
+
+let mk_csort u =
+  CSort (cmeta_closed_supp, u)
+
+(** val mk_cconst : name -> level list -> cexpr **)
+
+let mk_cconst n0 us =
+  CConst (cmeta_closed_supp, n0, us)
+
+(** val mk_capp : cexpr -> cexpr -> cexpr **)
+
+let mk_capp f a =
+  let mf = c_meta f in
+  let ma = c_meta a in
+  CApp
+  ((mk_cmeta (Nat.max mf.cm_lbr ma.cm_lbr)
+     (match mf.cm_hfv with
+      | True -> True
+      | False -> ma.cm_hfv)
+     (match mf.cm_supp with
+      | True -> ma.cm_supp
+      | False -> False)),
+  f, a)
+
+(** val mk_clam : name -> binder_info -> cexpr -> cexpr -> cexpr **)
+
+let mk_clam n0 bi d b =
+  let md = c_meta d in
+  let mb = c_meta b in
+  CLam
+  ((mk_cmeta (Nat.max md.cm_lbr (Nat.pred mb.cm_lbr))
+     (match md.cm_hfv with
+      | True -> True
+      | False -> mb.cm_hfv)
+     (match md.cm_supp with
+      | True -> mb.cm_supp
+      | False -> False)),
+  n0, bi, d, b)
+
+(** val mk_cpi : name -> binder_info -> cexpr -> cexpr -> cexpr **)
+
+let mk_cpi n0 bi d b =
+  let md = c_meta d in
+  let mb = c_meta b in
+  CPi
+  ((mk_cmeta (Nat.max md.cm_lbr (Nat.pred mb.cm_lbr))
+     (match md.cm_hfv with
+      | True -> True
+      | False -> mb.cm_hfv)
+     (match md.cm_supp with
+      | True -> mb.cm_supp
+      | False -> False)),
+  n0, bi, d, b)
+
+(** val mk_clet : name -> cexpr -> cexpr -> cexpr -> bool -> cexpr **)
+
+let mk_clet n0 t0 v b nd =
+  let mt = c_meta t0 in
+  let mv = c_meta v in
+  let mb = c_meta b in
+  CLet
+  ((mk_cmeta (Nat.max (Nat.max mt.cm_lbr mv.cm_lbr) (Nat.pred mb.cm_lbr))
+     (match match mt.cm_hfv with
+            | True -> True
+            | False -> mv.cm_hfv with
+      | True -> True
+      | False -> mb.cm_hfv)
+     (match match mt.cm_supp with
+            | True -> mv.cm_supp
+            | False -> False with
+      | True -> mb.cm_supp
+      | False -> False)),
+  n0, t0, v, b, nd)
+
+(** val mk_cproj : name -> nat -> cexpr -> cexpr **)
+
+let mk_cproj n0 i a =
+  let ma = c_meta a in
+  CProj ((mk_cmeta ma.cm_lbr ma.cm_hfv ma.cm_supp), n0, i, a)
+
+(** val mk_cmdata : cexpr -> cexpr **)
+
+let mk_cmdata a =
+  let ma = c_meta a in CMData ((mk_cmeta ma.cm_lbr ma.cm_hfv ma.cm_supp), a)
+
+(** val mk_clit : bool -> bool -> literal -> cexpr **)
+
+let mk_clit nat_ready str_ready l =
+  let supp =
+    match l with
+    | LitNat _ -> nat_ready
+    | LitString s ->
+      (match str_ready with
+       | True -> (match core_utf8 s with
+                  | Some _ -> True
+                  | None -> False)
+       | False -> False)
+  in
+  CLit
+  ((match supp with
+    | True -> cmeta_closed_supp
+    | False -> cmeta_closed_unsupp),
+  l)
+
+(** val mk_cnat : n -> cexpr **)
+
+let mk_cnat n0 =
+  CLit (cmeta_closed_supp, (LitNat n0))
+
+(** val c_of_expr : bool -> bool -> expr -> cexpr **)
+
+let rec c_of_expr nat_ready str_ready = function
+| EBVar i -> mk_cbvar i
+| EFVar n0 -> mk_cfvar n0
+| EMVar n0 -> mk_cmvar n0
+| ESort u -> mk_csort u
+| EConst (n0, us) -> mk_cconst n0 us
+| EApp (f, a) ->
+  mk_capp (c_of_expr nat_ready str_ready f) (c_of_expr nat_ready str_ready a)
+| ELam (n0, bi, d, b) ->
+  mk_clam n0 bi (c_of_expr nat_ready str_ready d)
+    (c_of_expr nat_ready str_ready b)
+| EPi (n0, bi, d, b) ->
+  mk_cpi n0 bi (c_of_expr nat_ready str_ready d)
+    (c_of_expr nat_ready str_ready b)
+| ELet (n0, t0, v, b, nd) ->
+  mk_clet n0 (c_of_expr nat_ready str_ready t0)
+    (c_of_expr nat_ready str_ready v) (c_of_expr nat_ready str_ready b) nd
+| ELit l -> mk_clit nat_ready str_ready l
+| EProj (n0, i, a) -> mk_cproj n0 i (c_of_expr nat_ready str_ready a)
+| EMData a -> mk_cmdata (c_of_expr nat_ready str_ready a)
+
+(** val c_lift_go : nat -> nat -> cexpr -> cexpr **)
+
+let rec c_lift_go amount cutoff e =
+  match Nat.leb (ce_lbr e) cutoff with
+  | True -> e
+  | False ->
+    (match e with
+     | CBVar (_, i) ->
+       (match Nat.leb cutoff i with
+        | True -> mk_cbvar (add amount i)
+        | False -> e)
+     | CApp (_, f, a) ->
+       mk_capp (c_lift_go amount cutoff f) (c_lift_go amount cutoff a)
+     | CLam (_, n0, bi, d, b) ->
+       mk_clam n0 bi (c_lift_go amount cutoff d)
+         (c_lift_go amount (S cutoff) b)
+     | CPi (_, n0, bi, d, b) ->
+       mk_cpi n0 bi (c_lift_go amount cutoff d)
+         (c_lift_go amount (S cutoff) b)
+     | CLet (_, n0, t0, v, b, nd) ->
+       mk_clet n0 (c_lift_go amount cutoff t0) (c_lift_go amount cutoff v)
+         (c_lift_go amount (S cutoff) b) nd
+     | CProj (_, n0, i, a) -> mk_cproj n0 i (c_lift_go amount cutoff a)
+     | CMData (_, a) -> mk_cmdata (c_lift_go amount cutoff a)
+     | _ -> e)
+
+(** val c_lift : nat -> nat -> cexpr -> cexpr **)
+
+let c_lift amount cutoff e =
+  match amount with
+  | O -> e
+  | S _ -> c_lift_go amount cutoff e
+
+(** val c_subst : nat -> cexpr -> cexpr -> cexpr **)
+
+let rec c_subst index value e =
+  match Nat.leb (ce_lbr e) index with
+  | True -> e
+  | False ->
+    (match e with
+     | CBVar (_, i) ->
+       (match Nat.eqb i index with
+        | True -> (match index with
+                   | O -> value
+                   | S _ -> c_lift index O value)
+        | False ->
+          (match Nat.ltb index i with
+           | True -> mk_cbvar (Nat.pred i)
+           | False -> e))
+     | CApp (_, f, a) ->
+       mk_capp (c_subst index value f) (c_subst index value a)
+     | CLam (_, n0, bi, d, b) ->
+       mk_clam n0 bi (c_subst index value d) (c_subst (S index) value b)
+     | CPi (_, n0, bi, d, b) ->
+       mk_cpi n0 bi (c_subst index value d) (c_subst (S index) value b)
+     | CLet (_, n0, t0, v, b, nd) ->
+       mk_clet n0 (c_subst index value t0) (c_subst index value v)
+         (c_subst (S index) value b) nd
+     | CProj (_, n0, i, a) -> mk_cproj n0 i (c_subst index value a)
+     | CMData (_, a) -> mk_cmdata (c_subst index value a)
+     | _ -> e)
+
+(** val c_instantiate : cexpr -> cexpr -> cexpr **)
+
+let c_instantiate body value =
+  c_subst O value body
+
+(** val c_subst_many_go : nat -> nat -> cexpr list -> cexpr -> cexpr **)
+
+let rec c_subst_many_go index nvals values e =
+  match Nat.leb (ce_lbr e) index with
+  | True -> e
+  | False ->
+    (match e with
+     | CBVar (_, i) ->
+       (match Nat.ltb i index with
+        | True -> e
+        | False ->
+          (match nth_error values (sub i index) with
+           | Some value ->
+             (match index with
+              | O -> value
+              | S _ -> c_lift index O value)
+           | None -> mk_cbvar (sub i nvals)))
+     | CApp (_, f, a) ->
+       mk_capp (c_subst_many_go index nvals values f)
+         (c_subst_many_go index nvals values a)
+     | CLam (_, n0, bi, d, b) ->
+       mk_clam n0 bi (c_subst_many_go index nvals values d)
+         (c_subst_many_go (S index) nvals values b)
+     | CPi (_, n0, bi, d, b) ->
+       mk_cpi n0 bi (c_subst_many_go index nvals values d)
+         (c_subst_many_go (S index) nvals values b)
+     | CLet (_, n0, t0, v, b, nd) ->
+       mk_clet n0 (c_subst_many_go index nvals values t0)
+         (c_subst_many_go index nvals values v)
+         (c_subst_many_go (S index) nvals values b) nd
+     | CProj (_, n0, i, a) ->
+       mk_cproj n0 i (c_subst_many_go index nvals values a)
+     | CMData (_, a) -> mk_cmdata (c_subst_many_go index nvals values a)
+     | _ -> e)
+
+(** val c_subst_many : nat -> cexpr list -> cexpr -> cexpr **)
+
+let c_subst_many index values e =
+  match values with
+  | Nil -> e
+  | Cons (_, _) -> c_subst_many_go index (length values) values e
+
+(** val c_instantiate_many : cexpr -> cexpr list -> cexpr **)
+
+let c_instantiate_many body values =
+  c_subst_many O values body
+
+(** val c_subst_levels_go : name list -> level list -> cexpr -> cexpr **)
+
+let rec c_subst_levels_go ps us e = match e with
+| CSort (_, u) -> mk_csort (subst_level ps us u)
+| CConst (_, n0, ls) -> mk_cconst n0 (map (subst_level ps us) ls)
+| CApp (_, f, a) ->
+  mk_capp (c_subst_levels_go ps us f) (c_subst_levels_go ps us a)
+| CLam (_, n0, bi, d, b) ->
+  mk_clam n0 bi (c_subst_levels_go ps us d) (c_subst_levels_go ps us b)
+| CPi (_, n0, bi, d, b) ->
+  mk_cpi n0 bi (c_subst_levels_go ps us d) (c_subst_levels_go ps us b)
+| CLet (_, n0, t0, v, b, nd) ->
+  mk_clet n0 (c_subst_levels_go ps us t0) (c_subst_levels_go ps us v)
+    (c_subst_levels_go ps us b) nd
+| CProj (_, n0, i, a) -> mk_cproj n0 i (c_subst_levels_go ps us a)
+| CMData (_, a) -> mk_cmdata (c_subst_levels_go ps us a)
+| _ -> e
+
+(** val c_subst_levels : name list -> level list -> cexpr -> cexpr **)
+
+let c_subst_levels ps us e =
+  match ps with
+  | Nil -> e
+  | Cons (_, _) -> c_subst_levels_go ps us e
+
+(** val c_spine : cexpr -> cexpr list -> (cexpr, cexpr list) prod **)
+
+let rec c_spine e acc =
+  match e with
+  | CApp (_, f, a) -> c_spine f (Cons (a, acc))
+  | _ -> Pair (e, acc)
+
+(** val c_apps : cexpr -> cexpr list -> cexpr **)
+
+let rec c_apps f = function
+| Nil -> f
+| Cons (a, rest) -> c_apps (mk_capp f a) rest
+
+(** val c_beta_collect : cexpr -> cexpr list -> cexpr list -> cexpr **)
+
+let rec c_beta_collect head args values =
+  match args with
+  | Nil -> c_instantiate_many head values
+  | Cons (a, rest) ->
+    (match head with
+     | CLam (_, _, _, _, body) -> c_beta_collect body rest (Cons (a, values))
+     | _ -> c_apps (c_instantiate_many head values) (Cons (a, rest)))
+
+(** val c_beta : cexpr -> cexpr list -> cexpr **)
+
+let c_beta head args =
+  c_beta_collect head args Nil
+
+(** val c_dag_same : cexpr -> cexpr -> bool **)
+
+let c_dag_same t0 s =
+  match ce_dag t0 with
+  | Some id1 ->
+    (match ce_dag s with
+     | Some id2 -> Coq_Pos.eqb id1 id2
+     | None -> False)
+  | None -> False
+
+(** val c_alpha : nat -> cexpr -> cexpr -> (bool, nat) prod **)
+
+let rec c_alpha budget t0 s =
+  match c_dag_same t0 s with
+  | True -> Pair (True, budget)
+  | False ->
+    (match budget with
+     | O -> Pair (False, O)
+     | S budget0 ->
+       (match t0 with
+        | CBVar (_, i) ->
+          (match s with
+           | CBVar (_, j) -> Pair ((Nat.eqb i j), budget0)
+           | _ -> Pair (False, budget0))
+        | CFVar (_, n0) ->
+          (match s with
+           | CFVar (_, m) -> Pair ((name_eqb n0 m), budget0)
+           | _ -> Pair (False, budget0))
+        | CMVar (_, n0) ->
+          (match s with
+           | CMVar (_, m) -> Pair ((name_eqb n0 m), budget0)
+           | _ -> Pair (False, budget0))
+        | CSort (_, u) ->
+          (match s with
+           | CSort (_, v) -> Pair ((level_eqb u v), budget0)
+           | _ -> Pair (False, budget0))
+        | CConst (_, n0, us) ->
+          (match s with
+           | CConst (_, m, vs) ->
+             Pair
+               ((match name_eqb n0 m with
+                 | True -> list_eqb level_eqb us vs
+                 | False -> False),
+               budget0)
+           | _ -> Pair (False, budget0))
+        | CApp (_, f, a) ->
+          (match s with
+           | CApp (_, h, b) ->
+             let Pair (ok, rem) = c_alpha budget0 f h in
+             (match ok with
+              | True -> c_alpha rem a b
+              | False -> Pair (False, rem))
+           | _ -> Pair (False, budget0))
+        | CLam (_, _, _, f, a) ->
+          (match s with
+           | CLam (_, _, _, h, b) ->
+             let Pair (ok, rem) = c_alpha budget0 f h in
+             (match ok with
+              | True -> c_alpha rem a b
+              | False -> Pair (False, rem))
+           | _ -> Pair (False, budget0))
+        | CPi (_, _, _, f, a) ->
+          (match s with
+           | CPi (_, _, _, h, b) ->
+             let Pair (ok, rem) = c_alpha budget0 f h in
+             (match ok with
+              | True -> c_alpha rem a b
+              | False -> Pair (False, rem))
+           | _ -> Pair (False, budget0))
+        | CLet (_, _, a, v, b, _) ->
+          (match s with
+           | CLet (_, _, c, w, d, _) ->
+             let Pair (ok, rem) = c_alpha budget0 a c in
+             (match ok with
+              | True ->
+                let Pair (ok0, rem0) = c_alpha rem v w in
+                (match ok0 with
+                 | True -> c_alpha rem0 b d
+                 | False -> Pair (False, rem0))
+              | False -> Pair (False, rem))
+           | _ -> Pair (False, budget0))
+        | CProj (_, n0, i, a) ->
+          (match s with
+           | CProj (_, m, j, b) ->
+             (match match name_eqb n0 m with
+                    | True -> Nat.eqb i j
+                    | False -> False with
+              | True -> c_alpha budget0 a b
+              | False -> Pair (False, budget0))
+           | _ -> Pair (False, budget0))
+        | CMData (_, a) ->
+          (match s with
+           | CMData (_, b) -> c_alpha budget0 a b
+           | _ -> Pair (False, budget0))
+        | CLit (_, a) ->
+          (match s with
+           | CLit (_, b) -> Pair ((literal_eqb a b), budget0)
+           | _ -> Pair (False, budget0))))
+
+(** val c_alpha_eq : cexpr -> cexpr -> bool **)
+
+let c_alpha_eq t0 s =
+  fst
+    (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+      (S (S (S (S (S (S (S (S (S (S (S
+      O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+      t0 s)
+
+(** val c_expr_eqb : cexpr -> cexpr -> bool **)
+
+let rec c_expr_eqb t0 s =
+  match c_dag_same t0 s with
+  | True -> True
+  | False ->
+    (match t0 with
+     | CBVar (_, i) -> (match s with
+                        | CBVar (_, j) -> Nat.eqb i j
+                        | _ -> False)
+     | CFVar (_, n0) ->
+       (match s with
+        | CFVar (_, m) -> name_eqb n0 m
+        | _ -> False)
+     | CMVar (_, n0) ->
+       (match s with
+        | CMVar (_, m) -> name_eqb n0 m
+        | _ -> False)
+     | CSort (_, u) ->
+       (match s with
+        | CSort (_, v) -> level_eqb u v
+        | _ -> False)
+     | CConst (_, n0, us) ->
+       (match s with
+        | CConst (_, m, vs) ->
+          (match name_eqb n0 m with
+           | True -> list_eqb level_eqb us vs
+           | False -> False)
+        | _ -> False)
+     | CApp (_, f, a) ->
+       (match s with
+        | CApp (_, h, b) ->
+          (match c_expr_eqb f h with
+           | True -> c_expr_eqb a b
+           | False -> False)
+        | _ -> False)
+     | CLam (_, _, _, f, a) ->
+       (match s with
+        | CLam (_, _, _, h, b) ->
+          (match c_expr_eqb f h with
+           | True -> c_expr_eqb a b
+           | False -> False)
+        | _ -> False)
+     | CPi (_, _, _, f, a) ->
+       (match s with
+        | CPi (_, _, _, h, b) ->
+          (match c_expr_eqb f h with
+           | True -> c_expr_eqb a b
+           | False -> False)
+        | _ -> False)
+     | CLet (_, _, a, v, b, _) ->
+       (match s with
+        | CLet (_, _, c, w, d, _) ->
+          (match match c_expr_eqb a c with
+                 | True -> c_expr_eqb v w
+                 | False -> False with
+           | True -> c_expr_eqb b d
+           | False -> False)
+        | _ -> False)
+     | CProj (_, n0, i, a) ->
+       (match s with
+        | CProj (_, m, j, b) ->
+          (match match name_eqb n0 m with
+                 | True -> Nat.eqb i j
+                 | False -> False with
+           | True -> c_expr_eqb a b
+           | False -> False)
+        | _ -> False)
+     | CMData (_, a) ->
+       (match s with
+        | CMData (_, b) -> c_expr_eqb a b
+        | _ -> False)
+     | CLit (_, a) ->
+       (match s with
+        | CLit (_, b) -> literal_eqb a b
+        | _ -> False))
+
+(** val c_nat_value : cexpr -> n option **)
+
+let c_nat_value = function
+| CConst (_, n0, l) ->
+  (match l with
+   | Nil ->
+     (match name_eqb n0 core_zero_name with
+      | True -> Some N0
+      | False -> None)
+   | Cons (_, _) -> None)
+| CLit (_, l) -> (match l with
+                  | LitNat n0 -> Some n0
+                  | LitString _ -> None)
+| _ -> None
+
+(** val c_nat_constructor : n -> cexpr **)
+
+let c_nat_constructor n0 =
+  match N.eqb n0 N0 with
+  | True -> mk_cconst core_zero_name Nil
+  | False -> mk_capp (mk_cconst core_succ_name Nil) (mk_cnat (N.pred n0))
+
+(** val c_is_true : cexpr -> bool **)
+
+let c_is_true = function
+| CConst (_, n0, l) ->
+  (match l with
+   | Nil -> name_eqb n0 core_true_name
+   | Cons (_, _) -> False)
+| _ -> False
+
+(** val c_is_eager_reduce_argument : cexpr -> bool **)
+
+let c_is_eager_reduce_argument e =
+  match fst (c_spine e Nil) with
+  | CConst (_, n0, _) -> name_eqb n0 eager_reduce_name
+  | _ -> False
+
+(** val c_same_head : nat -> cexpr -> cexpr -> bool result **)
+
+let c_same_head fuel t0 s =
+  match t0 with
+  | CBVar (_, n0) ->
+    (match s with
+     | CBVar (_, m) -> Accept (Nat.eqb n0 m)
+     | _ -> Accept False)
+  | CFVar (_, n0) ->
+    (match s with
+     | CFVar (_, m) -> Accept (name_eqb n0 m)
+     | _ -> Accept False)
+  | CConst (_, n0, us) ->
+    (match s with
+     | CConst (_, m, vs) ->
+       (match name_eqb n0 m with
+        | True -> levels_equiv fuel us vs
+        | False -> Accept False)
+     | _ -> Accept False)
+  | CProj (_, _, i, a) ->
+    (match s with
+     | CProj (_, _, j, b) ->
+       Accept (match Nat.eqb i j with
+               | True -> c_expr_eqb a b
+               | False -> False)
+     | _ -> Accept False)
+  | _ -> Accept False
+
+(** val c_reduce_native : cexpr -> cexpr option result **)
+
+let c_reduce_native e =
+  match fst (c_spine e Nil) with
+  | CConst (_, n0, _) ->
+    (match match name_eqb n0 core_reduce_bool_name with
+           | True -> True
+           | False -> name_eqb n0 core_reduce_nat_name with
+     | True -> Decline UnsupportedExpression
+     | False -> Accept None)
+  | _ -> Accept None
+
+(** val c_char_expr : n -> cexpr **)
+
+let c_char_expr code =
+  mk_capp (mk_cconst core_char_of_nat Nil) (mk_cnat code)
+
+(** val c_char_list : n list -> cexpr **)
+
+let rec c_char_list codes =
+  let char_ty = mk_cconst core_char_name Nil in
+  (match codes with
+   | Nil ->
+     mk_capp
+       (mk_cconst (NameStr (core_list_name, (String ((Ascii (False, True,
+         True, True, False, True, True, False)), (String ((Ascii (True,
+         False, False, True, False, True, True, False)), (String ((Ascii
+         (False, False, True, True, False, True, True, False)),
+         EmptyString)))))))) (Cons (LZero, Nil)))
+       char_ty
+   | Cons (code, rest) ->
+     c_apps
+       (mk_cconst (NameStr (core_list_name, (String ((Ascii (True, True,
+         False, False, False, True, True, False)), (String ((Ascii (True,
+         True, True, True, False, True, True, False)), (String ((Ascii
+         (False, True, True, True, False, True, True, False)), (String
+         ((Ascii (True, True, False, False, True, True, True, False)),
+         EmptyString)))))))))) (Cons (LZero, Nil)))
+       (Cons (char_ty, (Cons ((c_char_expr code), (Cons ((c_char_list rest),
+       Nil)))))))
+
+(** val c_expand_string : string -> cexpr result **)
+
+let c_expand_string s =
+  match core_utf8 s with
+  | Some codes ->
+    Accept (mk_capp (mk_cconst core_string_of_list Nil) (c_char_list codes))
+  | None -> Reject MalformedDeclaration
+
+(** val c_core_nat : cexpr **)
+
+let c_core_nat =
+  mk_cconst core_nat_name Nil
+
+(** val c_core_string : cexpr **)
+
+let c_core_string =
+  mk_cconst core_string_name Nil
+
+type c_arena_table = cexpr PositiveMap.t
+
+(** val c_arena_ref : c_arena_table -> positive -> cexpr result **)
+
+let c_arena_ref tbl id =
+  match PositiveMap.find id tbl with
+  | Some e -> Accept e
+  | None -> Reject MalformedDeclaration
+
+(** val c_arena_compile_node :
+    bool -> bool -> c_arena_table -> positive -> dag_node -> cexpr result **)
+
+let c_arena_compile_node nat_ready str_ready tbl id = function
+| DBVar i -> Accept (c_tag_dag id (mk_cbvar i))
+| DFVar n0 -> Accept (c_tag_dag id (mk_cfvar n0))
+| DMVar n0 -> Accept (c_tag_dag id (mk_cmvar n0))
+| DSort u -> Accept (c_tag_dag id (mk_csort u))
+| DConst (n0, us) -> Accept (c_tag_dag id (mk_cconst n0 us))
+| DApp (f, a) ->
+  bind (c_arena_ref tbl f) (fun fe ->
+    bind (c_arena_ref tbl a) (fun ae -> Accept (c_tag_dag id (mk_capp fe ae))))
+| DLam (n0, bi, d, b) ->
+  bind (c_arena_ref tbl d) (fun de ->
+    bind (c_arena_ref tbl b) (fun be -> Accept
+      (c_tag_dag id (mk_clam n0 bi de be))))
+| DPi (n0, bi, d, b) ->
+  bind (c_arena_ref tbl d) (fun de ->
+    bind (c_arena_ref tbl b) (fun be -> Accept
+      (c_tag_dag id (mk_cpi n0 bi de be))))
+| DLet (n0, t0, v, b, nd) ->
+  bind (c_arena_ref tbl t0) (fun te ->
+    bind (c_arena_ref tbl v) (fun ve ->
+      bind (c_arena_ref tbl b) (fun be -> Accept
+        (c_tag_dag id (mk_clet n0 te ve be nd)))))
+| DLit l -> Accept (c_tag_dag id (mk_clit nat_ready str_ready l))
+| DProj (n0, i, a) ->
+  bind (c_arena_ref tbl a) (fun ae -> Accept
+    (c_tag_dag id (mk_cproj n0 i ae)))
+| DMData a ->
+  bind (c_arena_ref tbl a) (fun ae -> Accept (c_tag_dag id (mk_cmdata ae)))
+
+(** val c_arena_build :
+    bool -> bool -> c_arena_table -> (positive, dag_node) prod list ->
+    c_arena_table result **)
+
+let rec c_arena_build nat_ready str_ready tbl = function
+| Nil -> Accept tbl
+| Cons (p, rest) ->
+  let Pair (id, node) = p in
+  bind (c_arena_compile_node nat_ready str_ready tbl id node) (fun ce ->
+    c_arena_build nat_ready str_ready (PositiveMap.add id ce tbl) rest)
+
+type c_binding = { cb_type : cexpr; cb_value : cexpr option }
+
+type c_context = { cc_id : positive; cc_bound : c_binding list;
+                   cc_free : (name, c_binding) prod list }
+
+(** val empty_c_context : c_context **)
+
+let empty_c_context =
+  { cc_id = XH; cc_bound = Nil; cc_free = Nil }
+
+(** val c_find_free :
+    name -> (name, c_binding) prod list -> c_binding option **)
+
+let rec c_find_free n0 = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (m, b) = p in
+  (match name_eqb n0 m with
+   | True -> Some b
+   | False -> c_find_free n0 rest)
+
+(** val c_is_non_let_local : c_context -> cexpr -> bool **)
+
+let c_is_non_let_local g = function
+| CBVar (_, i) ->
+  (match nth_error g.cc_bound i with
+   | Some b -> (match b.cb_value with
+                | Some _ -> False
+                | None -> True)
+   | None -> False)
+| CFVar (_, n0) ->
+  (match c_find_free n0 g.cc_free with
+   | Some b -> (match b.cb_value with
+                | Some _ -> False
+                | None -> True)
+   | None -> False)
+| _ -> False
+
+type c_equiv_manager = { cem_next : positive;
+                         cem_nodes : ((positive, cexpr) prod, positive) prod
+                                     list CacheMap.t;
+                         cem_parent : positive PositiveMap.t }
+
+(** val cem_empty : c_equiv_manager **)
+
+let cem_empty =
+  { cem_next = XH; cem_nodes = CacheMap.empty; cem_parent =
+    PositiveMap.empty }
+
+(** val cem_find_root_fuel :
+    nat -> positive PositiveMap.t -> positive -> positive **)
+
+let rec cem_find_root_fuel fuel parents id =
+  match fuel with
+  | O -> id
+  | S fuel0 ->
+    (match PositiveMap.find id parents with
+     | Some p ->
+       (match Coq_Pos.eqb p id with
+        | True -> id
+        | False -> cem_find_root_fuel fuel0 parents p)
+     | None -> id)
+
+(** val cem_find_root : c_equiv_manager -> positive -> positive **)
+
+let cem_find_root em id =
+  cem_find_root_fuel (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+    em.cem_parent id
+
+(** val cem_bucket_lookup :
+    positive -> cexpr -> ((positive, cexpr) prod, positive) prod list ->
+    positive option **)
+
+let rec cem_bucket_lookup cid e = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, nid) = p in
+  let Pair (cid', e') = p0 in
+  (match match Coq_Pos.eqb cid cid' with
+         | True ->
+           fst
+             (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+               e e')
+         | False -> False with
+   | True -> Some nid
+   | False -> cem_bucket_lookup cid e rest)
+
+(** val cem_is_equiv_ro :
+    c_equiv_manager -> positive -> positive -> positive -> cexpr -> cexpr ->
+    bool **)
+
+let cem_is_equiv_ro em h1 h2 cid t0 s =
+  match cache_find1 h1 em.cem_nodes with
+  | Some b1 ->
+    (match cache_find1 h2 em.cem_nodes with
+     | Some b2 ->
+       (match cem_bucket_lookup cid t0 b1 with
+        | Some id1 ->
+          (match cem_bucket_lookup cid s b2 with
+           | Some id2 ->
+             Coq_Pos.eqb (cem_find_root em id1) (cem_find_root em id2)
+           | None -> False)
+        | None -> False)
+     | None -> False)
+  | None -> False
+
+(** val cem_intern :
+    c_equiv_manager -> positive -> positive -> cexpr -> (positive,
+    c_equiv_manager) prod **)
+
+let cem_intern em h cid e =
+  let bucket = match cache_find1 h em.cem_nodes with
+               | Some b -> b
+               | None -> Nil
+  in
+  (match cem_bucket_lookup cid e bucket with
+   | Some id -> Pair (id, em)
+   | None ->
+     let id = em.cem_next in
+     let bucket' = Cons ((Pair ((Pair (cid, e)), id)),
+       (firstn (S (S (S O))) bucket))
+     in
+     Pair (id, { cem_next = (Coq_Pos.succ id); cem_nodes =
+     (PositiveMap.add h bucket' em.cem_nodes); cem_parent = em.cem_parent }))
+
+(** val cem_add_equiv :
+    c_equiv_manager -> positive -> positive -> positive -> cexpr -> cexpr ->
+    c_equiv_manager **)
+
+let cem_add_equiv em h1 h2 cid t0 s =
+  let Pair (id1, em1) = cem_intern em h1 cid t0 in
+  let Pair (id2, em2) = cem_intern em1 h2 cid s in
+  let r1 = cem_find_root em2 id1 in
+  let r2 = cem_find_root em2 id2 in
+  (match Coq_Pos.eqb r1 r2 with
+   | True -> em2
+   | False ->
+     { cem_next = em2.cem_next; cem_nodes = em2.cem_nodes; cem_parent =
+       (PositiveMap.add r1 r2 em2.cem_parent) })
+
+type compiled_decl = { cd_decl : declaration; cd_type : cexpr;
+                       cd_value : cexpr option;
+                       cd_rules : ((name, nat) prod, cexpr) prod list }
+
+type checker_state = { cs_whnf_cache : ((positive, cexpr) prod, cexpr) prod
+                                       list CacheMap.t;
+                       cs_infer_cache : (((bool, positive) prod, cexpr) prod,
+                                        cexpr) prod list CacheMap.t;
+                       cs_defeq_cache : (((positive, cexpr) prod, cexpr)
+                                        prod, bool) prod list CacheMap.t;
+                       cs_fail_cache : ((positive, cexpr) prod, cexpr) prod
+                                       list CacheMap.t;
+                       cs_equiv : c_equiv_manager;
+                       cs_decl_cache : (name, compiled_decl) prod list
+                                       CacheMap.t;
+                       cs_ctx_trie : ((cexpr, cexpr option) prod, positive)
+                                     prod list PositiveMap.t;
+                       cs_next_ctx : positive }
+
+(** val empty_checker_state : checker_state **)
+
+let empty_checker_state =
+  { cs_whnf_cache = CacheMap.empty; cs_infer_cache = CacheMap.empty;
+    cs_defeq_cache = CacheMap.empty; cs_fail_cache = CacheMap.empty;
+    cs_equiv = cem_empty; cs_decl_cache = CacheMap.empty; cs_ctx_trie =
+    PositiveMap.empty; cs_next_ctx = (XO XH) }
+
+(** val cache_bucket_cap : nat **)
+
+let cache_bucket_cap =
+  S (S (S (S O)))
+
+(** val c_push_capped : 'a1 -> 'a1 list -> 'a1 list **)
+
+let c_push_capped x xs =
+  Cons (x, (firstn (pred cache_bucket_cap) xs))
+
+(** val c_should_cache_whnf : c_context -> cexpr -> bool **)
+
+let c_should_cache_whnf g = function
+| CFVar (_, n0) ->
+  (match c_find_free n0 g.cc_free with
+   | Some b -> (match b.cb_value with
+                | Some _ -> True
+                | None -> False)
+   | None -> False)
+| CConst (_, _, _) -> True
+| CApp (_, _, _) -> True
+| CLet (_, _, _, _, _, _) -> True
+| CProj (_, _, _, _) -> True
+| CMData (_, _) -> True
+| _ -> False
+
+(** val c_should_cache_infer : cexpr -> bool **)
+
+let c_should_cache_infer = function
+| CApp (_, _, _) -> True
+| CLam (_, _, _, _, _) -> True
+| CPi (_, _, _, _, _) -> True
+| CLet (_, _, _, _, _, _) -> True
+| CProj (_, _, _, _) -> True
+| _ -> False
+
+(** val c_is_trivial_defeq_expr : cexpr -> bool **)
+
+let c_is_trivial_defeq_expr = function
+| CBVar (_, _) -> True
+| CFVar (_, _) -> True
+| CSort (_, _) -> True
+| CLit (_, _) -> True
+| _ -> False
+
+(** val c_whnf_bucket_find :
+    positive -> cexpr -> ((positive, cexpr) prod, cexpr) prod list -> cexpr
+    option **)
+
+let rec c_whnf_bucket_find cid e = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, v) = p in
+  let Pair (cid', e') = p0 in
+  (match match Coq_Pos.eqb cid cid' with
+         | True ->
+           fst
+             (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+               e e')
+         | False -> False with
+   | True -> Some v
+   | False -> c_whnf_bucket_find cid e rest)
+
+(** val c_whnf_find_h :
+    positive -> positive -> cexpr -> checker_state -> cexpr option **)
+
+let c_whnf_find_h h cid e st =
+  match cache_find1 h st.cs_whnf_cache with
+  | Some xs -> c_whnf_bucket_find cid e xs
+  | None -> None
+
+(** val c_whnf_put_h :
+    positive -> positive -> cexpr -> cexpr -> checker_state -> checker_state **)
+
+let c_whnf_put_h h cid e v st =
+  let xs = match cache_find1 h st.cs_whnf_cache with
+           | Some b -> b
+           | None -> Nil
+  in
+  { cs_whnf_cache =
+  (PositiveMap.add h (c_push_capped (Pair ((Pair (cid, e)), v)) xs)
+    st.cs_whnf_cache);
+  cs_infer_cache = st.cs_infer_cache; cs_defeq_cache = st.cs_defeq_cache;
+  cs_fail_cache = st.cs_fail_cache; cs_equiv = st.cs_equiv; cs_decl_cache =
+  st.cs_decl_cache; cs_ctx_trie = st.cs_ctx_trie; cs_next_ctx =
+  st.cs_next_ctx }
+
+(** val c_infer_bucket_find :
+    bool -> positive -> cexpr -> (((bool, positive) prod, cexpr) prod, cexpr)
+    prod list -> cexpr option **)
+
+let rec c_infer_bucket_find flag cid e = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, v) = p in
+  let Pair (p1, e') = p0 in
+  let Pair (f', cid') = p1 in
+  (match match match eqb0 flag f' with
+               | True -> Coq_Pos.eqb cid cid'
+               | False -> False with
+         | True ->
+           fst
+             (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+               O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+               e e')
+         | False -> False with
+   | True -> Some v
+   | False -> c_infer_bucket_find flag cid e rest)
+
+(** val c_infer_find_h :
+    positive -> bool -> positive -> cexpr -> checker_state -> cexpr option **)
+
+let c_infer_find_h h checking cid e st =
+  match cache_find1 h st.cs_infer_cache with
+  | Some xs -> c_infer_bucket_find checking cid e xs
+  | None -> None
+
+(** val c_infer_put_h :
+    positive -> bool -> positive -> cexpr -> cexpr -> checker_state ->
+    checker_state **)
+
+let c_infer_put_h h checking cid e v st =
+  let xs =
+    match cache_find1 h st.cs_infer_cache with
+    | Some b -> b
+    | None -> Nil
+  in
+  { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache =
+  (PositiveMap.add h
+    (c_push_capped (Pair ((Pair ((Pair (checking, cid)), e)), v)) xs)
+    st.cs_infer_cache);
+  cs_defeq_cache = st.cs_defeq_cache; cs_fail_cache = st.cs_fail_cache;
+  cs_equiv = st.cs_equiv; cs_decl_cache = st.cs_decl_cache; cs_ctx_trie =
+  st.cs_ctx_trie; cs_next_ctx = st.cs_next_ctx }
+
+(** val c_defeq_bucket_find :
+    positive -> cexpr -> cexpr -> (((positive, cexpr) prod, cexpr) prod,
+    bool) prod list -> bool option **)
+
+let rec c_defeq_bucket_find cid t0 s = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, v) = p in
+  let Pair (p1, s') = p0 in
+  let Pair (cid', t') = p1 in
+  (match match Coq_Pos.eqb cid cid' with
+         | True ->
+           (match match fst
+                          (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S
+                            O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                            t0 t') with
+                  | True ->
+                    fst
+                      (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S
+                        O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                        s s')
+                  | False -> False with
+            | True -> True
+            | False ->
+              (match fst
+                       (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S
+                         O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                         t0 s') with
+               | True ->
+                 fst
+                   (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S
+                     O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                     s t')
+               | False -> False))
+         | False -> False with
+   | True -> Some v
+   | False -> c_defeq_bucket_find cid t0 s rest)
+
+(** val c_fail_bucket_mem :
+    positive -> cexpr -> cexpr -> ((positive, cexpr) prod, cexpr) prod list
+    -> bool **)
+
+let rec c_fail_bucket_mem cid t0 s = function
+| Nil -> False
+| Cons (p, rest) ->
+  let Pair (p0, s') = p in
+  let Pair (cid', t') = p0 in
+  (match match Coq_Pos.eqb cid cid' with
+         | True ->
+           (match match fst
+                          (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                            (S (S
+                            O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                            t0 t') with
+                  | True ->
+                    fst
+                      (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                        (S
+                        O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                        s s')
+                  | False -> False with
+            | True -> True
+            | False ->
+              (match fst
+                       (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                         (S (S (S (S (S (S
+                         O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                         t0 s') with
+               | True ->
+                 fst
+                   (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                     (S
+                     O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                     s t')
+               | False -> False))
+         | False -> False with
+   | True -> True
+   | False -> c_fail_bucket_mem cid t0 s rest)
+
+(** val c_defeq_hashes :
+    positive -> cexpr -> cexpr -> ((positive, positive) prod, positive) prod **)
+
+let c_defeq_hashes cid t0 s =
+  let ht = ce_hash t0 in
+  let hs = ce_hash s in
+  let h1 = chash_mix cid ht in
+  let h2 = chash_mix cid hs in
+  (match Coq_Pos.leb ht hs with
+   | True -> Pair ((Pair (h1, h2)), (chash_mix cid (chash_mix ht hs)))
+   | False -> Pair ((Pair (h1, h2)), (chash_mix cid (chash_mix hs ht))))
+
+(** val c_defeq_find_h :
+    positive -> positive -> positive -> positive -> cexpr -> cexpr ->
+    checker_state -> bool option **)
+
+let c_defeq_find_h h1 h2 hpair cid t0 s st =
+  match cem_is_equiv_ro st.cs_equiv h1 h2 cid t0 s with
+  | True -> Some True
+  | False ->
+    (match cache_find1 hpair st.cs_defeq_cache with
+     | Some xs -> c_defeq_bucket_find cid t0 s xs
+     | None -> None)
+
+(** val c_defeq_put_h :
+    positive -> positive -> positive -> positive -> cexpr -> cexpr -> bool ->
+    checker_state -> checker_state **)
+
+let c_defeq_put_h h1 h2 hpair cid t0 s v st =
+  let xs =
+    match cache_find1 hpair st.cs_defeq_cache with
+    | Some b -> b
+    | None -> Nil
+  in
+  let eqv' =
+    match v with
+    | True -> cem_add_equiv st.cs_equiv h1 h2 cid t0 s
+    | False -> st.cs_equiv
+  in
+  { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache = st.cs_infer_cache;
+  cs_defeq_cache =
+  (PositiveMap.add hpair
+    (c_push_capped (Pair ((Pair ((Pair (cid, t0)), s)), v)) xs)
+    st.cs_defeq_cache);
+  cs_fail_cache = st.cs_fail_cache; cs_equiv = eqv'; cs_decl_cache =
+  st.cs_decl_cache; cs_ctx_trie = st.cs_ctx_trie; cs_next_ctx =
+  st.cs_next_ctx }
+
+(** val c_fail_mem_h :
+    positive -> positive -> cexpr -> cexpr -> checker_state -> bool **)
+
+let c_fail_mem_h hpair cid t0 s st =
+  match cache_find1 hpair st.cs_fail_cache with
+  | Some xs -> c_fail_bucket_mem cid t0 s xs
+  | None -> False
+
+(** val c_fail_put_h :
+    positive -> positive -> cexpr -> cexpr -> checker_state -> checker_state **)
+
+let c_fail_put_h hpair cid t0 s st =
+  let xs =
+    match cache_find1 hpair st.cs_fail_cache with
+    | Some b -> b
+    | None -> Nil
+  in
+  { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache = st.cs_infer_cache;
+  cs_defeq_cache = st.cs_defeq_cache; cs_fail_cache =
+  (PositiveMap.add hpair (c_push_capped (Pair ((Pair (cid, t0)), s)) xs)
+    st.cs_fail_cache);
+  cs_equiv = st.cs_equiv; cs_decl_cache = st.cs_decl_cache; cs_ctx_trie =
+  st.cs_ctx_trie; cs_next_ctx = st.cs_next_ctx }
+
+(** val c_decl_bucket_find :
+    name -> (name, compiled_decl) prod list -> compiled_decl option **)
+
+let rec c_decl_bucket_find n0 = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (m, cd) = p in
+  (match name_eqb n0 m with
+   | True -> Some cd
+   | False -> c_decl_bucket_find n0 rest)
+
+(** val c_find_compiled_rule :
+    name -> ((name, nat) prod, cexpr) prod list -> (nat, cexpr) prod option **)
+
+let rec c_find_compiled_rule cn = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, rhs) = p in
+  let Pair (rn, nf) = p0 in
+  (match name_eqb rn cn with
+   | True -> Some (Pair (nf, rhs))
+   | False -> c_find_compiled_rule cn rest)
+
+type 'a c_act = checker_state -> ('a result, checker_state) prod
+
+(** val c_ret : 'a1 -> 'a1 c_act **)
+
+let c_ret x st =
+  Pair ((Accept x), st)
+
+(** val c_pure : 'a1 result -> 'a1 c_act **)
+
+let c_pure r st =
+  Pair (r, st)
+
+(** val c_bind : 'a1 c_act -> ('a1 -> 'a2 c_act) -> 'a2 c_act **)
+
+let c_bind m f st =
+  let Pair (r, st') = m st in
+  (match r with
+   | Accept x -> f x st'
+   | Reject err -> Pair ((Reject err), st')
+   | Decline why -> Pair ((Decline why), st'))
+
+(** val c_opt_alpha : nat -> cexpr option -> cexpr option -> bool **)
+
+let c_opt_alpha budget a b =
+  match a with
+  | Some x ->
+    (match b with
+     | Some y -> fst (c_alpha budget x y)
+     | None -> False)
+  | None -> (match b with
+             | Some _ -> False
+             | None -> True)
+
+(** val c_ctx_trie_find :
+    cexpr -> cexpr option -> ((cexpr, cexpr option) prod, positive) prod list
+    -> positive option **)
+
+let rec c_ctx_trie_find ty val0 = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, nid) = p in
+  let Pair (ty', val') = p0 in
+  (match match fst
+                 (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+                   (S
+                   O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+                   ty ty') with
+         | True ->
+           c_opt_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+             (S (S (S (S (S (S (S (S (S (S (S
+             O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+             val0 val'
+         | False -> False with
+   | True -> Some nid
+   | False -> c_ctx_trie_find ty val0 rest)
+
+(** val c_push_binding :
+    c_context -> cexpr -> cexpr option -> c_context c_act **)
+
+let c_push_binding g ty val0 st =
+  let pid = g.cc_id in
+  let edges =
+    match cache_find1 pid st.cs_ctx_trie with
+    | Some xs -> xs
+    | None -> Nil
+  in
+  (match c_ctx_trie_find ty val0 edges with
+   | Some nid ->
+     Pair ((Accept { cc_id = nid; cc_bound = (Cons ({ cb_type = ty;
+       cb_value = val0 }, g.cc_bound)); cc_free = g.cc_free }), st)
+   | None ->
+     let nid = st.cs_next_ctx in
+     let edges' = Cons ((Pair ((Pair (ty, val0)), nid)),
+       (firstn (S (S (S (S (S (S (S O))))))) edges))
+     in
+     Pair ((Accept { cc_id = nid; cc_bound = (Cons ({ cb_type = ty;
+     cb_value = val0 }, g.cc_bound)); cc_free = g.cc_free }),
+     { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache = st.cs_infer_cache;
+     cs_defeq_cache = st.cs_defeq_cache; cs_fail_cache = st.cs_fail_cache;
+     cs_equiv = st.cs_equiv; cs_decl_cache = st.cs_decl_cache; cs_ctx_trie =
+     (PositiveMap.add pid edges' st.cs_ctx_trie); cs_next_ctx =
+     (Coq_Pos.succ nid) }))
+
+type c_methods = { cm_infer : (c_context -> cexpr -> cexpr c_act);
+                   cm_infer_type : (c_context -> cexpr -> cexpr c_act);
+                   cm_whnf : (c_context -> cexpr -> cexpr c_act);
+                   cm_whnf_core : (bool -> c_context -> cexpr -> cexpr c_act);
+                   cm_defeq : (c_context -> cexpr -> cexpr -> bool c_act);
+                   cm_mode : reduction_mode;
+                   cm_eager_defeq : (c_context -> cexpr -> cexpr -> bool
+                                    c_act) }
+
+(** val cm_inference_only : c_methods -> c_methods **)
+
+let cm_inference_only m =
+  { cm_infer = m.cm_infer_type; cm_infer_type = m.cm_infer_type; cm_whnf =
+    m.cm_whnf; cm_whnf_core = m.cm_whnf_core; cm_defeq = m.cm_defeq;
+    cm_mode = m.cm_mode; cm_eager_defeq = m.cm_eager_defeq }
+
+(** val cm_app_type_defeq :
+    c_methods -> c_context -> cexpr -> cexpr -> cexpr -> bool c_act **)
+
+let cm_app_type_defeq m g argument domain arg_type =
+  match c_is_eager_reduce_argument argument with
+  | True -> m.cm_eager_defeq g domain arg_type
+  | False -> m.cm_defeq g domain arg_type
+
+(** val cm_sort_of : c_methods -> c_context -> cexpr -> level c_act **)
+
+let cm_sort_of m g e =
+  c_bind (m.cm_infer g e) (fun ty ->
+    c_bind (m.cm_whnf g ty) (fun ty0 ->
+      match ty0 with
+      | CSort (_, u) -> c_ret u
+      | _ -> c_pure (Reject ExpectedSort)))
+
+(** val c_compile_decl : bool -> bool -> declaration -> compiled_decl **)
+
+let c_compile_decl nat_ready str_ready d =
+  let rules =
+    match d.decl_kind_of with
+    | DAssumption -> Nil
+    | DDefinition -> Nil
+    | DTheorem -> Nil
+    | DOpaque -> Nil
+    | DUnsupported -> Nil
+    | DInductive _ -> Nil
+    | DConstructor _ -> Nil
+    | DRecursor info ->
+      map (fun r -> Pair ((Pair (r.rule_ctor, r.rule_nfields)),
+        (c_of_expr nat_ready str_ready r.rule_rhs))) info.rec_rules
+    | _ -> Nil
+  in
+  { cd_decl = d; cd_type = (c_of_expr nat_ready str_ready d.decl_type);
+  cd_value = (option_map (c_of_expr nat_ready str_ready) d.decl_value);
+  cd_rules = rules }
+
+(** val c_get_compiled :
+    declaration_lookup -> bool -> bool -> name -> compiled_decl option c_act **)
+
+let c_get_compiled lookup nat_ready str_ready n0 st =
+  let h = hash_name n0 in
+  (match cache_find1 h st.cs_decl_cache with
+   | Some bucket ->
+     (match c_decl_bucket_find n0 bucket with
+      | Some cd -> Pair ((Accept (Some cd)), st)
+      | None ->
+        (match lookup n0 with
+         | Some d ->
+           let cd = c_compile_decl nat_ready str_ready d in
+           let st' = { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache =
+             st.cs_infer_cache; cs_defeq_cache = st.cs_defeq_cache;
+             cs_fail_cache = st.cs_fail_cache; cs_equiv = st.cs_equiv;
+             cs_decl_cache =
+             (PositiveMap.add h (Cons ((Pair (n0, cd)), bucket))
+               st.cs_decl_cache);
+             cs_ctx_trie = st.cs_ctx_trie; cs_next_ctx = st.cs_next_ctx }
+           in
+           Pair ((Accept (Some cd)), st')
+         | None -> Pair ((Accept None), st)))
+   | None ->
+     (match lookup n0 with
+      | Some d ->
+        let cd = c_compile_decl nat_ready str_ready d in
+        let st' = { cs_whnf_cache = st.cs_whnf_cache; cs_infer_cache =
+          st.cs_infer_cache; cs_defeq_cache = st.cs_defeq_cache;
+          cs_fail_cache = st.cs_fail_cache; cs_equiv = st.cs_equiv;
+          cs_decl_cache =
+          (PositiveMap.add h (Cons ((Pair (n0, cd)), Nil)) st.cs_decl_cache);
+          cs_ctx_trie = st.cs_ctx_trie; cs_next_ctx = st.cs_next_ctx }
+        in
+        Pair ((Accept (Some cd)), st')
+      | None -> Pair ((Accept None), st)))
+
+(** val c_get_constant :
+    declaration_lookup -> bool -> bool -> name list -> name -> level list ->
+    compiled_decl c_act **)
+
+let c_get_constant lookup nat_ready str_ready ps n0 us =
+  c_bind (c_get_compiled lookup nat_ready str_ready n0) (fun cd_opt ->
+    match cd_opt with
+    | Some cd ->
+      let d = cd.cd_decl in
+      (match d.decl_kind_of with
+       | DUnsupported -> c_pure (Decline UnsupportedDeclaration)
+       | DUnsafe _ -> c_pure (Reject MalformedDeclaration)
+       | DPartial -> c_pure (Reject MalformedDeclaration)
+       | _ ->
+         c_bind
+           (c_pure
+             (require (Nat.eqb (length d.decl_params) (length us))
+               UniverseArity))
+           (fun _ -> c_bind (c_pure (check_levels ps us)) (fun _ -> c_ret cd)))
+    | None -> c_pure (Reject UnknownConstant))
+
+(** val c_unfold :
+    declaration_lookup -> bool -> bool -> name list -> cexpr -> cexpr option
+    c_act **)
+
+let c_unfold lookup nat_ready str_ready ps e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, us) ->
+     c_bind (c_get_constant lookup nat_ready str_ready ps n0 us) (fun cd ->
+       let d = cd.cd_decl in
+       (match d.decl_kind_of with
+        | DDefinition ->
+          (match cd.cd_value with
+           | Some value ->
+             c_ret (Some
+               (c_beta (c_subst_levels d.decl_params us value) args))
+           | None -> c_pure (Reject MalformedDeclaration))
+        | DTheorem ->
+          (match cd.cd_value with
+           | Some value ->
+             c_ret (Some
+               (c_beta (c_subst_levels d.decl_params us value) args))
+           | None -> c_pure (Reject MalformedDeclaration))
+        | DPrimitive _ ->
+          (match cd.cd_value with
+           | Some value ->
+             c_ret (Some
+               (c_beta (c_subst_levels d.decl_params us value) args))
+           | None -> c_pure (Reject MalformedDeclaration))
+        | _ -> c_ret None))
+   | _ -> c_ret None)
+
+(** val c_delta_info : declaration_lookup -> cexpr -> declaration option **)
+
+let c_delta_info lookup e =
+  match fst (c_spine e Nil) with
+  | CConst (_, n0, us) ->
+    (match lookup n0 with
+     | Some d ->
+       (match d.decl_kind_of with
+        | DDefinition ->
+          (match d.decl_value with
+           | Some _ ->
+             (match Nat.eqb (length d.decl_params) (length us) with
+              | True -> Some d
+              | False -> None)
+           | None -> None)
+        | DTheorem ->
+          (match d.decl_value with
+           | Some _ ->
+             (match Nat.eqb (length d.decl_params) (length us) with
+              | True -> Some d
+              | False -> None)
+           | None -> None)
+        | DPrimitive _ ->
+          (match d.decl_value with
+           | Some _ ->
+             (match Nat.eqb (length d.decl_params) (length us) with
+              | True -> Some d
+              | False -> None)
+           | None -> None)
+        | _ -> None)
+     | None -> None)
+  | _ -> None
+
+(** val c_delta_sides :
+    declaration_lookup -> cexpr -> cexpr -> (bool, bool) prod **)
+
+let c_delta_sides lookup t0 s =
+  match c_delta_info lookup t0 with
+  | Some dt ->
+    (match c_delta_info lookup s with
+     | Some ds ->
+       (match hints_lt (effective_hints dt) (effective_hints ds) with
+        | True -> Pair (False, True)
+        | False ->
+          (match hints_lt (effective_hints ds) (effective_hints dt) with
+           | True -> Pair (True, False)
+           | False -> Pair (True, True)))
+     | None -> Pair (True, True))
+  | None -> Pair (True, True)
+
+(** val c_erasing_delta : declaration_lookup -> cexpr -> bool **)
+
+let c_erasing_delta lookup e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, _) ->
+     (match args with
+      | Nil -> False
+      | Cons (_, _) ->
+        (match lookup n0 with
+         | Some d ->
+           (match d.decl_value with
+            | Some e0 ->
+              (match e0 with
+               | ELam (_, _, _, body) -> negb (core_occurs O body)
+               | _ -> False)
+            | None -> False)
+         | None -> False))
+   | _ -> False)
+
+(** val c_is_cheap_arg : declaration_lookup -> cexpr -> bool **)
+
+let c_is_cheap_arg lookup = function
+| CBVar (_, _) -> True
+| CFVar (_, _) -> True
+| CSort (_, _) -> True
+| CConst (_, n0, _) ->
+  (match lookup n0 with
+   | Some d ->
+     (match d.decl_kind_of with
+      | DAssumption -> True
+      | DInductive _ -> True
+      | DConstructor _ -> True
+      | _ -> False)
+   | None -> False)
+| CLit (_, _) -> True
+| _ -> False
+
+(** val c_nat_probe_head : declaration_lookup -> cexpr -> bool **)
+
+let c_nat_probe_head lookup e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, l) ->
+     (match l with
+      | Nil ->
+        (match args with
+         | Nil -> False
+         | Cons (_, l0) ->
+           (match l0 with
+            | Nil ->
+              (match name_eqb n0 core_succ_name with
+               | True -> True
+               | False ->
+                 (match lookup n0 with
+                  | Some d ->
+                    (match d.decl_kind_of with
+                     | DPrimitive p ->
+                       (match p with
+                        | PNatPred -> True
+                        | _ -> False)
+                     | _ -> False)
+                  | None -> False))
+            | Cons (_, l1) ->
+              (match l1 with
+               | Nil ->
+                 (match lookup n0 with
+                  | Some d ->
+                    (match d.decl_kind_of with
+                     | DPrimitive p ->
+                       (match p with
+                        | PNatBitwise -> False
+                        | _ -> True)
+                     | _ -> False)
+                  | None -> False)
+               | Cons (_, _) -> False)))
+      | Cons (_, _) -> False)
+   | _ -> False)
+
+(** val c_make_structure :
+    declaration_lookup -> environment -> name -> level list -> cexpr list ->
+    cexpr -> cexpr option **)
+
+let c_make_structure lookup env =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun owner us params value ->
+  match Accessor.core_inductive resolve env owner with
+  | Some info ->
+    (match info.ind_ctors with
+     | Nil -> None
+     | Cons (ctor, l) ->
+       (match l with
+        | Nil ->
+          (match Accessor.core_constructor resolve env ctor with
+           | Some c ->
+             let fields =
+               let rec fields index = function
+               | O -> Nil
+               | S count0 ->
+                 Cons ((mk_cproj owner index value),
+                   (fields (S index) count0))
+               in fields
+             in
+             Some
+             (c_apps (mk_cconst ctor us)
+               (app (firstn c.ctor_num_params params)
+                 (fields O c.ctor_num_fields)))
+           | None -> None)
+        | Cons (_, _) -> None))
+  | None -> None)
+
+(** val c_reduce_proj_core :
+    declaration_lookup -> environment -> nat -> cexpr -> cexpr option **)
+
+let c_reduce_proj_core lookup env =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun index e ->
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, _) ->
+     (match Accessor.core_constructor resolve env n0 with
+      | Some ci ->
+        (match match Nat.ltb index ci.ctor_num_fields with
+               | True ->
+                 Nat.eqb (length args)
+                   (add ci.ctor_num_params ci.ctor_num_fields)
+               | False -> False with
+         | True -> nth_error args (add ci.ctor_num_params index)
+         | False -> None)
+      | None -> None)
+   | _ -> None))
+
+(** val c_apply_type :
+    c_methods -> c_context -> cexpr -> cexpr list -> cexpr c_act **)
+
+let rec c_apply_type rec0 g ty = function
+| Nil -> c_ret ty
+| Cons (arg, args0) ->
+  c_bind (rec0.cm_whnf g ty) (fun ty0 ->
+    match ty0 with
+    | CPi (_, _, _, _, body) ->
+      c_apply_type rec0 g (c_instantiate body arg) args0
+    | _ -> c_pure (Reject ExpectedPi))
+
+(** val c_occurs : nat -> cexpr -> bool **)
+
+let rec c_occurs target e =
+  match Nat.leb (ce_lbr e) target with
+  | True -> False
+  | False ->
+    (match e with
+     | CBVar (_, i) -> Nat.eqb i target
+     | CApp (_, f, a) ->
+       (match c_occurs target f with
+        | True -> True
+        | False -> c_occurs target a)
+     | CLam (_, _, _, d, b) ->
+       (match c_occurs target d with
+        | True -> True
+        | False -> c_occurs (S target) b)
+     | CPi (_, _, _, d, b) ->
+       (match c_occurs target d with
+        | True -> True
+        | False -> c_occurs (S target) b)
+     | CLet (_, _, t0, v, b, _) ->
+       (match match c_occurs target t0 with
+              | True -> True
+              | False -> c_occurs target v with
+        | True -> True
+        | False -> c_occurs (S target) b)
+     | CProj (_, _, _, a) -> c_occurs target a
+     | CMData (_, a) -> c_occurs target a
+     | _ -> False)
+
+(** val c_projection_field :
+    c_methods -> nat -> c_context -> name -> cexpr -> bool -> nat -> nat ->
+    cexpr -> cexpr c_act **)
+
+let rec c_projection_field rec0 fuel g owner value prop0 skip index ty =
+  c_bind (rec0.cm_whnf g ty) (fun ty0 ->
+    match ty0 with
+    | CPi (_, _, _, domain, body) ->
+      let verify_prop = fun _ ->
+        c_bind (cm_sort_of rec0 g domain) (fun sort ->
+          c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+            c_pure (require is_prop TypeMismatch)))
+      in
+      (match skip with
+       | O ->
+         c_bind (match prop0 with
+                 | True -> verify_prop Tt
+                 | False -> c_ret Tt)
+           (fun _ -> c_ret domain)
+       | S skip0 ->
+         c_bind
+           (match match prop0 with
+                  | True -> c_occurs O body
+                  | False -> False with
+            | True -> verify_prop Tt
+            | False -> c_ret Tt)
+           (fun _ ->
+           c_projection_field rec0 fuel g owner value prop0 skip0 (S index)
+             (c_instantiate body (mk_cproj owner index value))))
+    | _ -> c_pure (Reject ExpectedPi))
+
+(** val c_infer_projection :
+    declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+    c_context -> name -> nat -> cexpr -> cexpr c_act **)
+
+let c_infer_projection lookup env nat_ready str_ready =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 fuel g owner index value ->
+  c_bind (rec0.cm_infer g value) (fun st ->
+    c_bind (rec0.cm_whnf g st) (fun st0 ->
+      let Pair (head, args) = c_spine st0 Nil in
+      (match head with
+       | CConst (_, n0, us) ->
+         (match Accessor.core_inductive resolve env owner with
+          | Some info ->
+            c_bind
+              (c_pure
+                (require
+                  (match match match name_eqb n0 owner with
+                               | True ->
+                                 Nat.eqb (length args)
+                                   (add info.ind_num_params
+                                     info.ind_num_indices)
+                               | False -> False with
+                         | True -> Nat.eqb info.ind_num_indices O
+                         | False -> False with
+                   | True -> negb info.ind_is_rec
+                   | False -> False)
+                  TypeMismatch))
+              (fun _ ->
+              match info.ind_ctors with
+              | Nil -> c_pure (Reject TypeMismatch)
+              | Cons (ctor, l) ->
+                (match l with
+                 | Nil ->
+                   c_bind (c_get_compiled lookup nat_ready str_ready ctor)
+                     (fun cd_opt ->
+                     match cd_opt with
+                     | Some cd ->
+                       let d = cd.cd_decl in
+                       (match d.decl_kind_of with
+                        | DConstructor c ->
+                          c_bind
+                            (c_pure
+                              (require (Nat.ltb index c.ctor_num_fields)
+                                TypeMismatch))
+                            (fun _ ->
+                            c_bind
+                              (c_apply_type rec0 g
+                                (c_subst_levels d.decl_params us cd.cd_type)
+                                (firstn info.ind_num_params args))
+                              (fun ty ->
+                              c_bind (cm_sort_of rec0 g st0) (fun u ->
+                                c_projection_field rec0 fuel g owner value
+                                  (negb (core_level_positive u)) index O ty)))
+                        | _ -> c_pure (Reject MalformedDeclaration))
+                     | None -> c_pure (Reject UnknownConstant))
+                 | Cons (_, _) -> c_pure (Reject TypeMismatch)))
+          | None -> c_pure (Reject TypeMismatch))
+       | _ -> c_pure (Reject TypeMismatch)))))
+
+(** val c_binary_nat :
+    bool -> nat -> primitive_kind -> n -> n -> cexpr option result **)
+
+let c_binary_nat bool_ready _ op a b =
+  let numeric = fun n0 -> Accept (Some (mk_cnat n0)) in
+  let bounded = fun operation ->
+    match N.leb b core_pow_max_exp with
+    | True -> numeric (operation a b)
+    | False -> Accept None
+  in
+  let boolean = fun v ->
+    match bool_ready with
+    | True ->
+      Accept (Some
+        (mk_cconst
+          (match v with
+           | True -> core_true_name
+           | False -> core_false_name)
+          Nil))
+    | False -> Decline UnsupportedExpression
+  in
+  (match op with
+   | PNatAdd -> numeric (N.add a b)
+   | PNatSub -> numeric (N.sub a b)
+   | PNatMul -> numeric (N.mul a b)
+   | PNatPow -> bounded N.pow
+   | PNatGcd -> numeric (N.gcd a b)
+   | PNatMod -> numeric (N.modulo a b)
+   | PNatDiv -> numeric (N.div a b)
+   | PNatBEq -> boolean (N.eqb a b)
+   | PNatBLE -> boolean (N.leb a b)
+   | PNatLAnd -> numeric (N.coq_land a b)
+   | PNatLOr -> numeric (N.coq_lor a b)
+   | PNatXor -> numeric (N.coq_lxor a b)
+   | PNatShiftLeft -> bounded N.shiftl
+   | PNatShiftRight ->
+     (match core_shiftr a b with
+      | Some value -> numeric value
+      | None -> Accept None)
+   | _ -> Accept None)
+
+(** val c_reduce_nat :
+    declaration_lookup -> bool -> bool -> c_methods -> nat -> c_context ->
+    cexpr -> cexpr option c_act **)
+
+let c_reduce_nat lookup nat_ready bool_ready rec0 fuel g e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, l) ->
+     (match l with
+      | Nil ->
+        (match args with
+         | Nil -> c_ret None
+         | Cons (a, l0) ->
+           (match l0 with
+            | Nil ->
+              let op =
+                match name_eqb n0 core_succ_name with
+                | True -> Some True
+                | False ->
+                  (match lookup n0 with
+                   | Some d ->
+                     (match d.decl_kind_of with
+                      | DPrimitive p ->
+                        (match p with
+                         | PNatPred -> Some False
+                         | _ -> None)
+                      | _ -> None)
+                   | None -> None)
+              in
+              (match op with
+               | Some successor ->
+                 (match negb nat_ready with
+                  | True -> c_ret None
+                  | False ->
+                    (match c_is_non_let_local g a with
+                     | True -> c_ret None
+                     | False ->
+                       c_bind (rec0.cm_whnf g a) (fun a0 ->
+                         match c_nat_value a0 with
+                         | Some av ->
+                           c_ret (Some
+                             (mk_cnat
+                               (match successor with
+                                | True -> N.succ av
+                                | False -> N.pred av)))
+                         | None -> c_ret None)))
+               | None -> c_ret None)
+            | Cons (b, l1) ->
+              (match l1 with
+               | Nil ->
+                 (match lookup n0 with
+                  | Some d ->
+                    (match d.decl_kind_of with
+                     | DPrimitive op ->
+                       (match op with
+                        | PNatBitwise -> c_ret None
+                        | _ ->
+                          (match negb nat_ready with
+                           | True -> c_ret None
+                           | False ->
+                             (match match c_is_non_let_local g a with
+                                    | True -> True
+                                    | False -> c_is_non_let_local g b with
+                              | True -> c_ret None
+                              | False ->
+                                c_bind (rec0.cm_whnf g a) (fun a0 ->
+                                  match c_nat_value a0 with
+                                  | Some av ->
+                                    c_bind (rec0.cm_whnf g b) (fun b0 ->
+                                      match c_nat_value b0 with
+                                      | Some bv ->
+                                        c_pure
+                                          (c_binary_nat bool_ready fuel op av
+                                            bv)
+                                      | None -> c_ret None)
+                                  | None -> c_ret None))))
+                     | _ -> c_ret None)
+                  | None -> c_ret None)
+               | Cons (_, _) -> c_ret None)))
+      | Cons (_, _) -> c_ret None)
+   | _ -> c_ret None)
+
+(** val c_to_constructor :
+    declaration_lookup -> environment -> bool -> c_methods -> nat ->
+    c_context -> name -> bool -> cexpr -> cexpr c_act **)
+
+let c_to_constructor lookup env nat_ready =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 fuel g owner k_rule value ->
+  c_bind (rec0.cm_whnf g value) (fun reduced ->
+    match reduced with
+    | CLit (_, l) ->
+      (match l with
+       | LitNat n0 ->
+         (match match name_eqb owner core_nat_name with
+                | True -> nat_ready
+                | False -> False with
+          | True -> c_ret (c_nat_constructor n0)
+          | False -> c_ret reduced)
+       | LitString s ->
+         c_bind (c_pure (c_expand_string s)) (fun expanded ->
+           rec0.cm_whnf g expanded))
+    | _ ->
+      let try_eta = fun _ ->
+        match negb
+                (match k_rule with
+                 | True -> True
+                 | False -> Accessor.core_structure resolve env owner) with
+        | True -> c_ret reduced
+        | False ->
+          c_bind (rec0.cm_infer g reduced) (fun ty ->
+            c_bind (rec0.cm_whnf g ty) (fun ty0 ->
+              let Pair (head, args) = c_spine ty0 Nil in
+              (match head with
+               | CConst (_, n0, us) ->
+                 (match negb (name_eqb n0 owner) with
+                  | True -> c_ret reduced
+                  | False ->
+                    (match c_make_structure lookup env owner us args reduced with
+                     | Some candidate ->
+                       (match k_rule with
+                        | True ->
+                          c_bind (cm_sort_of rec0 g ty0) (fun sort ->
+                            c_bind (c_pure (level_equiv fuel sort LZero))
+                              (fun prop0 ->
+                              match prop0 with
+                              | True ->
+                                c_bind (rec0.cm_infer g candidate) (fun ct ->
+                                  c_bind (rec0.cm_defeq g ty0 ct) (fun ok ->
+                                    match ok with
+                                    | True -> c_ret candidate
+                                    | False -> c_ret reduced))
+                              | False -> c_ret reduced))
+                        | False ->
+                          c_bind (cm_sort_of rec0 g ty0) (fun sort ->
+                            match core_level_positive sort with
+                            | True -> c_ret candidate
+                            | False -> c_ret reduced))
+                     | None -> c_ret reduced))
+               | _ -> c_ret reduced)))
+      in
+      (match fst (c_spine reduced Nil) with
+       | CConst (_, n0, _) ->
+         (match Accessor.core_constructor resolve env n0 with
+          | Some _ -> c_ret reduced
+          | None -> try_eta Tt)
+       | _ -> try_eta Tt)))
+
+(** val c_reduce_recursor_compiled :
+    declaration_lookup -> environment -> bool -> c_methods -> nat ->
+    c_context -> compiled_decl -> level list -> cexpr list -> cexpr option
+    c_act **)
+
+let c_reduce_recursor_compiled lookup env nat_ready =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 fuel g cd us args ->
+  let d = cd.cd_decl in
+  (match d.decl_kind_of with
+   | DRecursor info ->
+     let first_index =
+       add (add info.rec_num_params info.rec_num_motives) info.rec_num_minors
+     in
+     let major_index = add first_index info.rec_num_indices in
+     (match nth_error args major_index with
+      | Some major ->
+        (match core_major_induct major_index d.decl_type with
+         | Some owner ->
+           c_bind
+             (c_to_constructor lookup env nat_ready rec0 fuel g owner
+               info.rec_k major)
+             (fun major0 ->
+             let Pair (ctor, fields) = c_spine major0 Nil in
+             (match ctor with
+              | CConst (_, cn, _) ->
+                (match c_find_compiled_rule cn cd.cd_rules with
+                 | Some p ->
+                   let Pair (nfields, rhs_c) = p in
+                   (match Accessor.core_constructor resolve env cn with
+                    | Some ci ->
+                      (match negb
+                               (match match match name_eqb ci.ctor_induct
+                                                    owner with
+                                            | True ->
+                                              Nat.eqb (length fields)
+                                                (add ci.ctor_num_params
+                                                  ci.ctor_num_fields)
+                                            | False -> False with
+                                      | True ->
+                                        Nat.eqb nfields ci.ctor_num_fields
+                                      | False -> False with
+                                | True ->
+                                  Nat.eqb (length us) (length d.decl_params)
+                                | False -> False) with
+                       | True -> c_ret None
+                       | False ->
+                         let rhs_inst = c_subst_levels d.decl_params us rhs_c
+                         in
+                         let new_args =
+                           app (firstn first_index args)
+                             (app (skipn ci.ctor_num_params fields)
+                               (skipn (S major_index) args))
+                         in
+                         c_ret (Some (c_beta rhs_inst new_args)))
+                    | None -> c_ret None)
+                 | None -> c_ret None)
+              | _ -> c_ret None))
+         | None -> c_pure (Reject MalformedDeclaration))
+      | None -> c_ret None)
+   | _ -> c_ret None))
+
+(** val c_reduce_recursor :
+    declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+    c_context -> cexpr -> cexpr option c_act **)
+
+let c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, us) ->
+     c_bind (c_get_compiled lookup nat_ready str_ready n0) (fun cd_opt ->
+       match cd_opt with
+       | Some cd ->
+         c_reduce_recursor_compiled lookup env nat_ready rec0 fuel g cd us
+           args
+       | None -> c_ret None)
+   | _ -> c_ret None)
+
+(** val c_reduce_projection_with :
+    declaration_lookup -> environment -> c_methods -> (c_context -> cexpr ->
+    cexpr c_act) -> c_context -> name -> nat -> cexpr -> cexpr option c_act **)
+
+let c_reduce_projection_with lookup env =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 reduce g owner index value ->
+  c_bind (reduce g value) (fun reduced ->
+    c_bind
+      (match reduced with
+       | CLit (_, l) ->
+         (match l with
+          | LitNat _ -> c_ret reduced
+          | LitString s ->
+            c_bind (c_pure (c_expand_string s)) (fun expanded ->
+              rec0.cm_whnf g expanded))
+       | _ -> c_ret reduced)
+      (fun reduced0 ->
+      let Pair (head, args) = c_spine reduced0 Nil in
+      (match head with
+       | CConst (_, n0, _) ->
+         (match Accessor.core_constructor resolve env n0 with
+          | Some ci ->
+            (match match match name_eqb ci.ctor_induct owner with
+                         | True -> Nat.ltb index ci.ctor_num_fields
+                         | False -> False with
+                   | True ->
+                     Nat.eqb (length args)
+                       (add ci.ctor_num_params ci.ctor_num_fields)
+                   | False -> False with
+             | True -> c_ret (nth_error args (add ci.ctor_num_params index))
+             | False -> c_ret None)
+          | None -> c_ret None)
+       | _ -> c_ret None))))
+
+(** val c_reduce_quotient_parts :
+    declaration_lookup -> c_methods -> c_context -> quotient_kind -> cexpr
+    list -> cexpr option c_act **)
+
+let c_reduce_quotient_parts lookup rec0 g qk args =
+  let major_pos =
+    match qk with
+    | QType -> None
+    | QCtor -> None
+    | QLift -> Some (S (S (S (S (S O)))))
+    | QInd -> Some (S (S (S (S O))))
+  in
+  (match major_pos with
+   | Some index ->
+     (match nth_error args index with
+      | Some major ->
+        (match nth_error args (S (S (S O))) with
+         | Some fn ->
+           c_bind (rec0.cm_whnf g major) (fun major0 ->
+             let Pair (ctor, cargs) = c_spine major0 Nil in
+             (match ctor with
+              | CConst (_, cn, _) ->
+                (match cargs with
+                 | Nil -> c_ret None
+                 | Cons (_, l0) ->
+                   (match l0 with
+                    | Nil -> c_ret None
+                    | Cons (_, l1) ->
+                      (match l1 with
+                       | Nil -> c_ret None
+                       | Cons (representative, l2) ->
+                         (match l2 with
+                          | Nil ->
+                            (match lookup cn with
+                             | Some cd ->
+                               (match cd.decl_kind_of with
+                                | DQuotient q ->
+                                  (match q with
+                                   | QCtor ->
+                                     c_ret (Some
+                                       (c_apps (mk_capp fn representative)
+                                         (skipn (S index) args)))
+                                   | _ -> c_ret None)
+                                | _ -> c_ret None)
+                             | None -> c_ret None)
+                          | Cons (_, _) -> c_ret None))))
+              | _ -> c_ret None))
+         | None -> c_ret None)
+      | None -> c_ret None)
+   | None -> c_ret None)
+
+(** val c_reduce_quotient :
+    declaration_lookup -> c_methods -> c_context -> cexpr -> cexpr option
+    c_act **)
+
+let c_reduce_quotient lookup rec0 g e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, _) ->
+     (match lookup n0 with
+      | Some d ->
+        (match d.decl_kind_of with
+         | DQuotient qk -> c_reduce_quotient_parts lookup rec0 g qk args
+         | _ -> c_ret None)
+      | None -> c_ret None)
+   | _ -> c_ret None)
+
+(** val c_infer_step :
+    declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+    name list -> bool -> c_context -> cexpr -> cexpr c_act **)
+
+let c_infer_step lookup env nat_ready str_ready =
+  let resolve = fun n0 _ -> lookup n0 in
+  let rec c_infer_step0 rec0 fuel ps checking g e =
+    let compute =
+      match e with
+      | CBVar (_, i) ->
+        (match nth_error g.cc_bound i with
+         | Some b -> c_ret (c_lift (S i) O b.cb_type)
+         | None -> c_pure (Reject LooseBoundVariable))
+      | CFVar (_, n0) ->
+        (match c_find_free n0 g.cc_free with
+         | Some b -> c_ret b.cb_type
+         | None -> c_pure (Reject UnknownFreeVariable))
+      | CMVar (_, _) -> c_pure (Reject MetaVariable)
+      | CSort (_, u) ->
+        c_bind (c_pure (check_level ps u)) (fun _ ->
+          c_ret (mk_csort (LSucc u)))
+      | CConst (_, n0, us) ->
+        c_bind (c_get_constant lookup nat_ready str_ready ps n0 us)
+          (fun cd ->
+          c_ret (c_subst_levels cd.cd_decl.decl_params us cd.cd_type))
+      | CApp (_, f, a) ->
+        c_bind (c_infer_step0 rec0 fuel ps checking g f) (fun ft ->
+          c_bind (rec0.cm_whnf g ft) (fun ft0 ->
+            match ft0 with
+            | CPi (_, _, _, domain, body) ->
+              c_bind
+                (match checking with
+                 | True ->
+                   c_bind (c_infer_step0 rec0 fuel ps True g a)
+                     (fun arg_type ->
+                     c_bind (cm_app_type_defeq rec0 g a domain arg_type)
+                       (fun ok -> c_pure (require ok TypeMismatch)))
+                 | False -> c_ret Tt)
+                (fun _ -> c_ret (c_instantiate body a))
+            | _ -> c_pure (Reject ExpectedPi)))
+      | CLam (_, n0, bi, domain, body) ->
+        c_bind
+          (match checking with
+           | True ->
+             c_bind (c_infer_step0 rec0 fuel ps True g domain) (fun dt ->
+               c_bind (rec0.cm_whnf g dt) (fun dt0 ->
+                 match dt0 with
+                 | CBVar (_, _) -> c_pure (Reject ExpectedSort)
+                 | CFVar (_, _) -> c_pure (Reject ExpectedSort)
+                 | CMVar (_, _) -> c_pure (Reject ExpectedSort)
+                 | CSort (_, _) -> c_ret Tt
+                 | _ -> c_pure (Reject ExpectedSort)))
+           | False -> c_ret Tt)
+          (fun _ ->
+          c_bind (c_push_binding g domain None) (fun gb ->
+            c_bind (c_infer_step0 rec0 fuel ps checking gb body) (fun bt ->
+              c_ret (mk_cpi n0 bi domain bt))))
+      | CPi (_, _, _, domain, body) ->
+        c_bind (c_infer_step0 rec0 fuel ps checking g domain) (fun dt ->
+          c_bind (rec0.cm_whnf g dt) (fun dt0 ->
+            c_bind
+              (match dt0 with
+               | CSort (_, u) -> c_ret u
+               | _ -> c_pure (Reject ExpectedSort))
+              (fun u ->
+              c_bind (c_push_binding g domain None) (fun gb ->
+                c_bind (c_infer_step0 rec0 fuel ps checking gb body)
+                  (fun bt ->
+                  c_bind (rec0.cm_whnf gb bt) (fun bt0 ->
+                    c_bind
+                      (match bt0 with
+                       | CSort (_, v) -> c_ret v
+                       | _ -> c_pure (Reject ExpectedSort))
+                      (fun v -> c_ret (mk_csort (LIMax (u, v))))))))))
+      | CLet (_, _, ty, value, body, _) ->
+        c_bind
+          (match checking with
+           | True ->
+             c_bind (c_infer_step0 rec0 fuel ps True g ty) (fun sort_type ->
+               c_bind (rec0.cm_whnf g sort_type) (fun sort_type0 ->
+                 c_bind
+                   (match sort_type0 with
+                    | CBVar (_, _) -> c_pure (Reject ExpectedSort)
+                    | CFVar (_, _) -> c_pure (Reject ExpectedSort)
+                    | CMVar (_, _) -> c_pure (Reject ExpectedSort)
+                    | CSort (_, _) -> c_ret Tt
+                    | _ -> c_pure (Reject ExpectedSort))
+                   (fun _ ->
+                   c_bind (c_infer_step0 rec0 fuel ps True g value)
+                     (fun vt ->
+                     c_bind (rec0.cm_defeq g vt ty) (fun ok ->
+                       c_pure (require ok TypeMismatch))))))
+           | False -> c_ret Tt)
+          (fun _ ->
+          c_bind (c_push_binding g ty (Some value)) (fun gb ->
+            c_bind (c_infer_step0 rec0 fuel ps checking gb body) (fun bt ->
+              c_ret (c_instantiate bt value))))
+      | CProj (_, owner, index, value) ->
+        (match Accessor.core_inductive resolve env owner with
+         | Some _ ->
+           c_infer_projection lookup env nat_ready str_ready
+             (match checking with
+              | True -> rec0
+              | False -> cm_inference_only rec0)
+             fuel g owner index value
+         | None -> c_pure (Reject TypeMismatch))
+      | CMData (_, body) -> c_infer_step0 rec0 fuel ps checking g body
+      | CLit (_, l) ->
+        (match l with
+         | LitNat _ ->
+           (match nat_ready with
+            | True -> c_ret c_core_nat
+            | False -> c_pure (Decline UnsupportedExpression))
+         | LitString s ->
+           (match str_ready with
+            | True ->
+              c_bind (c_pure (c_expand_string s)) (fun _ ->
+                c_ret c_core_string)
+            | False -> c_pure (Decline UnsupportedExpression)))
+    in
+    (fun st ->
+    match negb (c_should_cache_infer e) with
+    | True -> compute st
+    | False ->
+      let cid = g.cc_id in
+      let h =
+        chash_mix
+          (match checking with
+           | True -> XI (XO (XI (XO (XI (XO (XO XH))))))
+           | False -> XI (XI (XI (XO (XI (XO (XO XH)))))))
+          (chash_mix cid (ce_hash e))
+      in
+      (match c_infer_find_h h checking cid e st with
+       | Some ty -> Pair ((Accept ty), st)
+       | None ->
+         let Pair (res, st') = compute st in
+         (match res with
+          | Accept ty ->
+            Pair ((Accept ty), (c_infer_put_h h checking cid e ty st'))
+          | _ -> Pair (res, st'))))
+  in c_infer_step0
+
+(** val c_is_closed_no_fvar : cexpr -> bool **)
+
+let c_is_closed_no_fvar e =
+  match negb (ce_hfv e) with
+  | True -> Nat.eqb (ce_lbr e) O
+  | False -> False
+
+(** val c_nat_probe_allowed : reduction_mode -> cexpr -> cexpr -> bool **)
+
+let c_nat_probe_allowed mode t0 s =
+  match mode with
+  | NormalReduction ->
+    (match c_is_closed_no_fvar t0 with
+     | True -> c_is_closed_no_fvar s
+     | False -> False)
+  | EagerReduction -> True
+
+(** val c_true_probe_allowed : reduction_mode -> cexpr -> bool **)
+
+let c_true_probe_allowed mode t0 =
+  match mode with
+  | NormalReduction -> c_is_closed_no_fvar t0
+  | EagerReduction -> True
+
+(** val c_whnf_core_step :
+    declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+    name list -> bool -> c_context -> cexpr -> cexpr c_act **)
+
+let c_whnf_core_step lookup env nat_ready str_ready rec0 fuel ps cheap g e = match e with
+| CBVar (_, i) ->
+  (match nth_error g.cc_bound i with
+   | Some b ->
+     (match b.cb_value with
+      | Some v -> rec0.cm_whnf_core cheap g (c_lift (S i) O v)
+      | None -> c_ret e)
+   | None -> c_pure (Reject LooseBoundVariable))
+| CFVar (_, n0) ->
+  (match c_find_free n0 g.cc_free with
+   | Some b ->
+     (match b.cb_value with
+      | Some v -> rec0.cm_whnf_core cheap g v
+      | None -> c_ret e)
+   | None -> c_pure (Reject UnknownFreeVariable))
+| CMVar (_, _) -> c_pure (Reject MetaVariable)
+| CSort (_, u) -> c_bind (c_pure (check_level ps u)) (fun _ -> c_ret e)
+| CConst (_, n0, us) ->
+  c_bind (c_get_constant lookup nat_ready str_ready ps n0 us) (fun _ ->
+    c_ret e)
+| CApp (_, _, _) ->
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CBVar (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CFVar (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CMVar (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CSort (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CConst (_, n0, us) ->
+     c_bind (c_get_constant lookup nat_ready str_ready ps n0 us) (fun cd ->
+       match cd.cd_decl.decl_kind_of with
+       | DRecursor _ ->
+         c_bind
+           (c_reduce_recursor_compiled lookup env nat_ready rec0 fuel g cd us
+             args)
+           (fun step ->
+           match step with
+           | Some value -> rec0.cm_whnf_core cheap g value
+           | None -> c_ret e)
+       | DQuotient qk ->
+         c_bind (c_reduce_quotient_parts lookup rec0 g qk args) (fun quot ->
+           match quot with
+           | Some value -> rec0.cm_whnf_core cheap g value
+           | None -> c_ret e)
+       | _ -> c_ret e)
+   | CApp (_, _, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta head args)
+   | CPi (_, _, _, _, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CLet (_, _, _, _, _, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CProj (_, _, _, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CMData (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt)))
+   | CLit (_, _) ->
+     c_bind (rec0.cm_whnf_core cheap g head) (fun fn ->
+       match fn with
+       | CBVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CFVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMVar (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CSort (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CConst (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CApp (_, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLam (_, _, _, _, _) -> rec0.cm_whnf_core cheap g (c_beta fn args)
+       | CPi (_, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLet (_, _, _, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CProj (_, _, _, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CMData (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))
+       | CLit (_, _) ->
+         let rebuilt = c_apps fn args in
+         c_bind (c_reduce_quotient lookup rec0 g rebuilt) (fun quot ->
+           c_bind
+             (match quot with
+              | Some value -> c_ret (Some value)
+              | None ->
+                c_reduce_recursor lookup env nat_ready str_ready rec0 fuel g
+                  rebuilt)
+             (fun step ->
+             match step with
+             | Some value -> rec0.cm_whnf_core cheap g value
+             | None -> c_ret rebuilt))))
+| CLet (_, _, _, value, body, _) ->
+  rec0.cm_whnf_core cheap g (c_instantiate body value)
+| CProj (_, owner, index, value) ->
+  c_bind
+    (c_reduce_projection_with lookup env rec0
+      (match cheap with
+       | True -> rec0.cm_whnf_core True
+       | False -> rec0.cm_whnf)
+      g owner index value)
+    (fun step ->
+    match step with
+    | Some value0 -> rec0.cm_whnf_core cheap g value0
+    | None -> c_ret e)
+| CMData (_, body) -> rec0.cm_whnf_core cheap g body
+| CLit (_, l) ->
+  (match l with
+   | LitNat _ -> c_ret e
+   | LitString s -> c_bind (c_pure (c_expand_string s)) (fun _ -> c_ret e))
+| _ -> c_ret e
+
+(** val c_nat_add_outer_limit : nat **)
+
+let c_nat_add_outer_limit =
+  of_num_uint (UIntDecimal (D8 (D0 (D0 (D0 Nil0)))))
+
+(** val c_nat_add_inner_limit : nat **)
+
+let c_nat_add_inner_limit =
+  S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+    O)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(** val c_is_nat_add :
+    declaration_lookup -> cexpr -> (cexpr, cexpr) prod option **)
+
+let c_is_nat_add lookup e =
+  let Pair (head, args) = c_spine e Nil in
+  (match head with
+   | CConst (_, n0, l) ->
+     (match l with
+      | Nil ->
+        (match args with
+         | Nil -> None
+         | Cons (a, l0) ->
+           (match l0 with
+            | Nil -> None
+            | Cons (b, l1) ->
+              (match l1 with
+               | Nil ->
+                 (match lookup n0 with
+                  | Some d ->
+                    (match d.decl_kind_of with
+                     | DPrimitive p ->
+                       (match p with
+                        | PNatAdd -> Some (Pair (a, b))
+                        | _ -> None)
+                     | _ -> None)
+                  | None -> None)
+               | Cons (_, _) -> None)))
+      | Cons (_, _) -> None)
+   | _ -> None)
+
+type c_add_step_res =
+| CAddDone of n
+| CAddFallback
+| CAddNext of cexpr * n
+
+(** val c_nat_add_one_step :
+    declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+    name list -> c_context -> cexpr -> n -> c_add_step_res c_act **)
+
+let c_nat_add_one_step lookup env nat_ready str_ready rec0 fuel ps g cur acc st =
+  let cached_opt =
+    match cur with
+    | CBVar (_, _) -> None
+    | CFVar (_, _) -> None
+    | CMVar (_, _) -> None
+    | CSort (_, _) -> None
+    | CConst (_, _, _) ->
+      let cid = g.cc_id in
+      c_whnf_find_h (chash_mix cid (ce_hash cur)) cid cur st
+    | _ -> None
+  in
+  (match cached_opt with
+   | Some cached ->
+     (match c_nat_value cached with
+      | Some na -> Pair ((Accept (CAddDone (N.add na acc))), st)
+      | None -> Pair ((Accept CAddFallback), st))
+   | None ->
+     c_bind
+       (c_whnf_core_step lookup env nat_ready str_ready rec0 fuel ps False g
+         cur)
+       (fun cur' ->
+       match c_nat_value cur' with
+       | Some na -> c_ret (CAddDone (N.add na acc))
+       | None ->
+         (match c_is_nat_add lookup cur' with
+          | Some p ->
+            let Pair (a', b') = p in
+            (match c_is_non_let_local g b' with
+             | True -> c_ret CAddFallback
+             | False ->
+               c_bind (rec0.cm_whnf g b') (fun bv' ->
+                 match c_nat_value bv' with
+                 | Some nb' -> c_ret (CAddNext (a', (N.add acc nb')))
+                 | None -> c_ret CAddFallback))
+          | None ->
+            (match cur' with
+             | CBVar (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CFVar (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CMVar (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CSort (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CConst (_, _, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CApp (_, c0, a') ->
+               (match c0 with
+                | CBVar (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CFVar (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CMVar (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CSort (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CConst (_, m, l) ->
+                  (match l with
+                   | Nil ->
+                     (match name_eqb m core_succ_name with
+                      | True -> c_ret (CAddNext (a', (N.succ acc)))
+                      | False ->
+                        c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                          (fun unfolded ->
+                          match unfolded with
+                          | Some next -> c_ret (CAddNext (next, acc))
+                          | None -> c_ret CAddFallback))
+                   | Cons (_, _) ->
+                     c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                       (fun unfolded ->
+                       match unfolded with
+                       | Some next -> c_ret (CAddNext (next, acc))
+                       | None -> c_ret CAddFallback))
+                | CApp (_, _, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CLam (_, _, _, _, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CPi (_, _, _, _, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CLet (_, _, _, _, _, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CProj (_, _, _, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CMData (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback)
+                | CLit (_, _) ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                    (fun unfolded ->
+                    match unfolded with
+                    | Some next -> c_ret (CAddNext (next, acc))
+                    | None -> c_ret CAddFallback))
+             | CLam (_, _, _, _, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CPi (_, _, _, _, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CLet (_, _, _, _, _, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CProj (_, _, _, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CMData (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback)
+             | CLit (_, _) ->
+               c_bind (c_unfold lookup nat_ready str_ready ps cur')
+                 (fun unfolded ->
+                 match unfolded with
+                 | Some next -> c_ret (CAddNext (next, acc))
+                 | None -> c_ret CAddFallback))))
+       st)
+
+(** val c_nat_add_inner :
+    declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+    nat -> name list -> c_context -> cexpr -> n -> c_add_step_res c_act **)
+
+let rec c_nat_add_inner lookup env nat_ready str_ready inner rec0 fuel ps g cur acc =
+  match inner with
+  | O -> c_ret (CAddNext (cur, acc))
+  | S inner0 ->
+    c_bind
+      (c_nat_add_one_step lookup env nat_ready str_ready rec0 fuel ps g cur
+        acc)
+      (fun step ->
+      match step with
+      | CAddNext (cur', acc') ->
+        c_nat_add_inner lookup env nat_ready str_ready inner0 rec0 fuel ps g
+          cur' acc'
+      | _ -> c_ret step)
+
+(** val c_nat_add_outer :
+    declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+    nat -> name list -> c_context -> cexpr -> n -> cexpr option c_act **)
+
+let rec c_nat_add_outer lookup env nat_ready str_ready outer rec0 fuel ps g cur acc =
+  match outer with
+  | O -> c_pure (Decline OutOfFuel)
+  | S outer0 ->
+    c_bind
+      (c_nat_add_inner lookup env nat_ready str_ready c_nat_add_inner_limit
+        rec0 fuel ps g cur acc)
+      (fun step ->
+      match step with
+      | CAddDone total -> c_ret (Some (mk_cnat total))
+      | CAddFallback -> c_ret None
+      | CAddNext (cur', acc') ->
+        c_nat_add_outer lookup env nat_ready str_ready outer0 rec0 fuel ps g
+          cur' acc')
+
+type c_whnf_round =
+| CWhnfDone of cexpr
+| CWhnfContinue of cexpr
+
+(** val c_whnf_round_step :
+    declaration_lookup -> environment -> bool -> bool -> bool -> c_methods ->
+    nat -> name list -> c_context -> cexpr -> c_whnf_round c_act **)
+
+let c_whnf_round_step lookup env nat_ready str_ready bool_ready rec0 fuel ps g e =
+  c_bind
+    (c_whnf_core_step lookup env nat_ready str_ready rec0 fuel ps False g e)
+    (fun reduced ->
+    match reduced with
+    | CBVar (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CFVar (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CMVar (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CSort (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CConst (_, n0, _) ->
+      (match match name_eqb n0 core_zero_name with
+             | True -> nat_ready
+             | False -> False with
+       | True -> c_ret (CWhnfDone (mk_cnat N0))
+       | False ->
+         c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+           (fun unfolded ->
+           c_ret
+             (match unfolded with
+              | Some v -> CWhnfContinue v
+              | None -> CWhnfDone reduced)))
+    | CApp (_, _, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CLam (_, _, _, _, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CPi (_, _, _, _, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CLet (_, _, _, _, _, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CProj (_, _, _, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CMData (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced)))))
+    | CLit (_, _) ->
+      c_bind (c_pure (c_reduce_native reduced)) (fun nat_hook ->
+        match nat_hook with
+        | Some value -> c_ret (CWhnfDone value)
+        | None ->
+          c_bind
+            (match c_is_nat_add lookup reduced with
+             | Some p ->
+               let Pair (a, b) = p in
+               (match match match c_is_closed_no_fvar a with
+                            | True -> negb (c_is_non_let_local g b)
+                            | False -> False with
+                      | True -> nat_ready
+                      | False -> False with
+                | True ->
+                  c_bind (rec0.cm_whnf g b) (fun bv ->
+                    match c_nat_value bv with
+                    | Some nb ->
+                      c_nat_add_outer lookup env nat_ready str_ready
+                        c_nat_add_outer_limit rec0 fuel ps g a nb
+                    | None -> c_ret None)
+                | False -> c_ret None)
+             | None -> c_ret None)
+            (fun add_fast ->
+            match add_fast with
+            | Some value -> c_ret (CWhnfDone value)
+            | None ->
+              c_bind
+                (c_reduce_nat lookup nat_ready bool_ready rec0 fuel g reduced)
+                (fun native ->
+                match native with
+                | Some value -> c_ret (CWhnfDone value)
+                | None ->
+                  c_bind (c_unfold lookup nat_ready str_ready ps reduced)
+                    (fun unfolded ->
+                    c_ret
+                      (match unfolded with
+                       | Some v -> CWhnfContinue v
+                       | None -> CWhnfDone reduced))))))
+
+(** val c_whnf_loop_aux :
+    declaration_lookup -> environment -> bool -> bool -> bool -> nat ->
+    c_methods -> nat -> name list -> c_context -> cexpr -> cexpr c_act **)
+
+let rec c_whnf_loop_aux lookup env nat_ready str_ready bool_ready rounds rec0 fuel ps g e =
+  match rounds with
+  | O -> c_pure (Decline OutOfFuel)
+  | S rounds0 ->
+    c_bind
+      (c_whnf_round_step lookup env nat_ready str_ready bool_ready rec0 fuel
+        ps g e)
+      (fun step ->
+      match step with
+      | CWhnfDone value -> c_ret value
+      | CWhnfContinue next ->
+        c_whnf_loop_aux lookup env nat_ready str_ready bool_ready rounds0
+          rec0 fuel ps g next)
+
+(** val c_whnf_loop :
+    declaration_lookup -> environment -> bool -> bool -> bool -> nat ->
+    c_methods -> nat -> name list -> c_context -> cexpr -> cexpr c_act **)
+
+let c_whnf_loop lookup env nat_ready str_ready bool_ready rounds rec0 fuel ps g e st =
+  match negb (c_should_cache_whnf g e) with
+  | True ->
+    c_whnf_loop_aux lookup env nat_ready str_ready bool_ready rounds rec0
+      fuel ps g e st
+  | False ->
+    let cid = g.cc_id in
+    let h = chash_mix cid (ce_hash e) in
+    (match c_whnf_find_h h cid e st with
+     | Some r -> Pair ((Accept r), st)
+     | None ->
+       let Pair (res, st') =
+         c_whnf_loop_aux lookup env nat_ready str_ready bool_ready rounds
+           rec0 fuel ps g e st
+       in
+       (match res with
+        | Accept r -> Pair ((Accept r), (c_whnf_put_h h cid e r st'))
+        | _ -> Pair (res, st')))
+
+(** val c_eta_compare :
+    c_methods -> c_context -> cexpr -> cexpr -> cexpr -> bool c_act **)
+
+let c_eta_compare rec0 g domain body other =
+  c_bind (rec0.cm_infer g other) (fun ty ->
+    c_bind (rec0.cm_whnf g ty) (fun ty0 ->
+      match ty0 with
+      | CPi (_, _, _, domain', _) ->
+        c_bind (rec0.cm_defeq g domain domain') (fun ok ->
+          match ok with
+          | True ->
+            c_bind (c_push_binding g domain None) (fun gb ->
+              rec0.cm_defeq gb body
+                (mk_capp (c_lift (S O) O other) (mk_cbvar O)))
+          | False -> c_ret False)
+      | _ -> c_ret False))
+
+(** val c_compare_args_filtered :
+    declaration_lookup -> bool -> c_methods -> c_context -> cexpr list ->
+    cexpr list -> bool c_act **)
+
+let rec c_compare_args_filtered lookup want_cheap rec0 g xs ys =
+  match xs with
+  | Nil -> (match ys with
+            | Nil -> c_ret True
+            | Cons (_, _) -> c_ret False)
+  | Cons (x, xs0) ->
+    (match ys with
+     | Nil -> c_ret False
+     | Cons (y, ys0) ->
+       let is_cheap =
+         match c_is_cheap_arg lookup x with
+         | True -> c_is_cheap_arg lookup y
+         | False -> False
+       in
+       (match eqb0 is_cheap want_cheap with
+        | True ->
+          c_bind (rec0.cm_defeq g x y) (fun ok ->
+            match ok with
+            | True -> c_compare_args_filtered lookup want_cheap rec0 g xs0 ys0
+            | False -> c_ret False)
+        | False -> c_compare_args_filtered lookup want_cheap rec0 g xs0 ys0))
+
+(** val c_compare_args_cheap_first :
+    declaration_lookup -> c_methods -> c_context -> cexpr list -> cexpr list
+    -> bool c_act **)
+
+let c_compare_args_cheap_first lookup rec0 g xs ys =
+  c_bind (c_compare_args_filtered lookup True rec0 g xs ys) (fun ok ->
+    match ok with
+    | True -> c_compare_args_filtered lookup False rec0 g xs ys
+    | False -> c_ret False)
+
+(** val c_congruent_apps :
+    declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+    bool c_act **)
+
+let c_congruent_apps lookup rec0 fuel g t0 s =
+  match t0 with
+  | CApp (_, _, _) ->
+    (match s with
+     | CApp (_, _, _) ->
+       let Pair (tf, ta) = c_spine t0 Nil in
+       let Pair (sf, sa) = c_spine s Nil in
+       c_bind (c_pure (c_same_head fuel tf sf)) (fun same ->
+         match match same with
+               | True -> Nat.eqb (length ta) (length sa)
+               | False -> False with
+         | True -> c_compare_args_cheap_first lookup rec0 g ta sa
+         | False -> c_ret False)
+     | _ -> c_ret False)
+  | _ -> c_ret False
+
+(** val c_delta_congruent :
+    declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+    bool c_act **)
+
+let c_delta_congruent lookup rec0 fuel g t0 s st =
+  match c_delta_info lookup t0 with
+  | Some dt ->
+    (match c_delta_info lookup s with
+     | Some ds ->
+       (match effective_hints dt with
+        | HintRegular ht ->
+          (match effective_hints ds with
+           | HintRegular hs ->
+             (match match N.eqb ht hs with
+                    | True ->
+                      negb
+                        (match c_erasing_delta lookup t0 with
+                         | True -> True
+                         | False -> c_erasing_delta lookup s)
+                    | False -> False with
+              | True ->
+                let cid = g.cc_id in
+                let Pair (p, hpair) = c_defeq_hashes cid t0 s in
+                let Pair (h1, h2) = p in
+                (match c_fail_mem_h hpair cid t0 s st with
+                 | True -> Pair ((Accept False), st)
+                 | False ->
+                   (match c_defeq_find_h h1 h2 hpair cid t0 s st with
+                    | Some b ->
+                      (match b with
+                       | True -> Pair ((Accept True), st)
+                       | False ->
+                         let Pair (res, st') =
+                           c_congruent_apps lookup rec0 fuel g t0 s st
+                         in
+                         (match res with
+                          | Accept b0 ->
+                            (match b0 with
+                             | True ->
+                               Pair ((Accept True),
+                                 (c_defeq_put_h h1 h2 hpair cid t0 s True st'))
+                             | False ->
+                               Pair ((Accept False),
+                                 (c_fail_put_h hpair cid t0 s st')))
+                          | _ -> Pair (res, st')))
+                    | None ->
+                      let Pair (res, st') =
+                        c_congruent_apps lookup rec0 fuel g t0 s st
+                      in
+                      (match res with
+                       | Accept b ->
+                         (match b with
+                          | True ->
+                            Pair ((Accept True),
+                              (c_defeq_put_h h1 h2 hpair cid t0 s True st'))
+                          | False ->
+                            Pair ((Accept False),
+                              (c_fail_put_h hpair cid t0 s st')))
+                       | _ -> Pair (res, st'))))
+              | False -> Pair ((Accept False), st))
+           | _ -> Pair ((Accept False), st))
+        | _ -> Pair ((Accept False), st))
+     | None -> Pair ((Accept False), st))
+  | None -> Pair ((Accept False), st)
+
+(** val c_compare_heads :
+    declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+    bool c_act **)
+
+let c_compare_heads lookup rec0 fuel g t0 s =
+  match t0 with
+  | CBVar (_, n0) ->
+    (match s with
+     | CBVar (_, m) -> c_ret (Nat.eqb n0 m)
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CFVar (_, n0) ->
+    (match s with
+     | CFVar (_, m) -> c_ret (name_eqb n0 m)
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CMVar (_, _) ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CConst (_, n0, us) ->
+    (match s with
+     | CConst (_, m, vs) ->
+       (match name_eqb n0 m with
+        | True -> c_pure (levels_equiv fuel us vs)
+        | False -> c_ret False)
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CApp (_, _, _) ->
+    (match s with
+     | CApp (_, _, _) ->
+       let Pair (tf, ta) = c_spine t0 Nil in
+       let Pair (sf, sa) = c_spine s Nil in
+       (match Nat.eqb (length ta) (length sa) with
+        | True ->
+          c_bind (rec0.cm_defeq g tf sf) (fun ok ->
+            match ok with
+            | True -> c_compare_args_cheap_first lookup rec0 g ta sa
+            | False -> c_ret False)
+        | False -> c_ret False)
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body s
+  | CPi (_, _, _, _, _) ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CLet (_, _, _, _, _, _) ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | CProj (_, _, i, a) ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | CProj (_, _, j, b) ->
+       (match Nat.eqb i j with
+        | True -> rec0.cm_defeq g a b
+        | False -> c_ret False)
+     | _ -> c_ret False)
+  | CMData (_, _) ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+  | _ ->
+    (match s with
+     | CLam (_, _, _, domain, body) -> c_eta_compare rec0 g domain body t0
+     | _ -> c_ret False)
+
+(** val c_compare_fields :
+    c_methods -> c_context -> name -> cexpr -> nat -> cexpr list -> bool c_act **)
+
+let rec c_compare_fields rec0 g owner value index = function
+| Nil -> c_ret True
+| Cons (field, fields0) ->
+  c_bind (rec0.cm_defeq g (mk_cproj owner index value) field) (fun ok ->
+    match ok with
+    | True -> c_compare_fields rec0 g owner value (S index) fields0
+    | False -> c_ret False)
+
+(** val c_structure_eta :
+    declaration_lookup -> environment -> c_methods -> c_context -> cexpr ->
+    cexpr -> bool c_act **)
+
+let c_structure_eta lookup env =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 g value constructed ->
+  let Pair (head, args) = c_spine constructed Nil in
+  (match head with
+   | CConst (_, ctor, _) ->
+     let Pair (vhead, vargs) = c_spine value Nil in
+     let same_ctor =
+       match vhead with
+       | CConst (_, vctor, _) ->
+         (match name_eqb vctor ctor with
+          | True -> Nat.eqb (length vargs) (length args)
+          | False -> False)
+       | _ -> False
+     in
+     (match same_ctor with
+      | True -> c_ret False
+      | False ->
+        (match Accessor.core_constructor resolve env ctor with
+         | Some c ->
+           (match match Accessor.core_structure resolve env c.ctor_induct with
+                  | True ->
+                    Nat.eqb (length args)
+                      (add c.ctor_num_params c.ctor_num_fields)
+                  | False -> False with
+            | True ->
+              c_bind (rec0.cm_infer g value) (fun vt ->
+                c_bind (rec0.cm_infer g constructed) (fun ct ->
+                  c_bind (rec0.cm_defeq g vt ct) (fun ok ->
+                    match ok with
+                    | True ->
+                      c_compare_fields rec0 g c.ctor_induct value O
+                        (skipn c.ctor_num_params args)
+                    | False -> c_ret False)))
+            | False -> c_ret False)
+         | None -> c_ret False))
+   | _ -> c_ret False))
+
+(** val c_unit_like :
+    declaration_lookup -> environment -> c_methods -> c_context -> cexpr ->
+    cexpr -> bool c_act **)
+
+let c_unit_like lookup env =
+  let resolve = fun n0 _ -> lookup n0 in
+  (fun rec0 g t0 s ->
+  c_bind (rec0.cm_infer g t0) (fun ty ->
+    c_bind (rec0.cm_whnf g ty) (fun ty0 ->
+      match fst (c_spine ty0 Nil) with
+      | CConst (_, owner, _) ->
+        (match Accessor.core_structure resolve env owner with
+         | True ->
+           (match Accessor.core_inductive resolve env owner with
+            | Some i ->
+              (match i.ind_ctors with
+               | Nil -> c_ret False
+               | Cons (ctor, l) ->
+                 (match l with
+                  | Nil ->
+                    (match Accessor.core_constructor resolve env ctor with
+                     | Some c ->
+                       (match Nat.eqb c.ctor_num_fields O with
+                        | True ->
+                          c_bind (rec0.cm_infer g s) (fun sty ->
+                            rec0.cm_defeq g ty0 sty)
+                        | False -> c_ret False)
+                     | None -> c_ret False)
+                  | Cons (_, _) -> c_ret False))
+            | None -> c_ret False)
+         | False -> c_ret False)
+      | _ -> c_ret False)))
+
+(** val c_try_string_expansion :
+    c_methods -> c_context -> cexpr -> cexpr -> bool option c_act **)
+
+let c_try_string_expansion rec0 g t0 s =
+  let expand = fun text other ->
+    c_bind (c_pure (c_expand_string text)) (fun expanded ->
+      c_bind (rec0.cm_defeq g expanded other) (fun ok -> c_ret (Some ok)))
+  in
+  (match t0 with
+   | CApp (_, c0, _) ->
+     (match c0 with
+      | CConst (_, n0, l) ->
+        (match l with
+         | Nil ->
+           (match s with
+            | CLit (_, l0) ->
+              (match l0 with
+               | LitNat _ -> c_ret None
+               | LitString text ->
+                 (match name_eqb n0 core_string_of_list with
+                  | True -> expand text t0
+                  | False -> c_ret None))
+            | _ -> c_ret None)
+         | Cons (_, _) -> c_ret None)
+      | _ -> c_ret None)
+   | CLit (_, l) ->
+     (match l with
+      | LitNat _ -> c_ret None
+      | LitString text ->
+        (match s with
+         | CApp (_, c1, _) ->
+           (match c1 with
+            | CConst (_, n0, l0) ->
+              (match l0 with
+               | Nil ->
+                 (match name_eqb n0 core_string_of_list with
+                  | True -> expand text s
+                  | False -> c_ret None)
+               | Cons (_, _) -> c_ret None)
+            | _ -> c_ret None)
+         | _ -> c_ret None))
+   | _ -> c_ret None)
+
+(** val c_compare_fallback :
+    declaration_lookup -> environment -> c_methods -> nat -> c_context ->
+    cexpr -> cexpr -> bool c_act **)
+
+let c_compare_fallback lookup env rec0 fuel g t0 s =
+  c_bind (c_compare_heads lookup rec0 fuel g t0 s) (fun ok ->
+    match ok with
+    | True -> c_ret True
+    | False ->
+      c_bind (c_structure_eta lookup env rec0 g t0 s) (fun ok0 ->
+        match ok0 with
+        | True -> c_ret True
+        | False ->
+          c_bind (c_structure_eta lookup env rec0 g s t0) (fun ok1 ->
+            match ok1 with
+            | True -> c_ret True
+            | False ->
+              c_bind (c_try_string_expansion rec0 g t0 s) (fun expanded ->
+                match expanded with
+                | Some ok2 -> c_ret ok2
+                | None -> c_unit_like lookup env rec0 g t0 s))))
+
+(** val c_compare_after_whnf :
+    declaration_lookup -> environment -> c_methods -> nat -> c_context ->
+    cexpr -> cexpr -> bool c_act **)
+
+let c_compare_after_whnf lookup env rec0 fuel g t0 s =
+  match c_alpha_eq t0 s with
+  | True -> c_ret True
+  | False ->
+    (match t0 with
+     | CSort (_, u) ->
+       (match s with
+        | CSort (_, v) -> c_pure (level_equiv fuel u v)
+        | _ ->
+          c_bind (rec0.cm_infer g t0) (fun tt ->
+            c_bind (cm_sort_of rec0 g tt) (fun sort ->
+              c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+                match is_prop with
+                | True ->
+                  c_bind (rec0.cm_infer g s) (fun st -> rec0.cm_defeq g tt st)
+                | False -> c_compare_fallback lookup env rec0 fuel g t0 s))))
+     | CLam (_, _, _, a, b) ->
+       (match s with
+        | CLam (_, _, _, c, d) ->
+          c_bind (rec0.cm_defeq g a c) (fun ok ->
+            match ok with
+            | True ->
+              c_bind (c_push_binding g a None) (fun gb ->
+                rec0.cm_defeq gb b d)
+            | False -> c_ret False)
+        | _ ->
+          c_bind (rec0.cm_infer g t0) (fun tt ->
+            c_bind (cm_sort_of rec0 g tt) (fun sort ->
+              c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+                match is_prop with
+                | True ->
+                  c_bind (rec0.cm_infer g s) (fun st -> rec0.cm_defeq g tt st)
+                | False -> c_compare_fallback lookup env rec0 fuel g t0 s))))
+     | CPi (_, _, _, a, b) ->
+       (match s with
+        | CPi (_, _, _, c, d) ->
+          c_bind (rec0.cm_defeq g a c) (fun ok ->
+            match ok with
+            | True ->
+              c_bind (c_push_binding g a None) (fun gb ->
+                rec0.cm_defeq gb b d)
+            | False -> c_ret False)
+        | _ ->
+          c_bind (rec0.cm_infer g t0) (fun tt ->
+            c_bind (cm_sort_of rec0 g tt) (fun sort ->
+              c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+                match is_prop with
+                | True ->
+                  c_bind (rec0.cm_infer g s) (fun st -> rec0.cm_defeq g tt st)
+                | False -> c_compare_fallback lookup env rec0 fuel g t0 s))))
+     | CLit (_, l) ->
+       (match l with
+        | LitNat n0 ->
+          (match s with
+           | CLit (_, l0) ->
+             (match l0 with
+              | LitNat m -> c_ret (N.eqb n0 m)
+              | LitString _ ->
+                c_bind (rec0.cm_infer g t0) (fun tt ->
+                  c_bind (cm_sort_of rec0 g tt) (fun sort ->
+                    c_bind (c_pure (level_equiv fuel sort LZero))
+                      (fun is_prop ->
+                      match is_prop with
+                      | True ->
+                        c_bind (rec0.cm_infer g s) (fun st ->
+                          rec0.cm_defeq g tt st)
+                      | False ->
+                        c_compare_fallback lookup env rec0 fuel g t0 s))))
+           | _ ->
+             c_bind (rec0.cm_infer g t0) (fun tt ->
+               c_bind (cm_sort_of rec0 g tt) (fun sort ->
+                 c_bind (c_pure (level_equiv fuel sort LZero))
+                   (fun is_prop ->
+                   match is_prop with
+                   | True ->
+                     c_bind (rec0.cm_infer g s) (fun st ->
+                       rec0.cm_defeq g tt st)
+                   | False -> c_compare_fallback lookup env rec0 fuel g t0 s))))
+        | LitString a ->
+          (match s with
+           | CLit (_, l0) ->
+             (match l0 with
+              | LitNat _ ->
+                c_bind (rec0.cm_infer g t0) (fun tt ->
+                  c_bind (cm_sort_of rec0 g tt) (fun sort ->
+                    c_bind (c_pure (level_equiv fuel sort LZero))
+                      (fun is_prop ->
+                      match is_prop with
+                      | True ->
+                        c_bind (rec0.cm_infer g s) (fun st ->
+                          rec0.cm_defeq g tt st)
+                      | False ->
+                        c_compare_fallback lookup env rec0 fuel g t0 s)))
+              | LitString b -> c_ret (eqb2 a b))
+           | _ ->
+             c_bind (rec0.cm_infer g t0) (fun tt ->
+               c_bind (cm_sort_of rec0 g tt) (fun sort ->
+                 c_bind (c_pure (level_equiv fuel sort LZero))
+                   (fun is_prop ->
+                   match is_prop with
+                   | True ->
+                     c_bind (rec0.cm_infer g s) (fun st ->
+                       rec0.cm_defeq g tt st)
+                   | False -> c_compare_fallback lookup env rec0 fuel g t0 s)))))
+     | _ ->
+       c_bind (rec0.cm_infer g t0) (fun tt ->
+         c_bind (cm_sort_of rec0 g tt) (fun sort ->
+           c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+             match is_prop with
+             | True ->
+               c_bind (rec0.cm_infer g s) (fun st -> rec0.cm_defeq g tt st)
+             | False -> c_compare_fallback lookup env rec0 fuel g t0 s))))
+
+(** val c_quick :
+    c_methods -> nat -> c_context -> cexpr -> cexpr -> bool option c_act **)
+
+let c_quick rec0 fuel g t0 s st =
+  match c_alpha_eq t0 s with
+  | True -> Pair ((Accept (Some True)), st)
+  | False ->
+    (match t0 with
+     | CSort (_, u) ->
+       (match s with
+        | CSort (_, v) ->
+          c_bind (c_pure (level_equiv fuel u v)) (fun ok -> c_ret (Some ok))
+            st
+        | _ -> Pair ((Accept None), st))
+     | CLam (_, _, _, a, b) ->
+       (match s with
+        | CLam (_, _, _, c, d) ->
+          c_bind (rec0.cm_defeq g a c) (fun ok ->
+            match ok with
+            | True ->
+              c_bind (c_push_binding g a None) (fun gb ->
+                c_bind (rec0.cm_defeq gb b d) (fun ok0 -> c_ret (Some ok0)))
+            | False -> c_ret (Some False)) st
+        | _ -> Pair ((Accept None), st))
+     | CPi (_, _, _, a, b) ->
+       (match s with
+        | CPi (_, _, _, c, d) ->
+          c_bind (rec0.cm_defeq g a c) (fun ok ->
+            match ok with
+            | True ->
+              c_bind (c_push_binding g a None) (fun gb ->
+                c_bind (rec0.cm_defeq gb b d) (fun ok0 -> c_ret (Some ok0)))
+            | False -> c_ret (Some False)) st
+        | _ -> Pair ((Accept None), st))
+     | CMData (_, a) ->
+       (match s with
+        | CMData (_, b) ->
+          c_bind (rec0.cm_defeq g a b) (fun ok -> c_ret (Some ok)) st
+        | _ -> Pair ((Accept None), st))
+     | CLit (_, a) ->
+       (match s with
+        | CLit (_, b) -> Pair ((Accept (Some (literal_eqb a b))), st)
+        | _ -> Pair ((Accept None), st))
+     | _ -> Pair ((Accept None), st))
+
+(** val c_proof_irrel :
+    c_methods -> nat -> c_context -> cexpr -> cexpr -> bool option c_act **)
+
+let c_proof_irrel rec0 fuel g t0 s =
+  c_bind (rec0.cm_infer g t0) (fun ty ->
+    c_bind (cm_sort_of rec0 g ty) (fun sort ->
+      c_bind (c_pure (level_equiv fuel sort LZero)) (fun is_prop ->
+        match is_prop with
+        | True ->
+          c_bind (rec0.cm_infer g s) (fun sty ->
+            c_bind (rec0.cm_defeq g ty sty) (fun ok -> c_ret (Some ok)))
+        | False -> c_ret None)))
+
+(** val c_offset :
+    bool -> c_methods -> c_context -> cexpr -> cexpr -> bool option c_act **)
+
+let c_offset nat_ready rec0 g t0 s =
+  match nat_ready with
+  | True ->
+    let pred_of = fun e ->
+      match e with
+      | CBVar (_, _) -> None
+      | CFVar (_, _) -> None
+      | CMVar (_, _) -> None
+      | CSort (_, _) -> None
+      | CConst (_, _, _) -> None
+      | CApp (_, c0, a) ->
+        (match c0 with
+         | CBVar (_, _) -> None
+         | CFVar (_, _) -> None
+         | CMVar (_, _) -> None
+         | CSort (_, _) -> None
+         | CConst (_, n0, l) ->
+           (match l with
+            | Nil ->
+              (match name_eqb n0 core_succ_name with
+               | True -> Some a
+               | False -> None)
+            | Cons (_, _) -> None)
+         | _ -> None)
+      | CLit (_, l) ->
+        (match l with
+         | LitNat n0 ->
+           (match N.eqb n0 N0 with
+            | True -> None
+            | False -> Some (mk_cnat (N.pred n0)))
+         | LitString _ -> None)
+      | _ -> None
+    in
+    let zero0 = fun e ->
+      match e with
+      | CConst (_, n0, l) ->
+        (match l with
+         | Nil -> name_eqb n0 core_zero_name
+         | Cons (_, _) -> False)
+      | CLit (_, l) ->
+        (match l with
+         | LitNat n0 -> N.eqb n0 N0
+         | LitString _ -> False)
+      | _ -> False
+    in
+    (match match zero0 t0 with
+           | True -> zero0 s
+           | False -> False with
+     | True -> c_ret (Some True)
+     | False ->
+       (match pred_of t0 with
+        | Some a ->
+          (match pred_of s with
+           | Some b ->
+             c_bind (rec0.cm_defeq g a b) (fun ok -> c_ret (Some ok))
+           | None -> c_ret None)
+        | None -> c_ret None))
+  | False -> c_ret None
+
+(** val c_try_unfold_proj_app :
+    c_methods -> c_context -> cexpr -> cexpr option c_act **)
+
+let c_try_unfold_proj_app rec0 g e =
+  match fst (c_spine e Nil) with
+  | CProj (_, _, _, _) ->
+    c_bind (rec0.cm_whnf_core False g e) (fun reduced ->
+      c_ret
+        (match c_expr_eqb reduced e with
+         | True -> None
+         | False -> Some reduced))
+  | _ -> c_ret None
+
+(** val c_opposite_projection :
+    declaration_lookup -> c_methods -> c_context -> cexpr -> cexpr -> (cexpr,
+    cexpr) prod option c_act **)
+
+let c_opposite_projection lookup rec0 g t0 s =
+  match c_delta_info lookup t0 with
+  | Some _ ->
+    (match c_delta_info lookup s with
+     | Some _ -> c_ret None
+     | None ->
+       c_bind (c_try_unfold_proj_app rec0 g s) (fun reduced ->
+         c_ret
+           (match reduced with
+            | Some s' -> Some (Pair (t0, s'))
+            | None -> None)))
+  | None ->
+    (match c_delta_info lookup s with
+     | Some _ ->
+       c_bind (c_try_unfold_proj_app rec0 g t0) (fun reduced ->
+         c_ret
+           (match reduced with
+            | Some t' -> Some (Pair (t', s))
+            | None -> None))
+     | None -> c_ret None)
+
+type c_conversion_progress =
+| CConversionDone of bool
+| CConversionStuck of cexpr * cexpr
+
+(** val c_nat_congr_worth_trying :
+    declaration_lookup -> cexpr -> cexpr -> bool **)
+
+let c_nat_congr_worth_trying lookup t0 s =
+  match snd (c_spine t0 Nil) with
+  | Nil -> False
+  | Cons (a1, l) ->
+    (match l with
+     | Nil ->
+       (match snd (c_spine s Nil) with
+        | Nil -> False
+        | Cons (a2, l0) ->
+          (match l0 with
+           | Nil -> c_alpha_eq a1 a2
+           | Cons (_, _) -> False))
+     | Cons (b1, l0) ->
+       (match l0 with
+        | Nil ->
+          (match snd (c_spine s Nil) with
+           | Nil -> False
+           | Cons (a2, l1) ->
+             (match l1 with
+              | Nil -> False
+              | Cons (b2, l2) ->
+                (match l2 with
+                 | Nil ->
+                   (match c_alpha_eq a1 a2 with
+                    | True -> True
+                    | False ->
+                      (match c_alpha_eq b1 b2 with
+                       | True -> negb (c_is_cheap_arg lookup b1)
+                       | False -> False))
+                 | Cons (_, _) -> False)))
+        | Cons (_, _) -> False))
+
+(** val c_lazy_delta :
+    declaration_lookup -> bool -> bool -> bool -> nat -> c_methods -> nat ->
+    name list -> c_context -> cexpr -> cexpr -> c_conversion_progress c_act **)
+
+let rec c_lazy_delta lookup nat_ready str_ready bool_ready rounds rec0 fuel ps g t0 s =
+  match rounds with
+  | O -> c_pure (Decline OutOfFuel)
+  | S rounds0 ->
+    c_bind (c_quick rec0 fuel g t0 s) (fun quick ->
+      match quick with
+      | Some ok -> c_ret (CConversionDone ok)
+      | None ->
+        c_bind (c_offset nat_ready rec0 g t0 s) (fun offset ->
+          match offset with
+          | Some ok -> c_ret (CConversionDone ok)
+          | None ->
+            let left_nat = c_nat_probe_head lookup t0 in
+            let right_nat = c_nat_probe_head lookup s in
+            let try_congr =
+              match match match match left_nat with
+                                | True -> right_nat
+                                | False -> False with
+                          | True -> c_is_closed_no_fvar t0
+                          | False -> False with
+                    | True -> c_is_closed_no_fvar s
+                    | False -> False with
+              | True -> c_nat_congr_worth_trying lookup t0 s
+              | False -> True
+            in
+            c_bind
+              (match try_congr with
+               | True -> c_delta_congruent lookup rec0 fuel g t0 s
+               | False -> c_ret False)
+              (fun same ->
+              match same with
+              | True -> c_ret (CConversionDone True)
+              | False ->
+                c_bind (c_opposite_projection lookup rec0 g t0 s)
+                  (fun projected ->
+                  match projected with
+                  | Some p ->
+                    let Pair (tn, sn) = p in
+                    c_lazy_delta lookup nat_ready str_ready bool_ready
+                      rounds0 rec0 fuel ps g tn sn
+                  | None ->
+                    let Pair (unfold_left, unfold_right) =
+                      c_delta_sides lookup t0 s
+                    in
+                    let both_delta =
+                      match c_delta_info lookup t0 with
+                      | Some _ ->
+                        (match c_delta_info lookup s with
+                         | Some _ -> True
+                         | None -> False)
+                      | None -> False
+                    in
+                    (match match match match both_delta with
+                                       | True -> unfold_left
+                                       | False -> False with
+                                 | True -> unfold_right
+                                 | False -> False with
+                           | True ->
+                             (match negb left_nat with
+                              | True -> right_nat
+                              | False -> False)
+                           | False -> False with
+                     | True ->
+                       c_bind (c_unfold lookup nat_ready str_ready ps t0)
+                         (fun td ->
+                         match td with
+                         | Some e ->
+                           c_bind (rec0.cm_whnf_core True g e) (fun tn ->
+                             c_lazy_delta lookup nat_ready str_ready
+                               bool_ready rounds0 rec0 fuel ps g tn s)
+                         | None -> c_ret (CConversionStuck (t0, s)))
+                     | False ->
+                       (match match match match both_delta with
+                                          | True -> unfold_left
+                                          | False -> False with
+                                    | True -> unfold_right
+                                    | False -> False with
+                              | True ->
+                                (match left_nat with
+                                 | True -> negb right_nat
+                                 | False -> False)
+                              | False -> False with
+                        | True ->
+                          c_bind (c_unfold lookup nat_ready str_ready ps s)
+                            (fun sd ->
+                            match sd with
+                            | Some e ->
+                              c_bind (rec0.cm_whnf_core True g e) (fun sn ->
+                                c_lazy_delta lookup nat_ready str_ready
+                                  bool_ready rounds0 rec0 fuel ps g t0 sn)
+                            | None -> c_ret (CConversionStuck (t0, s)))
+                        | False ->
+                          let eligible =
+                            pair_probe_guard left_nat right_nat (fun _ ->
+                              c_nat_probe_allowed rec0.cm_mode t0 s)
+                          in
+                          c_bind
+                            (match match unfold_left with
+                                   | True -> eligible
+                                   | False -> False with
+                             | True ->
+                               c_reduce_nat lookup nat_ready bool_ready rec0
+                                 fuel g t0
+                             | False -> c_ret None)
+                            (fun tn ->
+                            match tn with
+                            | Some tn0 ->
+                              c_bind (rec0.cm_defeq g tn0 s) (fun ok ->
+                                c_ret (CConversionDone ok))
+                            | None ->
+                              c_bind
+                                (match match unfold_right with
+                                       | True -> eligible
+                                       | False -> False with
+                                 | True ->
+                                   c_reduce_nat lookup nat_ready bool_ready
+                                     rec0 fuel g s
+                                 | False -> c_ret None)
+                                (fun sn ->
+                                match sn with
+                                | Some sn0 ->
+                                  c_bind (rec0.cm_defeq g t0 sn0) (fun ok ->
+                                    c_ret (CConversionDone ok))
+                                | None ->
+                                  c_bind (c_pure (c_reduce_native t0))
+                                    (fun nat_t ->
+                                    match nat_t with
+                                    | Some tn0 ->
+                                      c_bind (rec0.cm_defeq g tn0 s)
+                                        (fun ok -> c_ret (CConversionDone ok))
+                                    | None ->
+                                      c_bind (c_pure (c_reduce_native s))
+                                        (fun nat_s ->
+                                        match nat_s with
+                                        | Some sn0 ->
+                                          c_bind (rec0.cm_defeq g t0 sn0)
+                                            (fun ok ->
+                                            c_ret (CConversionDone ok))
+                                        | None ->
+                                          c_bind
+                                            (match unfold_left with
+                                             | True ->
+                                               c_unfold lookup nat_ready
+                                                 str_ready ps t0
+                                             | False -> c_ret None)
+                                            (fun td ->
+                                            c_bind
+                                              (match unfold_right with
+                                               | True ->
+                                                 c_unfold lookup nat_ready
+                                                   str_ready ps s
+                                               | False -> c_ret None)
+                                              (fun sd ->
+                                              match td with
+                                              | Some _ ->
+                                                c_bind
+                                                  (match td with
+                                                   | Some e ->
+                                                     rec0.cm_whnf_core True g
+                                                       e
+                                                   | None -> c_ret t0)
+                                                  (fun tn0 ->
+                                                  c_bind
+                                                    (match sd with
+                                                     | Some e ->
+                                                       rec0.cm_whnf_core True
+                                                         g e
+                                                     | None -> c_ret s)
+                                                    (fun sn0 ->
+                                                    c_lazy_delta lookup
+                                                      nat_ready str_ready
+                                                      bool_ready rounds0 rec0
+                                                      fuel ps g tn0 sn0))
+                                              | None ->
+                                                (match sd with
+                                                 | Some _ ->
+                                                   c_bind
+                                                     (match td with
+                                                      | Some e ->
+                                                        rec0.cm_whnf_core
+                                                          True g e
+                                                      | None -> c_ret t0)
+                                                     (fun tn0 ->
+                                                     c_bind
+                                                       (match sd with
+                                                        | Some e ->
+                                                          rec0.cm_whnf_core
+                                                            True g e
+                                                        | None -> c_ret s)
+                                                       (fun sn0 ->
+                                                       c_lazy_delta lookup
+                                                         nat_ready str_ready
+                                                         bool_ready rounds0
+                                                         rec0 fuel ps g tn0
+                                                         sn0))
+                                                 | None ->
+                                                   c_ret (CConversionStuck
+                                                     (t0, s)))))))))))))))
+
+(** val c_lazy_delta_proj :
+    declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+    nat -> name list -> c_context -> nat -> cexpr -> cexpr -> bool c_act **)
+
+let rec c_lazy_delta_proj lookup env nat_ready str_ready rounds rec0 fuel ps g idx t0 s =
+  match rounds with
+  | O -> c_pure (Decline OutOfFuel)
+  | S rounds0 ->
+    c_bind (c_quick rec0 fuel g t0 s) (fun quick ->
+      match quick with
+      | Some ok -> c_ret ok
+      | None ->
+        c_bind (c_delta_congruent lookup rec0 fuel g t0 s) (fun same ->
+          match same with
+          | True -> c_ret True
+          | False ->
+            c_bind (c_opposite_projection lookup rec0 g t0 s)
+              (fun projected ->
+              match projected with
+              | Some p ->
+                let Pair (tn, sn) = p in
+                c_lazy_delta_proj lookup env nat_ready str_ready rounds0 rec0
+                  fuel ps g idx tn sn
+              | None ->
+                let Pair (unfold_left, unfold_right) =
+                  c_delta_sides lookup t0 s
+                in
+                c_bind
+                  (match unfold_left with
+                   | True -> c_unfold lookup nat_ready str_ready ps t0
+                   | False -> c_ret None)
+                  (fun td ->
+                  c_bind
+                    (match unfold_right with
+                     | True -> c_unfold lookup nat_ready str_ready ps s
+                     | False -> c_ret None)
+                    (fun sd ->
+                    match td with
+                    | Some _ ->
+                      c_bind
+                        (match td with
+                         | Some e -> rec0.cm_whnf_core True g e
+                         | None -> c_ret t0)
+                        (fun tn ->
+                        c_bind
+                          (match sd with
+                           | Some e -> rec0.cm_whnf_core True g e
+                           | None -> c_ret s)
+                          (fun sn ->
+                          c_lazy_delta_proj lookup env nat_ready str_ready
+                            rounds0 rec0 fuel ps g idx tn sn))
+                    | None ->
+                      (match sd with
+                       | Some _ ->
+                         c_bind
+                           (match td with
+                            | Some e -> rec0.cm_whnf_core True g e
+                            | None -> c_ret t0)
+                           (fun tn ->
+                           c_bind
+                             (match sd with
+                              | Some e -> rec0.cm_whnf_core True g e
+                              | None -> c_ret s)
+                             (fun sn ->
+                             c_lazy_delta_proj lookup env nat_ready str_ready
+                               rounds0 rec0 fuel ps g idx tn sn))
+                       | None ->
+                         (match c_reduce_proj_core lookup env idx t0 with
+                          | Some tf ->
+                            (match c_reduce_proj_core lookup env idx s with
+                             | Some sf -> rec0.cm_defeq g tf sf
+                             | None -> rec0.cm_defeq g t0 s)
+                          | None -> rec0.cm_defeq g t0 s)))))))
+
+(** val c_finish_conversion :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool ->
+    c_methods -> nat -> name list -> c_context -> cexpr -> cexpr -> bool c_act **)
+
+let c_finish_conversion lookup cfg env nat_ready str_ready rec0 fuel ps g t0 s =
+  let Pair (th, ta) = c_spine t0 Nil in
+  let Pair (sh, sa) = c_spine s Nil in
+  c_bind
+    (match th with
+     | CProj (_, _, ti, te) ->
+       (match sh with
+        | CProj (_, _, si, se) ->
+          (match match Nat.eqb ti si with
+                 | True -> Nat.eqb (length ta) (length sa)
+                 | False -> False with
+           | True ->
+             c_bind
+               (c_lazy_delta_proj lookup env nat_ready str_ready
+                 cfg.fc_lazy_delta rec0 fuel ps g ti te se)
+               (fun ok ->
+               match ok with
+               | True ->
+                 (match ta with
+                  | Nil -> c_ret True
+                  | Cons (_, _) ->
+                    c_compare_args_cheap_first lookup rec0 g ta sa)
+               | False -> c_ret False)
+           | False -> c_ret False)
+        | _ -> c_ret False)
+     | _ -> c_ret False)
+    (fun lazy_proj_ok ->
+    match lazy_proj_ok with
+    | True -> c_ret True
+    | False ->
+      let project = fun e ->
+        let Pair (head, args) = c_spine e Nil in
+        (match head with
+         | CBVar (_, _) -> c_ret None
+         | CFVar (_, _) -> c_ret None
+         | CMVar (_, _) -> c_ret None
+         | CSort (_, _) -> c_ret None
+         | CConst (_, _, _) -> c_ret None
+         | CApp (_, _, _) -> c_ret None
+         | CLam (_, _, _, _, _) -> c_ret None
+         | CPi (_, _, _, _, _) -> c_ret None
+         | CLet (_, _, _, _, _, _) -> c_ret None
+         | CProj (_, owner, index, value) ->
+           c_bind
+             (c_reduce_projection_with lookup env rec0 rec0.cm_whnf g owner
+               index value)
+             (fun field -> c_ret (option_map (fun f -> c_apps f args) field))
+         | _ -> c_ret None)
+      in
+      c_bind (project t0) (fun tp ->
+        c_bind (project s) (fun sp ->
+          match tp with
+          | Some t1 ->
+            (match sp with
+             | Some s0 -> rec0.cm_defeq g t1 s0
+             | None -> rec0.cm_defeq g t1 s)
+          | None ->
+            (match sp with
+             | Some s0 -> rec0.cm_defeq g t0 s0
+             | None -> c_compare_after_whnf lookup env rec0 fuel g t0 s))))
+
+(** val c_true_shortcut :
+    bool -> c_methods -> c_context -> cexpr -> cexpr -> bool c_act **)
+
+let c_true_shortcut bool_ready rec0 g t0 s =
+  match match match c_is_true s with
+              | True -> c_true_probe_allowed rec0.cm_mode t0
+              | False -> False with
+        | True -> bool_ready
+        | False -> False with
+  | True -> c_bind (rec0.cm_whnf g t0) (fun tn -> c_ret (c_is_true tn))
+  | False -> c_ret False
+
+(** val c_defeq_step :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> c_methods -> nat -> name list -> c_context -> cexpr -> cexpr -> bool
+    c_act **)
+
+let c_defeq_step lookup cfg env nat_ready str_ready bool_ready rec0 fuel ps g t0 s st =
+  match fst
+          (c_alpha (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S (S
+            (S (S (S (S (S
+            O))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+            t0 s) with
+  | True -> Pair ((Accept True), st)
+  | False ->
+    let rec1 = cm_inference_only rec0 in
+    let work =
+      c_bind (c_quick rec1 fuel g t0 s) (fun quick ->
+        match quick with
+        | Some ok -> c_ret ok
+        | None ->
+          c_bind (c_true_shortcut bool_ready rec1 g t0 s) (fun shortcut ->
+            match shortcut with
+            | True -> c_ret True
+            | False ->
+              c_bind (c_proof_irrel rec1 fuel g t0 s) (fun irrelevant ->
+                match irrelevant with
+                | Some ok -> c_ret ok
+                | None ->
+                  c_bind (rec1.cm_whnf_core True g t0) (fun tn ->
+                    c_bind (rec1.cm_whnf_core True g s) (fun sn ->
+                      c_bind
+                        (c_lazy_delta lookup nat_ready str_ready bool_ready
+                          cfg.fc_lazy_delta rec1 fuel ps g tn sn)
+                        (fun progress ->
+                        match progress with
+                        | CConversionDone ok -> c_ret ok
+                        | CConversionStuck (tn0, sn0) ->
+                          c_finish_conversion lookup cfg env nat_ready
+                            str_ready rec1 fuel ps g tn0 sn0))))))
+    in
+    (match match c_is_trivial_defeq_expr t0 with
+           | True -> c_is_trivial_defeq_expr s
+           | False -> False with
+     | True -> work st
+     | False ->
+       let cid = g.cc_id in
+       let Pair (p, hpair) = c_defeq_hashes cid t0 s in
+       let Pair (h1, h2) = p in
+       (match c_defeq_find_h h1 h2 hpair cid t0 s st with
+        | Some v -> Pair ((Accept v), st)
+        | None ->
+          let Pair (res, st') = work st in
+          (match res with
+           | Accept v ->
+             Pair ((Accept v), (c_defeq_put_h h1 h2 hpair cid t0 s v st'))
+           | _ -> Pair (res, st'))))
+
+(** val c_checker_mode :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> reduction_mode -> nat -> name list -> c_methods **)
+
+let rec c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode fuel ps =
+  match fuel with
+  | O ->
+    { cm_infer = (fun _ _ -> c_pure (Decline OutOfFuel)); cm_infer_type =
+      (fun _ _ -> c_pure (Decline OutOfFuel)); cm_whnf = (fun _ _ ->
+      c_pure (Decline OutOfFuel)); cm_whnf_core = (fun _ _ _ ->
+      c_pure (Decline OutOfFuel)); cm_defeq = (fun _ _ _ ->
+      c_pure (Decline OutOfFuel)); cm_mode = mode; cm_eager_defeq =
+      (fun _ _ _ -> c_pure (Decline OutOfFuel)) }
+  | S n0 ->
+    let whnf_rounds =
+      match mode with
+      | NormalReduction -> cfg.fc_whnf
+      | EagerReduction -> cfg.fc_whnf_eager
+    in
+    { cm_infer = (fun g e ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode n0 ps
+    in
+    c_infer_step lookup env nat_ready str_ready rec0 n0 ps True g e);
+    cm_infer_type = (fun g e ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode n0 ps
+    in
+    c_infer_step lookup env nat_ready str_ready rec0 n0 ps False g e);
+    cm_whnf = (fun g e ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode n0 ps
+    in
+    c_whnf_loop lookup env nat_ready str_ready bool_ready whnf_rounds rec0 n0
+      ps g e);
+    cm_whnf_core = (fun cheap g e ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode n0 ps
+    in
+    c_whnf_core_step lookup env nat_ready str_ready rec0 n0 ps cheap g e);
+    cm_defeq = (fun g t0 s ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready mode n0 ps
+    in
+    c_defeq_step lookup cfg env nat_ready str_ready bool_ready rec0 n0 ps g
+      t0 s);
+    cm_mode = mode; cm_eager_defeq = (fun g t0 s ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready
+        EagerReduction n0 ps
+    in
+    c_defeq_step lookup cfg env nat_ready str_ready bool_ready rec0 n0 ps g
+      t0 s) }
+
+(** val c_checker :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> name list -> c_methods **)
+
+let c_checker lookup cfg env nat_ready str_ready bool_ready ps =
+  c_checker_mode lookup cfg env nat_ready str_ready bool_ready
+    NormalReduction cfg.fc_rec_depth ps
+
+type path_trie =
+  ((positive, positive option) prod, c_context) prod list PositiveMap.t
+  (* singleton inductive, whose constructor was Build_path_trie *)
+
+(** val empty_path_trie : path_trie **)
+
+let empty_path_trie =
+  PositiveMap.empty
+
+(** val pt_find_edge :
+    positive -> positive option -> ((positive, positive option) prod,
+    c_context) prod list -> c_context option **)
+
+let rec pt_find_edge ty_id val_id = function
+| Nil -> None
+| Cons (p, rest) ->
+  let Pair (p0, gb) = p in
+  let Pair (t', v') = p0 in
+  (match match Coq_Pos.eqb ty_id t' with
+         | True -> value_key_eqb val_id v'
+         | False -> False with
+   | True -> Some gb
+   | False -> pt_find_edge ty_id val_id rest)
+
+type dag_infer_state = { dis_trie : path_trie;
+                         dis_checked : cexpr PositiveMap.t PositiveMap.t;
+                         dis_unchecked : cexpr PositiveMap.t PositiveMap.t;
+                         dis_cs : checker_state }
+
+(** val empty_dag_infer_state : checker_state -> dag_infer_state **)
+
+let empty_dag_infer_state cs =
+  { dis_trie = empty_path_trie; dis_checked = PositiveMap.empty;
+    dis_unchecked = PositiveMap.empty; dis_cs = cs }
+
+(** val dis_find :
+    bool -> positive -> positive -> dag_infer_state -> cexpr option **)
+
+let dis_find checking id cid ds =
+  let tbl =
+    match checking with
+    | True -> ds.dis_checked
+    | False -> ds.dis_unchecked
+  in
+  (match PositiveMap.find id tbl with
+   | Some m -> PositiveMap.find cid m
+   | None -> None)
+
+(** val dis_put :
+    bool -> positive -> positive -> cexpr -> dag_infer_state ->
+    dag_infer_state **)
+
+let dis_put checking id cid ty ds =
+  let tbl =
+    match checking with
+    | True -> ds.dis_checked
+    | False -> ds.dis_unchecked
+  in
+  let inner =
+    match PositiveMap.find id tbl with
+    | Some m -> m
+    | None -> PositiveMap.empty
+  in
+  let tbl' = PositiveMap.add id (PositiveMap.add cid ty inner) tbl in
+  (match checking with
+   | True ->
+     { dis_trie = ds.dis_trie; dis_checked = tbl'; dis_unchecked =
+       ds.dis_unchecked; dis_cs = ds.dis_cs }
+   | False ->
+     { dis_trie = ds.dis_trie; dis_checked = ds.dis_checked; dis_unchecked =
+       tbl'; dis_cs = ds.dis_cs })
+
+type 'a d_act = dag_infer_state -> ('a result, dag_infer_state) prod
+
+(** val d_ret : 'a1 -> 'a1 d_act **)
+
+let d_ret x ds =
+  Pair ((Accept x), ds)
+
+(** val d_pure : 'a1 result -> 'a1 d_act **)
+
+let d_pure r ds =
+  Pair (r, ds)
+
+(** val d_lift : 'a1 c_act -> 'a1 d_act **)
+
+let d_lift m ds =
+  let Pair (r, cs') = m ds.dis_cs in
+  Pair (r, { dis_trie = ds.dis_trie; dis_checked = ds.dis_checked;
+  dis_unchecked = ds.dis_unchecked; dis_cs = cs' })
+
+(** val d_bind : 'a1 d_act -> ('a1 -> 'a2 d_act) -> 'a2 d_act **)
+
+let d_bind m f ds =
+  let Pair (r, ds') = m ds in
+  (match r with
+   | Accept x -> f x ds'
+   | Reject err -> Pair ((Reject err), ds')
+   | Decline why -> Pair ((Decline why), ds'))
+
+(** val d_push_binding :
+    c_context -> positive -> cexpr -> positive option -> cexpr option ->
+    c_context d_act **)
+
+let d_push_binding g ty_id ty val_id val0 ds =
+  let pid = g.cc_id in
+  let edges =
+    match PositiveMap.find pid ds.dis_trie with
+    | Some xs -> xs
+    | None -> Nil
+  in
+  (match pt_find_edge ty_id val_id edges with
+   | Some gb -> Pair ((Accept gb), ds)
+   | None ->
+     let Pair (res, cs') = c_push_binding g ty val0 ds.dis_cs in
+     (match res with
+      | Accept gb ->
+        let pt' =
+          PositiveMap.add pid (Cons ((Pair ((Pair (ty_id, val_id)), gb)),
+            edges)) ds.dis_trie
+        in
+        Pair ((Accept gb), { dis_trie = pt'; dis_checked = ds.dis_checked;
+        dis_unchecked = ds.dis_unchecked; dis_cs = cs' })
+      | x ->
+        Pair (x, { dis_trie = ds.dis_trie; dis_checked = ds.dis_checked;
+          dis_unchecked = ds.dis_unchecked; dis_cs = cs' })))
+
+(** val c_dag_infer :
+    declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+    nat -> name list -> dag_arena -> c_arena_table -> bool -> positive ->
+    c_context -> cexpr d_act **)
+
+let rec c_dag_infer lookup env nat_ready str_ready budget rec0 fuel ps arena carena checking id g ds =
+  let cid = g.cc_id in
+  (match dis_find checking id cid ds with
+   | Some ty -> Pair ((Accept ty), ds)
+   | None ->
+     let work =
+       match budget with
+       | O ->
+         d_bind (d_pure (c_arena_ref carena id)) (fun ce ->
+           d_lift
+             (c_infer_step lookup env nat_ready str_ready rec0 fuel ps
+               checking g ce))
+       | S budget0 ->
+         d_bind (d_pure (c_arena_ref carena id)) (fun ce ->
+           match PositiveMap.find id arena.arena_nodes with
+           | Some d ->
+             (match d with
+              | DApp (f, a) ->
+                d_bind (d_pure (c_arena_ref carena a)) (fun ae ->
+                  d_bind
+                    (c_dag_infer lookup env nat_ready str_ready budget0 rec0
+                      fuel ps arena carena checking f g)
+                    (fun ft ->
+                    d_bind (d_lift (rec0.cm_whnf g ft)) (fun ft0 ->
+                      match ft0 with
+                      | CPi (_, _, _, domain, body) ->
+                        d_bind
+                          (match checking with
+                           | True ->
+                             d_bind
+                               (c_dag_infer lookup env nat_ready str_ready
+                                 budget0 rec0 fuel ps arena carena True a g)
+                               (fun at_ ->
+                               d_bind
+                                 (d_lift
+                                   (cm_app_type_defeq rec0 g ae domain at_))
+                                 (fun ok -> d_pure (require ok TypeMismatch)))
+                           | False -> d_ret Tt)
+                          (fun _ -> d_ret (c_instantiate body ae))
+                      | _ -> d_pure (Reject ExpectedPi))))
+              | DLam (n0, bi, a, b) ->
+                d_bind (d_pure (c_arena_ref carena a)) (fun ae ->
+                  d_bind
+                    (match checking with
+                     | True ->
+                       d_bind
+                         (c_dag_infer lookup env nat_ready str_ready budget0
+                           rec0 fuel ps arena carena True a g)
+                         (fun dt ->
+                         d_bind (d_lift (rec0.cm_whnf g dt)) (fun dt0 ->
+                           match dt0 with
+                           | CBVar (_, _) -> d_pure (Reject ExpectedSort)
+                           | CFVar (_, _) -> d_pure (Reject ExpectedSort)
+                           | CMVar (_, _) -> d_pure (Reject ExpectedSort)
+                           | CSort (_, _) -> d_ret Tt
+                           | _ -> d_pure (Reject ExpectedSort)))
+                     | False -> d_ret Tt)
+                    (fun _ ->
+                    d_bind (d_push_binding g a ae None None) (fun gb ->
+                      d_bind
+                        (c_dag_infer lookup env nat_ready str_ready budget0
+                          rec0 fuel ps arena carena checking b gb)
+                        (fun bt -> d_ret (mk_cpi n0 bi ae bt)))))
+              | DPi (_, _, a, b) ->
+                d_bind (d_pure (c_arena_ref carena a)) (fun ae ->
+                  d_bind
+                    (c_dag_infer lookup env nat_ready str_ready budget0 rec0
+                      fuel ps arena carena checking a g)
+                    (fun dt ->
+                    d_bind (d_lift (rec0.cm_whnf g dt)) (fun dt0 ->
+                      d_bind
+                        (match dt0 with
+                         | CSort (_, u) -> d_ret u
+                         | _ -> d_pure (Reject ExpectedSort))
+                        (fun u ->
+                        d_bind (d_push_binding g a ae None None) (fun gb ->
+                          d_bind
+                            (c_dag_infer lookup env nat_ready str_ready
+                              budget0 rec0 fuel ps arena carena checking b gb)
+                            (fun bt ->
+                            d_bind (d_lift (rec0.cm_whnf gb bt)) (fun bt0 ->
+                              d_bind
+                                (match bt0 with
+                                 | CSort (_, v) -> d_ret v
+                                 | _ -> d_pure (Reject ExpectedSort))
+                                (fun v -> d_ret (mk_csort (LIMax (u, v)))))))))))
+              | DLet (_, a, v, b, _) ->
+                d_bind (d_pure (c_arena_ref carena a)) (fun ae ->
+                  d_bind (d_pure (c_arena_ref carena v)) (fun ve ->
+                    d_bind
+                      (match checking with
+                       | True ->
+                         d_bind
+                           (c_dag_infer lookup env nat_ready str_ready
+                             budget0 rec0 fuel ps arena carena True a g)
+                           (fun dt ->
+                           d_bind (d_lift (rec0.cm_whnf g dt)) (fun dt0 ->
+                             d_bind
+                               (match dt0 with
+                                | CBVar (_, _) -> d_pure (Reject ExpectedSort)
+                                | CFVar (_, _) -> d_pure (Reject ExpectedSort)
+                                | CMVar (_, _) -> d_pure (Reject ExpectedSort)
+                                | CSort (_, _) -> d_ret Tt
+                                | _ -> d_pure (Reject ExpectedSort))
+                               (fun _ ->
+                               d_bind
+                                 (c_dag_infer lookup env nat_ready str_ready
+                                   budget0 rec0 fuel ps arena carena True v g)
+                                 (fun vt ->
+                                 d_bind (d_lift (rec0.cm_defeq g vt ae))
+                                   (fun ok ->
+                                   d_pure (require ok TypeMismatch))))))
+                       | False -> d_ret Tt)
+                      (fun _ ->
+                      d_bind (d_push_binding g a ae (Some v) (Some ve))
+                        (fun gb ->
+                        d_bind
+                          (c_dag_infer lookup env nat_ready str_ready budget0
+                            rec0 fuel ps arena carena checking b gb)
+                          (fun bt -> d_ret (c_instantiate bt ve))))))
+              | DMData a ->
+                c_dag_infer lookup env nat_ready str_ready budget0 rec0 fuel
+                  ps arena carena checking a g
+              | _ ->
+                d_lift
+                  (c_infer_step lookup env nat_ready str_ready rec0 fuel ps
+                    checking g ce))
+           | None ->
+             d_lift
+               (c_infer_step lookup env nat_ready str_ready rec0 fuel ps
+                 checking g ce))
+     in
+     let Pair (res, ds') = work ds in
+     (match res with
+      | Accept ty -> Pair ((Accept ty), (dis_put checking id cid ty ds'))
+      | _ -> Pair (res, ds')))
+
+(** val c_run_dag_infer :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> nat -> name list -> dag_arena -> c_arena_table -> positive -> cexpr
+    c_act **)
+
+let c_run_dag_infer lookup cfg env nat_ready str_ready bool_ready budget ps arena carena root cs =
+  match cfg.fc_rec_depth with
+  | O -> Pair ((Decline OutOfFuel), cs)
+  | S n0 ->
+    let rec0 =
+      c_checker_mode lookup cfg env nat_ready str_ready bool_ready
+        NormalReduction n0 ps
+    in
+    let Pair (res, ds') =
+      c_dag_infer lookup env nat_ready str_ready budget rec0 n0 ps arena
+        carena True root empty_c_context (empty_dag_infer_state cs)
+    in
+    Pair (res, ds'.dis_cs)
+
+(** val c_whnf_top :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> name list -> c_context -> cexpr -> cexpr c_act **)
+
+let c_whnf_top lookup cfg env nat_ready str_ready bool_ready ps g e =
+  match cfg.fc_rec_depth with
+  | O -> c_pure (Decline OutOfFuel)
+  | S _ ->
+    (match ce_supp e with
+     | True ->
+       (c_checker lookup cfg env nat_ready str_ready bool_ready ps).cm_whnf g
+         e
+     | False -> c_pure (Decline UnsupportedExpression))
+
+(** val c_defeq_top :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> name list -> c_context -> cexpr -> cexpr -> bool c_act **)
+
+let c_defeq_top lookup cfg env nat_ready str_ready bool_ready ps g t0 s =
+  match cfg.fc_rec_depth with
+  | O -> c_pure (Decline OutOfFuel)
+  | S _ ->
+    (match match ce_supp t0 with
+           | True -> ce_supp s
+           | False -> False with
+     | True ->
+       (c_checker lookup cfg env nat_ready str_ready bool_ready ps).cm_defeq
+         g t0 s
+     | False -> c_pure (Decline UnsupportedExpression))
+
+(** val c_input_header :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> nat -> name -> name list -> dag_arena -> c_arena_table -> positive ->
+    scope_entry -> unit0 c_act **)
+
+let c_input_header lookup cfg env nat_ready str_ready bool_ready budget n0 ps arena carena root entry =
+  match lookup n0 with
+  | Some _ -> c_pure (Reject DuplicateDeclaration)
+  | None ->
+    (match negb (names_unique ps) with
+     | True -> c_pure (Reject DuplicateUniverse)
+     | False ->
+       (match negb (N.leb entry.scope_need N0) with
+        | True -> c_pure (Reject MalformedDeclaration)
+        | False ->
+          c_bind
+            (c_run_dag_infer lookup cfg env nat_ready str_ready bool_ready
+              budget ps arena carena root)
+            (fun inferred ->
+            c_bind
+              (c_whnf_top lookup cfg env nat_ready str_ready bool_ready ps
+                empty_c_context inferred)
+              (fun reduced ->
+              match reduced with
+              | CSort (_, _) -> c_ret Tt
+              | _ -> c_pure (Reject ExpectedSort)))))
+
+(** val c_input_check :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> nat -> name list -> dag_arena -> c_arena_table -> positive -> positive
+    -> cexpr -> unit0 c_act **)
+
+let c_input_check lookup cfg env nat_ready str_ready bool_ready budget ps arena carena tr br ty_c =
+  c_bind
+    (c_run_dag_infer lookup cfg env nat_ready str_ready bool_ready budget ps
+      arena carena tr)
+    (fun type_type ->
+    c_bind
+      ((c_checker lookup cfg env nat_ready str_ready bool_ready ps).cm_whnf
+        empty_c_context type_type)
+      (fun type_type0 ->
+      c_bind
+        (match type_type0 with
+         | CBVar (_, _) -> c_pure (Reject ExpectedSort)
+         | CFVar (_, _) -> c_pure (Reject ExpectedSort)
+         | CMVar (_, _) -> c_pure (Reject ExpectedSort)
+         | CSort (_, u) -> c_ret u
+         | _ -> c_pure (Reject ExpectedSort))
+        (fun _ ->
+        c_bind
+          (c_run_dag_infer lookup cfg env nat_ready str_ready bool_ready
+            budget ps arena carena br)
+          (fun body_type ->
+          c_bind
+            (c_defeq_top lookup cfg env nat_ready str_ready bool_ready ps
+              empty_c_context body_type ty_c)
+            (fun ok -> c_pure (require ok TypeMismatch))))))
+
+(** val c_input_proposition :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> nat -> name list -> dag_arena -> c_arena_table -> positive -> unit0
+    c_act **)
+
+let c_input_proposition lookup cfg env nat_ready str_ready bool_ready budget ps arena carena root =
+  c_bind
+    (c_run_dag_infer lookup cfg env nat_ready str_ready bool_ready budget ps
+      arena carena root)
+    (fun inferred ->
+    c_bind
+      (c_whnf_top lookup cfg env nat_ready str_ready bool_ready ps
+        empty_c_context inferred)
+      (fun reduced ->
+      match reduced with
+      | CSort (_, u) ->
+        c_bind (c_pure (level_equiv cfg.fc_rec_depth u LZero))
+          (fun is_zero ->
+          match is_zero with
+          | True -> c_ret Tt
+          | False -> c_pure (Reject MalformedDeclaration))
+      | _ -> c_pure (Reject ExpectedSort)))
+
+(** val c_admit_dag_delta :
+    declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool
+    -> dag_admission_kind -> nat -> name -> name list -> (positive, dag_node)
+    prod list -> positive -> positive -> environment result **)
+
+let c_admit_dag_delta lookup cfg env nat_ready str_ready bool_ready kind budget n0 ps rows tr br =
+  match cfg.fc_rec_depth with
   | O -> Decline OutOfFuel
-  | S n0 -> admit (S n0) env d
+  | S _ ->
+    bind (arena_build empty_arena rows) (fun arena ->
+      bind (c_arena_build nat_ready str_ready PositiveMap.empty rows)
+        (fun carena ->
+        bind (scope_ref arena.arena_scope tr) (fun ty ->
+          bind (scope_ref arena.arena_scope br) (fun body ->
+            bind (c_arena_ref carena tr) (fun ty_c ->
+              let act =
+                match kind with
+                | DagDefinition hints ->
+                  c_bind
+                    (c_input_header lookup cfg env nat_ready str_ready
+                      bool_ready budget n0 ps arena carena tr ty)
+                    (fun _ ->
+                    c_bind
+                      (c_pure
+                        (require (N.leb body.scope_need N0)
+                          MalformedDeclaration))
+                      (fun _ ->
+                      c_bind
+                        (c_input_check lookup cfg env nat_ready str_ready
+                          bool_ready budget ps arena carena tr br ty_c)
+                        (fun _ ->
+                        c_bind
+                          (c_pure
+                            (classify_primitive cfg.fc_rec_depth env n0 ps
+                              ty.scope_expr body.scope_expr))
+                          (fun primitive ->
+                          let dk =
+                            match primitive with
+                            | Some p -> DPrimitive p
+                            | None -> DDefinition
+                          in
+                          c_ret { decl_name = n0; decl_params = ps;
+                            decl_type = ty.scope_expr; decl_value = (Some
+                            body.scope_expr); decl_kind_of = dk; decl_hints =
+                            hints }))))
+                | DagTheorem ->
+                  (match name_mem n0 reserved_names with
+                   | True -> c_pure (Reject MalformedDeclaration)
+                   | False ->
+                     c_bind
+                       (c_input_header lookup cfg env nat_ready str_ready
+                         bool_ready budget n0 ps arena carena tr ty)
+                       (fun _ ->
+                       c_bind
+                         (c_input_proposition lookup cfg env nat_ready
+                           str_ready bool_ready budget ps arena carena tr)
+                         (fun _ ->
+                         c_bind
+                           (match N.leb body.scope_need N0 with
+                            | True ->
+                              c_input_check lookup cfg env nat_ready
+                                str_ready bool_ready budget ps arena carena
+                                tr br ty_c
+                            | False -> c_pure (Reject MalformedDeclaration))
+                           (fun _ ->
+                           c_ret { decl_name = n0; decl_params = ps;
+                             decl_type = ty.scope_expr; decl_value = (Some
+                             body.scope_expr); decl_kind_of = DTheorem;
+                             decl_hints = HintOpaque }))))
+                | DagOpaque ->
+                  (match name_mem n0 reserved_names with
+                   | True -> c_pure (Reject MalformedDeclaration)
+                   | False ->
+                     c_bind
+                       (c_input_header lookup cfg env nat_ready str_ready
+                         bool_ready budget n0 ps arena carena tr ty)
+                       (fun _ ->
+                       c_bind
+                         (match N.leb body.scope_need N0 with
+                          | True ->
+                            c_input_check lookup cfg env nat_ready str_ready
+                              bool_ready budget ps arena carena tr br ty_c
+                          | False -> c_pure (Reject MalformedDeclaration))
+                         (fun _ ->
+                         c_ret { decl_name = n0; decl_params = ps;
+                           decl_type = ty.scope_expr; decl_value = (Some
+                           body.scope_expr); decl_kind_of = DOpaque;
+                           decl_hints = HintOpaque })))
+              in
+              bind (fst (act empty_checker_state)) (fun d -> Accept (Cons (d,
+                Nil))))))))
+
+(** val cached_batch_delta :
+    fuel_config -> runtime_state -> admission_batch -> environment result **)
+
+let cached_batch_delta cfg s request =
+  match fuel_config_nonzero cfg with
+  | True ->
+    let env = s.state_environment in
+    (match request with
+     | BatchDag (kind, budget, n0, ps, rows, tr, br) ->
+       let lk = state_lookup suffix_bitfold8 s in
+       let res = fun nm _ -> lk nm in
+       let nat_r = Accessor.core_nat_ready res env in
+       let str_r = Accessor.core_string_ready res env in
+       let bool_r = Accessor.core_bool_ready res env in
+       c_admit_dag_delta lk cfg env nat_r str_r bool_r kind budget n0 ps rows
+         tr br
+     | BatchOrdinary input ->
+       single_delta (admit_extended cfg.fc_rec_depth env input)
+     | BatchQuotient (n0, ps, ty, kind) ->
+       single_delta (admit_quotient cfg.fc_rec_depth env n0 ps ty kind)
+     | BatchInductive (types, ctors, recs) ->
+       inductive_delta cfg.fc_rec_depth env types ctors recs
+     | BatchMutual inputs -> mutual_delta cfg.fc_rec_depth env inputs)
+  | False -> Decline OutOfFuel
+
+(** val admit_batch_cached :
+    fuel_config -> runtime_state -> admission_batch -> runtime_state result **)
+
+let admit_batch_cached cfg s request =
+  bind (cached_batch_delta cfg s request) (fun added -> Accept
+    (extend_state suffix_bitfold8 s added))
+
+(** val cached_transaction :
+    fuel_config -> runtime_state -> admission_batch -> (runtime_state, unit0
+    result) prod **)
+
+let cached_transaction cfg s request =
+  match admit_batch_cached cfg s request with
+  | Accept next -> Pair (next, (Accept Tt))
+  | Reject reason -> Pair (s, (Reject reason))
+  | Decline reason -> Pair (s, (Decline reason))

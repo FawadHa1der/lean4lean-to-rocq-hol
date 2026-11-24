@@ -130,3 +130,16 @@ let l4_check_defeq_term_mismatch597 = prove
    l4_defeq597 fuel env ps g t s = L4KAccept491 F ==>
    l4_check_defeq597 fuel env ps g t s = L4KReject491 L4KNotDefinitionallyEqual491`,
   SIMP_TAC [l4_check_defeq597;l4_kr_bind491]);;
+
+let l4_lazy_delta_proj_no_rounds597 = prove
+ (`!rec fuel env ps g idx t s.
+   l4_core_lazy_delta_proj597 0 rec fuel env ps g idx t s =
+     L4KDecline491 L4KOutOfFuel491`,
+  REWRITE_TAC [l4_core_lazy_delta_proj597]);;
+
+let l4_lazy_delta_proj_quick597 = prove
+ (`!rounds rec fuel env ps g idx t s ok.
+   l4_core_quick596 rec fuel g t s = L4KAccept491 (SOME ok) ==>
+   l4_core_lazy_delta_proj597 (SUC rounds) rec fuel env ps g idx t s =
+     L4KAccept491 ok`,
+  SIMP_TAC [l4_core_lazy_delta_proj597;l4_kr_bind491]);;

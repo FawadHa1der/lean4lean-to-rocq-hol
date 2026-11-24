@@ -127,26 +127,39 @@ let l4_delta_congruent_enabled595 = prove
   SIMP_TAC [l4_core_delta_congruent595]);;
 
 let l4_compare_heads_projection595 = prove
- (`!rec fuel g n i a b.
-   l4_compare_heads595 rec fuel g (L4KProj447 n i a) (L4KProj447 n i b) =
+ (`!rec fuel env g n m i a b.
+   l4_compare_heads595 rec fuel env g (L4KProj447 n i a) (L4KProj447 m i b) =
      l4_defeq_method543 rec g a b`,
   REWRITE_TAC [l4_compare_heads595]);;
 
 let l4_compare_heads_forward595 = prove
- (`!rec fuel g f a h b tf ta sf sa.
+ (`!rec fuel env g f a h b tf ta sf sa.
    l4_ksplit_app489 (L4KApp447 f a) = (tf,ta) /\
    l4_ksplit_app489 (L4KApp447 h b) = (sf,sa) /\
    LENGTH ta = LENGTH sa /\
    l4_defeq_method543 rec g tf sf = L4KAccept491 T ==>
-   l4_compare_heads595 rec fuel g (L4KApp447 f a) (L4KApp447 h b) =
-     l4_core_compare_args595 ta rec g sa`,
+   l4_compare_heads595 rec fuel env g (L4KApp447 f a) (L4KApp447 h b) =
+     l4_core_compare_args_cheap_first595 rec env g ta sa`,
   SIMP_TAC [l4_compare_heads595;l4_kr_bind491;LET_DEF;LET_END_DEF;FST;SND]);;
 
 let l4_compare_heads_left_eta595 = prove
- (`!rec fuel g n bi domain body other.
-   l4_compare_heads595 rec fuel g (L4KLam447 n bi domain body) other =
+ (`!rec fuel env g n bi domain body other.
+   l4_compare_heads595 rec fuel env g (L4KLam447 n bi domain body) other =
      l4_eta_compare595 rec g domain body other`,
   REWRITE_TAC [l4_compare_heads595]);;
+
+let l4_eta_expand_pis_no_fuel595 = prove
+ (`!rec g e ty args.
+   l4_core_eta_expand_pis595 0 rec g e ty args = L4KDecline491 L4KOutOfFuel491`,
+  REWRITE_TAC [l4_core_eta_expand_pis595]);;
+
+let l4_eta_expand_lam595 = prove
+ (`!n bi domain body eta_fuel rec g body'.
+   l4_core_eta_expand595 body eta_fuel rec (l4_kpush_binding532 g domain NONE) =
+     L4KAccept491 body' ==>
+   l4_core_eta_expand595 (L4KLam447 n bi domain body) eta_fuel rec g =
+     L4KAccept491 (L4KLam447 n bi domain body')`,
+  SIMP_TAC [l4_core_eta_expand595;l4_kr_bind491]);;
 
 let l4_compare_fields_first_false595 = prove
  (`!field fields rec g owner value idx.

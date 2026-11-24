@@ -180,9 +180,20 @@ module Full_input610 = struct
     let decl keys = exact "record" [tag] json; exact tag keys v in
     match tag with
     | "meta" ->
-      decl ["format";"lean"];
+      exact "record" ["meta"] json;
+      let meta_fields = Wire.obj line v in
+      List.iter (fun (key,_) ->
+        if not (List.mem key ["format";"lean";"exporter"]) then
+          raise (Unsupported_decoder ("meta: unsupported field " ^ key))) meta_fields;
       exact "format" ["version"] (f "format" v);
-      exact "lean" ["version";"githash"] (f "lean" v)
+      exact "lean" ["version";"githash"] (f "lean" v);
+      (match List.assoc_opt "exporter" meta_fields with
+       | Some exp ->
+           let exp_fields = Wire.obj line exp in
+           List.iter (fun (key,_) ->
+             if not (List.mem key ["name";"version"]) then
+               raise (Unsupported_decoder ("exporter: unsupported field " ^ key))) exp_fields
+       | None -> ())
     | "str" -> node "in" ["pre";"str"]
     | "num" -> node "in" ["pre";"i"]
     | "succ" | "max" | "imax" | "param" -> scalar_node "il"
@@ -194,8 +205,7 @@ module Full_input610 = struct
     | "proj" -> node "ie" ["typeName";"idx";"struct"]
     | "mdata" ->
       node "ie" ["expr";"data"];
-      if Wire.obj line (f "data" v) <> [] then
-        raise (Unsupported_decoder "nonempty metadata payload cannot be retained by Wire/full447")
+      ignore (Wire.obj line (f "data" v))
     | "axiom" -> decl (header_keys @ ["isUnsafe"])
     | "def" ->
       decl (header_keys @ ["value";"safety";"hints";"all"]);

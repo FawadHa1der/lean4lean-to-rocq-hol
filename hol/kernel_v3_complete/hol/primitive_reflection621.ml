@@ -163,6 +163,112 @@ let l4_primitive_reflection_make621 = new_definition
           else l4_pq_dite621 (l4_pq_dec621 p) (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621)
             (l4_pq_bool_dec621 b) pos neg)))))`;;
 
+let l4_primitive_has_decidable_intro621 = new_definition
+ `l4_primitive_has_decidable_intro621 env <=>
+    match l4_kfind_decl493 env
+      (l4_primitive_path621 [[68;101;99;105;100;97;98;108;101];[105;110;116;114;111]]) with
+    | SOME d -> T
+    | NONE -> F`;;
+
+let l4_primitive_has_bool_dec_eq621 = new_definition
+ `l4_primitive_has_bool_dec_eq621 env <=>
+    match l4_kfind_decl493 env
+      (l4_primitive_path621 [[66;111;111;108];[100;101;99;69;113]]) with
+    | SOME d -> T
+    | NONE -> F`;;
+
+let l4_primitive_has_decidable_decide621 = new_definition
+ `l4_primitive_has_decidable_decide621 env <=>
+    match l4_kfind_decl493 env
+      (l4_primitive_path621 [[68;101;99;105;100;97;98;108;101];[100;101;99;105;100;101]]) with
+    | SOME d -> T
+    | NONE -> F`;;
+
+(* Lean 4.36+ single-constructor Decidable.intro over Bool.Reflects: does not
+   require Decidable.isTrue, Decidable.isFalse, or Bool.decEq to precede Nat.mod. *)
+let l4_primitive_reflection_make_v436621 = new_definition
+ `l4_primitive_reflection_make_v436621 false_eq =
+    let base = l4_primitive_reflection_make621 false_eq in
+    let rt = l4_reflection_type621 base in
+    let relation = \p b. l4_pq_apps621 (l4_pq_embed621 rt) [p;b] in
+    let false_proof = \b hf.
+      if false_eq then hf
+      else l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) (\ht.
+        l4_pq_apps621 (l4_pq_const621
+          [[66;111;111;108];[110;111;67;111;110;102;117;115;105;111;110]] [L4KZero447])
+          [l4_pq_const621 [[70;97;108;115;101]] [];l4_pq_fal621;l4_pq_tru621;
+           l4_pq_apps621 (l4_pq_const621 [[69;113];[114;101;99]]
+             [L4KZero447;L4KSucc447 L4KZero447])
+             [l4_pq_bool621;b;
+              l4_pq_lam621 l4_pq_bool621 (\x.
+                l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b x) (\ignored.
+                  l4_pq_eq621 l4_pq_bool621 x l4_pq_tru621));
+              ht;l4_pq_fal621;hf]]) in
+    L4PrimitiveReflection621 rt
+      (l4_reflection_true621 base)
+      (l4_reflection_false621 base)
+      (l4_pq_run621 (l4_pq_lam621 l4_pq_prop621 (\p.
+        l4_pq_lam621 l4_pq_bool621 (\b. l4_pq_lam621 (relation p b) (\h.
+          l4_pq_apps621
+            (l4_pq_const621 [[68;101;99;105;100;97;98;108;101];[105;110;116;114;111]] [])
+            [p;b;
+             l4_pq_app621 (l4_pq_apps621
+               (l4_pq_const621 [[66;111;111;108];[114;101;99]] [L4KZero447])
+               [l4_pq_lam621 l4_pq_bool621 (\b'.
+                  l4_pq_arrow621 (l4_pq_eq621 l4_pq_bool621 b b')
+                    (l4_pq_apps621
+                      (l4_pq_const621 [[66;111;111;108];[82;101;102;108;101;99;116;115]] [])
+                      [b';p]));
+                l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_fal621) (\hf.
+                  l4_pq_apps621 h [l4_pq_not621 p;
+                    l4_pq_lam621 (l4_pq_arrow621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) p)
+                      (\ignored. l4_pq_lam621 (l4_pq_arrow621
+                        (if false_eq then l4_pq_eq621 l4_pq_bool621 b l4_pq_fal621
+                         else l4_pq_not621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621))
+                        (l4_pq_not621 p)) (\no. l4_pq_app621 no (false_proof b hf)))]);
+                l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) (\ht.
+                  l4_pq_apps621 h [p;
+                    l4_pq_lam621 (l4_pq_arrow621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) p)
+                      (\yes. l4_pq_lam621 (l4_pq_arrow621
+                        (if false_eq then l4_pq_eq621 l4_pq_bool621 b l4_pq_fal621
+                         else l4_pq_not621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621))
+                        (l4_pq_not621 p)) (\ignored. l4_pq_app621 yes ht))]);
+                b]) (l4_pq_refl621 l4_pq_bool621 b)])))))`;;
+
+let l4_primitive_reflection_for621 = new_definition
+ `l4_primitive_reflection_for621 env false_eq =
+    if l4_primitive_has_decidable_intro621 env
+    then l4_primitive_reflection_make_v436621 false_eq
+    else l4_primitive_reflection_make621 false_eq`;;
+
+let l4_primitive_bool_dec_v436621 = new_definition
+ `l4_primitive_bool_dec_v436621 =
+    l4_pq_run621 (l4_pq_lam621 l4_pq_bool621 (\b.
+      l4_pq_apps621
+        (l4_pq_const621 [[68;101;99;105;100;97;98;108;101];[105;110;116;114;111]] [])
+        [l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621;b;
+         l4_pq_app621 (l4_pq_apps621
+           (l4_pq_const621 [[66;111;111;108];[114;101;99]] [L4KZero447])
+           [l4_pq_lam621 l4_pq_bool621 (\b'.
+              l4_pq_arrow621 (l4_pq_eq621 l4_pq_bool621 b b')
+                (l4_pq_apps621
+                  (l4_pq_const621 [[66;111;111;108];[82;101;102;108;101;99;116;115]] [])
+                  [b';l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621]));
+            l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_fal621) (\hf.
+              l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) (\ht.
+                l4_pq_apps621 (l4_pq_const621
+                  [[66;111;111;108];[110;111;67;111;110;102;117;115;105;111;110]] [L4KZero447])
+                  [l4_pq_const621 [[70;97;108;115;101]] [];l4_pq_fal621;l4_pq_tru621;
+                   l4_pq_apps621 (l4_pq_const621 [[69;113];[114;101;99]]
+                     [L4KZero447;L4KSucc447 L4KZero447])
+                     [l4_pq_bool621;b;
+                      l4_pq_lam621 l4_pq_bool621 (\x.
+                        l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b x) (\ignored.
+                          l4_pq_eq621 l4_pq_bool621 x l4_pq_tru621));
+                      ht;l4_pq_fal621;hf]]));
+            l4_pq_lam621 (l4_pq_eq621 l4_pq_bool621 b l4_pq_tru621) (\ht. ht);
+            b]) (l4_pq_refl621 l4_pq_bool621 b)]))`;;
+
 let l4_primitive_reflection_ite621 = new_definition
  `l4_primitive_reflection_ite621 r =
     l4_pq_run621 (l4_pq_lam621 l4_pq_prop621 (\p. l4_pq_lam621 l4_pq_bool621 (\b.
@@ -271,10 +377,22 @@ let l4_primitive_condition_dec621 = new_recursive_definition l4_primitive_condit
       l4_primitive_const621 [[78;97;116];[100;101;99;76;101]] []) /\
   (l4_primitive_condition_dec621 L4PCNatEq621 =
       l4_primitive_const621 [[78;97;116];[100;101;99;69;113]] [])`;;
+let l4_primitive_condition_dec_in621 = new_definition
+ `l4_primitive_condition_dec_in621 env c =
+    match c with
+    | L4PCBool621 ->
+        if l4_primitive_has_bool_dec_eq621 env then l4_primitive_condition_dec621 L4PCBool621
+        else if l4_primitive_has_decidable_intro621 env then l4_primitive_bool_dec_v436621
+        else l4_primitive_condition_dec621 L4PCBool621
+    | _ -> l4_primitive_condition_dec621 c`;;
 let l4_primitive_condition_ite621 = new_definition
  `l4_primitive_condition_ite621 c a args t e =
     l4_pq_ite621 a (l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) args)
       (l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_dec621 c)) args) t e`;;
+let l4_primitive_condition_ite_in621 = new_definition
+ `l4_primitive_condition_ite_in621 env c a args t e =
+    l4_pq_ite621 a (l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) args)
+      (l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_dec_in621 env c)) args) t e`;;
 let l4_primitive_condition_dite621 = new_definition
  `l4_primitive_condition_dite621 c args t e =
     l4_pq_dite621 l4_pq_nat621
@@ -283,6 +401,15 @@ let l4_primitive_condition_dite621 = new_definition
 let l4_primitive_condition_decide621 = new_definition
  `l4_primitive_condition_decide621 c args =
     l4_primitive_condition_ite621 c l4_pq_bool621 args l4_pq_tru621 l4_pq_fal621`;;
+let l4_primitive_condition_decide_in621 = new_definition
+ `l4_primitive_condition_decide_in621 env c args =
+    if l4_primitive_has_decidable_intro621 env /\ l4_primitive_has_decidable_decide621 env then
+      l4_pq_apps621
+        (l4_pq_const621 [[68;101;99;105;100;97;98;108;101];[100;101;99;105;100;101]] [])
+        [l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) args;
+         l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_dec_in621 env c)) args]
+    else
+      l4_primitive_condition_ite_in621 env c l4_pq_bool621 args l4_pq_tru621 l4_pq_fal621`;;
 
 (* Raw PCBool behavior of this builder is preserved; only the two Nat cases
    reach it through check_condition, so no extra construction-time guard. *)
@@ -311,8 +438,9 @@ let l4_primitive_condition_proof621 = new_definition
 let l4_primitive_check_condition621 = new_definition
  `l4_primitive_check_condition621 fuel env c with_ite with_dite =
     if ~l4_core_bool_ready533 env then L4KReject491 L4KMalformedDeclaration491 else
+    let dec_c = l4_primitive_condition_dec_in621 env c in
     l4_kr_bind491
-      (l4_infer597 fuel env [] l4_kempty_context532 (l4_primitive_condition_dec621 c))
+      (l4_infer597 fuel env [] l4_kempty_context532 dec_c)
       (\ignored_dec.
        if c = L4PCBool621 then
          l4_kr_bind491
@@ -324,7 +452,7 @@ let l4_primitive_check_condition621 = new_definition
              let it = l4_pq_lam621 l4_pq_bool621 (\b. l4_pq_apps621
                (l4_pq_const621 [[105;116;101]] [L4KSucc447 L4KZero447])
                [l4_pq_nat621;l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) [b];
-                l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_dec621 c)) [b]]) in
+                l4_pq_apps621 (l4_pq_embed621 dec_c) [b]]) in
              l4_kr_bind491
                (l4_primitive_check_closed621 fuel env it
                  (l4_pq_arrow621 l4_pq_bool621
@@ -343,18 +471,32 @@ let l4_primitive_check_condition621 = new_definition
          let is_eq = c = L4PCNatEq621 in
          let op = if is_eq then L4KPNatBEq493 else L4KPNatBLE493 in
          l4_kr_bind491 (l4_primitive_authenticated619 fuel env op) (\ignored_authenticated.
-           let r = l4_primitive_reflection_make621 is_eq in
+           let r = l4_primitive_reflection_for621 env is_eq in
            l4_kr_bind491 (l4_primitive_check_reflection621 fuel env r with_ite with_dite)
              (\ignored_reflection.
-              let gadget = l4_pq_lam621 l4_pq_nat621 (\x. l4_pq_lam621 l4_pq_nat621 (\y.
-                l4_pq_apps621
-                  (l4_pq_lam621 l4_pq_prop621 (\p. l4_pq_lam621 l4_pq_bool621 (\b.
-                    l4_pq_lam621 (l4_pq_apps621 (l4_pq_embed621 (l4_reflection_type621 r)) [p;b])
-                      (\h. l4_pq_apps621 (l4_pq_embed621 (l4_reflection_dec621 r)) [p;b;h]))))
-                  [l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) [x;y];
-                   l4_pq_call621 op [x;y];
-                   l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_proof621 c)) [x;y]])) in
-              l4_primitive_eq_closed621 fuel env gadget (l4_pq_embed621 (l4_primitive_condition_dec621 c)))))`;;
+              l4_kr_bind491
+                (if l4_primitive_has_decidable_intro621 env /\
+                    l4_primitive_has_decidable_decide621 env then
+                   let relation = \p b. l4_pq_apps621 (l4_pq_embed621 (l4_reflection_type621 r)) [p;b] in
+                   l4_primitive_eq_closed621 fuel env
+                     (l4_pq_lam621 l4_pq_prop621 (\p. l4_pq_lam621 l4_pq_bool621 (\b.
+                       l4_pq_lam621 (relation p b) (\h.
+                         l4_pq_apps621
+                           (l4_pq_const621 [[68;101;99;105;100;97;98;108;101];[100;101;99;105;100;101]] [])
+                           [p;l4_pq_apps621 (l4_pq_embed621 (l4_reflection_dec621 r)) [p;b;h]]))))
+                     (l4_pq_lam621 l4_pq_prop621 (\p. l4_pq_lam621 l4_pq_bool621 (\b.
+                       l4_pq_lam621 (relation p b) (\ignored. b))))
+                 else L4KAccept491 one)
+                (\ignored_decide.
+                 let gadget = l4_pq_lam621 l4_pq_nat621 (\x. l4_pq_lam621 l4_pq_nat621 (\y.
+                   l4_pq_apps621
+                     (l4_pq_lam621 l4_pq_prop621 (\p. l4_pq_lam621 l4_pq_bool621 (\b.
+                       l4_pq_lam621 (l4_pq_apps621 (l4_pq_embed621 (l4_reflection_type621 r)) [p;b])
+                         (\h. l4_pq_apps621 (l4_pq_embed621 (l4_reflection_dec621 r)) [p;b;h]))))
+                     [l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_prop621 c)) [x;y];
+                      l4_pq_call621 op [x;y];
+                      l4_pq_apps621 (l4_pq_embed621 (l4_primitive_condition_proof621 c)) [x;y]])) in
+                 l4_primitive_eq_closed621 fuel env gadget (l4_pq_embed621 dec_c)))))`;;
 
 let l4_primitive_go_name621 = new_definition
  `l4_primitive_go_name621 modulo =

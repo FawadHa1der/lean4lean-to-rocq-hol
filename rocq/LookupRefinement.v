@@ -183,7 +183,42 @@ Proof. destruct op; unfold Accessor.core_binary_nat, Checker.core_binary_nat; po
 
 Lemma core_reduce_nat_refines a b fuel g e : methods_equivalent a b ->
   Accessor.core_reduce_nat resolve a fuel env g e = Checker.core_reduce_nat b fuel env g e.
-Proof. intro Hm. unfold Accessor.core_reduce_nat, Checker.core_reduce_nat. pointwise. Qed.
+Proof.
+  intro Hm. unfold Accessor.core_reduce_nat, Checker.core_reduce_nat.
+  replace Accessor.core_spine with Checker.core_spine by reflexivity.
+  destruct (Checker.core_spine e []) as [head args].
+  destruct head as [| | | |n us| | | | | | |]; try reflexivity.
+  destruct us; try reflexivity.
+  destruct args as [|x [|y [|z args]]]; try reflexivity.
+  - rewrite lookup_correct.
+    replace Accessor.core_succ_name with Checker.core_succ_name by reflexivity.
+    destruct (if name_eqb n Checker.core_succ_name then Some true
+              else match find_decl n env with
+                   | Some d => match decl_kind_of d with DPrimitive PNatPred => Some false | _ => None end
+                   | None => None
+                   end) as [succ|]; [|reflexivity].
+    rewrite core_nat_ready_refines.
+    destruct (negb (Checker.core_nat_ready env)); [reflexivity|].
+    rewrite (same_whnf _ _ Hm). reflexivity.
+  - rewrite lookup_correct.
+    destruct (find_decl n env) as [d|]; [|reflexivity].
+    destruct (decl_kind_of d); try reflexivity.
+    destruct p;
+      (match goal with
+       | |- Accept None = Accept None => reflexivity
+       | _ =>
+           rewrite core_nat_ready_refines;
+           destruct (negb (Checker.core_nat_ready env)); [reflexivity|];
+           rewrite (same_whnf _ _ Hm);
+           apply bind_pointwise; [reflexivity|intro av];
+           rewrite (same_whnf _ _ Hm);
+           apply bind_pointwise; [reflexivity|intro bv];
+           replace Accessor.core_nat_value with Checker.core_nat_value by reflexivity;
+           destruct (Checker.core_nat_value av), (Checker.core_nat_value bv);
+             try (match goal with |- Accept None = Accept None => reflexivity end);
+           apply core_binary_nat_refines
+       end).
+Qed.
 #[local] Hint Resolve core_reduce_nat_refines : lookup_refinement.
 
 Lemma core_make_structure_refines owner us args value :
@@ -251,9 +286,31 @@ Lemma whnf_core_step_refines a b fuel ps cheap g e : methods_equivalent a b ->
 Proof. intro Hm. unfold Accessor.whnf_core_step, Checker.whnf_core_step. pointwise. Qed.
 #[local] Hint Resolve whnf_core_step_refines : lookup_refinement.
 
+Lemma core_reduce_native_refines e :
+  Accessor.core_reduce_native e = Checker.core_reduce_native e.
+Proof. reflexivity. Qed.
+#[local] Hint Resolve core_reduce_native_refines : lookup_refinement.
+
 Lemma whnf_step_refines a b fuel ps g e : methods_equivalent a b ->
   Accessor.whnf_step resolve a fuel env ps g e = Checker.whnf_step b fuel env ps g e.
-Proof. intro Hm. unfold Accessor.whnf_step, Checker.whnf_step. pointwise. Qed.
+Proof.
+  intro Hm. unfold Accessor.whnf_step, Checker.whnf_step.
+  rewrite (whnf_core_step_refines a b fuel ps false g e Hm).
+  apply bind_pointwise; [reflexivity|]. intro reduced.
+  destruct reduced; cbn [bind].
+  all: try (
+    rewrite core_reduce_native_refines;
+    apply bind_pointwise; [reflexivity|]; intros [nv|]; [reflexivity|];
+    rewrite (core_reduce_nat_refines a b fuel g _ Hm);
+    apply bind_pointwise; [reflexivity|]; intros [value|]; [reflexivity|];
+    rewrite core_unfold_refines; apply bind_pointwise; [reflexivity|];
+    intros [v|]; [apply (same_whnf _ _ Hm)|reflexivity]).
+  rewrite core_nat_ready_refines.
+  replace Accessor.core_zero_name with Checker.core_zero_name by reflexivity.
+  destruct (name_eqb n Checker.core_zero_name && Checker.core_nat_ready env); [reflexivity|].
+  rewrite core_unfold_refines; apply bind_pointwise; [reflexivity|].
+  intros [v|]; [apply (same_whnf _ _ Hm)|reflexivity].
+Qed.
 #[local] Hint Resolve whnf_step_refines : lookup_refinement.
 
 Lemma finish_whnf_unfold_refines ps e :
@@ -271,7 +328,10 @@ Proof.
   rewrite (whnf_core_step_refines a b fuel ps false g e Hm).
   apply bind_pointwise; [reflexivity|]. intro reduced.
   destruct reduced; cbn [bind].
-  all: try (rewrite (core_reduce_nat_refines a b fuel g _ Hm);
+  all: try (
+    rewrite core_reduce_native_refines;
+    apply bind_pointwise; [reflexivity|]; intros [nv|]; [reflexivity|];
+    rewrite (core_reduce_nat_refines a b fuel g _ Hm);
     apply bind_pointwise; [reflexivity|]; intros [value|];
     [reflexivity|apply finish_whnf_unfold_refines]).
   rewrite core_nat_ready_refines.
@@ -334,8 +394,31 @@ Lemma core_delta_congruent_refines a b fuel g t s : methods_equivalent a b ->
 Proof. intro Hm. unfold Accessor.core_delta_congruent, Checker.core_delta_congruent. pointwise. Qed.
 #[local] Hint Resolve core_delta_congruent_refines : lookup_refinement.
 
+Lemma core_is_cheap_arg_refines e :
+  Accessor.core_is_cheap_arg resolve env e = Checker.core_is_cheap_arg env e.
+Proof. unfold Accessor.core_is_cheap_arg, Checker.core_is_cheap_arg. pointwise. Qed.
+#[local] Hint Resolve core_is_cheap_arg_refines : lookup_refinement.
+
+Lemma core_compare_args_filtered_refines want_cheap a b g xs ys : methods_equivalent a b ->
+  Accessor.core_compare_args_filtered resolve want_cheap a env g xs ys =
+    Checker.core_compare_args_filtered want_cheap b env g xs ys.
+Proof.
+  intro Hm. revert ys. induction xs; intros [|y ys];
+    cbn [Accessor.core_compare_args_filtered Checker.core_compare_args_filtered]; pointwise.
+Qed.
+#[local] Hint Resolve core_compare_args_filtered_refines : lookup_refinement.
+
+Lemma core_compare_args_cheap_first_refines a b g xs ys : methods_equivalent a b ->
+  Accessor.core_compare_args_cheap_first resolve a env g xs ys =
+    Checker.core_compare_args_cheap_first b env g xs ys.
+Proof.
+  intro Hm. unfold Accessor.core_compare_args_cheap_first, Checker.core_compare_args_cheap_first.
+  pointwise.
+Qed.
+#[local] Hint Resolve core_compare_args_cheap_first_refines : lookup_refinement.
+
 Lemma compare_heads_refines a b fuel g t s : methods_equivalent a b ->
-  Accessor.compare_heads a fuel g t s = Checker.compare_heads b fuel g t s.
+  Accessor.compare_heads resolve a fuel env g t s = Checker.compare_heads b fuel env g t s.
 Proof. intro Hm. unfold Accessor.compare_heads, Checker.compare_heads. pointwise. Qed.
 #[local] Hint Resolve compare_heads_refines : lookup_refinement.
 
@@ -424,10 +507,46 @@ Proof.
 Qed.
 #[local] Hint Resolve core_lazy_delta_refines : lookup_refinement.
 
-Lemma core_finish_conversion_refines a b fuel g t s : methods_equivalent a b ->
-  Accessor.core_finish_conversion resolve a fuel env g t s =
-    Checker.core_finish_conversion b fuel env g t s.
-Proof. intro Hm. unfold Accessor.core_finish_conversion, Checker.core_finish_conversion. pointwise. Qed.
+Lemma core_reduce_proj_core_refines idx e :
+  Accessor.core_reduce_proj_core resolve env idx e = Checker.core_reduce_proj_core env idx e.
+Proof. unfold Accessor.core_reduce_proj_core, Checker.core_reduce_proj_core. pointwise. Qed.
+#[local] Hint Resolve core_reduce_proj_core_refines : lookup_refinement.
+
+Lemma core_lazy_delta_proj_refines rounds a b fuel ps g idx t s : methods_equivalent a b ->
+  Accessor.core_lazy_delta_proj resolve rounds a fuel env ps g idx t s =
+    Checker.core_lazy_delta_proj rounds b fuel env ps g idx t s.
+Proof.
+  intro Hm. revert t s. induction rounds; intros t s;
+    cbn [Accessor.core_lazy_delta_proj Checker.core_lazy_delta_proj]; pointwise.
+Qed.
+#[local] Hint Resolve core_lazy_delta_proj_refines : lookup_refinement.
+
+Lemma core_finish_conversion_refines a b fuel ps g t s : methods_equivalent a b ->
+  Accessor.core_finish_conversion resolve a fuel env ps g t s =
+    Checker.core_finish_conversion b fuel env ps g t s.
+Proof.
+  intro Hm. unfold Accessor.core_finish_conversion, Checker.core_finish_conversion.
+  replace Accessor.core_spine with Checker.core_spine by reflexivity.
+  destruct (Checker.core_spine t []) as [th ta].
+  destruct (Checker.core_spine s []) as [sh sa].
+  apply bind_pointwise.
+  - destruct th as [| | | | | | | | | |tn ti te|]; try reflexivity.
+    destruct sh as [| | | | | | | | | |sn si se|]; try reflexivity.
+    destruct (Nat.eqb ti si && Nat.eqb (List.length ta) (List.length sa)); [|reflexivity].
+    rewrite (core_lazy_delta_proj_refines (S fuel) a b fuel ps g ti te se Hm).
+    apply bind_pointwise; [reflexivity|intros [|]; [|reflexivity]].
+    destruct ta; [reflexivity|].
+    apply core_compare_args_cheap_first_refines; exact Hm.
+  - intros [|]; [reflexivity|].
+    apply bind_pointwise.
+    + destruct th as [| | | | | | | | | |own idx val|]; try reflexivity.
+      rewrite (core_reduce_projection_refines a b g own idx val Hm). reflexivity.
+    + intro tp. apply bind_pointwise.
+      * destruct sh as [| | | | | | | | | |own idx val|]; try reflexivity.
+        rewrite (core_reduce_projection_refines a b g own idx val Hm). reflexivity.
+      * intro sp. destruct tp, sp;
+        eauto using same_defeq, compare_after_whnf_refines.
+Qed.
 #[local] Hint Resolve core_finish_conversion_refines : lookup_refinement.
 
 Lemma core_true_shortcut_refines a b g t s : methods_equivalent a b ->

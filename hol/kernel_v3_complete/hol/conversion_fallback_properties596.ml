@@ -54,19 +54,19 @@ let l4_proof_irrel_level_decline596 = prove
 
 let l4_fallback_heads_stop596 = prove
  (`!rec fuel env g t s.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 T ==>
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 T ==>
    l4_core_compare_fallback596 rec fuel env g t s = L4KAccept491 T`,
   SIMP_TAC [l4_core_compare_fallback596;l4_kr_bind491]);;
 
 let l4_fallback_heads_error596 = prove
  (`!rec fuel env g t s reason.
-   l4_compare_heads595 rec fuel g t s = L4KReject491 reason ==>
+   l4_compare_heads595 rec fuel env g t s = L4KReject491 reason ==>
    l4_core_compare_fallback596 rec fuel env g t s = L4KReject491 reason`,
   SIMP_TAC [l4_core_compare_fallback596;l4_kr_bind491]);;
 
 let l4_fallback_eta_reverse596 = prove
  (`!rec fuel env g t s.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 F /\
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g s t = L4KAccept491 T ==>
    l4_core_compare_fallback596 rec fuel env g t s = L4KAccept491 T`,
@@ -74,21 +74,21 @@ let l4_fallback_eta_reverse596 = prove
 
 let l4_fallback_eta_forward_stop596 = prove
  (`!rec fuel env g t s.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 F /\
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g t s = L4KAccept491 T ==>
    l4_core_compare_fallback596 rec fuel env g t s = L4KAccept491 T`,
   SIMP_TAC [l4_core_compare_fallback596;l4_kr_bind491]);;
 
 let l4_fallback_eta_forward_error596 = prove
  (`!rec fuel env g t s reason.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 F /\
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g t s = L4KDecline491 reason ==>
    l4_core_compare_fallback596 rec fuel env g t s = L4KDecline491 reason`,
   SIMP_TAC [l4_core_compare_fallback596;l4_kr_bind491]);;
 
 let l4_fallback_string_decisive596 = prove
  (`!rec fuel env g t s ok.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 F /\
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g s t = L4KAccept491 F /\
    l4_core_try_string_expansion596 rec g t s = L4KAccept491 (SOME ok) ==>
@@ -97,7 +97,7 @@ let l4_fallback_string_decisive596 = prove
 
 let l4_fallback_unit_only_on_none596 = prove
  (`!rec fuel env g t s.
-   l4_compare_heads595 rec fuel g t s = L4KAccept491 F /\
+   l4_compare_heads595 rec fuel env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g t s = L4KAccept491 F /\
    l4_core_structure_eta595 rec env g s t = L4KAccept491 F /\
    l4_core_try_string_expansion596 rec g t s = L4KAccept491 NONE ==>

@@ -198,7 +198,7 @@ let l4_primitive_unfold_nat_well_founded622 = new_definition
                                                                (l4_kstate_context532 (SND fresh_x))
                                                                (L4KApp447 eager (l4_klocal_expr489 (FST fresh_x)))
                                                                (l4_pq_run621
-                                                                 (l4_primitive_condition_ite621 L4PCBool621
+                                                                 (l4_primitive_condition_ite_in621 env L4PCBool621
                                                                    l4_pq_nat621 [l4_pq_call621 L4KPNatBEq493 [xv;xv]]
                                                                    xv xv))) (\ignored_eager.
                                                                  l4_kr_bind491 (l4_primitive_check_go622
@@ -316,16 +316,16 @@ let l4_primitive_check_bitwise622 = new_definition
                          let fq = l4_pq_embed621 (l4_klocal_expr489 f) in
                          let nq = l4_pq_embed621 (l4_klocal_expr489 n) in
                          let mq = l4_pq_embed621 (l4_klocal_expr489 m) in
-                         let bool_ite = \b. l4_primitive_condition_ite621 L4PCBool621 l4_pq_nat621 [b] in
+                         let bool_ite = \b. l4_primitive_condition_ite_in621 env L4PCBool621 l4_pq_nat621 [b] in
                          l4_pq_run621 (l4_primitive_condition_dite621 L4PCNatEq621 [nq;l4_pq_zero621]
                            (\ignored. bool_ite (l4_pq_apps621 fq [l4_pq_fal621;l4_pq_tru621]) mq l4_pq_zero621)
                            (\hn. l4_primitive_condition_ite621 L4PCNatEq621 l4_pq_nat621 [mq;l4_pq_zero621]
                              (bool_ite (l4_pq_apps621 fq [l4_pq_tru621;l4_pq_fal621]) nq l4_pq_zero621)
                              (let n' = l4_pq_call621 L4KPNatDiv493 [nq;l4_pq_two621] in
                               let m' = l4_pq_call621 L4KPNatDiv493 [mq;l4_pq_two621] in
-                              let b1 = l4_primitive_condition_decide621 L4PCNatEq621
+                              let b1 = l4_primitive_condition_decide_in621 env L4PCNatEq621
                                 [l4_pq_call621 L4KPNatMod493 [nq;l4_pq_two621];l4_pq_one621] in
-                              let b2 = l4_primitive_condition_decide621 L4PCNatEq621
+                              let b2 = l4_primitive_condition_decide_in621 env L4PCNatEq621
                                 [l4_pq_call621 L4KPNatMod493 [mq;l4_pq_two621];l4_pq_one621] in
                               let r = l4_pq_apps621 (l4_pq_embed621 ih)
                                 [l4_pq_apps621 (l4_pq_embed621 (l4_primitive_probe_pack622 p)) [n';m'];

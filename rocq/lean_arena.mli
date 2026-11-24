@@ -131,13 +131,15 @@ module MakeOrderTac :
 
 module Nat :
  sig
+  val pred : nat -> nat
+
   val eqb : nat -> nat -> bool
 
   val leb : nat -> nat -> bool
 
   val ltb : nat -> nat -> bool
 
-  val min : nat -> nat -> nat
+  val max : nat -> nat -> nat
 
   val to_little_uint : nat -> uint -> uint
 
@@ -274,6 +276,8 @@ module Coq_Pos :
   val compare : positive -> positive -> comparison
 
   val eqb : positive -> positive -> bool
+
+  val leb : positive -> positive -> bool
 
   val of_succ_nat : nat -> positive
 
@@ -740,7 +744,15 @@ val core_nat_value : expr -> n option
 
 val core_nat_constructor : n -> expr
 
-val core_shiftr : nat -> n -> n -> n result
+val core_pow_max_exp : n
+
+val core_shiftr : n -> n -> n option
+
+val core_reduce_bool_name : name
+
+val core_reduce_nat_name : name
+
+val core_reduce_native : expr -> expr option result
 
 val core_binary_nat :
   nat -> environment -> primitive_kind -> n -> n -> expr option result
@@ -811,6 +823,11 @@ val whnf_loop :
 
 val eta_compare : methods -> context -> expr -> expr -> expr -> bool result
 
+val core_eta_expand_pis :
+  nat -> methods -> context -> expr -> expr -> expr list -> expr result
+
+val core_eta_expand : nat -> methods -> context -> expr -> expr result
+
 val core_alpha : nat -> expr -> expr -> (bool, nat) prod
 
 val core_alpha_eq : expr -> expr -> bool
@@ -825,6 +842,8 @@ val core_congruent_apps :
 
 val core_delta_info : environment -> expr -> declaration option
 
+val core_delta_head : environment -> expr -> bool
+
 val core_delta_sides : environment -> expr -> expr -> (bool, bool) prod
 
 val core_erasing_delta : environment -> expr -> bool
@@ -832,7 +851,17 @@ val core_erasing_delta : environment -> expr -> bool
 val core_delta_congruent :
   methods -> nat -> environment -> context -> expr -> expr -> bool result
 
-val compare_heads : methods -> nat -> context -> expr -> expr -> bool result
+val core_is_cheap_arg : environment -> expr -> bool
+
+val core_compare_args_filtered :
+  bool -> methods -> environment -> context -> expr list -> expr list -> bool
+  result
+
+val core_compare_args_cheap_first :
+  methods -> environment -> context -> expr list -> expr list -> bool result
+
+val compare_heads :
+  methods -> nat -> environment -> context -> expr -> expr -> bool result
 
 val core_compare_fields :
   methods -> context -> name -> expr -> nat -> expr list -> bool result
@@ -876,8 +905,15 @@ val core_lazy_delta :
   nat -> methods -> nat -> environment -> name list -> context -> expr ->
   expr -> conversion_progress result
 
+val core_reduce_proj_core : environment -> nat -> expr -> expr option
+
+val core_lazy_delta_proj :
+  nat -> methods -> nat -> environment -> name list -> context -> nat -> expr
+  -> expr -> bool result
+
 val core_finish_conversion :
-  methods -> nat -> environment -> context -> expr -> expr -> bool result
+  methods -> nat -> environment -> name list -> context -> expr -> expr ->
+  bool result
 
 val core_is_true : expr -> bool
 
@@ -997,6 +1033,8 @@ val primitive_true : expr
 val primitive_false : expr
 
 val primitive_call : primitive_kind -> expr list -> expr
+
+val primitive_consume_mdata : nat -> expr -> expr result
 
 val primitive_check_signature : nat -> expr -> expr -> unit0 result
 
@@ -1157,6 +1195,16 @@ val primitive_reflection_type : bool -> expr
 
 val primitive_reflection_make : bool -> primitive_reflection
 
+val primitive_has_decidable_intro : environment -> bool
+
+val primitive_has_bool_dec_eq : environment -> bool
+
+val primitive_reflection_make_v436 : bool -> primitive_reflection
+
+val primitive_reflection_for : environment -> bool -> primitive_reflection
+
+val primitive_bool_dec_v436 : expr
+
 val primitive_reflection_ite : primitive_reflection -> expr
 
 val primitive_reflection_dite : primitive_reflection -> expr
@@ -1179,16 +1227,24 @@ val primitive_condition_prop : primitive_condition -> expr
 
 val primitive_condition_dec : primitive_condition -> expr
 
+val primitive_has_decidable_decide : environment -> bool
+
+val primitive_condition_dec_in : environment -> primitive_condition -> expr
+
 val primitive_condition_ite :
   primitive_condition -> PQ.term -> PQ.term list -> PQ.term -> PQ.term ->
   PQ.term
+
+val primitive_condition_ite_in :
+  environment -> primitive_condition -> PQ.term -> PQ.term list -> PQ.term ->
+  PQ.term -> PQ.term
 
 val primitive_condition_dite :
   primitive_condition -> PQ.term list -> (PQ.term -> PQ.term) -> (PQ.term ->
   PQ.term) -> PQ.term
 
-val primitive_condition_decide :
-  primitive_condition -> PQ.term list -> PQ.term
+val primitive_condition_decide_in :
+  environment -> primitive_condition -> PQ.term list -> PQ.term
 
 val primitive_condition_proof : primitive_condition -> expr
 
@@ -1721,8 +1777,53 @@ module N_as_OT :
   val eq_dec : n -> n -> sumbool
  end
 
+module PositiveOrderedTypeBits :
+ sig
+  type t = positive
+
+  val compare : t -> t -> positive compare0
+
+  val eq_dec : positive -> positive -> sumbool
+ end
+
+val append0 : positive -> positive -> positive
+
 module PositiveMap :
  sig
+  module E :
+   sig
+    type t = positive
+
+    val compare : t -> t -> positive compare0
+
+    val eq_dec : positive -> positive -> sumbool
+   end
+
+  module ME :
+   sig
+    module MO :
+     sig
+      module TO :
+       sig
+        type t = positive
+       end
+
+      module IsTO :
+       sig
+       end
+
+      module OrderTac :
+       sig
+       end
+
+      val eq_dec : positive -> positive -> sumbool
+
+      val lt_dec : positive -> positive -> sumbool
+
+      val eqb : positive -> positive -> bool
+     end
+   end
+
   type key = positive
 
   type 'a tree =
@@ -1733,9 +1834,45 @@ module PositiveMap :
 
   val empty : 'a1 t
 
+  val is_empty : 'a1 t -> bool
+
   val find : key -> 'a1 t -> 'a1 option
 
+  val mem : key -> 'a1 t -> bool
+
   val add : key -> 'a1 -> 'a1 t -> 'a1 t
+
+  val remove : key -> 'a1 t -> 'a1 t
+
+  val xelements : 'a1 t -> key -> (key, 'a1) prod list
+
+  val elements : 'a1 t -> (key, 'a1) prod list
+
+  val cardinal : 'a1 t -> nat
+
+  val xfind : key -> key -> 'a1 t -> 'a1 option
+
+  val xmapi : (key -> 'a1 -> 'a2) -> 'a1 t -> key -> 'a2 t
+
+  val mapi : (key -> 'a1 -> 'a2) -> 'a1 t -> 'a2 t
+
+  val map : ('a1 -> 'a2) -> 'a1 t -> 'a2 t
+
+  val xmap2_l : ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a3 t
+
+  val xmap2_r : ('a1 option -> 'a2 option -> 'a3 option) -> 'a2 t -> 'a3 t
+
+  val _map2 :
+    ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t
+
+  val map2 :
+    ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t
+
+  val xfoldi : (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> key -> 'a2
+
+  val fold : (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> 'a2
+
+  val equal : ('a1 -> 'a1 -> bool) -> 'a1 t -> 'a1 t -> bool
  end
 
 type dag_node =
@@ -3382,7 +3519,15 @@ module Accessor :
 
   val core_nat_constructor : n -> expr
 
-  val core_shiftr : nat -> n -> n -> n result
+  val core_pow_max_exp : n
+
+  val core_shiftr : n -> n -> n option
+
+  val core_reduce_bool_name : name
+
+  val core_reduce_nat_name : name
+
+  val core_reduce_native : expr -> expr option result
 
   val core_binary_nat :
     (name -> environment -> declaration option) -> nat -> environment ->
@@ -3479,6 +3624,9 @@ module Accessor :
     (name -> environment -> declaration option) -> environment -> expr ->
     declaration option
 
+  val core_delta_head :
+    (name -> environment -> declaration option) -> environment -> expr -> bool
+
   val core_delta_sides :
     (name -> environment -> declaration option) -> environment -> expr ->
     expr -> (bool, bool) prod
@@ -3490,7 +3638,20 @@ module Accessor :
     (name -> environment -> declaration option) -> methods -> nat ->
     environment -> context -> expr -> expr -> bool result
 
-  val compare_heads : methods -> nat -> context -> expr -> expr -> bool result
+  val core_is_cheap_arg :
+    (name -> environment -> declaration option) -> environment -> expr -> bool
+
+  val core_compare_args_filtered :
+    (name -> environment -> declaration option) -> bool -> methods ->
+    environment -> context -> expr list -> expr list -> bool result
+
+  val core_compare_args_cheap_first :
+    (name -> environment -> declaration option) -> methods -> environment ->
+    context -> expr list -> expr list -> bool result
+
+  val compare_heads :
+    (name -> environment -> declaration option) -> methods -> nat ->
+    environment -> context -> expr -> expr -> bool result
 
   val core_compare_fields :
     methods -> context -> name -> expr -> nat -> expr list -> bool result
@@ -3536,9 +3697,17 @@ module Accessor :
     environment -> name list -> context -> expr -> expr ->
     conversion_progress result
 
+  val core_reduce_proj_core :
+    (name -> environment -> declaration option) -> environment -> nat -> expr
+    -> expr option
+
+  val core_lazy_delta_proj :
+    (name -> environment -> declaration option) -> nat -> methods -> nat ->
+    environment -> name list -> context -> nat -> expr -> expr -> bool result
+
   val core_finish_conversion :
     (name -> environment -> declaration option) -> methods -> nat ->
-    environment -> context -> expr -> expr -> bool result
+    environment -> name list -> context -> expr -> expr -> bool result
 
   val core_true_shortcut :
     (name -> environment -> declaration option) -> methods -> environment ->
@@ -3905,14 +4074,162 @@ val quotient_runtime_initial : quotient_runtime_state
 val quotient_runtime_initialize :
   quotient_runtime_state -> (quotient_indexed_state, unit0 result) prod
 
-type defeq_cache_key = { dck_context_depth : nat; dck_lhs : expr;
-                         dck_rhs : expr }
+module CacheMap :
+ sig
+  module E :
+   sig
+    type t = positive
+
+    val compare : t -> t -> positive compare0
+
+    val eq_dec : positive -> positive -> sumbool
+   end
+
+  module ME :
+   sig
+    module MO :
+     sig
+      module TO :
+       sig
+        type t = positive
+       end
+
+      module IsTO :
+       sig
+       end
+
+      module OrderTac :
+       sig
+       end
+
+      val eq_dec : positive -> positive -> sumbool
+
+      val lt_dec : positive -> positive -> sumbool
+
+      val eqb : positive -> positive -> bool
+     end
+   end
+
+  type key = positive
+
+  type 'a tree = 'a PositiveMap.tree =
+  | Leaf
+  | Node of 'a tree * 'a option * 'a tree
+
+  type 'a t = 'a tree
+
+  val empty : 'a1 t
+
+  val is_empty : 'a1 t -> bool
+
+  val find : key -> 'a1 t -> 'a1 option
+
+  val mem : key -> 'a1 t -> bool
+
+  val add : key -> 'a1 -> 'a1 t -> 'a1 t
+
+  val remove : key -> 'a1 t -> 'a1 t
+
+  val xelements : 'a1 t -> key -> (key, 'a1) prod list
+
+  val elements : 'a1 t -> (key, 'a1) prod list
+
+  val cardinal : 'a1 t -> nat
+
+  val xfind : key -> key -> 'a1 t -> 'a1 option
+
+  val xmapi : (key -> 'a1 -> 'a2) -> 'a1 t -> key -> 'a2 t
+
+  val mapi : (key -> 'a1 -> 'a2) -> 'a1 t -> 'a2 t
+
+  val map : ('a1 -> 'a2) -> 'a1 t -> 'a2 t
+
+  val xmap2_l : ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a3 t
+
+  val xmap2_r : ('a1 option -> 'a2 option -> 'a3 option) -> 'a2 t -> 'a3 t
+
+  val _map2 :
+    ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t
+
+  val map2 :
+    ('a1 option -> 'a2 option -> 'a3 option) -> 'a1 t -> 'a2 t -> 'a3 t
+
+  val xfoldi : (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> key -> 'a2
+
+  val fold : (key -> 'a1 -> 'a2 -> 'a2) -> 'a1 t -> 'a2 -> 'a2
+
+  val equal : ('a1 -> 'a1 -> bool) -> 'a1 t -> 'a1 t -> bool
+ end
+
+val option_expr_eqb : expr option -> expr option -> bool
+
+val binding_eqb : binding -> binding -> bool
+
+val free_entry_eqb : (name, binding) prod -> (name, binding) prod -> bool
+
+val context_eqb : context -> context -> bool
+
+val core_alpha_opt : nat -> expr option -> expr option -> (bool, nat) prod
+
+val core_alpha_binding : nat -> binding -> binding -> (bool, nat) prod
+
+val core_alpha_bindings :
+  nat -> binding list -> binding list -> (bool, nat) prod
+
+val core_alpha_free :
+  nat -> (name, binding) prod list -> (name, binding) prod list -> (bool,
+  nat) prod
+
+val core_alpha_context : nat -> context -> context -> bool
+
+val pos_trunc : nat -> positive -> positive
+
+val pos_xor_trunc : nat -> positive -> positive -> positive
+
+val hash_mix : positive -> positive -> positive
+
+val hash_ascii : ascii -> positive
+
+val hash_string_bounded : nat -> string -> positive -> positive
+
+val hash_nat_small : nat -> positive
+
+val hash_N_fast : n -> positive
+
+val hash_name_bounded : nat -> name -> positive
+
+val hash_level_bounded : nat -> level -> positive
+
+val hash_levels_bounded : nat -> level list -> positive -> positive
+
+val hash_expr_bounded : nat -> expr -> positive
+
+val hash_expr : expr -> positive
+
+val hash_binding : binding -> positive
+
+val hash_bound_prefix : nat -> binding list -> positive -> positive
+
+val hash_free_prefix :
+  nat -> (name, binding) prod list -> positive -> positive
+
+val hash_context : context -> positive
+
+type defeq_cache_key = { dck_context : context; dck_lhs : expr; dck_rhs : expr }
 
 val defeq_cache_key_eqb : defeq_cache_key -> defeq_cache_key -> bool
 
+val defeq_cache_key_hash : defeq_cache_key -> positive
+
 type defeq_cache_entry = { dce_key : defeq_cache_key; dce_verdict : bool }
 
-type defeq_cache = defeq_cache_entry list
+type defeq_cache = defeq_cache_entry list CacheMap.t
+
+val empty_defeq_cache : defeq_cache
+
+val bucket_lookup : defeq_cache_key -> defeq_cache_entry list -> bool option
+
+val cache_find1 : positive -> 'a1 CacheMap.t -> 'a1 option
 
 val cache_lookup : defeq_cache_key -> defeq_cache -> bool option
 
@@ -3924,12 +4241,63 @@ val cached_defeq :
   nat -> environment -> name list -> context -> defeq_cache -> expr -> expr
   -> (defeq_cache, bool result) prod
 
-type fuel_config = { fc_whnf : nat; fc_infer : nat; fc_defeq : nat;
-                     fc_delta : nat; fc_recursor : nat }
+type equiv_manager = { em_parent : positive PositiveMap.t;
+                       em_next : positive;
+                       em_nodes : ((context, expr) prod, positive) prod list
+                                  CacheMap.t }
+
+val em_empty : equiv_manager
+
+val em_find_aux :
+  nat -> positive PositiveMap.t -> positive -> (positive, positive
+  PositiveMap.t) prod
+
+val em_find : equiv_manager -> positive -> (positive, equiv_manager) prod
+
+val em_merge : equiv_manager -> positive -> positive -> equiv_manager
+
+val em_bucket_find :
+  context -> expr -> ((context, expr) prod, positive) prod list -> positive
+  option
+
+val em_to_node_hashed :
+  equiv_manager -> positive -> context -> expr -> (positive, equiv_manager)
+  prod
+
+val em_add_equiv_hashed :
+  equiv_manager -> positive -> positive -> context -> expr -> expr ->
+  equiv_manager
+
+val em_add_equiv : equiv_manager -> context -> expr -> expr -> equiv_manager
+
+val em_root_aux : nat -> positive PositiveMap.t -> positive -> positive
+
+val em_root : equiv_manager -> positive -> positive
+
+val em_is_equiv_ro_hashed :
+  equiv_manager -> positive -> positive -> context -> expr -> expr -> bool
+
+val em_is_equiv_ro : equiv_manager -> context -> expr -> expr -> bool
+
+type fuel_config = { fc_whnf : nat; fc_whnf_eager : nat; fc_lazy_delta : 
+                     nat; fc_eta_expand : nat; fc_rec_depth : nat;
+                     fc_inductive_fuel : nat }
+
+val default_lazy_delta_rounds : nat
+
+val default_eta_expand_rounds : nat
+
+val default_rec_depth : nat
+
+val default_inductive_fuel : nat
+
+val default_fuel_config : fuel_config
+
+val fuel_config_with_rec_depth : nat -> fuel_config
 
 val uniform_fuel_config : nat -> fuel_config
 
-val min_fuel_of_config : fuel_config -> nat
+val fuel_config_nonzero : fuel_config -> bool
 
 val infer_with_config :
   fuel_config -> environment -> name list -> context -> expr -> expr result
@@ -3941,9 +4309,617 @@ val defeq_with_config :
   fuel_config -> environment -> name list -> context -> expr -> expr -> bool
   result
 
+val eta_expand_with_config :
+  fuel_config -> environment -> name list -> context -> expr -> expr result
+
 val check_with_config :
   fuel_config -> environment -> name list -> context -> expr -> expr -> unit0
   result
 
 val admit_with_config :
   fuel_config -> environment -> input_decl -> environment result
+
+val chash_mix : positive -> positive -> positive
+
+val pos_of_nat_fast : nat -> positive
+
+val pos_of_N_fast : n -> positive
+
+val hash_name : name -> positive
+
+val hash_level : level -> positive
+
+val hash_levels : level list -> positive
+
+val hash_string : string -> positive
+
+type cmeta = { cm_lbr : nat; cm_hfv : bool; cm_supp : bool;
+               cm_dag : positive option }
+
+val cmeta_closed_supp : cmeta
+
+val cmeta_closed_unsupp : cmeta
+
+val cmeta_fvar : cmeta
+
+type cexpr =
+| CBVar of cmeta * nat
+| CFVar of cmeta * name
+| CMVar of cmeta * name
+| CSort of cmeta * level
+| CConst of cmeta * name * level list
+| CApp of cmeta * cexpr * cexpr
+| CLam of cmeta * name * binder_info * cexpr * cexpr
+| CPi of cmeta * name * binder_info * cexpr * cexpr
+| CLet of cmeta * name * cexpr * cexpr * cexpr * bool
+| CProj of cmeta * name * nat * cexpr
+| CMData of cmeta * cexpr
+| CLit of cmeta * literal
+
+val c_meta : cexpr -> cmeta
+
+val ce_lbr : cexpr -> nat
+
+val ce_hfv : cexpr -> bool
+
+val ce_supp : cexpr -> bool
+
+val ce_dag : cexpr -> positive option
+
+val c_hash_expr_bounded : nat -> cexpr -> positive
+
+val ce_hash : cexpr -> positive
+
+val c_tag_dag : positive -> cexpr -> cexpr
+
+val mk_cmeta : nat -> bool -> bool -> cmeta
+
+val mk_cbvar : nat -> cexpr
+
+val mk_cfvar : name -> cexpr
+
+val mk_cmvar : name -> cexpr
+
+val mk_csort : level -> cexpr
+
+val mk_cconst : name -> level list -> cexpr
+
+val mk_capp : cexpr -> cexpr -> cexpr
+
+val mk_clam : name -> binder_info -> cexpr -> cexpr -> cexpr
+
+val mk_cpi : name -> binder_info -> cexpr -> cexpr -> cexpr
+
+val mk_clet : name -> cexpr -> cexpr -> cexpr -> bool -> cexpr
+
+val mk_cproj : name -> nat -> cexpr -> cexpr
+
+val mk_cmdata : cexpr -> cexpr
+
+val mk_clit : bool -> bool -> literal -> cexpr
+
+val mk_cnat : n -> cexpr
+
+val c_of_expr : bool -> bool -> expr -> cexpr
+
+val c_lift_go : nat -> nat -> cexpr -> cexpr
+
+val c_lift : nat -> nat -> cexpr -> cexpr
+
+val c_subst : nat -> cexpr -> cexpr -> cexpr
+
+val c_instantiate : cexpr -> cexpr -> cexpr
+
+val c_subst_many_go : nat -> nat -> cexpr list -> cexpr -> cexpr
+
+val c_subst_many : nat -> cexpr list -> cexpr -> cexpr
+
+val c_instantiate_many : cexpr -> cexpr list -> cexpr
+
+val c_subst_levels_go : name list -> level list -> cexpr -> cexpr
+
+val c_subst_levels : name list -> level list -> cexpr -> cexpr
+
+val c_spine : cexpr -> cexpr list -> (cexpr, cexpr list) prod
+
+val c_apps : cexpr -> cexpr list -> cexpr
+
+val c_beta_collect : cexpr -> cexpr list -> cexpr list -> cexpr
+
+val c_beta : cexpr -> cexpr list -> cexpr
+
+val c_dag_same : cexpr -> cexpr -> bool
+
+val c_alpha : nat -> cexpr -> cexpr -> (bool, nat) prod
+
+val c_alpha_eq : cexpr -> cexpr -> bool
+
+val c_expr_eqb : cexpr -> cexpr -> bool
+
+val c_nat_value : cexpr -> n option
+
+val c_nat_constructor : n -> cexpr
+
+val c_is_true : cexpr -> bool
+
+val c_is_eager_reduce_argument : cexpr -> bool
+
+val c_same_head : nat -> cexpr -> cexpr -> bool result
+
+val c_reduce_native : cexpr -> cexpr option result
+
+val c_char_expr : n -> cexpr
+
+val c_char_list : n list -> cexpr
+
+val c_expand_string : string -> cexpr result
+
+val c_core_nat : cexpr
+
+val c_core_string : cexpr
+
+type c_arena_table = cexpr PositiveMap.t
+
+val c_arena_ref : c_arena_table -> positive -> cexpr result
+
+val c_arena_compile_node :
+  bool -> bool -> c_arena_table -> positive -> dag_node -> cexpr result
+
+val c_arena_build :
+  bool -> bool -> c_arena_table -> (positive, dag_node) prod list ->
+  c_arena_table result
+
+type c_binding = { cb_type : cexpr; cb_value : cexpr option }
+
+type c_context = { cc_id : positive; cc_bound : c_binding list;
+                   cc_free : (name, c_binding) prod list }
+
+val empty_c_context : c_context
+
+val c_find_free : name -> (name, c_binding) prod list -> c_binding option
+
+val c_is_non_let_local : c_context -> cexpr -> bool
+
+type c_equiv_manager = { cem_next : positive;
+                         cem_nodes : ((positive, cexpr) prod, positive) prod
+                                     list CacheMap.t;
+                         cem_parent : positive PositiveMap.t }
+
+val cem_empty : c_equiv_manager
+
+val cem_find_root_fuel : nat -> positive PositiveMap.t -> positive -> positive
+
+val cem_find_root : c_equiv_manager -> positive -> positive
+
+val cem_bucket_lookup :
+  positive -> cexpr -> ((positive, cexpr) prod, positive) prod list ->
+  positive option
+
+val cem_is_equiv_ro :
+  c_equiv_manager -> positive -> positive -> positive -> cexpr -> cexpr ->
+  bool
+
+val cem_intern :
+  c_equiv_manager -> positive -> positive -> cexpr -> (positive,
+  c_equiv_manager) prod
+
+val cem_add_equiv :
+  c_equiv_manager -> positive -> positive -> positive -> cexpr -> cexpr ->
+  c_equiv_manager
+
+type compiled_decl = { cd_decl : declaration; cd_type : cexpr;
+                       cd_value : cexpr option;
+                       cd_rules : ((name, nat) prod, cexpr) prod list }
+
+type checker_state = { cs_whnf_cache : ((positive, cexpr) prod, cexpr) prod
+                                       list CacheMap.t;
+                       cs_infer_cache : (((bool, positive) prod, cexpr) prod,
+                                        cexpr) prod list CacheMap.t;
+                       cs_defeq_cache : (((positive, cexpr) prod, cexpr)
+                                        prod, bool) prod list CacheMap.t;
+                       cs_fail_cache : ((positive, cexpr) prod, cexpr) prod
+                                       list CacheMap.t;
+                       cs_equiv : c_equiv_manager;
+                       cs_decl_cache : (name, compiled_decl) prod list
+                                       CacheMap.t;
+                       cs_ctx_trie : ((cexpr, cexpr option) prod, positive)
+                                     prod list PositiveMap.t;
+                       cs_next_ctx : positive }
+
+val empty_checker_state : checker_state
+
+val cache_bucket_cap : nat
+
+val c_push_capped : 'a1 -> 'a1 list -> 'a1 list
+
+val c_should_cache_whnf : c_context -> cexpr -> bool
+
+val c_should_cache_infer : cexpr -> bool
+
+val c_is_trivial_defeq_expr : cexpr -> bool
+
+val c_whnf_bucket_find :
+  positive -> cexpr -> ((positive, cexpr) prod, cexpr) prod list -> cexpr
+  option
+
+val c_whnf_find_h :
+  positive -> positive -> cexpr -> checker_state -> cexpr option
+
+val c_whnf_put_h :
+  positive -> positive -> cexpr -> cexpr -> checker_state -> checker_state
+
+val c_infer_bucket_find :
+  bool -> positive -> cexpr -> (((bool, positive) prod, cexpr) prod, cexpr)
+  prod list -> cexpr option
+
+val c_infer_find_h :
+  positive -> bool -> positive -> cexpr -> checker_state -> cexpr option
+
+val c_infer_put_h :
+  positive -> bool -> positive -> cexpr -> cexpr -> checker_state ->
+  checker_state
+
+val c_defeq_bucket_find :
+  positive -> cexpr -> cexpr -> (((positive, cexpr) prod, cexpr) prod, bool)
+  prod list -> bool option
+
+val c_fail_bucket_mem :
+  positive -> cexpr -> cexpr -> ((positive, cexpr) prod, cexpr) prod list ->
+  bool
+
+val c_defeq_hashes :
+  positive -> cexpr -> cexpr -> ((positive, positive) prod, positive) prod
+
+val c_defeq_find_h :
+  positive -> positive -> positive -> positive -> cexpr -> cexpr ->
+  checker_state -> bool option
+
+val c_defeq_put_h :
+  positive -> positive -> positive -> positive -> cexpr -> cexpr -> bool ->
+  checker_state -> checker_state
+
+val c_fail_mem_h :
+  positive -> positive -> cexpr -> cexpr -> checker_state -> bool
+
+val c_fail_put_h :
+  positive -> positive -> cexpr -> cexpr -> checker_state -> checker_state
+
+val c_decl_bucket_find :
+  name -> (name, compiled_decl) prod list -> compiled_decl option
+
+val c_find_compiled_rule :
+  name -> ((name, nat) prod, cexpr) prod list -> (nat, cexpr) prod option
+
+type 'a c_act = checker_state -> ('a result, checker_state) prod
+
+val c_ret : 'a1 -> 'a1 c_act
+
+val c_pure : 'a1 result -> 'a1 c_act
+
+val c_bind : 'a1 c_act -> ('a1 -> 'a2 c_act) -> 'a2 c_act
+
+val c_opt_alpha : nat -> cexpr option -> cexpr option -> bool
+
+val c_ctx_trie_find :
+  cexpr -> cexpr option -> ((cexpr, cexpr option) prod, positive) prod list
+  -> positive option
+
+val c_push_binding : c_context -> cexpr -> cexpr option -> c_context c_act
+
+type c_methods = { cm_infer : (c_context -> cexpr -> cexpr c_act);
+                   cm_infer_type : (c_context -> cexpr -> cexpr c_act);
+                   cm_whnf : (c_context -> cexpr -> cexpr c_act);
+                   cm_whnf_core : (bool -> c_context -> cexpr -> cexpr c_act);
+                   cm_defeq : (c_context -> cexpr -> cexpr -> bool c_act);
+                   cm_mode : reduction_mode;
+                   cm_eager_defeq : (c_context -> cexpr -> cexpr -> bool
+                                    c_act) }
+
+val cm_inference_only : c_methods -> c_methods
+
+val cm_app_type_defeq :
+  c_methods -> c_context -> cexpr -> cexpr -> cexpr -> bool c_act
+
+val cm_sort_of : c_methods -> c_context -> cexpr -> level c_act
+
+val c_compile_decl : bool -> bool -> declaration -> compiled_decl
+
+val c_get_compiled :
+  declaration_lookup -> bool -> bool -> name -> compiled_decl option c_act
+
+val c_get_constant :
+  declaration_lookup -> bool -> bool -> name list -> name -> level list ->
+  compiled_decl c_act
+
+val c_unfold :
+  declaration_lookup -> bool -> bool -> name list -> cexpr -> cexpr option
+  c_act
+
+val c_delta_info : declaration_lookup -> cexpr -> declaration option
+
+val c_delta_sides : declaration_lookup -> cexpr -> cexpr -> (bool, bool) prod
+
+val c_erasing_delta : declaration_lookup -> cexpr -> bool
+
+val c_is_cheap_arg : declaration_lookup -> cexpr -> bool
+
+val c_nat_probe_head : declaration_lookup -> cexpr -> bool
+
+val c_make_structure :
+  declaration_lookup -> environment -> name -> level list -> cexpr list ->
+  cexpr -> cexpr option
+
+val c_reduce_proj_core :
+  declaration_lookup -> environment -> nat -> cexpr -> cexpr option
+
+val c_apply_type :
+  c_methods -> c_context -> cexpr -> cexpr list -> cexpr c_act
+
+val c_occurs : nat -> cexpr -> bool
+
+val c_projection_field :
+  c_methods -> nat -> c_context -> name -> cexpr -> bool -> nat -> nat ->
+  cexpr -> cexpr c_act
+
+val c_infer_projection :
+  declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+  c_context -> name -> nat -> cexpr -> cexpr c_act
+
+val c_binary_nat :
+  bool -> nat -> primitive_kind -> n -> n -> cexpr option result
+
+val c_reduce_nat :
+  declaration_lookup -> bool -> bool -> c_methods -> nat -> c_context ->
+  cexpr -> cexpr option c_act
+
+val c_to_constructor :
+  declaration_lookup -> environment -> bool -> c_methods -> nat -> c_context
+  -> name -> bool -> cexpr -> cexpr c_act
+
+val c_reduce_recursor_compiled :
+  declaration_lookup -> environment -> bool -> c_methods -> nat -> c_context
+  -> compiled_decl -> level list -> cexpr list -> cexpr option c_act
+
+val c_reduce_recursor :
+  declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+  c_context -> cexpr -> cexpr option c_act
+
+val c_reduce_projection_with :
+  declaration_lookup -> environment -> c_methods -> (c_context -> cexpr ->
+  cexpr c_act) -> c_context -> name -> nat -> cexpr -> cexpr option c_act
+
+val c_reduce_quotient_parts :
+  declaration_lookup -> c_methods -> c_context -> quotient_kind -> cexpr list
+  -> cexpr option c_act
+
+val c_reduce_quotient :
+  declaration_lookup -> c_methods -> c_context -> cexpr -> cexpr option c_act
+
+val c_infer_step :
+  declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+  name list -> bool -> c_context -> cexpr -> cexpr c_act
+
+val c_is_closed_no_fvar : cexpr -> bool
+
+val c_nat_probe_allowed : reduction_mode -> cexpr -> cexpr -> bool
+
+val c_true_probe_allowed : reduction_mode -> cexpr -> bool
+
+val c_whnf_core_step :
+  declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+  name list -> bool -> c_context -> cexpr -> cexpr c_act
+
+val c_nat_add_outer_limit : nat
+
+val c_nat_add_inner_limit : nat
+
+val c_is_nat_add : declaration_lookup -> cexpr -> (cexpr, cexpr) prod option
+
+type c_add_step_res =
+| CAddDone of n
+| CAddFallback
+| CAddNext of cexpr * n
+
+val c_nat_add_one_step :
+  declaration_lookup -> environment -> bool -> bool -> c_methods -> nat ->
+  name list -> c_context -> cexpr -> n -> c_add_step_res c_act
+
+val c_nat_add_inner :
+  declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+  nat -> name list -> c_context -> cexpr -> n -> c_add_step_res c_act
+
+val c_nat_add_outer :
+  declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+  nat -> name list -> c_context -> cexpr -> n -> cexpr option c_act
+
+type c_whnf_round =
+| CWhnfDone of cexpr
+| CWhnfContinue of cexpr
+
+val c_whnf_round_step :
+  declaration_lookup -> environment -> bool -> bool -> bool -> c_methods ->
+  nat -> name list -> c_context -> cexpr -> c_whnf_round c_act
+
+val c_whnf_loop_aux :
+  declaration_lookup -> environment -> bool -> bool -> bool -> nat ->
+  c_methods -> nat -> name list -> c_context -> cexpr -> cexpr c_act
+
+val c_whnf_loop :
+  declaration_lookup -> environment -> bool -> bool -> bool -> nat ->
+  c_methods -> nat -> name list -> c_context -> cexpr -> cexpr c_act
+
+val c_eta_compare :
+  c_methods -> c_context -> cexpr -> cexpr -> cexpr -> bool c_act
+
+val c_compare_args_filtered :
+  declaration_lookup -> bool -> c_methods -> c_context -> cexpr list -> cexpr
+  list -> bool c_act
+
+val c_compare_args_cheap_first :
+  declaration_lookup -> c_methods -> c_context -> cexpr list -> cexpr list ->
+  bool c_act
+
+val c_congruent_apps :
+  declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+  bool c_act
+
+val c_delta_congruent :
+  declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+  bool c_act
+
+val c_compare_heads :
+  declaration_lookup -> c_methods -> nat -> c_context -> cexpr -> cexpr ->
+  bool c_act
+
+val c_compare_fields :
+  c_methods -> c_context -> name -> cexpr -> nat -> cexpr list -> bool c_act
+
+val c_structure_eta :
+  declaration_lookup -> environment -> c_methods -> c_context -> cexpr ->
+  cexpr -> bool c_act
+
+val c_unit_like :
+  declaration_lookup -> environment -> c_methods -> c_context -> cexpr ->
+  cexpr -> bool c_act
+
+val c_try_string_expansion :
+  c_methods -> c_context -> cexpr -> cexpr -> bool option c_act
+
+val c_compare_fallback :
+  declaration_lookup -> environment -> c_methods -> nat -> c_context -> cexpr
+  -> cexpr -> bool c_act
+
+val c_compare_after_whnf :
+  declaration_lookup -> environment -> c_methods -> nat -> c_context -> cexpr
+  -> cexpr -> bool c_act
+
+val c_quick :
+  c_methods -> nat -> c_context -> cexpr -> cexpr -> bool option c_act
+
+val c_proof_irrel :
+  c_methods -> nat -> c_context -> cexpr -> cexpr -> bool option c_act
+
+val c_offset :
+  bool -> c_methods -> c_context -> cexpr -> cexpr -> bool option c_act
+
+val c_try_unfold_proj_app :
+  c_methods -> c_context -> cexpr -> cexpr option c_act
+
+val c_opposite_projection :
+  declaration_lookup -> c_methods -> c_context -> cexpr -> cexpr -> (cexpr,
+  cexpr) prod option c_act
+
+type c_conversion_progress =
+| CConversionDone of bool
+| CConversionStuck of cexpr * cexpr
+
+val c_nat_congr_worth_trying : declaration_lookup -> cexpr -> cexpr -> bool
+
+val c_lazy_delta :
+  declaration_lookup -> bool -> bool -> bool -> nat -> c_methods -> nat ->
+  name list -> c_context -> cexpr -> cexpr -> c_conversion_progress c_act
+
+val c_lazy_delta_proj :
+  declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+  nat -> name list -> c_context -> nat -> cexpr -> cexpr -> bool c_act
+
+val c_finish_conversion :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool ->
+  c_methods -> nat -> name list -> c_context -> cexpr -> cexpr -> bool c_act
+
+val c_true_shortcut :
+  bool -> c_methods -> c_context -> cexpr -> cexpr -> bool c_act
+
+val c_defeq_step :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  c_methods -> nat -> name list -> c_context -> cexpr -> cexpr -> bool c_act
+
+val c_checker_mode :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  reduction_mode -> nat -> name list -> c_methods
+
+val c_checker :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  name list -> c_methods
+
+type path_trie =
+  ((positive, positive option) prod, c_context) prod list PositiveMap.t
+  (* singleton inductive, whose constructor was Build_path_trie *)
+
+val empty_path_trie : path_trie
+
+val pt_find_edge :
+  positive -> positive option -> ((positive, positive option) prod,
+  c_context) prod list -> c_context option
+
+type dag_infer_state = { dis_trie : path_trie;
+                         dis_checked : cexpr PositiveMap.t PositiveMap.t;
+                         dis_unchecked : cexpr PositiveMap.t PositiveMap.t;
+                         dis_cs : checker_state }
+
+val empty_dag_infer_state : checker_state -> dag_infer_state
+
+val dis_find : bool -> positive -> positive -> dag_infer_state -> cexpr option
+
+val dis_put :
+  bool -> positive -> positive -> cexpr -> dag_infer_state -> dag_infer_state
+
+type 'a d_act = dag_infer_state -> ('a result, dag_infer_state) prod
+
+val d_ret : 'a1 -> 'a1 d_act
+
+val d_pure : 'a1 result -> 'a1 d_act
+
+val d_lift : 'a1 c_act -> 'a1 d_act
+
+val d_bind : 'a1 d_act -> ('a1 -> 'a2 d_act) -> 'a2 d_act
+
+val d_push_binding :
+  c_context -> positive -> cexpr -> positive option -> cexpr option ->
+  c_context d_act
+
+val c_dag_infer :
+  declaration_lookup -> environment -> bool -> bool -> nat -> c_methods ->
+  nat -> name list -> dag_arena -> c_arena_table -> bool -> positive ->
+  c_context -> cexpr d_act
+
+val c_run_dag_infer :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  nat -> name list -> dag_arena -> c_arena_table -> positive -> cexpr c_act
+
+val c_whnf_top :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  name list -> c_context -> cexpr -> cexpr c_act
+
+val c_defeq_top :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  name list -> c_context -> cexpr -> cexpr -> bool c_act
+
+val c_input_header :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  nat -> name -> name list -> dag_arena -> c_arena_table -> positive ->
+  scope_entry -> unit0 c_act
+
+val c_input_check :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  nat -> name list -> dag_arena -> c_arena_table -> positive -> positive ->
+  cexpr -> unit0 c_act
+
+val c_input_proposition :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  nat -> name list -> dag_arena -> c_arena_table -> positive -> unit0 c_act
+
+val c_admit_dag_delta :
+  declaration_lookup -> fuel_config -> environment -> bool -> bool -> bool ->
+  dag_admission_kind -> nat -> name -> name list -> (positive, dag_node) prod
+  list -> positive -> positive -> environment result
+
+val cached_batch_delta :
+  fuel_config -> runtime_state -> admission_batch -> environment result
+
+val admit_batch_cached :
+  fuel_config -> runtime_state -> admission_batch -> runtime_state result
+
+val cached_transaction :
+  fuel_config -> runtime_state -> admission_batch -> (runtime_state, unit0
+  result) prod

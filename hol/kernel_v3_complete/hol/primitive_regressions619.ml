@@ -23,9 +23,13 @@ let l4_primitive_expected_metadata_not_erased619 = prove
    (L4KConst447 n us) (L4KMData447 (L4KConst447 n us)) = L4KReject491 L4KTypeMismatch491`,
   REWRITE_TAC [l4_primitive_check_signature619;l4_kexpr_eqb480]);;
 let l4_primitive_metadata_costs_fuel619 = prove
- (`!n us. l4_primitive_check_signature619 1
-   (L4KMData447 (L4KConst447 n us)) (L4KConst447 n us) = L4KDecline491 L4KOutOfFuel491`,
-  REWRITE_TAC [ONE;l4_primitive_check_signature619]);;
+ (`!n us. l4_primitive_consume_mdata619 1
+   (L4KMData447 (L4KConst447 n us)) = L4KDecline491 L4KOutOfFuel491`,
+  REWRITE_TAC [ONE;l4_primitive_consume_mdata619]);;
+let l4_primitive_nondomain_metadata_rejected619 = prove
+ (`!fuel n us. l4_primitive_check_signature619 (SUC fuel)
+   (L4KMData447 (L4KConst447 n us)) (L4KConst447 n us) = L4KReject491 L4KTypeMismatch491`,
+  REWRITE_TAC [l4_primitive_check_signature619;l4_kexpr_eqb480]);;
 let l4_primitive_signature_no_alias_unfold619 = prove
  (`!fuel n m us. ~(n = m) ==>
    l4_primitive_check_signature619 (SUC fuel) (L4KConst447 n us) (L4KConst447 m us) =

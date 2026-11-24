@@ -108,8 +108,6 @@ module Pos :
   val coq_land : positive -> positive -> n
 
   val coq_lxor : positive -> positive -> n
-
-  val of_succ_nat : nat -> positive
  end
 
 module Coq_Pos :
@@ -209,8 +207,6 @@ module N :
   val shiftl : n -> n -> n
 
   val shiftr : n -> n -> n
-
-  val of_nat : nat -> n
  end
 
 type ascii =
@@ -485,7 +481,15 @@ type methods = { infer_method : (context -> expr -> expr result);
 
 val core_nat_value : expr -> n option
 
-val core_shiftr : nat -> n -> n -> n result
+val core_pow_max_exp : n
+
+val core_shiftr : n -> n -> n option
+
+val core_reduce_bool_name : name
+
+val core_reduce_nat_name : name
+
+val core_reduce_native : expr -> expr option result
 
 val core_binary_nat :
   nat -> environment -> primitive_kind -> n -> n -> expr option result
@@ -586,7 +590,15 @@ module Accessor :
 
   val core_nat_value : expr -> n option
 
-  val core_shiftr : nat -> n -> n -> n result
+  val core_pow_max_exp : n
+
+  val core_shiftr : n -> n -> n option
+
+  val core_reduce_bool_name : name
+
+  val core_reduce_nat_name : name
+
+  val core_reduce_native : expr -> expr option result
 
   val core_binary_nat :
     (name -> environment -> declaration option) -> nat -> environment ->

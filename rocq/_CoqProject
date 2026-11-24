@@ -113,3 +113,12 @@ InferSoundness.v
 CheckerSoundness.v
 DefEqCache.v
 FuelConfig.v
+LevelSat.v
+SubstTheory.v
+StrongTyping.v
+EnvDeclTheory.v
+PatternConfluence.v
+CachedChecker.v
+VerifyExpr.v
+VerifyTypeChecker.v
+VerifyEnvironment.v

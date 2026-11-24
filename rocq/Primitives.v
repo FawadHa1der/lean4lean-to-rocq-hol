@@ -66,16 +66,28 @@ Definition primitive_false := EConst core_false_name [].
 Definition primitive_call (op : primitive_kind) (args : list expr) :=
   core_apps (EConst (primitive_name op) []) args.
 
-(* Upstream's @& domains carry metadata. The wire syntax retains only an
-   EMData wrapper, which is transparent to the kernel; aliases are not erased. *)
+Fixpoint primitive_consume_mdata (fuel : nat) (e : expr) : result expr :=
+  match fuel with
+  | 0 => Decline OutOfFuel
+  | S fuel =>
+    match e with
+    | EMData a => primitive_consume_mdata fuel a
+    | _ => Accept e
+    end
+  end.
+
+(* Upstream commit 67f63b0 eraseMData (Lean4Lean/Primitive.lean:311-313): strip
+   head EMData only on domains along the outer EPi spine; all other positions
+   remain strict. *)
 Fixpoint primitive_check_signature (fuel : nat) (actual expected : expr) : result unit :=
   match fuel with
   | 0 => Decline OutOfFuel
   | S fuel =>
     match actual, expected with
-    | EMData a, _ => primitive_check_signature fuel a expected
-    | EPi _ _ a b, EPi _ _ c d | EApp a b, EApp c d =>
-        _ <- primitive_check_signature fuel a c ;; primitive_check_signature fuel b d
+    | EPi _ _ a b, EPi _ _ c d =>
+        a' <- primitive_consume_mdata fuel a ;;
+        _ <- require (expr_eqb a' c) TypeMismatch ;;
+        primitive_check_signature fuel b d
     | _, _ => require (expr_eqb actual expected) TypeMismatch
     end
   end.
@@ -286,6 +298,86 @@ Definition primitive_reflection_make (false_eq : bool) : primitive_reflection :=
               PQ.lam (PQ.eq PQ.bool b PQ.tru) pos; b]) (PQ.refl PQ.bool b)
          else PQ.dite (PQ.dec p) (PQ.eq PQ.bool b PQ.tru) (PQ.bool_dec b) pos neg)))) |}.
 
+Definition primitive_has_decidable_intro (env : environment) : bool :=
+  match find_decl (primitive_path ["Decidable"; "intro"]) env with
+  | Some _ => true
+  | None => false
+  end.
+
+Definition primitive_has_bool_dec_eq (env : environment) : bool :=
+  match find_decl (primitive_path ["Bool"; "decEq"]) env with
+  | Some _ => true
+  | None => false
+  end.
+
+(* Lean 4.36+ single-constructor Decidable.intro over Bool.Reflects: does not
+   require Decidable.isTrue, Decidable.isFalse, or Bool.decEq to precede Nat.mod. *)
+Definition primitive_reflection_make_v436 (false_eq : bool) : primitive_reflection :=
+  let base := primitive_reflection_make false_eq in
+  let rt := reflection_type base in
+  let relation p b := PQ.apps (PQ.embed rt) [p; b] in
+  let false_proof (b hf : PQ.term) : PQ.term :=
+    if false_eq then hf
+    else PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht =>
+      PQ.apps (PQ.const ["Bool"; "noConfusion"] [LZero])
+        [PQ.const ["False"] []; PQ.fal; PQ.tru;
+         PQ.apps (PQ.const ["Eq"; "rec"] [LZero; LSucc LZero])
+           [PQ.bool; b;
+            PQ.lam PQ.bool (fun x => PQ.lam (PQ.eq PQ.bool b x) (fun _ => PQ.eq PQ.bool x PQ.tru));
+            ht; PQ.fal; hf]]) in
+  {| reflection_type := rt;
+     reflection_true := reflection_true base;
+     reflection_false := reflection_false base;
+     reflection_dec := PQ.run (PQ.lam PQ.prop (fun p => PQ.lam PQ.bool (fun b =>
+       PQ.lam (relation p b) (fun h =>
+         PQ.apps (PQ.const ["Decidable"; "intro"] [])
+           [p; b;
+            PQ.app (PQ.apps (PQ.const ["Bool"; "rec"] [LZero])
+              [PQ.lam PQ.bool (fun b' =>
+                 PQ.arrow (PQ.eq PQ.bool b b')
+                   (PQ.apps (PQ.const ["Bool"; "Reflects"] []) [b'; p]));
+               PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf =>
+                 PQ.apps h [PQ.not p;
+                   PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p) (fun _ =>
+                     PQ.lam (PQ.arrow
+                       (if false_eq then PQ.eq PQ.bool b PQ.fal
+                        else PQ.not (PQ.eq PQ.bool b PQ.tru))
+                       (PQ.not p)) (fun no => PQ.app no (false_proof b hf)))]);
+               PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht =>
+                 PQ.apps h [p;
+                   PQ.lam (PQ.arrow (PQ.eq PQ.bool b PQ.tru) p) (fun yes =>
+                     PQ.lam (PQ.arrow
+                       (if false_eq then PQ.eq PQ.bool b PQ.fal
+                        else PQ.not (PQ.eq PQ.bool b PQ.tru))
+                       (PQ.not p)) (fun _ => PQ.app yes ht))]);
+               b]) (PQ.refl PQ.bool b)])))) |}.
+
+Definition primitive_reflection_for (env : environment) (false_eq : bool)
+    : primitive_reflection :=
+  if primitive_has_decidable_intro env
+  then primitive_reflection_make_v436 false_eq
+  else primitive_reflection_make false_eq.
+
+Definition primitive_bool_dec_v436 : expr :=
+  PQ.run (PQ.lam PQ.bool (fun b =>
+    PQ.apps (PQ.const ["Decidable"; "intro"] [])
+      [PQ.eq PQ.bool b PQ.tru; b;
+       PQ.app (PQ.apps (PQ.const ["Bool"; "rec"] [LZero])
+         [PQ.lam PQ.bool (fun b' =>
+            PQ.arrow (PQ.eq PQ.bool b b')
+              (PQ.apps (PQ.const ["Bool"; "Reflects"] []) [b'; PQ.eq PQ.bool b PQ.tru]));
+          PQ.lam (PQ.eq PQ.bool b PQ.fal) (fun hf =>
+            PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht =>
+              PQ.apps (PQ.const ["Bool"; "noConfusion"] [LZero])
+                [PQ.const ["False"] []; PQ.fal; PQ.tru;
+                 PQ.apps (PQ.const ["Eq"; "rec"] [LZero; LSucc LZero])
+                   [PQ.bool; b;
+                    PQ.lam PQ.bool (fun x =>
+                      PQ.lam (PQ.eq PQ.bool b x) (fun _ => PQ.eq PQ.bool x PQ.tru));
+                    ht; PQ.fal; hf]]));
+          PQ.lam (PQ.eq PQ.bool b PQ.tru) (fun ht => ht);
+          b]) (PQ.refl PQ.bool b)])).
+
 Definition primitive_reflection_ite (r : primitive_reflection) : expr :=
   PQ.run (PQ.lam PQ.prop (fun p => PQ.lam PQ.bool (fun b =>
     PQ.lam (PQ.apps (PQ.embed (reflection_type r)) [p; b]) (fun h =>
@@ -355,14 +447,37 @@ Definition primitive_condition_dec (c : primitive_condition) : expr :=
   | PCNatLE => primitive_const ["Nat"; "decLe"] []
   | PCNatEq => primitive_const ["Nat"; "decEq"] []
   end.
+Definition primitive_has_decidable_decide (env : environment) : bool :=
+  match find_decl (NameStr (NameStr NameAnon "Decidable") "decide") env with
+  | Some _ => true
+  | None => false
+  end.
+Definition primitive_condition_dec_in (env : environment) (c : primitive_condition) : expr :=
+  match c with
+  | PCBool =>
+      if primitive_has_bool_dec_eq env then primitive_condition_dec PCBool
+      else if primitive_has_decidable_intro env then primitive_bool_dec_v436
+      else primitive_condition_dec PCBool
+  | _ => primitive_condition_dec c
+  end.
 Definition primitive_condition_ite c a args t e :=
   PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t e.
+Definition primitive_condition_ite_in env c a args t e :=
+  PQ.ite a (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
+    (PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args) t e.
 Definition primitive_condition_dite c args t e :=
   PQ.dite PQ.nat (PQ.apps (PQ.embed (primitive_condition_prop c)) args)
     (PQ.apps (PQ.embed (primitive_condition_dec c)) args) t e.
 Definition primitive_condition_decide c args :=
   primitive_condition_ite c PQ.bool args PQ.tru PQ.fal.
+Definition primitive_condition_decide_in env c args :=
+  if primitive_has_decidable_intro env && primitive_has_decidable_decide env then
+    PQ.apps (PQ.const ["Decidable"; "decide"] [])
+      [PQ.apps (PQ.embed (primitive_condition_prop c)) args;
+       PQ.apps (PQ.embed (primitive_condition_dec_in env c)) args]
+  else
+    primitive_condition_ite_in env c PQ.bool args PQ.tru PQ.fal.
 
 Definition primitive_condition_proof (c : primitive_condition) : expr :=
   let is_eq := match c with PCNatEq => true | _ => false end in
@@ -381,7 +496,8 @@ Definition primitive_condition_proof (c : primitive_condition) : expr :=
 Definition primitive_check_condition (fuel : nat) (env : environment)
     (c : primitive_condition) (with_ite with_dite : bool) : result unit :=
   _ <- require (core_bool_ready env) MalformedDeclaration ;;
-  _ <- infer fuel env [] empty_context (primitive_condition_dec c) ;;
+  let dec_c := primitive_condition_dec_in env c in
+  _ <- infer fuel env [] empty_context dec_c ;;
   match c with
   | PCBool =>
     _ <- primitive_check_closed fuel env (PQ.embed (primitive_condition_prop c))
@@ -389,7 +505,7 @@ Definition primitive_check_condition (fuel : nat) (env : environment)
     _ <- if with_ite then
       let it := PQ.lam PQ.bool (fun b => PQ.apps (PQ.const ["ite"] [LSucc LZero])
         [PQ.nat; PQ.apps (PQ.embed (primitive_condition_prop c)) [b];
-         PQ.apps (PQ.embed (primitive_condition_dec c)) [b]]) in
+         PQ.apps (PQ.embed dec_c) [b]]) in
       _ <- primitive_check_closed fuel env it
         (PQ.arrow PQ.bool (PQ.arrow PQ.nat (PQ.arrow PQ.nat PQ.nat))) ;;
       _ <- primitive_eq_closed fuel env (PQ.app it PQ.tru)
@@ -402,8 +518,18 @@ Definition primitive_check_condition (fuel : nat) (env : environment)
     let is_eq := match c with PCNatEq => true | _ => false end in
     let op := if is_eq then PNatBEq else PNatBLE in
     _ <- primitive_authenticated fuel env op ;;
-    let r := primitive_reflection_make is_eq in
+    let r := primitive_reflection_for env is_eq in
     _ <- primitive_check_reflection fuel env r with_ite with_dite ;;
+    _ <- (if primitive_has_decidable_intro env && primitive_has_decidable_decide env then
+            let relation p b := PQ.apps (PQ.embed (reflection_type r)) [p; b] in
+            primitive_eq_closed fuel env
+              (PQ.lam PQ.prop (fun p => PQ.lam PQ.bool (fun b =>
+                PQ.lam (relation p b) (fun h =>
+                  PQ.apps (PQ.const ["Decidable"; "decide"] [])
+                    [p; PQ.apps (PQ.embed (reflection_dec r)) [p; b; h]]))))
+              (PQ.lam PQ.prop (fun p => PQ.lam PQ.bool (fun b =>
+                PQ.lam (relation p b) (fun _ => b))))
+          else Accept tt) ;;
     let gadget := PQ.lam PQ.nat (fun x => PQ.lam PQ.nat (fun y =>
       PQ.apps
         (PQ.lam PQ.prop (fun p => PQ.lam PQ.bool (fun b =>
@@ -411,7 +537,7 @@ Definition primitive_check_condition (fuel : nat) (env : environment)
             PQ.apps (PQ.embed (reflection_dec r)) [p; b; h]))))
         [PQ.apps (PQ.embed (primitive_condition_prop c)) [x; y];
          PQ.call op [x; y]; PQ.apps (PQ.embed (primitive_condition_proof c)) [x; y]])) in
-    primitive_eq_closed fuel env gadget (PQ.embed (primitive_condition_dec c))
+    primitive_eq_closed fuel env gadget (PQ.embed dec_c)
   end.
 
 Definition primitive_go_name (modulo : bool) : name :=
@@ -590,7 +716,7 @@ Definition primitive_unfold_nat_well_founded (fuel : nat) (env : environment)
         let '(x,sx) := ind_fresh sa NameAnon BDefault core_nat in
         let xv := PQ.embed (local_expr x) in
         _ <- check_defeq fuel env [] (ist_context sx) (EApp eager (local_expr x))
-          (PQ.run (primitive_condition_ite PCBool PQ.nat [PQ.call PNatBEq [xv;xv]] xv xv)) ;;
+          (PQ.run (primitive_condition_ite_in env PCBool PQ.nat [PQ.call PNatBEq [xv;xv]] xv xv)) ;;
         _ <- primitive_check_go fuel env s go ;;
         (* Re-infer F in the outer scope, without the unpacked recursion
            arguments. This enforces upstream's F-closedness obligation. *)
@@ -662,15 +788,15 @@ Definition primitive_check_bitwise (fuel : nat) (env : environment) (body : expr
     let f := PQ.embed (local_expr f) in
     let n := PQ.embed (local_expr n) in
     let m := PQ.embed (local_expr m) in
-    let bool_ite b := primitive_condition_ite PCBool PQ.nat [b] in
+    let bool_ite b := primitive_condition_ite_in env PCBool PQ.nat [b] in
     PQ.run (primitive_condition_dite PCNatEq [n;PQ.zero]
       (fun _ => bool_ite (PQ.apps f [PQ.fal;PQ.tru]) m PQ.zero)
       (fun hn => primitive_condition_ite PCNatEq PQ.nat [m;PQ.zero]
         (bool_ite (PQ.apps f [PQ.tru;PQ.fal]) n PQ.zero)
         (let n' := PQ.call PNatDiv [n;PQ.two] in
          let m' := PQ.call PNatDiv [m;PQ.two] in
-         let b1 := primitive_condition_decide PCNatEq [PQ.call PNatMod [n;PQ.two];PQ.one] in
-         let b2 := primitive_condition_decide PCNatEq [PQ.call PNatMod [m;PQ.two];PQ.one] in
+         let b1 := primitive_condition_decide_in env PCNatEq [PQ.call PNatMod [n;PQ.two];PQ.one] in
+         let b2 := primitive_condition_decide_in env PCNatEq [PQ.call PNatMod [m;PQ.two];PQ.one] in
          let r := PQ.apps (PQ.embed ih)
            [PQ.apps (PQ.embed (probe_pack p)) [n';m'];
             PQ.apps (PQ.const ["Nat";"bitwise_rec_lemma"] []) [n;hn]] in

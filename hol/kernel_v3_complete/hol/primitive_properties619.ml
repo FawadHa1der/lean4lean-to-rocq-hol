@@ -25,26 +25,37 @@ let l4_primitive_signature_no_fuel619 = prove
  (`!actual expected. l4_primitive_check_signature619 0 actual expected =
    L4KDecline491 L4KOutOfFuel491`,
   REWRITE_TAC [l4_primitive_check_signature619]);;
+let l4_primitive_consume_mdata_step619 = prove
+ (`!fuel a. l4_primitive_consume_mdata619 (SUC fuel) (L4KMData447 a) =
+   l4_primitive_consume_mdata619 fuel a`,
+  REWRITE_TAC [l4_primitive_consume_mdata619]);;
 let l4_primitive_signature_metadata619 = prove
- (`!fuel a e. l4_primitive_check_signature619 (SUC fuel) (L4KMData447 a) e =
-   l4_primitive_check_signature619 fuel a e`,
-  REWRITE_TAC [l4_primitive_check_signature619]);;
+ (`!fuel n bi a b m bj c d.
+   l4_primitive_check_signature619 (SUC (SUC fuel))
+     (L4KPi447 n bi (L4KMData447 a) b) (L4KPi447 m bj c d) =
+   l4_kr_bind491 (l4_primitive_consume_mdata619 fuel a) (\a'.
+     if l4_kexpr_eqb480 a' c
+     then l4_primitive_check_signature619 (SUC fuel) b d
+     else L4KReject491 L4KTypeMismatch491)`,
+  REWRITE_TAC [l4_primitive_check_signature619;l4_primitive_consume_mdata619]);;
 let l4_primitive_signature_pi619 = prove
  (`!fuel n bi a b m bj c d.
    l4_primitive_check_signature619 (SUC fuel)
      (L4KPi447 n bi a b) (L4KPi447 m bj c d) =
-   l4_kr_bind491 (l4_primitive_check_signature619 fuel a c)
-     (\ignored. l4_primitive_check_signature619 fuel b d)`,
+   l4_kr_bind491 (l4_primitive_consume_mdata619 fuel a) (\a'.
+     if l4_kexpr_eqb480 a' c
+     then l4_primitive_check_signature619 fuel b d
+     else L4KReject491 L4KTypeMismatch491)`,
   REWRITE_TAC [l4_primitive_check_signature619]);;
 let l4_primitive_signature_app619 = prove
  (`!fuel a b c d.
    l4_primitive_check_signature619 (SUC fuel) (L4KApp447 a b) (L4KApp447 c d) =
-   l4_kr_bind491 (l4_primitive_check_signature619 fuel a c)
-     (\ignored. l4_primitive_check_signature619 fuel b d)`,
+   (if l4_kexpr_eqb480 (L4KApp447 a b) (L4KApp447 c d) then L4KAccept491 one
+    else L4KReject491 L4KTypeMismatch491)`,
   REWRITE_TAC [l4_primitive_check_signature619]);;
 let l4_primitive_signature_domain_decline619 = prove
  (`!fuel n bi a b m bj c d reason.
-   l4_primitive_check_signature619 fuel a c = L4KDecline491 reason ==>
+   l4_primitive_consume_mdata619 fuel a = L4KDecline491 reason ==>
    l4_primitive_check_signature619 (SUC fuel)
      (L4KPi447 n bi a b) (L4KPi447 m bj c d) = L4KDecline491 reason`,
   SIMP_TAC [l4_primitive_check_signature619;l4_kr_bind491]);;

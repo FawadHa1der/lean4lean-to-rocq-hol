@@ -5,7 +5,7 @@ From LeanPort Require Import Syntax Universes Checker Primitives Declarations In
   DagScope DagArena DagAdmission DagTheoremOpaque IndexedDagAdmission CombinedAdmissionRefinement
   PersistentIndex PersistentAdmission QuotientTransaction QuotientTransactionDelta
   QuotientPersistentIndex QuotientFlagInvariant SemanticModel DeclarativeTyping
-  CheckerSoundness DefEqCache FuelConfig.
+  CheckerSoundness DefEqCache FuelConfig CachedChecker.
 Extraction Language OCaml.
 Extraction "lean_arena.ml" admit_extended admit_mutual admit_inductive_extended admit_quotient
   admit_dag_definition decode_then_admit_definition arena_build empty_arena scope_ref
@@ -17,5 +17,8 @@ Extraction "lean_arena.ml" admit_extended admit_mutual admit_inductive_extended 
   linear_cache_new_admit new_ordinary_decode_admit
   initial_state admit_batch state_environment
   initialize_quotient quotient_runtime_initial quotient_runtime_initialize
-  cached_defeq uniform_fuel_config infer_with_config whnf_with_config
-  defeq_with_config check_with_config admit_with_config.
+  cached_defeq empty_defeq_cache em_empty em_add_equiv em_is_equiv_ro
+  default_fuel_config fuel_config_with_rec_depth uniform_fuel_config
+  infer_with_config whnf_with_config defeq_with_config eta_expand_with_config
+  check_with_config admit_with_config
+  admit_batch_cached cached_transaction.

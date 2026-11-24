@@ -98,4 +98,4 @@ let l4_infer_projection_unavailable586 = prove
  (`!owner idx value rec fuel env ps checking g.
    l4_core_inductive532 env owner = NONE ==>
    l4_infer_step586 (L4KProj447 owner idx value) rec fuel env ps checking g =
-   L4KDecline491 L4KUnsupportedExpression491`, SIMP_TAC [l4_infer_step586]);;
+   L4KReject491 L4KTypeMismatch491`, SIMP_TAC [l4_infer_step586]);;

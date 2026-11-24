@@ -45,6 +45,14 @@ Fixpoint stage3_lazy_delta (rounds : nat) (rec : methods) (fuel : nat)
             match sn with
             | Some sn => ok <- defeq_method rec g t sn ;; Accept (ConversionDone ok)
             | None =>
+            nat_t <- core_reduce_native t ;;
+            match nat_t with
+            | Some tn => ok <- defeq_method rec g tn s ;; Accept (ConversionDone ok)
+            | None =>
+            nat_s <- core_reduce_native s ;;
+            match nat_s with
+            | Some sn => ok <- defeq_method rec g t sn ;; Accept (ConversionDone ok)
+            | None =>
             same <- core_delta_congruent rec fuel env g t s ;;
             if same then Accept (ConversionDone true) else
             projected <- core_opposite_projection rec env g t s ;;
@@ -63,6 +71,8 @@ Fixpoint stage3_lazy_delta (rounds : nat) (rec : methods) (fuel : nat)
             end
             end
             end
+            end
+            end
           end
         end
       end
@@ -72,10 +82,24 @@ Theorem guard_order_lazy_delta_exact rounds rec fuel env ps g t s :
   core_lazy_delta rounds rec fuel env ps g t s =
     stage3_lazy_delta rounds rec fuel env ps g t s.
 Proof.
-  revert t s. induction rounds; intros t s;
+  revert t s. induction rounds as [|rounds IH]; intros t s;
     cbn [core_lazy_delta stage3_lazy_delta]; try reflexivity.
   rewrite ordinary_left_guard_exact, ordinary_right_guard_exact.
-  pointwise.
+  apply bind_pointwise; [reflexivity | intros [ok|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [ok|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [tn|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [sn|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [nt|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [ns|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [[tn sn]|]; [apply IH|]].
+  destruct (core_delta_sides env t s) as [ul ur].
+  apply bind_pointwise; [reflexivity | intro td].
+  apply bind_pointwise; [reflexivity | intro sd].
+  destruct td as [et|], sd as [es|]; try reflexivity;
+    (apply bind_pointwise; [reflexivity | intro tn];
+     apply bind_pointwise; [reflexivity | intro sn];
+     apply IH).
 Qed.
 
 Definition stage3_true_shortcut (rec : methods) (env : environment)
@@ -107,7 +131,7 @@ Definition stage3_defeq_step (rec : methods) (fuel : nat) (env : environment) (p
       progress <- stage3_lazy_delta (S fuel) rec fuel env ps g tn sn ;;
       match progress with
       | ConversionDone ok => Accept ok
-      | ConversionStuck tn sn => core_finish_conversion rec fuel env g tn sn
+      | ConversionStuck tn sn => core_finish_conversion rec fuel env ps g tn sn
       end
     end
   end.
@@ -116,7 +140,12 @@ Theorem guard_order_defeq_step_exact rec fuel env ps g t s :
   defeq_step rec fuel env ps g t s = stage3_defeq_step rec fuel env ps g t s.
 Proof.
   unfold defeq_step, stage3_defeq_step.
-  pointwise.
+  apply bind_pointwise; [reflexivity | intros [ok|]; [reflexivity|]].
+  apply bind_pointwise; [apply guard_order_true_shortcut_exact | intros [|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intros [ok|]; [reflexivity|]].
+  apply bind_pointwise; [reflexivity | intro tn].
+  apply bind_pointwise; [reflexivity | intro sn].
+  apply bind_pointwise; [apply guard_order_lazy_delta_exact | intros [ok|t' s']; reflexivity].
 Qed.
 
 Theorem accessor_guard_order_step_exact resolve env

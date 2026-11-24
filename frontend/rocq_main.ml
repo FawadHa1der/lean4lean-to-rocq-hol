@@ -1,8 +1,8 @@
 let () =
-  let fuel = ref 512 and progress = ref 0 and input = ref None and line = ref 0 and checked = ref 0 in
+  let fuel = ref 50000 and progress = ref 0 and input = ref None and line = ref 0 and checked = ref 0 in
   let set_input s = match !input with
     | None -> input := Some s | Some _ -> raise (Arg.Bad "exactly one export is required") in
-  Arg.parse ["--fuel",Arg.Set_int fuel,"recursive checker depth (default 512)";
+  Arg.parse ["--fuel",Arg.Set_int fuel,"recursive checker depth (default 50000)";
              "--progress",Arg.Set_int progress,"diagnostics every N checked declarations (0 disables)"] set_input
     "rocq-check [--fuel N] EXPORT.ndjson";
   let path = match !input with Some s -> s | None -> prerr_endline "missing export path"; exit 3 in
@@ -12,7 +12,7 @@ let () =
     Printf.eprintf "stage=%s line=%d checked=%d cpu_seconds=%.3f\n%!" label !line !checked (Sys.time()) in
   try
     if !progress < 0 then report 3 "progress interval must be nonnegative";
-    let fuel = Rocq_adapter.nat !fuel in
+    let cfg = Lean_arena.fuel_config_with_rec_depth (Rocq_adapter.nat !fuel) in
     stage "parse";
     let export = Wire.read_file path in
     stage "schedule";
@@ -27,8 +27,8 @@ let () =
       line := Replay.line batch;
       if !progress > 0 && !checked mod !progress = 0 then stage "declaration";
       let result = match batch with
-        | Replay.Single(_,d) -> Persistent_adapter.State.admit fuel !state st d
-        | Replay.Mutual(_,ds) -> Persistent_adapter.State.mutual fuel !state st ds in
+        | Replay.Single(_,d) -> Persistent_adapter.State.admit_cached cfg !state st d
+        | Replay.Mutual(_,ds) -> Persistent_adapter.State.mutual_cached cfg !state st ds in
       consume (Replay.count batch) result) batches;
     Printf.printf "accept: %d declarations checked by extracted Gallina\n" !checked
   with

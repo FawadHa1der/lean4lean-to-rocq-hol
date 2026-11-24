@@ -98,7 +98,7 @@ let l4_infer_step586 = new_recursive_definition l4_kexpr_RECURSION447
     else L4KDecline491 L4KUnsupportedExpression491) /\
   (l4_infer_step586 (L4KProj447 owner idx value) rec fuel env ps checking g =
     match l4_core_inductive532 env owner with
-    | NONE -> L4KDecline491 L4KUnsupportedExpression491
+    | NONE -> L4KReject491 L4KTypeMismatch491
     | SOME info -> l4_core_infer_projection577
         (if checking then rec else l4_inference_only543 rec) fuel env g owner idx value) /\
   (l4_infer_step586 (L4KMData447 body) rec fuel env ps checking g =

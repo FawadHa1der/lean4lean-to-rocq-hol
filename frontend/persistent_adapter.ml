@@ -31,6 +31,8 @@ module State : sig
   val environment : t -> C.environment
   val admit : C.nat -> t -> A.state -> Wire.declaration -> t C.result
   val mutual : C.nat -> t -> A.state -> Wire.definition list -> t C.result
+  val admit_cached : C.fuel_config -> t -> A.state -> Wire.declaration -> t C.result
+  val mutual_cached : C.fuel_config -> t -> A.state -> Wire.definition list -> t C.result
 end = struct
   type t = C.runtime_state
   let initial = C.initial_state
@@ -38,4 +40,7 @@ end = struct
   let admit fuel state syntax input = C.admit_batch fuel state (request syntax input)
   let mutual fuel state syntax inputs =
     C.admit_batch fuel state (C.BatchMutual (A.list (A.definition syntax) inputs))
+  let admit_cached cfg state syntax input = C.admit_batch_cached cfg state (request syntax input)
+  let mutual_cached cfg state syntax inputs =
+    C.admit_batch_cached cfg state (C.BatchMutual (A.list (A.definition syntax) inputs))
 end

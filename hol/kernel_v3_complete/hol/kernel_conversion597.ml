@@ -43,52 +43,120 @@ let l4_core_lazy_delta597 = new_recursive_definition num_RECURSION
                           l4_kr_bind491 (l4_defeq_method543 rec g t value)
                             (\ok. L4KAccept491 (L4ConversionDone597 ok))
                       | NONE ->
-                        l4_kr_bind491 (l4_core_delta_congruent595 rec fuel env g t s) (\same.
-                          if same then L4KAccept491 (L4ConversionDone597 T) else
-                          l4_kr_bind491 (l4_core_opposite_projection596 rec env g t s) (\projected.
-                            match projected with
-                            | SOME pair -> l4_core_lazy_delta597 rounds rec fuel env ps g
-                                (FST pair) (SND pair)
-                            | NONE ->
-                              let sides = l4_core_delta_sides538 env t s in
-                              l4_kr_bind491
-                                (if FST sides then l4_core_unfold528 env ps t
-                                 else L4KAccept491 NONE) (\td.
-                                  l4_kr_bind491
-                                    (if SND sides then l4_core_unfold528 env ps s
-                                     else L4KAccept491 NONE) (\sd.
-                                      match (td,sd) with
-                                      | (NONE,NONE) -> L4KAccept491 (L4ConversionStuck597 t s)
-                                      | _ ->
-                                        l4_kr_bind491
-                                          (match td with
-                                           | SOME value -> l4_whnf_core_method543 rec T g value
-                                           | NONE -> L4KAccept491 t) (\tn.
-                                            l4_kr_bind491
-                                              (match sd with
-                                               | SOME value -> l4_whnf_core_method543 rec T g value
-                                               | NONE -> L4KAccept491 s) (\sn.
-                                                l4_core_lazy_delta597 rounds rec fuel env ps g tn sn)))))))))))`;;
+                        l4_kr_bind491 (l4_core_reduce_native549 t) (\nat_t.
+                          match nat_t with
+                          | SOME value ->
+                              l4_kr_bind491 (l4_defeq_method543 rec g value s)
+                                (\ok. L4KAccept491 (L4ConversionDone597 ok))
+                          | NONE ->
+                            l4_kr_bind491 (l4_core_reduce_native549 s) (\nat_s.
+                              match nat_s with
+                              | SOME value ->
+                                  l4_kr_bind491 (l4_defeq_method543 rec g t value)
+                                    (\ok. L4KAccept491 (L4ConversionDone597 ok))
+                              | NONE ->
+                                l4_kr_bind491 (l4_core_delta_congruent595 rec fuel env g t s) (\same.
+                                  if same then L4KAccept491 (L4ConversionDone597 T) else
+                                  l4_kr_bind491 (l4_core_opposite_projection596 rec env g t s) (\projected.
+                                    match projected with
+                                    | SOME pair -> l4_core_lazy_delta597 rounds rec fuel env ps g
+                                        (FST pair) (SND pair)
+                                    | NONE ->
+                                      let sides = l4_core_delta_sides538 env t s in
+                                      l4_kr_bind491
+                                        (if FST sides then l4_core_unfold528 env ps t
+                                         else L4KAccept491 NONE) (\td.
+                                          l4_kr_bind491
+                                            (if SND sides then l4_core_unfold528 env ps s
+                                             else L4KAccept491 NONE) (\sd.
+                                              match (td,sd) with
+                                              | (NONE,NONE) -> L4KAccept491 (L4ConversionStuck597 t s)
+                                              | _ ->
+                                                l4_kr_bind491
+                                                  (match td with
+                                                   | SOME value -> l4_whnf_core_method543 rec T g value
+                                                   | NONE -> L4KAccept491 t) (\tn.
+                                                    l4_kr_bind491
+                                                      (match sd with
+                                                       | SOME value -> l4_whnf_core_method543 rec T g value
+                                                       | NONE -> L4KAccept491 s) (\sn.
+                                                        l4_core_lazy_delta597 rounds rec fuel env ps g tn sn)))))))))))))`;;
+
+(* Lean4Lean TypeChecker.lazyDeltaProjReduction (lines 798-812). *)
+let l4_core_lazy_delta_proj597 = new_recursive_definition num_RECURSION
+ `(l4_core_lazy_delta_proj597 0 rec fuel env ps g idx t s =
+    L4KDecline491 L4KOutOfFuel491) /\
+  (l4_core_lazy_delta_proj597 (SUC rounds) rec fuel env ps g idx t s =
+    l4_kr_bind491 (l4_core_quick596 rec fuel g t s) (\quick.
+      match quick with
+      | SOME ok -> L4KAccept491 ok
+      | NONE ->
+        l4_kr_bind491 (l4_core_delta_congruent595 rec fuel env g t s) (\same.
+          if same then L4KAccept491 T else
+          l4_kr_bind491 (l4_core_opposite_projection596 rec env g t s) (\projected.
+            match projected with
+            | SOME pair -> l4_core_lazy_delta_proj597 rounds rec fuel env ps g idx
+                (FST pair) (SND pair)
+            | NONE ->
+              let sides = l4_core_delta_sides538 env t s in
+              l4_kr_bind491
+                (if FST sides then l4_core_unfold528 env ps t
+                 else L4KAccept491 NONE) (\td.
+                  l4_kr_bind491
+                    (if SND sides then l4_core_unfold528 env ps s
+                     else L4KAccept491 NONE) (\sd.
+                      match (td,sd) with
+                      | (NONE,NONE) ->
+                          (match (l4_core_reduce_proj_core595 env idx t,
+                                  l4_core_reduce_proj_core595 env idx s) with
+                           | (SOME tf,SOME sf) -> l4_defeq_method543 rec g tf sf
+                           | _ -> l4_defeq_method543 rec g t s)
+                      | _ ->
+                        l4_kr_bind491
+                          (match td with
+                           | SOME value -> l4_whnf_core_method543 rec T g value
+                           | NONE -> L4KAccept491 t) (\tn.
+                            l4_kr_bind491
+                              (match sd with
+                               | SOME value -> l4_whnf_core_method543 rec T g value
+                               | NONE -> L4KAccept491 s) (\sn.
+                                l4_core_lazy_delta_proj597 rounds rec fuel env ps g idx tn sn))))))))`;;
 
 let l4_core_finish_conversion597 = new_definition
- `l4_core_finish_conversion597 rec fuel env g t s =
-   let project = \e.
-     let view = l4_ksplit_app489 e in
-     match FST view with
-     | L4KProj447 owner idx value ->
-       l4_kr_bind491 (l4_core_reduce_projection550 rec env g owner idx value)
-         (\field. L4KAccept491
-           (match field with
-            | NONE -> NONE
-            | SOME f -> SOME (l4_kapply_exprs489 (SND view) f)))
-     | _ -> L4KAccept491 NONE in
-   l4_kr_bind491 (project t) (\tp.
-     l4_kr_bind491 (project s) (\sp.
-       match (tp,sp) with
-       | (SOME tn,SOME sn) -> l4_defeq_method543 rec g tn sn
-       | (SOME tn,NONE) -> l4_defeq_method543 rec g tn s
-       | (NONE,SOME sn) -> l4_defeq_method543 rec g t sn
-       | (NONE,NONE) -> l4_compare_after_whnf596 rec fuel env g t s))`;;
+ `l4_core_finish_conversion597 rec fuel env ps g t s =
+   let tv = l4_ksplit_app489 t in
+   let sv = l4_ksplit_app489 s in
+   let lazy_proj =
+     match (FST tv,FST sv) with
+     | (L4KProj447 tn ti te,L4KProj447 sn si se) ->
+         if ti = si /\ LENGTH (SND tv) = LENGTH (SND sv) then
+           l4_kr_bind491 (l4_core_lazy_delta_proj597 (SUC fuel) rec fuel env ps g ti te se) (\ok.
+             if ok then
+               (match SND tv with
+                | [] -> L4KAccept491 T
+                | _ -> l4_core_compare_args_cheap_first595 rec env g (SND tv) (SND sv))
+             else L4KAccept491 F)
+         else L4KAccept491 F
+     | _ -> L4KAccept491 F in
+   l4_kr_bind491 lazy_proj (\lazy_proj_ok.
+     if lazy_proj_ok then L4KAccept491 T else
+     let project = \e.
+       let view = l4_ksplit_app489 e in
+       match FST view with
+       | L4KProj447 owner idx value ->
+         l4_kr_bind491 (l4_core_reduce_projection550 rec env g owner idx value)
+           (\field. L4KAccept491
+             (match field with
+              | NONE -> NONE
+              | SOME f -> SOME (l4_kapply_exprs489 (SND view) f)))
+       | _ -> L4KAccept491 NONE in
+     l4_kr_bind491 (project t) (\tp.
+       l4_kr_bind491 (project s) (\sp.
+         match (tp,sp) with
+         | (SOME tn,SOME sn) -> l4_defeq_method543 rec g tn sn
+         | (SOME tn,NONE) -> l4_defeq_method543 rec g tn s
+         | (NONE,SOME sn) -> l4_defeq_method543 rec g t sn
+         | (NONE,NONE) -> l4_compare_after_whnf596 rec fuel env g t s)))`;;
 
 let l4_core_is_true597 = new_definition
  `l4_core_is_true597 e <=>
@@ -123,4 +191,4 @@ let l4_defeq_step597 = new_definition
                      match progress with
                      | L4ConversionDone597 ok -> L4KAccept491 ok
                      | L4ConversionStuck597 left right ->
-                         l4_core_finish_conversion597 rec fuel env g left right))))))`;;
+                         l4_core_finish_conversion597 rec fuel env ps g left right))))))`;;

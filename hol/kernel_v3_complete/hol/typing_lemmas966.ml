@@ -1249,11 +1249,15 @@ let l4_vdefeq_wf966 = new_definition
    l4_vclosedN961 (l4_vdf_rhs961 df) 0 /\
    l4_vclosedN961 (l4_vdf_type961 df) 0`;;
 
+let l4_venv_empty961 = new_definition
+ `l4_venv_empty961 = L4VEnv961 [] []`;;
+
 let l4_venv_wf_RULES966,l4_venv_wf_INDUCT966,l4_venv_wf_CASES966 =
   new_inductive_definition
  `(l4_venv_wf966 (L4VEnv961 [] [])) /\
   (!cs dfs n ci.
      l4_venv_wf966 (L4VEnv961 cs dfs) /\
+     ~(?ci0. l4_venv_lookup_const961 (L4VEnv961 cs dfs) n ci0) /\
      l4_vconstant_wf966 (L4VEnv961 cs dfs) ci ==>
      l4_venv_wf966 (L4VEnv961 (CONS (n,ci) cs) dfs)) /\
   (!cs dfs df.
@@ -1263,6 +1267,33 @@ let l4_venv_wf_RULES966,l4_venv_wf_INDUCT966,l4_venv_wf_CASES966 =
 
 let [l4_venv_wf_empty966; l4_venv_wf_const966; l4_venv_wf_defeq966] =
   CONJUNCTS l4_venv_wf_RULES966;;
+
+let l4_venv_empty_wf966 = prove
+ (`l4_venv_wf966 l4_venv_empty961`,
+  REWRITE_TAC [l4_venv_empty961;l4_venv_wf_empty966]);;
+
+let l4_venv_wf_lookup_unique_ind966 = prove
+ (`!env. l4_venv_wf966 env ==>
+   (!n c1 c2.
+      l4_venv_lookup_const961 env n c1 /\
+      l4_venv_lookup_const961 env n c2 ==>
+      c1 = c2)`,
+  MATCH_MP_TAC l4_venv_wf_INDUCT966 THEN REPEAT CONJ_TAC THENL
+  [REWRITE_TAC [l4_venv_lookup_const961;l4_venv_consts_list961;MEM;l4_forall_t966];
+   REPEAT GEN_TAC THEN
+   REWRITE_TAC [l4_venv_lookup_const961;l4_venv_consts_list961;MEM;PAIR_EQ] THEN
+   MESON_TAC [];
+   REPEAT GEN_TAC THEN
+   REWRITE_TAC [l4_venv_lookup_const961;l4_venv_consts_list961] THEN
+   MESON_TAC []]);;
+
+let l4_venv_wf_lookup_unique966 = prove
+ (`!env n c1 c2.
+   l4_venv_wf966 env /\
+   l4_venv_lookup_const961 env n c1 /\
+   l4_venv_lookup_const961 env n c2 ==>
+   c1 = c2`,
+  MESON_TAC [l4_venv_wf_lookup_unique_ind966]);;
 
 let l4_venv_cons_const_ordered966 = prove
  (`!cs dfs n ci.
@@ -1729,7 +1760,7 @@ let l4_venv_wf_types966 = prove
                 l4_venv_consts_list961;l4_venv_defeqs_list961;MEM;l4_forall_t966];
    REPEAT GEN_TAC THEN STRIP_TAC THEN
    SUBGOAL_THEN `l4_venv_wf966 (L4VEnv961 (CONS (n,ci) cs) dfs)` ASSUME_TAC THENL
-   [ASM_SIMP_TAC [l4_venv_wf_const966]; ALL_TAC] THEN
+   [ASM_MESON_TAC [l4_venv_wf_const966]; ALL_TAC] THEN
    REWRITE_TAC [l4_venv_types_wf966] THEN CONJ_TAC THENL
    [ASM_MESON_TAC [l4_venv_wf_const_wf966;l4_vconstant_wf966];
     GEN_TAC THEN REWRITE_TAC [l4_venv_has_defeq961;l4_venv_defeqs_list961] THEN
