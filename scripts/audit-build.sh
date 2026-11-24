@@ -100,7 +100,8 @@ if [[ ${1:-} == --self-test ]]; then
         is_bundled_hol_light "$file" || { printf 'Missed bundled HOL Light file: %s\n' "$file" >&2; exit 1; }
     done
     for file in hol/fusion.ml hol/kernel_v3_complete/verify_all_v3.ml \
-        hol/kernel_v3_complete/verify_entries_v3.ml hol/kernel_v3_complete/hol/fusion.ml \
+        hol/kernel_v3_complete/verify_entries_v3.ml \
+        hol/kernel_v3_complete/verify_soundness_v3.ml hol/kernel_v3_complete/hol/fusion.ml \
         hol/kernel_v1_core_only/fusion.ml frontend/fusion.ml; do
         if is_bundled_hol_light "$file"; then
             printf 'Incorrectly classified as bundled HOL Light: %s\n' "$file" >&2; exit 1
